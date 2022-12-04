@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.bandit.ui.signup.SignupViewModel
 import com.example.bandit.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -20,7 +19,9 @@ class LoginFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
         return binding.root
     }
 

@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bandit.ui.home.HomeViewModel
-import com.example.bandit.R
 import com.example.bandit.databinding.FragmentConcertsBinding
 
 class ConcertsFragment : Fragment() {

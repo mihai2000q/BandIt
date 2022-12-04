@@ -19,7 +19,9 @@ class SignupFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
+
         viewModel = ViewModelProvider(this)[SignupViewModel::class.java]
+
         return binding.root
     }
 
