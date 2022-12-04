@@ -9,4 +9,9 @@
     <string name="fragment_login_cb_remember">Remember Me</string>
     <string name="fragment_login_tv_registered">Not Registered Yet?</string>
     <string name="fragment_login_iv_logo" />
+    <string name="title_concerts">Concerts</string>
+    <string name="title_songs">Songs</string>
+    <string name="title_home">Home</string>
+    <string name="title_chats">Chats</string>
+    <string name="title_schedule">Schedule</string>
 </resources>
