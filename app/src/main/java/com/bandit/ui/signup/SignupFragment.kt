@@ -1,4 +1,4 @@
-package com.example.bandit.ui.signup
+package com.bandit.ui.signup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
