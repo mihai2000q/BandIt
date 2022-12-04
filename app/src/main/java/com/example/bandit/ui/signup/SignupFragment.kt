@@ -1,14 +1,15 @@
-package com.example.bandit.ui.login
+package com.example.bandit.ui.signup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.bandit.databinding.FragmentLoginBinding
+import com.example.bandit.databinding.FragmentSignupBinding
 
-class LoginFragment : Fragment() {
-    private lateinit var _binding: FragmentLoginBinding
+class SignupFragment : Fragment() {
+
+    private lateinit var _binding: FragmentSignupBinding
     private val binding get() = _binding
 
     override fun onCreateView(
@@ -16,7 +17,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
