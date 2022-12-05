@@ -26,6 +26,6 @@ class MainActivity : AppCompatActivity() {
         Log.i("test", "IT MADE THE VARIABLES")
         setupActionBarWithNavController(navController, appBarConfiguration)
         Log.i("test", "IT SETUP ")
-        //binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 }
