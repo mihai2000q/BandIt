@@ -3,51 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/navigation_login">
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/navigation_login"
         android:name="com.bandit.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
-            app:destination="@id/signupFragment" />
+            app:destination="@id/navigation_signup" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/navigation_home" />
 
     </fragment>
     <fragment
-        android:id="@+id/signupFragment"
+        android:id="@+id/navigation_signup"
         android:name="com.bandit.ui.signup.SignupFragment"
         android:label="SignupFragment"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/navigation_login" />
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/navigation_home"
         android:name="com.bandit.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
     <fragment
-        android:id="@+id/concertsFragment"
+        android:id="@+id/navigation_concerts"
         android:name="com.bandit.ui.concerts.ConcertsFragment"
         android:label="ConcertsFragment"
         tools:layout="@layout/fragment_concerts"/>
     <fragment
-        android:id="@+id/songsFragment"
+        android:id="@+id/navigation_songs"
         android:name="com.bandit.ui.songs.SongsFragment"
         android:label="SongsFragment"
         tools:layout="@layout/fragment_songs"/>
     <fragment
-        android:id="@+id/chatsFragment"
+        android:id="@+id/navigation_chats"
         android:name="com.bandit.ui.chats.ChatsFragment"
         android:label="ChatsFragment"
         tools:layout="@layout/fragment_chats"/>
     <fragment
-        android:id="@+id/scheduleFragment"
+        android:id="@+id/navigation_schedule"
         android:name="com.bandit.ui.schedule.ScheduleFragment"
         android:label="ScheduleFragment"
         tools:layout="@layout/fragment_schedule"/>
