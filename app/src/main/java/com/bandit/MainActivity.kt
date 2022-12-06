@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_chats, R.id.navigation_schedule
             )
         )
-        Log.i("test", "IT MADE THE VARIABLES")
         setupActionBarWithNavController(navController, appBarConfiguration)
-        Log.i("test", "IT SETUP ")
         bottomNavView.setupWithNavController(navController)
     }
 }
