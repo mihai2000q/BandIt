@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.databinding.FragmentLoginBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoginFragment : Fragment() {
 
@@ -24,14 +25,16 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        binding.fragmentLoginBtLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
+        binding.fragmentLoginBtLogin.setOnClickListener { login() }
         binding.fragmentLoginBtSignup.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
         return binding.root
+    }
+    private fun login() {
+        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation_view)?.visibility  = View.VISIBLE
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
 }
