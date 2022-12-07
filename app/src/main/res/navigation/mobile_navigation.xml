@@ -44,4 +44,8 @@
         android:id="@+id/navigation_schedule"
         android:name="com.bandit.ui.schedule.ScheduleFragment"
         tools:layout="@layout/fragment_schedule"/>
+    <fragment
+        android:id="@+id/navigation_todolist"
+        android:name="com.bandit.ui.todolist.TodoListFragment"
+        tools:layout="@layout/fragment_todolist" />
 </navigation>

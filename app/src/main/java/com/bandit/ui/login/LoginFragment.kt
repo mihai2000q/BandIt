@@ -33,7 +33,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
     private fun login() {
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation_view)?.visibility  = View.VISIBLE
+        activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)?.visibility  = View.VISIBLE
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 

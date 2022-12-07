@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.bandit.R
-import com.bandit.databinding.FragmentTodoListBinding
+import com.bandit.databinding.FragmentTodolistBinding
 
 class TodoListFragment : Fragment() {
 
-    private lateinit var binding: FragmentTodoListBinding
+    private lateinit var binding: FragmentTodolistBinding
     private lateinit var viewModel: TodoListViewModel
 
     override fun onCreateView(
@@ -19,7 +18,7 @@ class TodoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentTodoListBinding.inflate(layoutInflater, container, false)
+        binding = FragmentTodolistBinding.inflate(layoutInflater, container, false)
 
         viewModel = ViewModelProvider(this)[TodoListViewModel::class.java]
 
