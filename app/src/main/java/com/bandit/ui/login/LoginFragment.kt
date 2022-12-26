@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
@@ -33,7 +34,8 @@ class LoginFragment : Fragment() {
         return binding.root
     }
     private fun login() {
-        activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)?.visibility  = View.VISIBLE
+        activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)?.visibility = View.VISIBLE
+        activity?.findViewById<DrawerLayout>(R.id.main_drawer_layout)?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
