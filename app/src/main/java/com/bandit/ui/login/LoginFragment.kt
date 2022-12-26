@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import com.example.bandit.databinding.FragmentLoginBinding
+import androidx.navigation.fragment.findNavController
+import com.bandit.R
+import com.bandit.databinding.FragmentLoginBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoginFragment : Fragment() {
 
@@ -22,7 +26,17 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
+        binding.fragmentLoginBtLogin.setOnClickListener { login() }
+        binding.fragmentLoginBtSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
+
         return binding.root
+    }
+    private fun login() {
+        activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)?.visibility = View.VISIBLE
+        activity?.findViewById<DrawerLayout>(R.id.main_drawer_layout)?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
 }

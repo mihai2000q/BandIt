@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_login">
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.bandit.ui.login.LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/navigation_signup" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_signup"
+        android:name="com.bandit.ui.signup.SignupFragment"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.bandit.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/navigation_concerts"
+        android:name="com.bandit.ui.concerts.ConcertsFragment"
+        tools:layout="@layout/fragment_concerts"/>
+    <fragment
+        android:id="@+id/navigation_songs"
+        android:name="com.bandit.ui.songs.SongsFragment"
+        tools:layout="@layout/fragment_songs"/>
+    <fragment
+        android:id="@+id/navigation_chats"
+        android:name="com.bandit.ui.chats.ChatsFragment"
+        tools:layout="@layout/fragment_chats"/>
+    <fragment
+        android:id="@+id/navigation_schedule"
+        android:name="com.bandit.ui.schedule.ScheduleFragment"
+        tools:layout="@layout/fragment_schedule"/>
+    <fragment
+        android:id="@+id/navigation_todolist"
+        android:name="com.bandit.ui.todolist.TodoListFragment"
+        tools:layout="@layout/fragment_todolist" />
+</navigation>

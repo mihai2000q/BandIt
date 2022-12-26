@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.example.bandit.databinding.FragmentSignupBinding
+import androidx.navigation.fragment.findNavController
+import com.bandit.R
+import com.bandit.databinding.FragmentSignupBinding
 
 class SignupFragment : Fragment() {
 
@@ -21,6 +23,10 @@ class SignupFragment : Fragment() {
         binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
 
         viewModel = ViewModelProvider(this)[SignupViewModel::class.java]
+
+        binding.button.setOnClickListener {
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+        }
 
         return binding.root
     }
