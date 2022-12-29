@@ -17,7 +17,7 @@ class ConcertsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentConcertsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentConcertsBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[ConcertsViewModel::class.java]
 

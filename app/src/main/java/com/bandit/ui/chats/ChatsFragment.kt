@@ -17,7 +17,7 @@ class ChatsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentChatsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentChatsBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
 

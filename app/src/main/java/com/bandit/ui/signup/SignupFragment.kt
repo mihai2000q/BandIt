@@ -20,7 +20,7 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentSignupBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSignupBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[SignupViewModel::class.java]
 

@@ -17,7 +17,7 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentScheduleBinding.inflate(layoutInflater, container, false)
+        binding = FragmentScheduleBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[ScheduleViewModel::class.java]
 

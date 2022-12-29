@@ -22,7 +22,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
@@ -34,8 +34,10 @@ class LoginFragment : Fragment() {
         return binding.root
     }
     private fun login() {
-        activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)?.visibility = View.VISIBLE
-        activity?.findViewById<DrawerLayout>(R.id.main_drawer_layout)?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        this.activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)
+            ?.visibility = View.VISIBLE
+        this.activity?.findViewById<DrawerLayout>(R.id.main_drawer_layout)
+            ?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
 
