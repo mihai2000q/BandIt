@@ -7,18 +7,92 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This is the Home Fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:paddingBottom="16dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/home_switch_modes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:text="@string/home_tv_welcome"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/home_tv_title"
+                app:layout_constraintEnd_toEndOf="@+id/home_tv_title"
+                app:layout_constraintStart_toStartOf="@+id/home_tv_title"
+                app:layout_constraintTop_toBottomOf="@+id/home_switch_modes"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <TextView
+                android:id="@+id/home_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/fragment_home_tv_title"
+                android:textSize="48sp"
+                app:layout_constraintBottom_toTopOf="@+id/home_bt_replacement"
+                app:layout_constraintEnd_toEndOf="@+id/home_bt_replacement"
+                app:layout_constraintStart_toStartOf="@+id/home_bt_replacement"
+                app:layout_constraintTop_toBottomOf="@+id/home_tv_welcome" />
+
+            <ImageButton
+                android:id="@+id/home_bt_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:scaleX="1.25"
+                android:scaleY="1.25"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/home_tv_welcome"
+                app:layout_constraintTop_toBottomOf="@+id/home_switch_modes"
+                app:srcCompat="@drawable/ic_baseline_account"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/home_bt_replacement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="replacement"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_tv_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:id="@+id/home_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <TableLayout
+                android:id="@+id/home_sv_table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </LinearLayout>
 </layout>
