@@ -11,8 +11,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.google.android.material.R
+import com.bandit.R
 import com.google.android.material.button.MaterialButton
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 class HomeViewModel : ViewModel() {
     private val _elements = MutableLiveData<List<String>>()
@@ -45,7 +47,7 @@ class HomeViewModel : ViewModel() {
     private fun createButton(text: String, context: Context, nav:NavController): Button {
         val button = MaterialButton(
             ContextThemeWrapper(context,
-            R.style.Widget_Material3_Button)
+            com.google.android.material.R.style.Widget_Material3_Button)
         )
         val params = TableRow.LayoutParams()
         params.width = TableRow.LayoutParams.WRAP_CONTENT
@@ -54,7 +56,15 @@ class HomeViewModel : ViewModel() {
         button.layoutParams = params
         button.text = "Your $text"
         button.gravity = Gravity.CENTER
-        //button.setOnClickListener { nav.navigate(R.id) }
+
+        val field: Field? = R.id::class.java.fields.find {
+            it.name.equals("action_navigation_home_to_navigation_" +
+                    text.lowercase().replace("\\s".toRegex(), "")
+            )
+        }
+        button.setOnClickListener {
+            nav.navigate(field!!.getInt(null))
+        }
         return button
     }
 }

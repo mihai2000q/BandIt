@@ -27,7 +27,23 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.bandit.ui.home.HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_chats"
+            app:destination="@id/navigation_chats" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_schedule"
+            app:destination="@id/navigation_schedule" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_songs"
+            app:destination="@id/navigation_songs" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_todolist"
+            app:destination="@id/navigation_todolist" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_concerts"
+            app:destination="@id/navigation_concerts" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_concerts"
         android:name="com.bandit.ui.concerts.ConcertsFragment"
