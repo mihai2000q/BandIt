@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import com.bandit.R
 import com.bandit.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -22,7 +22,8 @@ class HomeFragment : Fragment() {
 
         viewModel.generateHomeElements(binding.homeSvTableLayout,
             this.requireContext(),
-            findNavController())
+            this.requireActivity().findViewById(R.id.main_bottom_navigation_view)
+        )
 
         return binding.root
     }

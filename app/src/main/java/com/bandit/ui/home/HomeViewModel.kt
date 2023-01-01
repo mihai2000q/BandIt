@@ -1,5 +1,6 @@
 package com.bandit.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -10,30 +11,36 @@ import androidx.core.view.setMargins
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import com.bandit.R
+import com.bandit.helper.Constants
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
-import java.lang.reflect.Field
-import java.lang.reflect.Method
 
 class HomeViewModel : ViewModel() {
-    private val _elements = MutableLiveData<List<String>>()
-    val elements: LiveData<List<String>> get() = _elements
+    private val _elements = MutableLiveData<Map<String, Constants.NavigationType>>()
+    val elements: LiveData<Map<String, Constants.NavigationType>> get() = _elements
     init {
-        _elements.value = listOf("Concerts", "Songs", "Chats", "Schedule", "To do list")
+        _elements.value = mapOf(
+            "Concerts" to Constants.NavigationType.Bottom,
+            "Songs" to Constants.NavigationType.Bottom,
+            "Chats" to Constants.NavigationType.Bottom,
+            "Schedule" to Constants.NavigationType.Bottom,
+        )
     }
 
-    fun generateHomeElements(layout: TableLayout, context:Context, nav:NavController) {
+    fun generateHomeElements(layout: TableLayout, context:Context,
+                             bottomNav:BottomNavigationView) {
+        var index = 0
         _elements.value?.forEach {
             val tableRow: TableRow
-            val index = _elements.value!!.indexOf(it)
             if (index % 2 == 0) {
                 tableRow = createTableRow("table_row_" + (index + 1), context)
                 layout.addView(tableRow)
             } else
                 tableRow = layout.findViewWithTag("table_row_$index")
 
-            tableRow.addView(createButton(it, context, nav))
+            index++
+            tableRow.addView(createButton(it, context, bottomNav))
         }
     }
     private fun createTableRow(tag: String, context: Context): TableRow {
@@ -44,7 +51,10 @@ class HomeViewModel : ViewModel() {
         tableRow.tag = tag
         return tableRow
     }
-    private fun createButton(text: String, context: Context, nav:NavController): Button {
+    @SuppressLint("SetTextI18n")
+    private fun createButton(entry: Map.Entry<String, Constants.NavigationType>,
+                             context: Context,
+                             bottomNav:BottomNavigationView): Button {
         val button = MaterialButton(
             ContextThemeWrapper(context,
             com.google.android.material.R.style.Widget_Material3_Button)
@@ -54,16 +64,22 @@ class HomeViewModel : ViewModel() {
         params.height = 400
         params.setMargins(16)
         button.layoutParams = params
-        button.text = "Your $text"
+        button.text = "Your ${entry.key}"
         button.gravity = Gravity.CENTER
 
-        val field: Field? = R.id::class.java.fields.find {
-            it.name.equals("action_navigation_home_to_navigation_" +
-                    text.lowercase().replace("\\s".toRegex(), "")
+        val destination: Int = R.id::class.java.fields.find {
+            it.name.equals("navigation_" +
+                    entry.key.lowercase().replace("\\s".toRegex(), "")
             )
-        }
-        button.setOnClickListener {
-            nav.navigate(field!!.getInt(null))
+        }?.getInt(null) ?: R.id.navigation_home
+
+        when(entry.value) {
+            Constants.NavigationType.Bottom -> button.setOnClickListener {
+                bottomNav.selectedItemId = destination
+            }
+            Constants.NavigationType.Drawer -> button.setOnClickListener {
+                //drawerNav.setCheckedItem(destination)
+            }
         }
         return button
     }
