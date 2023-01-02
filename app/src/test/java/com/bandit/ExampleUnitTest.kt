@@ -1,4 +1,4 @@
-package com.example.bandit
+package com.bandit
 
 import org.junit.Test
 

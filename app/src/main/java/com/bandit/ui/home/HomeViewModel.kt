@@ -78,6 +78,7 @@ class HomeViewModel : ViewModel() {
                 bottomNav.selectedItemId = destination
             }
             Constants.NavigationType.Drawer -> button.setOnClickListener {
+                //TODO: Find a way to either make this work or the navController
                 //drawerNav.setCheckedItem(destination)
             }
         }

@@ -20,7 +20,8 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
-        viewModel.generateHomeElements(binding.homeSvTableLayout,
+        viewModel.generateHomeElements(
+            binding.homeSvTableLayout,
             this.requireContext(),
             this.requireActivity().findViewById(R.id.main_bottom_navigation_view)
         )
