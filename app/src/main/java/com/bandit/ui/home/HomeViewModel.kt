@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.R
 import com.bandit.helper.Constants
+import com.bandit.mock.MockDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 
@@ -20,12 +21,8 @@ class HomeViewModel : ViewModel() {
     private val _elements = MutableLiveData<Map<String, Constants.NavigationType>>()
     val elements: LiveData<Map<String, Constants.NavigationType>> get() = _elements
     init {
-        _elements.value = mapOf(
-            "Concerts" to Constants.NavigationType.Bottom,
-            "Songs" to Constants.NavigationType.Bottom,
-            "Chats" to Constants.NavigationType.Bottom,
-            "Schedule" to Constants.NavigationType.Bottom,
-        )
+        val mockDatabase = MockDatabase()
+        _elements.value = mockDatabase.homeNavigationElementsMap
     }
 
     fun generateHomeElements(layout: TableLayout, context:Context,
@@ -33,11 +30,12 @@ class HomeViewModel : ViewModel() {
         var index = 0
         _elements.value?.forEach {
             val tableRow: TableRow
+            val prefix = "table_row_"
             if (index % 2 == 0) {
-                tableRow = createTableRow("table_row_" + (index + 1), context)
+                tableRow = createTableRow(prefix + (index + 1), context)
                 layout.addView(tableRow)
             } else
-                tableRow = layout.findViewWithTag("table_row_$index")
+                tableRow = layout.findViewWithTag(prefix + index)
 
             index++
             tableRow.addView(createButton(it, context, bottomNav))
