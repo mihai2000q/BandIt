@@ -1,7 +1,10 @@
-package com.bandit.mock
+package com.bandit.data
 
 import com.bandit.R
+import com.bandit.data.model.Concert
 import com.bandit.helper.Constants
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class MockDatabase {
     val navigationViewIds get() = generateNavigationViewsSet()
@@ -10,6 +13,14 @@ class MockDatabase {
         "Songs" to Constants.NavigationType.Bottom,
         "Chats" to Constants.NavigationType.Bottom,
         "Schedule" to Constants.NavigationType.Bottom,
+    )
+    val concerts get() = listOf(
+        Concert("Legacy of the beast",
+            LocalDateTime.of(2021, 10, 21, 20,0)),
+        Concert("Legacy of the beast 2",
+            LocalDateTime.of(2021, 11, 21, 20,0)),
+        Concert("Legacy of the beast 3",
+            LocalDateTime.of(2022, 7, 21, 20,0))
     )
     private fun generateNavigationViewsSet(): Set<Int> {
         val result = mutableSetOf<Int>()

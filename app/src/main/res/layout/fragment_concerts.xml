@@ -64,29 +64,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/concerts_tv_title" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/concerts_bt_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/concerts_bt_add"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/concerts_bt_replacement"
                 app:layout_constraintTop_toBottomOf="@+id/concerts_tv_title"
-                app:srcCompat="@drawable/ic_baseline_filter" />
+                app:srcCompat="@drawable/ic_baseline_filter"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/concerts_bt_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/concerts_bt_filter"
                 app:layout_constraintTop_toBottomOf="@+id/concerts_tv_title"
-                app:srcCompat="@drawable/ic_baseline_add_circle" />
+                app:srcCompat="@drawable/ic_baseline_add_circle"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

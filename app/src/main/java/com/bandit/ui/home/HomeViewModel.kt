@@ -13,7 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.R
 import com.bandit.helper.Constants
-import com.bandit.mock.MockDatabase
+import com.bandit.data.MockDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 
