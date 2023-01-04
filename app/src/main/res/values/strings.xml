@@ -15,4 +15,6 @@
     <string name="title_chats">Chats</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_todolist">To Do List</string>
+    <string name="fragment_home_tv_title">@string/app_name</string>
+    <string name="home_tv_welcome">Welcome, name to</string>
 </resources>

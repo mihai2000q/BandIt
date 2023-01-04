@@ -18,7 +18,7 @@ class TodoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentTodolistBinding.inflate(layoutInflater, container, false)
+        binding = FragmentTodolistBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[TodoListViewModel::class.java]
 

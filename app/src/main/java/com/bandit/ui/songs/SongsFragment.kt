@@ -17,7 +17,7 @@ class SongsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSongsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSongsBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(this)[SongsViewModel::class.java]
 
