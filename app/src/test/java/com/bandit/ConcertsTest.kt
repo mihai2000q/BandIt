@@ -23,13 +23,15 @@ class ConcertsTest {
             LocalDateTime.of(2020,10,25,20,30),
             "Los Angeles",
             "United States",
-            "Big Arena"
+            "Big Arena",
+            Concert.Type.Tournament
         )
         assertEquals(concert.name, "Concert1")
         assertEquals(concert.dateTime, LocalDateTime.parse("2020-10-25T20:30"))
         assertEquals(concert.city, "Los Angeles")
         assertEquals(concert.country, "United States")
         assertEquals(concert.place, "Big Arena")
+        assertEquals(concert.type, Concert.Type.Tournament)
     }
     @Test
     fun concert_init_id() {

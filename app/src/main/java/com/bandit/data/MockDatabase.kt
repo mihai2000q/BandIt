@@ -20,21 +20,32 @@ class MockDatabase : Database {
             LocalDateTime.of(2021, 10, 21, 20,0),
             "Los Angeles",
             "United States",
-            "Big Arena"
+            "Big Arena",
+            Concert.Type.Tournament
         ),
         Concert(
             "Legacy of the beast 2",
             LocalDateTime.of(2021, 11, 21, 20,0),
             "Los Angeles",
             "United States of America",
-            "Big Arena 2"
+            "Big Arena 2",
+            Concert.Type.Tournament
         ),
         Concert(
-            "Legacy of the beast 3",
+            "Legacy of the concert",
             LocalDateTime.of(2022, 7, 21, 20,0),
             "L A ",
             "U.S.A",
-            "Big Arena 3"
+            "Small Arena",
+            Concert.Type.Simple
+        ),
+        Concert(
+            "Rock fest",
+            LocalDateTime.of(2022, 9, 21, 23,0),
+            "Berlin",
+            "Germany",
+            "rock fest Arena",
+            Concert.Type.Festival
         )
     )
     private fun generateNavigationViewsSet(): Set<Int> {
