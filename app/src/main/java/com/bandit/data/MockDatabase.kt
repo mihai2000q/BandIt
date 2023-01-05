@@ -17,7 +17,7 @@ class MockDatabase : Database {
     override val concerts get() = listOf(
         Concert(
             "Legacy of the beast",
-            LocalDateTime.of(2021, 10, 21, 20,0),
+            LocalDateTime.of(2023, 10, 21, 20,0),
             "Los Angeles",
             "United States",
             "Big Arena",
@@ -25,7 +25,7 @@ class MockDatabase : Database {
         ),
         Concert(
             "Legacy of the beast 2",
-            LocalDateTime.of(2021, 11, 21, 20,0),
+            LocalDateTime.of(2023, 11, 21, 20,0),
             "Los Angeles",
             "United States of America",
             "Big Arena 2",
@@ -33,7 +33,7 @@ class MockDatabase : Database {
         ),
         Concert(
             "Legacy of the concert",
-            LocalDateTime.of(2022, 7, 21, 20,0),
+            LocalDateTime.of(2024, 7, 21, 20,0),
             "L A ",
             "U.S.A",
             "Small Arena",
@@ -41,11 +41,19 @@ class MockDatabase : Database {
         ),
         Concert(
             "Rock fest",
-            LocalDateTime.of(2022, 9, 21, 23,0),
+            LocalDateTime.of(2024, 9, 21, 23,0),
             "Berlin",
             "Germany",
             "rock fest Arena",
             Concert.Type.Festival
+        ),
+        Concert(
+            "Amon Amar cool",
+            LocalDateTime.now().plusDays(6),
+            "Leipzig",
+            "Germany",
+            "rock fest Arena",
+            Concert.Type.Simple
         )
     )
     private fun generateNavigationViewsSet(): Set<Int> {
