@@ -6,15 +6,15 @@ import com.bandit.helper.Constants
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class MockDatabase {
-    val navigationViewIds get() = generateNavigationViewsSet()
-    val homeNavigationElementsMap get() = mapOf(
+class MockDatabase : Database {
+    override val navigationViewIds get() = generateNavigationViewsSet()
+    override val homeNavigationElementsMap get() = mapOf(
         "Concerts" to Constants.NavigationType.Bottom,
         "Songs" to Constants.NavigationType.Bottom,
         "Chats" to Constants.NavigationType.Bottom,
         "Schedule" to Constants.NavigationType.Bottom,
     )
-    val concerts get() = listOf(
+    override val concerts get() = listOf(
         Concert("Legacy of the beast",
             LocalDateTime.of(2021, 10, 21, 20,0)),
         Concert("Legacy of the beast 2",
