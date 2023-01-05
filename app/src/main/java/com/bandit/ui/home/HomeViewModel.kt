@@ -7,8 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.helper.Constants
-import com.bandit.data.MockDatabase
-import com.bandit.builder.AndroidBuilder
 import com.bandit.builder.HomeBuilder
 import com.bandit.helper.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
