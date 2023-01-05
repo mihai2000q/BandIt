@@ -10,6 +10,7 @@ import com.bandit.helper.Constants
 import com.bandit.data.MockDatabase
 import com.bandit.builder.AndroidBuilder
 import com.bandit.builder.HomeBuilder
+import com.bandit.helper.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeViewModel : ViewModel() {
@@ -17,9 +18,9 @@ class HomeViewModel : ViewModel() {
     private val _elements = MutableLiveData<Map<String, Constants.NavigationType>>()
     val elements: LiveData<Map<String, Constants.NavigationType>> get() = _elements
     init {
-        val mockDatabase = MockDatabase()
-        _elements.value = mockDatabase.homeNavigationElementsMap
-        _builder = AndroidBuilder()
+        val database = DILocator.getDatabase()
+        _elements.value = database.homeNavigationElementsMap
+        _builder = DILocator.getHomeBuilder()
     }
 
     fun generateHomeElements(elements: Map<String, Constants.NavigationType>,

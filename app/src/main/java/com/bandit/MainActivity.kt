@@ -10,7 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bandit.databinding.ActivityMainBinding
-import com.bandit.data.MockDatabase
+import com.bandit.helper.DILocator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-        val mockDatabase = MockDatabase()
+        val database = DILocator.getDatabase()
 
         val bottomNavView = binding.mainBottomNavigationView
         bottomNavView.visibility = View.INVISIBLE
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.main_nav_host)
 
-        val appBarConfiguration = AppBarConfiguration.Builder(mockDatabase.navigationViewIds
+        val appBarConfiguration = AppBarConfiguration.Builder(database.navigationViewIds
         ).setOpenableLayout(binding.mainDrawerLayout).build()
         setSupportActionBar(binding.mainToolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
