@@ -15,12 +15,27 @@ class MockDatabase : Database {
         "Schedule" to Constants.NavigationType.Bottom,
     )
     override val concerts get() = listOf(
-        Concert("Legacy of the beast",
-            LocalDateTime.of(2021, 10, 21, 20,0)),
-        Concert("Legacy of the beast 2",
-            LocalDateTime.of(2021, 11, 21, 20,0)),
-        Concert("Legacy of the beast 3",
-            LocalDateTime.of(2022, 7, 21, 20,0))
+        Concert(
+            "Legacy of the beast",
+            LocalDateTime.of(2021, 10, 21, 20,0),
+            "Los Angeles",
+            "United States",
+            "Big Arena"
+        ),
+        Concert(
+            "Legacy of the beast 2",
+            LocalDateTime.of(2021, 11, 21, 20,0),
+            "Los Angeles",
+            "United States of America",
+            "Big Arena 2"
+        ),
+        Concert(
+            "Legacy of the beast 3",
+            LocalDateTime.of(2022, 7, 21, 20,0),
+            "L A ",
+            "U.S.A",
+            "Big Arena 3"
+        )
     )
     private fun generateNavigationViewsSet(): Set<Int> {
         val result = mutableSetOf<Int>()
