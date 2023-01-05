@@ -22,10 +22,11 @@ class HomeViewModel : ViewModel() {
         _builder = AndroidBuilder()
     }
 
-    fun generateHomeElements(layout: TableLayout, context:Context,
+    fun generateHomeElements(elements: Map<String, Constants.NavigationType>,
+                             layout: TableLayout, context:Context,
                              bottomNav:BottomNavigationView) {
         var index = 0
-        _elements.value?.forEach {
+        elements.forEach {
             val tableRow: TableRow
             val prefix = "table_row_"
             if (index % 2 == 0) {
