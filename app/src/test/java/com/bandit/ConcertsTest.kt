@@ -5,10 +5,7 @@ import com.bandit.helper.Constants
 import org.junit.Test
 
 import org.junit.Assert.*
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -18,7 +15,6 @@ import java.util.*
 class ConcertsTest {
     @Test
     fun concert_init() {
-        //using date and time
         val concert = Concert(
             "Concert1",
             LocalDateTime.of(2020,10,25,20,30),

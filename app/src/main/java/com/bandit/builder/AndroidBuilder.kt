@@ -15,7 +15,7 @@ import com.bandit.helper.Normalization
 import com.google.android.material.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 class AndroidBuilder : HomeBuilder, ConcertBuilder {
     override fun buildHomeButton(
@@ -62,11 +62,7 @@ class AndroidBuilder : HomeBuilder, ConcertBuilder {
                 16
             )
         )
-        val now = LocalDate.now()
-        if (now.year == concert.dateTime.year &&
-            now.month == concert.dateTime.month &&
-            concert.dateTime.dayOfMonth - now.dayOfMonth <= 7
-        )
+        if (isConcert7DaysApart(concert))
             layout.addView(
                 buildTextView(
                     context,
@@ -145,5 +141,10 @@ class AndroidBuilder : HomeBuilder, ConcertBuilder {
         button.gravity = gravity
         button.textSize = textSize
         return button
+    }
+    private fun isConcert7DaysApart(concert: Concert): Boolean {
+        return  LocalDateTime.now().year == concert.dateTime.year &&
+                LocalDateTime.now().month == concert.dateTime.month &&
+                concert.dateTime.dayOfMonth - LocalDateTime.now().dayOfMonth <= 7
     }
 }

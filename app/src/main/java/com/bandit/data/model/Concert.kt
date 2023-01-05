@@ -1,7 +1,6 @@
 package com.bandit.data.model
 
 import com.bandit.helper.Generator
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class Concert(val name: String,
