@@ -1,9 +1,6 @@
 package com.bandit.helper
 
-sealed class Normalization {
-    companion object {
-        fun normalizeWord(string: String): String {
-            return string[0].uppercase() + string.substring(1).lowercase()
-        }
-    }
+object Normalization {
+    fun normalizeWord(string: String) =
+        string[0].uppercase() + string.substring(1).lowercase()
 }
