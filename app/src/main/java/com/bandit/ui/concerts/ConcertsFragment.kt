@@ -1,6 +1,5 @@
 package com.bandit.ui.concerts
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,27 +12,32 @@ import com.bandit.databinding.FragmentConcertsBinding
 
 class ConcertsFragment : Fragment() {
 
-    private lateinit var binding: FragmentConcertsBinding
+    private var binding: FragmentConcertsBinding? = null
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentConcertsBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.concerts.observe(viewLifecycleOwner) {
-            binding.concertsList.adapter = ConcertAdapter(it.sorted()) { concert ->
+            binding?.concertsList?.adapter = ConcertAdapter(it.sorted()) { concert ->
                 viewModel.selectedConcert.value = concert
                 findNavController()
                     .navigate(com.bandit.R.id.action_navigation_concerts_to_concertDetailFragment)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

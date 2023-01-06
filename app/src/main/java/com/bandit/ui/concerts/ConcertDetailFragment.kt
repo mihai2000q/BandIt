@@ -14,15 +14,15 @@ import kotlinx.coroutines.selects.select
 
 class ConcertDetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentConcertDetailBinding
+    private var binding: FragmentConcertDetailBinding? = null
     private val concertViewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentConcertDetailBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,11 +30,16 @@ class ConcertDetailFragment : Fragment() {
         concertViewModel.selectedConcert.observe(viewLifecycleOwner) { assignConcertDetails(it) }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     private fun assignConcertDetails(concert: Concert) {
-        binding.concertDetailPlace.text = concert.place
-        binding.concertDetailTitle.text = concert.name
-        binding.concertDetailCity.text = concert.city
-        binding.concertDetailCountry.text = concert.country
+        binding?.concertDetailPlace?.text = concert.place
+        binding?.concertDetailTitle?.text = concert.name
+        binding?.concertDetailCity?.text = concert.city
+        binding?.concertDetailCountry?.text = concert.country
     }
 
 }
