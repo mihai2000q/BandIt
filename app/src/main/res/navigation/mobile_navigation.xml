@@ -32,7 +32,11 @@
     <fragment
         android:id="@+id/navigation_concerts"
         android:name="com.bandit.ui.concerts.ConcertsFragment"
-        tools:layout="@layout/fragment_concerts"/>
+        tools:layout="@layout/fragment_concerts">
+        <action
+            android:id="@+id/action_navigation_concerts_to_concertDetailFragment"
+            app:destination="@id/concertDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_songs"
         android:name="com.bandit.ui.songs.SongsFragment"
@@ -49,4 +53,9 @@
         android:id="@+id/navigation_todolist"
         android:name="com.bandit.ui.todolist.TodoListFragment"
         tools:layout="@layout/fragment_todolist" />
+    <fragment
+        android:id="@+id/concertDetailFragment"
+        android:name="com.bandit.ui.concerts.ConcertDetailFragment"
+        android:label="fragment_concert_detail"
+        tools:layout="@layout/fragment_concert_detail" />
 </navigation>

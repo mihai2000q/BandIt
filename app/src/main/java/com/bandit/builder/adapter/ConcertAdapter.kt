@@ -10,7 +10,9 @@ import com.bandit.databinding.ConcertBinding
 import com.bandit.helper.Normalization
 import java.time.LocalDateTime
 
-class ConcertAdapter(private val concerts: List<Concert>)
+class ConcertAdapter(
+    private val concerts: List<Concert>,
+    private val onConcertClick: (Concert) -> Unit)
     : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ConcertBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,6 +30,8 @@ class ConcertAdapter(private val concerts: List<Concert>)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val concert = concerts[position]
+
+        holder.itemView.setOnClickListener { onConcertClick(concert) }
 
         with(holder.binding) {
             when(concert.type) {

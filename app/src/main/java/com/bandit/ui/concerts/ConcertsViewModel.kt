@@ -9,6 +9,7 @@ import com.bandit.helper.DILocator
 class ConcertsViewModel : ViewModel() {
     private val _concerts = MutableLiveData<List<Concert>>()
     val concerts: LiveData<List<Concert>> get() = _concerts
+    val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
     init {
         val database = DILocator.getDatabase()
         _concerts.value = database.concerts
