@@ -119,7 +119,8 @@ class AndroidBuilder : HomeBuilder, ConcertBuilder {
         layout.orientation = LinearLayout.VERTICAL
         return layout
     }
-    private fun buildTextView(context: Context, text: String, textSize: Float, margins: Int): TextView {
+    private fun buildTextView(context: Context, text: String,
+                              textSize: Float, margins: Int): TextView {
         val textView = TextView(context)
         val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
             TableRow.LayoutParams.WRAP_CONTENT)

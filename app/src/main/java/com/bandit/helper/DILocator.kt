@@ -7,7 +7,8 @@ import com.bandit.data.Database
 import com.bandit.data.MockDatabase
 
 object DILocator {
-    fun getHomeBuilder(): HomeBuilder = AndroidBuilder()
-    fun getConcertBuilder(): ConcertBuilder = AndroidBuilder()
+    private val androidBuilder = AndroidBuilder()
+    fun getHomeBuilder(): HomeBuilder = androidBuilder
+    fun getConcertBuilder(): ConcertBuilder = androidBuilder
     fun getDatabase(): Database = MockDatabase()
 }
