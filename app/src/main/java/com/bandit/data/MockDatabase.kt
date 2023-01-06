@@ -55,6 +55,12 @@ class MockDatabase : Database {
             Concert.Type.Simple
         )
     )
+
+    override fun addConcert(concert: Concert): Boolean {
+        concerts.add(concert)
+        return true
+    }
+
     private fun generateNavigationViewsSet(): Set<Int> {
         val result = mutableSetOf<Int>()
         R.id::class.java.fields.forEach {
