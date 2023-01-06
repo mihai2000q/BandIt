@@ -2,19 +2,18 @@ package com.bandit.data
 
 import com.bandit.R
 import com.bandit.data.model.Concert
-import com.bandit.helper.Constants
-import java.time.LocalDate
+import com.bandit.helper.NavigationType
 import java.time.LocalDateTime
 
 class MockDatabase : Database {
     override val navigationViewIds get() = generateNavigationViewsSet()
     override val homeNavigationElementsMap get() = mapOf(
-        "Concerts" to Constants.NavigationType.Bottom,
-        "Songs" to Constants.NavigationType.Bottom,
-        "Chats" to Constants.NavigationType.Bottom,
-        "Schedule" to Constants.NavigationType.Bottom,
+        "Concerts" to NavigationType.Bottom,
+        "Songs" to NavigationType.Bottom,
+        "Chats" to NavigationType.Bottom,
+        "Schedule" to NavigationType.Bottom,
     )
-    override val concerts get() = listOf(
+    override val concerts get() = mutableListOf(
         Concert(
             "Legacy of the beast",
             LocalDateTime.of(2023, 10, 21, 20,0),

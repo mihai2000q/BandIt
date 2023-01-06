@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.setMargins
 import com.bandit.data.model.Concert
 import com.bandit.helper.Constants
+import com.bandit.helper.NavigationType
 import com.bandit.helper.Normalization
 import com.google.android.material.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,7 +21,7 @@ import java.time.LocalDateTime
 class AndroidBuilder : HomeBuilder, ConcertBuilder {
     override fun buildHomeButton(
         context: Context,
-        entry: Map.Entry<String, Constants.NavigationType>,
+        entry: Map.Entry<String, NavigationType>,
         bottomNav: BottomNavigationView
     ): Button {
         val params = TableRow.LayoutParams()
@@ -35,10 +36,10 @@ class AndroidBuilder : HomeBuilder, ConcertBuilder {
         }?.getInt(null) ?: com.bandit.R.id.navigation_home
 
         when(entry.value) {
-            Constants.NavigationType.Bottom -> button.setOnClickListener {
+            NavigationType.Bottom -> button.setOnClickListener {
                 bottomNav.selectedItemId = destination
             }
-            Constants.NavigationType.Drawer -> button.setOnClickListener {
+            NavigationType.Drawer -> button.setOnClickListener {
                 //TODO: Find a way to either make this work or the navController
                 //drawerNav.setCheckedItem(destination)
             }

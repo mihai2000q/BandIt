@@ -1,6 +1,7 @@
 package com.bandit.helper
 
+enum class NavigationType { Bottom, Drawer }
+
 object Constants {
-    enum class NavigationType { Bottom, Drawer }
     const val INT_MAX = 100_000
 }
