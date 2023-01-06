@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.FragmentConcertDetailBinding
@@ -22,6 +23,11 @@ class ConcertDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentConcertDetailBinding.inflate(inflater, container, false)
+
+        binding?.concertDetailBack?.setOnClickListener {
+            findNavController().navigate(R.id.action_concertDetailFragment_to_navigation_concerts)
+        }
+
         return binding?.root
     }
 

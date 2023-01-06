@@ -44,5 +44,11 @@
             android:text="@string/default_value"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/concert_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value" />
+
     </LinearLayout>
 </layout>

@@ -57,5 +57,9 @@
         android:id="@+id/concertDetailFragment"
         android:name="com.bandit.ui.concerts.ConcertDetailFragment"
         android:label="fragment_concert_detail"
-        tools:layout="@layout/fragment_concert_detail" />
+        tools:layout="@layout/fragment_concert_detail" >
+        <action
+            android:id="@+id/action_concertDetailFragment_to_navigation_concerts"
+            app:destination="@id/navigation_concerts" />
+    </fragment>
 </navigation>
