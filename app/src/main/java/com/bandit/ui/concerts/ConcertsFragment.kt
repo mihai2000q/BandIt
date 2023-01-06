@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bandit.builder.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 
 class ConcertsFragment : Fragment() {
@@ -21,11 +22,9 @@ class ConcertsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[ConcertsViewModel::class.java]
 
-        viewModel.generateConcertsElements(
-            this.requireContext(),
-            viewModel.concerts.value ?: listOf(),
-            binding.concertSvTableLayout
-        )
+        viewModel.concerts.observe(viewLifecycleOwner) {
+            binding.concertsList.adapter = ConcertAdapter(it.sorted())
+        }
 
         return binding.root
     }
