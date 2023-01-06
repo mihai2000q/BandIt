@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.data.model.Concert
-import com.bandit.databinding.ConcertBinding
+import com.bandit.databinding.ModelConcertBinding
 import com.bandit.helper.Normalization
 import java.time.LocalDateTime
 
@@ -15,11 +15,11 @@ class ConcertAdapter(
     private val onConcertClick: (Concert) -> Unit)
     : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ConcertBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ModelConcertBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ConcertBinding.inflate(
+            ModelConcertBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

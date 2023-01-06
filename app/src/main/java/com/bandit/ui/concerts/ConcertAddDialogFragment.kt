@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
-import com.bandit.databinding.FragmentConcertAddBinding
+import com.bandit.databinding.DialogFragmentConcertAddBinding
 import com.bandit.helper.Constants
 import java.time.LocalDateTime
 
 class ConcertAddDialogFragment : DialogFragment() {
 
-    var binding: FragmentConcertAddBinding? = null
+    var binding: DialogFragmentConcertAddBinding? = null
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -21,7 +21,7 @@ class ConcertAddDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentConcertAddBinding.inflate(inflater, container, false)
+        binding = DialogFragmentConcertAddBinding.inflate(inflater, container, false)
         binding?.concertBtAdd?.setOnClickListener {
             viewModel.addConcert(
                 Concert(
@@ -40,11 +40,6 @@ class ConcertAddDialogFragment : DialogFragment() {
         }
 
         return binding?.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onDestroyView() {

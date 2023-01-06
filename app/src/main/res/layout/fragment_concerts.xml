@@ -105,7 +105,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:spanCount="1"
-            tools:listitem="@layout/concert" />
+            tools:listitem="@layout/model_concert" />
 
     </LinearLayout>
 </layout>
