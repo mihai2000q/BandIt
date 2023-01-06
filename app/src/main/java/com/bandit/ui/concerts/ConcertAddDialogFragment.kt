@@ -48,6 +48,6 @@ class ConcertAddDialogFragment : DialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.ADD_CONCERT_TAG
+        const val TAG = Constants.Concert.ADD_CONCERT_TAG
     }
 }

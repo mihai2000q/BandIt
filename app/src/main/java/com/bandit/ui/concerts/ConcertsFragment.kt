@@ -14,6 +14,7 @@ class ConcertsFragment : Fragment() {
 
     private var binding: FragmentConcertsBinding? = null
     private val viewModel: ConcertsViewModel by activityViewModels()
+    private lateinit var detailFragment: ConcertDetailDialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +27,7 @@ class ConcertsFragment : Fragment() {
             addDialog.show(childFragmentManager, ConcertAddDialogFragment.TAG)
         }
         viewModel.closeAddDialog = { addDialog.dismiss() }
+        detailFragment = ConcertDetailDialogFragment()
 
         return binding?.root
     }
@@ -36,8 +38,7 @@ class ConcertsFragment : Fragment() {
         viewModel.concerts.observe(viewLifecycleOwner) {
             binding?.concertsList?.adapter = ConcertAdapter(it.sorted()) { concert ->
                 viewModel.selectedConcert.value = concert
-                findNavController()
-                    .navigate(com.bandit.R.id.action_navigation_concerts_to_concertDetailFragment)
+                detailFragment.show(childFragmentManager, ConcertDetailDialogFragment.TAG)
             }
         }
     }

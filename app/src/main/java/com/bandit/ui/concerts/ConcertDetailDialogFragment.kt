@@ -1,32 +1,25 @@
 package com.bandit.ui.concerts
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.bandit.R
 import com.bandit.data.model.Concert
-import com.bandit.databinding.FragmentConcertDetailBinding
-import kotlinx.coroutines.selects.select
+import com.bandit.databinding.DialogFragmentConcertDetailBinding
+import com.bandit.helper.Constants
 
-class ConcertDetailFragment : Fragment() {
+class ConcertDetailDialogFragment : DialogFragment() {
 
-    private var binding: FragmentConcertDetailBinding? = null
+    private var binding: DialogFragmentConcertDetailBinding? = null
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentConcertDetailBinding.inflate(inflater, container, false)
-
-        binding?.concertDetailBack?.setOnClickListener {
-            findNavController().navigate(R.id.action_concertDetailFragment_to_navigation_concerts)
-        }
+        binding = DialogFragmentConcertDetailBinding.inflate(inflater, container, false)
 
         return binding?.root
     }
@@ -46,6 +39,10 @@ class ConcertDetailFragment : Fragment() {
         binding?.concertDetailTitle?.text = concert.name
         binding?.concertDetailCity?.text = concert.city
         binding?.concertDetailCountry?.text = concert.country
+    }
+
+    companion object {
+        const val TAG = Constants.Concert.DETAIL_CONCERT_TAG
     }
 
 }

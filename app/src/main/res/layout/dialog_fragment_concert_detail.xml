@@ -7,15 +7,16 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ui.concerts.ConcertDetailFragment">
+        tools:context=".ui.concerts.ConcertDetailDialogFragment">
 
         <TextView
             android:id="@+id/concert_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:text="@string/default_value"
             android:textSize="48sp" />
@@ -24,6 +25,7 @@
             android:id="@+id/concert_detail_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:text="@string/default_value"
             android:textSize="20sp" />
@@ -32,6 +34,7 @@
             android:id="@+id/concert_detail_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:text="@string/default_value"
             android:textSize="20sp" />
@@ -40,15 +43,10 @@
             android:id="@+id/concert_detail_country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:text="@string/default_value"
             android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/concert_detail_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value" />
 
     </LinearLayout>
 </layout>
