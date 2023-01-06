@@ -20,6 +20,13 @@ class ConcertsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentConcertsBinding.inflate(inflater, container, false)
+
+        val addDialog = ConcertAddDialogFragment()
+        binding?.concertsBtAdd?.setOnClickListener {
+            addDialog.show(childFragmentManager, ConcertAddDialogFragment.TAG)
+        }
+        viewModel.closeAddDialog = { addDialog.dismiss() }
+
         return binding?.root
     }
 

@@ -13,7 +13,7 @@ class MockDatabase : Database {
         "Chats" to NavigationType.Bottom,
         "Schedule" to NavigationType.Bottom,
     )
-    override val concerts get() = mutableListOf(
+    override val concerts = mutableListOf(
         Concert(
             "Legacy of the beast",
             LocalDateTime.of(2023, 10, 21, 20,0),
@@ -57,8 +57,7 @@ class MockDatabase : Database {
     )
 
     override fun addConcert(concert: Concert): Boolean {
-        concerts.add(concert)
-        return true
+        return concerts.add(concert)
     }
 
     private fun generateNavigationViewsSet(): Set<Int> {

@@ -16,7 +16,7 @@ import kotlinx.coroutines.selects.select
 class ConcertDetailFragment : Fragment() {
 
     private var binding: FragmentConcertDetailBinding? = null
-    private val concertViewModel: ConcertsViewModel by activityViewModels()
+    private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +33,7 @@ class ConcertDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        concertViewModel.selectedConcert.observe(viewLifecycleOwner) { assignConcertDetails(it) }
+        viewModel.selectedConcert.observe(viewLifecycleOwner) { assignConcertDetails(it) }
     }
 
     override fun onDestroyView() {
