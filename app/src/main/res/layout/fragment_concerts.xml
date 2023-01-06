@@ -99,7 +99,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            tools:ignore="SpeakableTextPresentCheck"/>
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <TableLayout
+                android:id="@+id/concert_sv_table_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
 
     </LinearLayout>
 </layout>

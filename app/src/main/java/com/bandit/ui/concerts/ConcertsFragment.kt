@@ -21,6 +21,12 @@ class ConcertsFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[ConcertsViewModel::class.java]
 
+        viewModel.generateConcertsElements(
+            this.requireContext(),
+            viewModel.concerts.value ?: listOf(),
+            binding.concertSvTableLayout
+        )
+
         return binding.root
     }
 

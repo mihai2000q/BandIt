@@ -9,19 +9,20 @@ import androidx.lifecycle.ViewModel
 import com.bandit.helper.Constants
 import com.bandit.builder.HomeBuilder
 import com.bandit.helper.DILocator
+import com.bandit.helper.NavigationType
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeViewModel : ViewModel() {
     private val _builder: HomeBuilder
-    private val _elements = MutableLiveData<Map<String, Constants.NavigationType>>()
-    val elements: LiveData<Map<String, Constants.NavigationType>> get() = _elements
+    private val _elements = MutableLiveData<Map<String, NavigationType>>()
+    val elements: LiveData<Map<String, NavigationType>> get() = _elements
     init {
         val database = DILocator.getDatabase()
         _elements.value = database.homeNavigationElementsMap
         _builder = DILocator.getHomeBuilder()
     }
 
-    fun generateHomeElements(elements: Map<String, Constants.NavigationType>,
+    fun generateHomeElements(elements: Map<String, NavigationType>,
                              layout: TableLayout, context:Context,
                              bottomNav:BottomNavigationView) {
         var index = 0
