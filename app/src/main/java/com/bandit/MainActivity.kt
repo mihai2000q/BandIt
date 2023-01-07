@@ -6,6 +6,7 @@ import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -17,23 +18,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-
         binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
-        val database = DILocator.getDatabase()
 
         val bottomNavView = binding.mainBottomNavigationView
         bottomNavView.visibility = View.INVISIBLE
         bottomNavView.selectedItemId = R.id.navigation_home //solving small issue by setting a default
 
-        val navController = findNavController(R.id.main_nav_host)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.main_nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        val appBarConfiguration = AppBarConfiguration.Builder(database.navigationViewIds
-        ).setOpenableLayout(binding.mainDrawerLayout).build()
         setSupportActionBar(binding.mainToolbar)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         setupNavigationElements(navController)

@@ -6,7 +6,6 @@ import com.bandit.helper.NavigationType
 import java.time.LocalDateTime
 
 class MockDatabase : Database {
-    override val navigationViewIds get() = generateNavigationViewsSet()
     override val homeNavigationElementsMap get() = mapOf(
         "Concerts" to NavigationType.Bottom,
         "Songs" to NavigationType.Bottom,
@@ -60,12 +59,5 @@ class MockDatabase : Database {
         return concerts.add(concert)
     }
 
-    private fun generateNavigationViewsSet(): Set<Int> {
-        val result = mutableSetOf<Int>()
-        R.id::class.java.fields.forEach {
-            if(it.name.startsWith("navigation_"))
-                result.add(it.getInt(null))
-        }
-        return result
     }
 }
