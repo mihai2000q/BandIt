@@ -20,11 +20,13 @@
             android:ems="10"
             android:hint="Name"
             android:inputType="textPersonName"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toTopOf="@+id/concert_filter_city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/concert_filter_city"
@@ -34,11 +36,13 @@
             android:ems="10"
             android:hint="City"
             android:inputType="textPersonName"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toTopOf="@+id/concert_filter_country"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/concert_filter_name" />
+            app:layout_constraintTop_toBottomOf="@+id/concert_filter_name"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/concert_filter_country"
@@ -48,11 +52,13 @@
             android:ems="10"
             android:hint="Country"
             android:inputType="textPersonName"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toTopOf="@+id/concert_filter_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/concert_filter_city" />
+            app:layout_constraintTop_toBottomOf="@+id/concert_filter_city"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/concert_filter_button"

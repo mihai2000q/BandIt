@@ -98,6 +98,8 @@
             android:id="@+id/concerts_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="10dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
