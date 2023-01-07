@@ -1,6 +1,6 @@
 package com.bandit.data.model
 
-import com.bandit.helper.Generator
+import com.bandit.helper.AndroidUtils
 import java.time.LocalDateTime
 
 data class Concert(val name: String,
@@ -10,7 +10,7 @@ data class Concert(val name: String,
                    val place: String,
                    val type: Type) : java.io.Serializable, Comparable<Concert> {
     enum class Type {Tournament, Simple, Festival}
-    private val _id: Int = Generator.generateRandomConcertId()
+    private val _id: Int = AndroidUtils.generateRandomId()
     val id get() = _id
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),

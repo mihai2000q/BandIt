@@ -94,18 +94,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
-            android:id="@+id/concerts_scroll_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/concerts_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
-            tools:ignore="SpeakableTextPresentCheck">
-
-            <TableLayout
-                android:id="@+id/concert_sv_table_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </ScrollView>
+            android:clipToPadding="false"
+            android:padding="10dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:spanCount="1"
+            tools:listitem="@layout/model_concert" />
 
     </LinearLayout>
 </layout>

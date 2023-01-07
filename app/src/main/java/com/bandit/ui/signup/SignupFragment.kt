@@ -5,30 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.databinding.FragmentSignupBinding
 
 class SignupFragment : Fragment() {
 
-    private lateinit var binding: FragmentSignupBinding
-    private lateinit var viewModel: SignupViewModel
+    private var binding: FragmentSignupBinding? = null
+    private val viewModel: SignupViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
+    ): View? {
         binding = FragmentSignupBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProvider(this)[SignupViewModel::class.java]
-
-        binding.button.setOnClickListener {
+        binding?.button?.setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
-        return binding.root
+        return binding?.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

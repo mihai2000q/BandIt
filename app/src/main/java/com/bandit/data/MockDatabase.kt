@@ -1,19 +1,17 @@
 package com.bandit.data
 
-import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.helper.NavigationType
 import java.time.LocalDateTime
 
 class MockDatabase : Database {
-    override val navigationViewIds get() = generateNavigationViewsSet()
     override val homeNavigationElementsMap get() = mapOf(
         "Concerts" to NavigationType.Bottom,
         "Songs" to NavigationType.Bottom,
         "Chats" to NavigationType.Bottom,
         "Schedule" to NavigationType.Bottom,
     )
-    override val concerts get() = mutableListOf(
+    override val concerts = mutableListOf(
         Concert(
             "Legacy of the beast",
             LocalDateTime.of(2023, 10, 21, 20,0),
@@ -57,16 +55,14 @@ class MockDatabase : Database {
     )
 
     override fun addConcert(concert: Concert): Boolean {
-        concerts.add(concert)
-        return true
+        return concerts.add(concert)
     }
 
-    private fun generateNavigationViewsSet(): Set<Int> {
-        val result = mutableSetOf<Int>()
-        R.id::class.java.fields.forEach {
-            if(it.name.startsWith("navigation_"))
-                result.add(it.getInt(null))
-        }
-        return result
+    override fun removeConcert(concert: Concert): Boolean {
+        return concerts.remove(concert)
+    }
+
+    override fun editConcert(concert: Concert): Boolean {
+        TODO("Not yet implemented")
     }
 }

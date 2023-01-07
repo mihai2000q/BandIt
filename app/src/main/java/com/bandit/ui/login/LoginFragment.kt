@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.databinding.FragmentLoginBinding
@@ -14,25 +14,29 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginViewModel
+    private var binding: FragmentLoginBinding? = null
+    private val viewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
-        binding.fragmentLoginBtLogin.setOnClickListener { login() }
-        binding.fragmentLoginBtSignup.setOnClickListener {
+        binding?.fragmentLoginBtLogin?.setOnClickListener { login() }
+        binding?.fragmentLoginBtSignup?.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
-        return binding.root
+        return binding?.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     private fun login() {
         this.activity?.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)
             ?.visibility = View.VISIBLE
