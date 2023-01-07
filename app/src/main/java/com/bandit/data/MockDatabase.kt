@@ -1,6 +1,5 @@
 package com.bandit.data
 
-import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.helper.NavigationType
 import java.time.LocalDateTime

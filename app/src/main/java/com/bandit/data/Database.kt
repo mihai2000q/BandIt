@@ -1,7 +1,6 @@
 package com.bandit.data
 
 import com.bandit.data.model.Concert
-import com.bandit.helper.Constants
 import com.bandit.helper.NavigationType
 
 interface Database {

@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bandit.databinding.ActivityMainBinding
-import com.bandit.helper.DILocator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
