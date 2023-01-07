@@ -20,4 +20,13 @@ class ConcertsViewModel : ViewModel() {
         database.addConcert(concert)
         _concerts.value = database.concerts
     }
+    fun removeConcert(concert: Concert): Boolean {
+        val result = database.removeConcert(concert)
+        _concerts.value = database.concerts
+        return result
+    }
+    fun editConcert(concert: Concert) {
+        database.editConcert(concert)
+        _concerts.value = database.concerts
+    }
 }

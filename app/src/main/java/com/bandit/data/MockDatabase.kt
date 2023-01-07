@@ -58,5 +58,11 @@ class MockDatabase : Database {
         return concerts.add(concert)
     }
 
+    override fun removeConcert(concert: Concert): Boolean {
+        return concerts.remove(concert)
+    }
+
+    override fun editConcert(concert: Concert): Boolean {
+        TODO("Not yet implemented")
     }
 }

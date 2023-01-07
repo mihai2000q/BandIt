@@ -35,9 +35,13 @@ class ConcertsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.concerts.observe(viewLifecycleOwner) {
-            binding?.concertsList?.adapter = ConcertAdapter(it.sorted()) { concert ->
+            binding?.concertsList?.adapter = ConcertAdapter(it.sorted(), { concert ->
                 viewModel.selectedConcert.value = concert
-                detailFragment.show(childFragmentManager, ConcertDetailDialogFragment.TAG)
+                detailFragment.show(childFragmentManager, ConcertDetailDialogFragment.TAG) },
+            { concert -> viewModel.selectedConcert.value = concert; return@ConcertAdapter true },
+            { concert -> return@ConcertAdapter viewModel.removeConcert(concert) }) {
+                ConcertEditDialogFragment().show(childFragmentManager, ConcertEditDialogFragment.TAG);
+                return@ConcertAdapter true
             }
         }
     }
@@ -46,5 +50,4 @@ class ConcertsFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
-
 }

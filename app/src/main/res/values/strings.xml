@@ -5,7 +5,7 @@
     <string name="fragment_login_bt_signup">Sign Up</string>
     <string name="fragment_login_tv_username">Username: </string>
     <string name="fragment_login_tv_password">Password: </string>
-    <string name="fragment_login_et_username_hint"></string>
+    <string name="fragment_login_et_username_hint" />
     <string name="fragment_login_cb_remember">Remember Me</string>
     <string name="fragment_login_tv_registered">Not Registered Yet?</string>
     <string name="fragment_login_iv_logo" />
@@ -17,6 +17,8 @@
     <string name="title_todolist">To Do List</string>
     <string name="fragment_home_tv_title">@string/app_name</string>
     <string name="home_tv_welcome">Welcome, name to</string>
+    <string name="item_edit">Edit</string>
+    <string name="item_delete">Delete</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

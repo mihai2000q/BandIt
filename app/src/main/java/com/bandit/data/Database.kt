@@ -7,4 +7,6 @@ interface Database {
     val homeNavigationElementsMap: Map<String, NavigationType>
     val concerts: List<Concert>
     fun addConcert(concert: Concert): Boolean
+    fun removeConcert(concert: Concert): Boolean
+    fun editConcert(concert: Concert): Boolean
 }

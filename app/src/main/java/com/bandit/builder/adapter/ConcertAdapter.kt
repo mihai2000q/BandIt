@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
 import com.bandit.helper.Normalization
@@ -12,7 +14,10 @@ import java.time.LocalDateTime
 
 class ConcertAdapter(
     private val concerts: List<Concert>,
-    private val onConcertClick: (Concert) -> Unit)
+    private val onConcertClick: (Concert) -> Unit,
+    private val onConcertLongClick: (Concert) -> Boolean,
+    private val onDeleteItem: (Concert) -> Boolean,
+    private val onEditItem: (Concert) -> Boolean)
     : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ModelConcertBinding) : RecyclerView.ViewHolder(binding.root)
@@ -32,6 +37,23 @@ class ConcertAdapter(
         val concert = concerts[position]
 
         holder.itemView.setOnClickListener { onConcertClick(concert) }
+        holder.itemView.setOnLongClickListener {
+            val popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
+            popupMenu.inflate(R.menu.item_popup_menu)
+            popupMenu.setOnMenuItemClickListener {
+                popupMenu.dismiss()
+                when(it.itemId) {
+                    R.id.popup_menu_delete -> {
+                        onDeleteItem(concert)
+                    }
+                    else -> {
+                        onEditItem(concert)
+                    }
+                }
+            }
+            popupMenu.show()
+            onConcertLongClick(concert)
+        }
 
         with(holder.binding) {
             when(concert.type) {
