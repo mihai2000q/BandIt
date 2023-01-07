@@ -1,4 +1,4 @@
-package com.bandit
+package com.bandit.concerts
 
 import com.bandit.data.model.Concert
 import com.bandit.helper.Constants
@@ -33,7 +33,7 @@ class ConcertsTest {
     @Test
     fun concert_init_id() {
         //Repeated tests improvised
-        for (i in 1..10) {
+        for (i in 1..100) {
             val concert = Concert.getEmpty()
             assertNotNull(concert.id)
             if (concert.id < 0 || concert.id > Constants.INT_MAX)
