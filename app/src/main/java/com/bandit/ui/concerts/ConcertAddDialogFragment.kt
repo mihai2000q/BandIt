@@ -33,10 +33,7 @@ class ConcertAddDialogFragment : DialogFragment() {
                     Concert.Type.Simple
                 )
             )
-            viewModel.closeAddDialog?.invoke()
-            binding?.concertAddName?.setText("")
-            binding?.concertAddCity?.setText("")
-            binding?.concertAddCountry?.setText("")
+            this.dismiss()
         }
 
         return binding?.root
