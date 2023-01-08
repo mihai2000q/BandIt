@@ -25,6 +25,10 @@ class HomeFragment : Fragment() {
             this.requireActivity().findViewById(R.id.main_bottom_navigation_view)
         )
 
+        binding?.homeBtAccount?.setOnClickListener{
+            HomeAccountDialogFragment().show(childFragmentManager, HomeAccountDialogFragment.TAG)
+        }
+
         return binding?.root
     }
 
