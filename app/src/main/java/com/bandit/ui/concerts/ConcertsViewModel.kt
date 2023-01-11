@@ -3,13 +3,13 @@ package com.bandit.ui.concerts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bandit.data.Database
 import com.bandit.data.model.Concert
+import com.bandit.data.repository.ConcertRepository
 import com.bandit.helper.DILocator
 
 class ConcertsViewModel : ViewModel() {
-    private val database: Database = DILocator.getDatabase()
-    private val _concerts = MutableLiveData<List<Concert>>()
+    private val _repository = ConcertRepository(DILocator.getDatabase())
+    private val _concerts = MutableLiveData(_repository.concerts)
     val concerts: LiveData<List<Concert>> get() = _concerts
     val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
 
@@ -17,34 +17,19 @@ class ConcertsViewModel : ViewModel() {
     private val _filters = MutableLiveData<MutableMap<Filter, String>>()
     val filters: LiveData<MutableMap<Filter, String>> get() = _filters
     init {
-        _concerts.value = database.concerts
         _filters.value = mutableMapOf()
         Filter.values().forEach { _filters.value?.put(it, "") }
     }
     fun addConcert(concert: Concert) {
-        database.addConcert(concert)
-        _concerts.value = database.concerts
+        _repository.addConcert(concert)
     }
     fun removeConcert(concert: Concert): Boolean {
-        val result = database.removeConcert(concert)
-        _concerts.value = database.concerts
-        return result
+        return _repository.removeConcert(concert)
     }
     fun editConcert(concert: Concert) {
-        database.editConcert(concert)
-        _concerts.value = database.concerts
+        _repository.editConcert(concert)
     }
     fun filterConcerts(name: String?, city: String?, country: String?) {
-        _concerts.value = database.concerts
-            .filter { filterOne(it.name, name) }
-            .filter { filterOne(it.city, city) }
-            .filter { filterOne(it.country, country) }
-    }
-    private fun filterOne(string: String, other: String?): Boolean {
-        string.split(" ").forEach {
-            if(it.lowercase().startsWith(other?.lowercase() ?: ""))
-                return true
-        }
-        return false
+        _concerts.value = _repository.filterConcerts(name, city, country)
     }
 }
