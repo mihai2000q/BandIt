@@ -6,7 +6,6 @@ import android.widget.TableRow
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bandit.helper.Constants
 import com.bandit.builder.HomeBuilder
 import com.bandit.helper.DILocator
 import com.bandit.helper.NavigationType
@@ -24,7 +23,7 @@ class HomeViewModel : ViewModel() {
 
     fun generateHomeElements(elements: Map<String, NavigationType>,
                              layout: TableLayout, context:Context,
-                             bottomNav:BottomNavigationView) {
+                             bottomNav:BottomNavigationView?) {
         var index = 0
         elements.forEach {
             val tableRow: TableRow

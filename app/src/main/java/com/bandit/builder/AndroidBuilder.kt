@@ -15,7 +15,7 @@ class AndroidBuilder : HomeBuilder {
     override fun buildHomeButton(
         context: Context,
         entry: Map.Entry<String, NavigationType>,
-        bottomNav: BottomNavigationView
+        bottomNav: BottomNavigationView?
     ): Button {
         val params = TableRow.LayoutParams()
         params.width = TableRow.LayoutParams.WRAP_CONTENT
@@ -30,7 +30,7 @@ class AndroidBuilder : HomeBuilder {
 
         when(entry.value) {
             NavigationType.Bottom -> button.setOnClickListener {
-                bottomNav.selectedItemId = destination
+                bottomNav?.selectedItemId = destination
             }
             NavigationType.Drawer -> button.setOnClickListener {
                 //TODO: Find a way to either make this work or the navController
