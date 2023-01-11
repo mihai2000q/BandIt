@@ -3,14 +3,15 @@ package com.bandit.data.model
 import com.bandit.helper.AndroidUtils
 import java.time.LocalDateTime
 
-data class Concert(val name: String,
-                   val dateTime: LocalDateTime,
-                   val city: String,
-                   val country: String,
-                   val place: String,
-                   val type: Type,
-                   private val _id: Int = AndroidUtils.generateRandomId()
-                   ) : java.io.Serializable, Comparable<Concert> {
+data class Concert(
+    val name: String,
+    val dateTime: LocalDateTime,
+    val city: String,
+    val country: String,
+    val place: String,
+    val type: Type,
+    private val _id: Int = AndroidUtils.generateRandomId()
+) : java.io.Serializable, Comparable<Concert> {
     enum class Type { Tournament, Simple, Festival }
     val id get() = _id
     companion object {
