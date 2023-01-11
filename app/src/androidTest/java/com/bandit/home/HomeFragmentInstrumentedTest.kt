@@ -18,14 +18,20 @@ import org.junit.runner.RunWith
 class HomeFragmentInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    private fun beforeEach() {
+        //go to home
+        onView(withId(R.id.fragment_login_bt_login)).perform(click())
+    }
     @Test
     fun home_elements() {
         beforeEach()
+        //header
         onView(withId(R.id.home_switch_modes)).check(matches(isDisplayed()))
         onView(withId(R.id.home_tv_welcome)).check(matches(isDisplayed()))
         onView(withId(R.id.home_tv_title)).check(matches(withText("BandIt")))
         onView(withId(R.id.home_bt_account)).check(matches(isDisplayed()))
         onView(withId(R.id.home_bt_replacement)).check(matches(isDisplayed()))
+
         onView(withId(R.id.home_scroll_view)).check(matches(isDisplayed()))
         onView(withId(R.id.home_sv_table_layout)).check(matches(isDisplayed()))
         onView(withText("Your Concerts")).check(matches(isDisplayed()))
@@ -66,9 +72,5 @@ class HomeFragmentInstrumentedTest {
         beforeEach()
         onView(withId(R.id.home_bt_account)).perform(click())
         onView(withText("This is the Account Dialog Fragment")).check(matches(isDisplayed()))
-    }
-    private fun beforeEach() {
-        //go to home
-        onView(withId(R.id.fragment_login_bt_login)).perform(click())
     }
 }
