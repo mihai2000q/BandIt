@@ -17,8 +17,8 @@ class ConcertAdapter(
     private val onConcertClick: (Concert) -> Unit,
     private val onConcertLongClick: (Concert) -> Boolean,
     private val onDeleteItem: (Concert) -> Boolean,
-    private val onEditItem: (Concert) -> Boolean)
-    : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
+    private val onEditItem: (Concert) -> Boolean
+) : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ModelConcertBinding) : RecyclerView.ViewHolder(binding.root)
 

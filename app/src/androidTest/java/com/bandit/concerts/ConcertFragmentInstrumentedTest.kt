@@ -40,7 +40,7 @@ class ConcertFragmentInstrumentedTest {
         onView(withId(R.id.concerts_list)).check(matches(isDisplayed()))
     }
     @Test
-    fun smth() {
+    fun concert_concert_list() {
         beforeEach()
         onView(withId((R.id.concerts_list)))
             .perform(actionOnItemAtPosition<ConcertAdapter.ViewHolder>(0, click()))
