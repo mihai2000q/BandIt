@@ -22,12 +22,16 @@ class ConcertsViewModel : ViewModel() {
     }
     fun addConcert(concert: Concert) {
         _repository.addConcert(concert)
+        _concerts.value = _repository.concerts
     }
     fun removeConcert(concert: Concert): Boolean {
-        return _repository.removeConcert(concert)
+        val result = _repository.removeConcert(concert)
+        _concerts.value = _repository.concerts
+        return result
     }
     fun editConcert(concert: Concert) {
         _repository.editConcert(concert)
+        _concerts.value = _repository.concerts
     }
     fun filterConcerts(name: String?, city: String?, country: String?) {
         _concerts.value = _repository.filterConcerts(name, city, country)
