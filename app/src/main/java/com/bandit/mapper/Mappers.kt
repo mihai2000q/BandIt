@@ -1,8 +1,8 @@
-package com.bandit.helper
+package com.bandit.mapper
 
 import com.bandit.constant.BandItEnums
 
-sealed class Mapper {
+sealed class Mappers {
     object Concert {
         fun mapIntToConcertType(type: Int): BandItEnums.Concert.Type {
             return BandItEnums.Concert.Type.values().first { it.ordinal == type }

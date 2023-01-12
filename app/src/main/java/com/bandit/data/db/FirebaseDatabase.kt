@@ -4,7 +4,7 @@ import android.util.Log
 import com.bandit.data.db.entry.ConcertDBEntry
 import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
-import com.bandit.helper.Mapper
+import com.bandit.mapper.Mappers
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
@@ -27,7 +27,7 @@ class FirebaseDatabase : Database {
                     concert.city,
                     concert.country,
                     concert.place,
-                    Mapper.Concert.mapConcertTypeToInt(concert.type)
+                    Mappers.Concert.mapConcertTypeToInt(concert.type)
                 )
             )
             .addOnSuccessListener {
@@ -60,7 +60,7 @@ class FirebaseDatabase : Database {
                             result.get("city") as String,
                             result.get("country") as String,
                             result.get("place") as String,
-                            Mapper.Concert.mapIntToConcertType((result.get("type") as Long).toInt()),
+                            Mappers.Concert.mapIntToConcertType((result.get("type") as Long).toInt()),
                             (result.get("id") as Long).toInt()
                         )
                     )
