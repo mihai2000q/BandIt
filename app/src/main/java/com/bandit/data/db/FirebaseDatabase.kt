@@ -10,15 +10,19 @@ import com.bandit.mapper.Mappers
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     private val _firestore = Firebase.firestore
-    init {
+
+    override suspend fun init() {
         readHomeNavigationElements()
         readConcerts()
     }
+
     override fun addConcert(concert: Concert) {
         addItem("Concerts", Mappers.Concert.fromConcertToDBEntry(concert))
     }
@@ -58,30 +62,32 @@ class FirebaseDatabase : Database {
             }
     }
 
-    private fun readConcerts() {
-        Firebase.firestore.collection("Concerts")
-            .get()
-            .addOnSuccessListener {
-                for (result in it)
-                    concerts.add(
-                        Mappers.Concert.fromDBEntryToConcert(
-                            ConcertDBEntry(
-                                result.get(Constants.Concert.Fields.id) as Long,
-                                result.get(Constants.Concert.Fields.name) as String,
-                                result.get(Constants.Concert.Fields.dateTime) as String,
-                                result.get(Constants.Concert.Fields.city) as String,
-                                result.get(Constants.Concert.Fields.country) as String,
-                                result.get(Constants.Concert.Fields.place) as String,
-                                result.get(Constants.Concert.Fields.type) as Long,
+    private suspend fun readConcerts() = coroutineScope {
+        async {
+            Firebase.firestore.collection("Concerts")
+                .get()
+                .addOnSuccessListener {
+                    for (result in it)
+                        concerts.add(
+                            Mappers.Concert.fromDBEntryToConcert(
+                                ConcertDBEntry(
+                                    result.get(Constants.Concert.Fields.id) as Long,
+                                    result.get(Constants.Concert.Fields.name) as String,
+                                    result.get(Constants.Concert.Fields.dateTime) as String,
+                                    result.get(Constants.Concert.Fields.city) as String,
+                                    result.get(Constants.Concert.Fields.country) as String,
+                                    result.get(Constants.Concert.Fields.place) as String,
+                                    result.get(Constants.Concert.Fields.type) as Long,
+                                )
                             )
                         )
-                    )
-            }
-            .addOnFailureListener {
-                Log.e(Constants.Firebase.TAG, "Concerts ERROR $it")
-            }
-        Log.i(Constants.Firebase.TAG, "Concerts imported successfully")
-    }
+                }
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.TAG, "Concerts ERROR $it")
+                }
+            Log.i(Constants.Firebase.TAG, "Concerts imported successfully")
+        }
+    }.await()
 
     private fun readHomeNavigationElements() {
         //TODO: temporary, move it to database

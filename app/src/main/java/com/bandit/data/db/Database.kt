@@ -9,4 +9,5 @@ interface Database {
     fun addConcert(concert: Concert)
     fun removeConcert(concert: Concert)
     fun editConcert(concert: Concert)
+    suspend fun init()
 }

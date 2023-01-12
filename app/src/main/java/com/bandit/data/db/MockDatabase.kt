@@ -65,4 +65,9 @@ class MockDatabase : Database {
     override fun editConcert(concert: Concert) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun init() {
+        TODO("Not yet implemented")
+    }
+
 }

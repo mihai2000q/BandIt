@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bandit.databinding.ActivityMainBinding
+import com.bandit.di.DILocator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         setupNavigationElements(navController)
+
+        lifecycleScope.launchWhenCreated {
+            DILocator.getDatabase().init()
+        }
     }
 
     private fun setupNavigationElements(navController: NavController) {
