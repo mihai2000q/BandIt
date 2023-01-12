@@ -2,14 +2,12 @@ package com.bandit.data.model
 
 import com.bandit.util.AndroidUtils
 
-data class User(
+class User(
     val username: String,
     val password: String,
     val settings: Settings,
-    private val _id: Int = AndroidUtils.generateRandomId()
-    ) {
-    val id get() = _id
-
+    id: Int = AndroidUtils.generateRandomId()
+    ) : BaseModel(id) {
     override fun toString(): String {
         return "User(id=$id, username='$username', password='$password')"
     }

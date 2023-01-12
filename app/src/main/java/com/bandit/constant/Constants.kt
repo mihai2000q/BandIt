@@ -6,6 +6,15 @@ object Constants {
         const val ACCOUNT_HOME_TAG = "ACCOUNT HOME DIALOG FRAGMENT"
     }
     object Concert {
+        object Fields {
+            const val id = "id"
+            const val name = "name"
+            const val dateTime = "dateTime"
+            const val city = "city"
+            const val country = "country"
+            const val place = "place"
+            const val type = "type"
+        }
         const val ADD_CONCERT_TAG = "ADD CONCERT DIALOG FRAGMENT"
         const val DETAIL_CONCERT_TAG = "DETAIL CONCERT DIALOG FRAGMENT"
         const val EDIT_CONCERT_TAG = "EDIT CONCERT DIALOG FRAGMENT"

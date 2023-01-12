@@ -1,19 +1,18 @@
 package com.bandit.data.model
 
-import com.bandit.util.AndroidUtils
 import com.bandit.constant.BandItEnums
+import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
 
-data class Concert(
+class Concert(
     val name: String,
     val dateTime: LocalDateTime,
     val city: String,
     val country: String,
     val place: String,
     val type: BandItEnums.Concert.Type,
-    private val _id: Int = AndroidUtils.generateRandomId()
-) : Comparable<Concert> {
-    val id get() = _id
+    id: Int = AndroidUtils.generateRandomId()
+) : BaseModel(id), Comparable<Concert> {
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
             "", "", "", BandItEnums.Concert.Type.Simple)
