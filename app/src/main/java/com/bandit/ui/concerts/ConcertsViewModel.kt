@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
-import com.bandit.helper.DILocator
+import com.bandit.di.DILocator
 
 class ConcertsViewModel : ViewModel() {
     private val _repository = ConcertRepository(DILocator.getDatabase())

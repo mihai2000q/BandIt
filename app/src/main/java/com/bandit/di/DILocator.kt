@@ -1,4 +1,4 @@
-package com.bandit.helper
+package com.bandit.di
 
 import com.bandit.builder.AndroidBuilder
 import com.bandit.builder.HomeBuilder
