@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "787086972742",
+    "project_id": "bandit-f9f87",
+    "storage_bucket": "bandit-f9f87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787086972742:android:ea0cba9f8b28c2300a7747",
+        "android_client_info": {
+          "package_name": "com.bandit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787086972742-ag62cjf6s77ugbhb63tkh7vtr4uo2774.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5zN2wWKnpAhhRO1VUg66PEmWcqyR9jQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787086972742-ag62cjf6s77ugbhb63tkh7vtr4uo2774.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
