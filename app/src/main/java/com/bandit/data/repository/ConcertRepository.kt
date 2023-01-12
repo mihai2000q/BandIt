@@ -1,8 +1,9 @@
 package com.bandit.data.repository
 
+import com.bandit.data.Database
 import com.bandit.data.model.Concert
 
-class ConcertRepository : BaseRepository() {
+class ConcertRepository(database: Database? = null) : BaseRepository(database) {
     private val _concerts: MutableList<Concert> = mutableListOf()
     val concerts: List<Concert> get() = _concerts
     init {
