@@ -5,10 +5,10 @@ sealed class BandItEnums {
         enum class NavigationType { Bottom, Drawer }
     }
     object Concert {
-        enum class Type(i: Int) {
-            Tournament(1),
-            Simple(2),
-            Festival(3)
+        enum class Type {
+            Tournament,
+            Simple,
+            Festival
         }
     }
 }
