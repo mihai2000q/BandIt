@@ -1,4 +1,4 @@
-package com.bandit.helper
+package com.bandit.extension
 
 object Normalization {
     fun normalizeWord(string: String) =
