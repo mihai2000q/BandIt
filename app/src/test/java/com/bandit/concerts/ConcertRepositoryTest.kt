@@ -2,7 +2,8 @@ package com.bandit.concerts
 
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
-import com.bandit.helper.Constants
+import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -23,7 +24,7 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States",
                 "Big Arena",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             )
         )
         concertRepository.addConcert(
@@ -33,7 +34,7 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States of America",
                 "Big Arena 2",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             )
         )
         concertRepository.addConcert(
@@ -43,7 +44,7 @@ class ConcertRepositoryTest {
                 "L A ",
                 "U.S.A",
                 "Small Arena",
-                Concert.Type.Simple
+                BandItEnums.Concert.Type.Simple
             )
         )
         concertRepository.addConcert(
@@ -53,7 +54,7 @@ class ConcertRepositoryTest {
                 "Berlin",
                 "Germany",
                 "rock fest Arena",
-                Concert.Type.Festival
+                BandItEnums.Concert.Type.Festival
             )
         )
         concertRepository.addConcert(
@@ -63,7 +64,7 @@ class ConcertRepositoryTest {
                 "Leipzig",
                 "Germany",
                 "rock fest Arena",
-                Concert.Type.Simple
+                BandItEnums.Concert.Type.Simple
             )
         )
     }
@@ -77,7 +78,7 @@ class ConcertRepositoryTest {
             "newCity",
             "newCountry",
             "newPlace",
-            Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival
         )
     }
     @Test
@@ -97,7 +98,7 @@ class ConcertRepositoryTest {
             "newCity",
             "newCountry",
             "newPlace",
-            Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival
         )
         add_concert(
             concertRepository,
@@ -107,7 +108,7 @@ class ConcertRepositoryTest {
             "newCity2",
             "newCountry2",
             "newPlace2",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         )
         remove_concert(concertRepository, 3, 6)
         remove_concert(concertRepository, 3, 5)
@@ -121,7 +122,7 @@ class ConcertRepositoryTest {
     @Test
     fun concert_repository_different_ids() {
         with(concertRepository) {
-            for (i in 0 until Constants.INT_MAX / 2)
+            for (i in 0 until Constants.MAX_NR_ITEMS / 2)
                 addConcert(Concert.getEmpty())
             for (concert in concerts)
                 if(concerts.filter { it.id == concert.id }.size > 1)
@@ -138,7 +139,7 @@ class ConcertRepositoryTest {
             "newCity",
             "newCountry",
             "newPlace",
-            Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival
         )
         //before
         assert_concert(
@@ -150,7 +151,7 @@ class ConcertRepositoryTest {
             "Los Angeles",
             "United States",
             "Big Arena",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         )
         concertToEdit = Concert(
             newConcert.name,
@@ -171,7 +172,7 @@ class ConcertRepositoryTest {
             "newCity",
             "newCountry",
             "newPlace",
-            Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival
         )
     }
     @Test
@@ -185,7 +186,7 @@ class ConcertRepositoryTest {
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            Concert.Type.Simple
+            BandItEnums.Concert.Type.Simple
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -199,7 +200,7 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States",
                 "Big Arena",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Legacy of the beast 2",
@@ -207,7 +208,7 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States of America",
                 "Big Arena 2",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             )
         )
         assertEquals(outcome2.size, 2)
@@ -239,7 +240,7 @@ class ConcertRepositoryTest {
         city: String,
         country: String,
         place: String,
-        type: Concert.Type
+        type: BandItEnums.Concert.Type
     ) {
         repository.addConcert(Concert(name, dateTime, city, country, place, type))
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
@@ -253,7 +254,7 @@ class ConcertRepositoryTest {
         city: String,
         country: String,
         place: String,
-        type: Concert.Type
+        type: BandItEnums.Concert.Type
     ) {
         assertEquals(size, repository.concerts.size)
         assertNotNull(repository.concerts[index].id)

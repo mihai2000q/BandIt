@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.databinding.DialogFragmentConcertEditBinding
-import com.bandit.helper.Constants
+import com.bandit.constant.Constants
 
 class ConcertEditDialogFragment : DialogFragment() {
 

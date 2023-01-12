@@ -1,22 +1,21 @@
 package com.bandit.data.model
 
-import com.bandit.helper.AndroidUtils
+import com.bandit.constant.BandItEnums
+import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
 
-data class Concert(
+class Concert(
     val name: String,
     val dateTime: LocalDateTime,
     val city: String,
     val country: String,
     val place: String,
-    val type: Type,
-    private val _id: Int = AndroidUtils.generateRandomId()
-) : java.io.Serializable, Comparable<Concert> {
-    enum class Type { Tournament, Simple, Festival }
-    val id get() = _id
+    val type: BandItEnums.Concert.Type,
+    id: Int = AndroidUtils.generateRandomId()
+) : BaseModel(id), Comparable<Concert> {
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
-            "", "", "", Type.Simple)
+            "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
     override fun compareTo(other: Concert): Int {

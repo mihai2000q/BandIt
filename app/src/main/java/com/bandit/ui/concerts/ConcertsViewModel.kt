@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
-import com.bandit.helper.DILocator
+import com.bandit.di.DILocator
 
 class ConcertsViewModel : ViewModel() {
     private val _repository = ConcertRepository(DILocator.getDatabase())
@@ -22,12 +22,16 @@ class ConcertsViewModel : ViewModel() {
     }
     fun addConcert(concert: Concert) {
         _repository.addConcert(concert)
+        _concerts.value = _repository.concerts
     }
     fun removeConcert(concert: Concert): Boolean {
-        return _repository.removeConcert(concert)
+        val result = _repository.removeConcert(concert)
+        _concerts.value = _repository.concerts
+        return result
     }
     fun editConcert(concert: Concert) {
         _repository.editConcert(concert)
+        _concerts.value = _repository.concerts
     }
     fun filterConcerts(name: String?, city: String?, country: String?) {
         _concerts.value = _repository.filterConcerts(name, city, country)

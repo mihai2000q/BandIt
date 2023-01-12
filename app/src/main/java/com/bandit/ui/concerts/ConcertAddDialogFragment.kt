@@ -8,7 +8,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertAddBinding
-import com.bandit.helper.Constants
+import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import java.time.LocalDateTime
 
 class ConcertAddDialogFragment : DialogFragment() {
@@ -30,7 +31,7 @@ class ConcertAddDialogFragment : DialogFragment() {
                     binding?.concertAddCity?.text.toString(),
                     binding?.concertAddCountry?.text.toString(),
                     "",
-                    Concert.Type.Simple
+                    BandItEnums.Concert.Type.Simple
                 )
             )
             this.dismiss()

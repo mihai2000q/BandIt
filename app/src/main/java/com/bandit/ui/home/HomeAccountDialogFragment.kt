@@ -1,14 +1,12 @@
 package com.bandit.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bandit.R
 import com.bandit.databinding.DialogFragmentHomeAccountBinding
-import com.bandit.helper.Constants
+import com.bandit.constant.Constants
 
 class HomeAccountDialogFragment : DialogFragment() {
 

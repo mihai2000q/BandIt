@@ -1,4 +1,4 @@
-package com.bandit.builder.adapter
+package com.bandit.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
-import com.bandit.helper.Normalization
+import com.bandit.constant.BandItEnums
+import com.bandit.extension.StringExtensions.normalizeWord
 import java.time.LocalDateTime
 
 class ConcertAdapter(
@@ -57,21 +58,21 @@ class ConcertAdapter(
 
         with(holder.binding) {
             when(concert.type) {
-                Concert.Type.Simple -> concertLayout.setBackgroundColor(Color.CYAN)
-                Concert.Type.Tournament -> concertLayout.setBackgroundColor(Color.RED)
-                Concert.Type.Festival -> concertLayout.setBackgroundColor(Color.GREEN)
+                BandItEnums.Concert.Type.Simple -> concertLayout.setBackgroundColor(Color.CYAN)
+                BandItEnums.Concert.Type.Tournament -> concertLayout.setBackgroundColor(Color.RED)
+                BandItEnums.Concert.Type.Festival -> concertLayout.setBackgroundColor(Color.GREEN)
             }
             concertTitle.text = concert.name.uppercase()
-            concertCityCountry.text = "${Normalization.normalizeWord(concert.city)}, " +
-                    Normalization.normalizeWord(concert.country)
+            concertCityCountry.text = "${concert.city.normalizeWord()}, " +
+                    concert.country.normalizeWord()
             concertPlace.text = concert.place
             concertDate.text = when {
-                isConcert7DaysApart(concert) -> Normalization.normalizeWord(concert.dateTime.dayOfWeek.name)
+                isConcert7DaysApart(concert) -> concert.dateTime.dayOfWeek.name.normalizeWord()
                 isConcertOneYearApart(concert) -> "${concert.dateTime.dayOfMonth} " +
-                        Normalization.normalizeWord(concert.dateTime.month.name.substring(0..2)) +
+                        concert.dateTime.month.name.substring(0..2).normalizeWord() +
                         " ${concert.dateTime.year}"
                 else -> "${concert.dateTime.dayOfMonth} " +
-                        Normalization.normalizeWord(concert.dateTime.month.name)
+                        concert.dateTime.month.name.normalizeWord()
             }
         }
     }
