@@ -1,7 +1,7 @@
 package com.bandit.constant
 
 object Constants {
-    const val INT_MAX = 100_000
+    const val MAX_NR_ITEMS = 100_000
     object Home {
         const val ACCOUNT_HOME_TAG = "ACCOUNT HOME DIALOG FRAGMENT"
     }

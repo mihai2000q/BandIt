@@ -7,7 +7,7 @@ import com.bandit.constant.Constants
 import kotlin.random.Random
 
 object AndroidUtils {
-    fun generateRandomId() = Random.nextInt(Constants.INT_MAX)
+    fun generateRandomId() = Random.nextInt(Constants.MAX_NR_ITEMS)
     //Context.INPUT_METHOD_SERVICE
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager

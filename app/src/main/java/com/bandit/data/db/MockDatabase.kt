@@ -54,15 +54,15 @@ class MockDatabase : Database {
         )
     )
 
-    override fun addConcert(concert: Concert): Boolean {
-        return concerts.add(concert)
+    override fun addConcert(concert: Concert) {
+        concerts.add(concert)
     }
 
-    override fun removeConcert(concert: Concert): Boolean {
-        return concerts.remove(concert)
+    override fun removeConcert(concert: Concert) {
+        concerts.remove(concert)
     }
 
-    override fun editConcert(concert: Concert): Boolean {
+    override fun editConcert(concert: Concert) {
         TODO("Not yet implemented")
     }
 }

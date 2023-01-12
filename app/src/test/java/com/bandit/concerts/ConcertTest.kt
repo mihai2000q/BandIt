@@ -32,7 +32,7 @@ class ConcertTest {
         for (i in 1..100) {
             val concert = Concert.getEmpty()
             assertNotNull(concert.id)
-            if (concert.id < 0 || concert.id > Constants.INT_MAX)
+            if (concert.id < 0 || concert.id > Constants.MAX_NR_ITEMS)
                 fail("The Id should be between these boundaries")
         }
     }

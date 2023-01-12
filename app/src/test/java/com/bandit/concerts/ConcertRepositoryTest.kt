@@ -122,7 +122,7 @@ class ConcertRepositoryTest {
     @Test
     fun concert_repository_different_ids() {
         with(concertRepository) {
-            for (i in 0 until Constants.INT_MAX / 2)
+            for (i in 0 until Constants.MAX_NR_ITEMS / 2)
                 addConcert(Concert.getEmpty())
             for (concert in concerts)
                 if(concerts.filter { it.id == concert.id }.size > 1)
