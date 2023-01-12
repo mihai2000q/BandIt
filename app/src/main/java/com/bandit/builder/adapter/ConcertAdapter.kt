@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import com.bandit.helper.Normalization
 import java.time.LocalDateTime
 

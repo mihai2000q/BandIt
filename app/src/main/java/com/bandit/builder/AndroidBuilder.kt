@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.TableRow
 import androidx.core.view.setMargins
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import com.google.android.material.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton

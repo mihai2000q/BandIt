@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.builder.HomeBuilder
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import com.bandit.helper.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

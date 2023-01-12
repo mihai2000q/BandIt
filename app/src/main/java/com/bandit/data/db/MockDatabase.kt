@@ -1,7 +1,7 @@
 package com.bandit.data.db
 
 import com.bandit.data.model.Concert
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import java.time.LocalDateTime
 
 class MockDatabase : Database {

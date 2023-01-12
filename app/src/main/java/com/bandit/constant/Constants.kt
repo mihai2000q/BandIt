@@ -1,4 +1,4 @@
-package com.bandit.helper
+package com.bandit.constant
 
 object Constants {
     const val INT_MAX = 100_000

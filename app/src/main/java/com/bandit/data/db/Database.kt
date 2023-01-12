@@ -1,7 +1,7 @@
 package com.bandit.data.db
 
 import com.bandit.data.model.Concert
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 
 interface Database {
     val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType>

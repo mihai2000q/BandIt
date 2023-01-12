@@ -3,7 +3,7 @@ package com.bandit.builder
 import android.content.Context
 import android.widget.Button
 import android.widget.TableRow
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 interface HomeBuilder {

@@ -1,4 +1,4 @@
-package com.bandit.helper
+package com.bandit.constant
 
 sealed class BandItEnums {
     object Home {

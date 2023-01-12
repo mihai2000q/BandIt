@@ -1,7 +1,7 @@
 package com.bandit.data.model
 
 import com.bandit.helper.AndroidUtils
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import java.time.LocalDateTime
 
 data class Concert(

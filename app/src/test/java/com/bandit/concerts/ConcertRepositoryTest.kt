@@ -2,8 +2,8 @@ package com.bandit.concerts
 
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
-import com.bandit.helper.BandItEnums
-import com.bandit.helper.Constants
+import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test

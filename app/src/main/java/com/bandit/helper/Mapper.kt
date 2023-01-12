@@ -1,5 +1,7 @@
 package com.bandit.helper
 
+import com.bandit.constant.BandItEnums
+
 sealed class Mapper {
     object Concert {
         fun mapIntToConcertType(type: Int): BandItEnums.Concert.Type {

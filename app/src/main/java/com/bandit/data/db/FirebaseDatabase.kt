@@ -3,7 +3,7 @@ package com.bandit.data.db
 import android.util.Log
 import com.bandit.data.db.entry.ConcertDBEntry
 import com.bandit.data.model.Concert
-import com.bandit.helper.BandItEnums
+import com.bandit.constant.BandItEnums
 import com.bandit.helper.Mapper
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
