@@ -1,4 +1,4 @@
-package com.bandit.builder.adapter
+package com.bandit.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color

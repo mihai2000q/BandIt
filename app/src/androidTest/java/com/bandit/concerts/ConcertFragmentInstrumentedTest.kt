@@ -10,7 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.builder.adapter.ConcertAdapter
+import com.bandit.adapter.ConcertAdapter
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
