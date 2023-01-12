@@ -12,7 +12,7 @@ data class Concert(
     val place: String,
     val type: BandItEnums.Concert.Type,
     private val _id: Int = AndroidUtils.generateRandomId()
-) : java.io.Serializable, Comparable<Concert> {
+) : Comparable<Concert> {
     val id get() = _id
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
