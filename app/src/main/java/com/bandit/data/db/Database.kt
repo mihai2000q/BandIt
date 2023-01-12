@@ -1,4 +1,4 @@
-package com.bandit.data
+package com.bandit.data.db
 
 import com.bandit.data.model.Concert
 import com.bandit.helper.NavigationType

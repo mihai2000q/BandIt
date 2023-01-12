@@ -10,5 +10,8 @@ sealed class Mapper {
         fun mapIntToConcertType(type: Int): com.bandit.data.model.Concert.Type {
             return mapTypes[type] ?: com.bandit.data.model.Concert.Type.Simple
         }
+        fun mapConcertTypeToInt(type: com.bandit.data.model.Concert.Type): Int {
+            return mapTypes.filter { it.value == type }.keys.first()
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.bandit.data.repository
 
-import com.bandit.data.Database
+import com.bandit.data.db.Database
 import com.bandit.data.model.Concert
 
 class ConcertRepository(database: Database? = null) : BaseRepository(database) {
