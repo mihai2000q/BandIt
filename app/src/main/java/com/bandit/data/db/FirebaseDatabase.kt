@@ -7,7 +7,7 @@ import com.bandit.helper.Mapper
 import com.bandit.helper.NavigationType
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.time.LocalDateTime.
+import java.time.LocalDateTime
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
