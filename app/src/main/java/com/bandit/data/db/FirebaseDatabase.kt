@@ -5,7 +5,6 @@ import com.bandit.data.db.entry.ConcertDBEntry
 import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
-import com.bandit.data.db.entry.BaseEntry
 import com.bandit.data.model.BaseModel
 import com.bandit.mapper.Mappers
 import com.google.firebase.firestore.DocumentReference
@@ -14,9 +13,10 @@ import com.google.firebase.ktx.Firebase
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
-    override val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType> = mutableMapOf()
+    override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     private val _firestore = Firebase.firestore
     init {
+        readHomeNavigationElements()
         readConcerts()
     }
     override fun addConcert(concert: Concert) {
@@ -33,7 +33,7 @@ class FirebaseDatabase : Database {
         }
     }
 
-    private fun addItem(table: String, item: BaseEntry) {
+    private fun addItem(table: String, item: Any) {
         _firestore.collection(table)
             .add(item)
             .addOnFailureListener {
@@ -77,5 +77,18 @@ class FirebaseDatabase : Database {
                 Log.i("Firebase", "Concerts ERROR $it")
             }
         Log.i("Firebase", "Concerts imported successfully")
+    }
+
+    private fun readHomeNavigationElements() {
+        //TODO: temporary, otherwise move it to database
+        if(homeNavigationElementsMap.isEmpty())
+            homeNavigationElementsMap.putAll(
+                mapOf(
+                    "Concerts" to BandItEnums.Home.NavigationType.Bottom,
+                    "Songs" to BandItEnums.Home.NavigationType.Bottom,
+                    "Chats" to BandItEnums.Home.NavigationType.Bottom,
+                    "Schedule" to BandItEnums.Home.NavigationType.Bottom,
+                )
+            )
     }
 }
