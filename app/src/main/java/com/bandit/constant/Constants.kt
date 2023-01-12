@@ -20,5 +20,8 @@ object Constants {
         const val EDIT_CONCERT_TAG = "EDIT CONCERT DIALOG FRAGMENT"
         const val FILTER_CONCERT_TAG = "FILTER CONCERT DIALOG FRAGMENT"
     }
+    object Firebase {
+        const val TAG = "Firebase"
+    }
 
 }

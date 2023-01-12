@@ -37,7 +37,7 @@ class FirebaseDatabase : Database {
         _firestore.collection(table)
             .add(item)
             .addOnFailureListener {
-                Log.i("Firebase", "${item.javaClass.name} ERROR $it")
+                Log.e(Constants.Firebase.TAG, "${item.javaClass.name} ERROR $it")
             }
     }
 
@@ -51,6 +51,10 @@ class FirebaseDatabase : Database {
                             "of type ${item.javaClass.name} with the same ID")
                 val doc = _firestore.collection(table).document(result.first().id)
                 action(doc)
+            }
+            .addOnFailureListener{
+                Log.e(Constants.Firebase.TAG, "Error while selecting item of " +
+                        "type ${item.javaClass.name} with error $it")
             }
     }
 
@@ -74,13 +78,13 @@ class FirebaseDatabase : Database {
                     )
             }
             .addOnFailureListener {
-                Log.i("Firebase", "Concerts ERROR $it")
+                Log.e(Constants.Firebase.TAG, "Concerts ERROR $it")
             }
-        Log.i("Firebase", "Concerts imported successfully")
+        Log.i(Constants.Firebase.TAG, "Concerts imported successfully")
     }
 
     private fun readHomeNavigationElements() {
-        //TODO: temporary, otherwise move it to database
+        //TODO: temporary, move it to database
         if(homeNavigationElementsMap.isEmpty())
             homeNavigationElementsMap.putAll(
                 mapOf(
