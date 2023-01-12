@@ -1,4 +1,4 @@
-package com.bandit.helper
+package com.bandit.util
 
 import android.app.Activity
 import android.view.View

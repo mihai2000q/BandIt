@@ -1,6 +1,6 @@
 package com.bandit.data.model
 
-import com.bandit.helper.AndroidUtils
+import com.bandit.util.AndroidUtils
 import com.bandit.constant.BandItEnums
 import java.time.LocalDateTime
 
