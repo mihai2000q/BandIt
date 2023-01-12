@@ -3,15 +3,15 @@ package com.bandit.data.db
 import android.util.Log
 import com.bandit.data.db.entry.ConcertDBEntry
 import com.bandit.data.model.Concert
+import com.bandit.helper.BandItEnums
 import com.bandit.helper.Mapper
-import com.bandit.helper.NavigationType
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
-    override val homeNavigationElementsMap: Map<String, NavigationType> = mutableMapOf()
+    override val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     private val _firestore = Firebase.firestore
     init {
         readConcerts()

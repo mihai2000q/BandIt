@@ -1,15 +1,15 @@
 package com.bandit.data.db
 
 import com.bandit.data.model.Concert
-import com.bandit.helper.NavigationType
+import com.bandit.helper.BandItEnums
 import java.time.LocalDateTime
 
 class MockDatabase : Database {
     override val homeNavigationElementsMap get() = mapOf(
-        "Concerts" to NavigationType.Bottom,
-        "Songs" to NavigationType.Bottom,
-        "Chats" to NavigationType.Bottom,
-        "Schedule" to NavigationType.Bottom,
+        "Concerts" to BandItEnums.Home.NavigationType.Bottom,
+        "Songs" to BandItEnums.Home.NavigationType.Bottom,
+        "Chats" to BandItEnums.Home.NavigationType.Bottom,
+        "Schedule" to BandItEnums.Home.NavigationType.Bottom,
     )
     override val concerts = mutableListOf(
         Concert(
@@ -18,7 +18,7 @@ class MockDatabase : Database {
             "Los Angeles",
             "United States",
             "Big Arena",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         ),
         Concert(
             "Legacy of the beast 2",
@@ -26,7 +26,7 @@ class MockDatabase : Database {
             "Los Angeles",
             "United States of America",
             "Big Arena 2",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         ),
         Concert(
             "Legacy of the concert",
@@ -34,7 +34,7 @@ class MockDatabase : Database {
             "L A ",
             "U.S.A",
             "Small Arena",
-            Concert.Type.Simple
+            BandItEnums.Concert.Type.Simple
         ),
         Concert(
             "Rock fest",
@@ -42,7 +42,7 @@ class MockDatabase : Database {
             "Berlin",
             "Germany",
             "rock fest Arena",
-            Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival
         ),
         Concert(
             "Amon Amar cool",
@@ -50,7 +50,7 @@ class MockDatabase : Database {
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            Concert.Type.Simple
+            BandItEnums.Concert.Type.Simple
         )
     )
 

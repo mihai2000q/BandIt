@@ -6,7 +6,7 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.TableRow
 import androidx.core.view.setMargins
-import com.bandit.helper.NavigationType
+import com.bandit.helper.BandItEnums
 import com.google.android.material.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
@@ -14,7 +14,7 @@ import com.google.android.material.button.MaterialButton
 class AndroidBuilder : HomeBuilder {
     override fun buildHomeButton(
         context: Context,
-        entry: Map.Entry<String, NavigationType>,
+        entry: Map.Entry<String, BandItEnums.Home.NavigationType>,
         bottomNav: BottomNavigationView?
     ): Button {
         val params = TableRow.LayoutParams()
@@ -29,10 +29,10 @@ class AndroidBuilder : HomeBuilder {
         }?.getInt(null) ?: com.bandit.R.id.navigation_home
 
         when(entry.value) {
-            NavigationType.Bottom -> button.setOnClickListener {
+            BandItEnums.Home.NavigationType.Bottom -> button.setOnClickListener {
                 bottomNav?.selectedItemId = destination
             }
-            NavigationType.Drawer -> button.setOnClickListener {
+            BandItEnums.Home.NavigationType.Drawer -> button.setOnClickListener {
                 //TODO: Find a way to either make this work or the navController
                 //drawerNav.setCheckedItem(destination)
             }

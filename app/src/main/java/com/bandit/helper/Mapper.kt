@@ -2,16 +2,11 @@ package com.bandit.helper
 
 sealed class Mapper {
     object Concert {
-        private val mapTypes = mapOf(
-            1 to com.bandit.data.model.Concert.Type.Simple,
-            2 to com.bandit.data.model.Concert.Type.Tournament,
-            3 to com.bandit.data.model.Concert.Type.Festival
-        )
-        fun mapIntToConcertType(type: Int): com.bandit.data.model.Concert.Type {
-            return mapTypes[type] ?: com.bandit.data.model.Concert.Type.Simple
+        fun mapIntToConcertType(type: Int): BandItEnums.Concert.Type {
+            return BandItEnums.Concert.Type.values().first { it.ordinal == type }
         }
-        fun mapConcertTypeToInt(type: com.bandit.data.model.Concert.Type): Int {
-            return mapTypes.filter { it.value == type }.keys.first()
+        fun mapConcertTypeToInt(type: BandItEnums.Concert.Type): Int {
+            return type.ordinal
         }
     }
 }

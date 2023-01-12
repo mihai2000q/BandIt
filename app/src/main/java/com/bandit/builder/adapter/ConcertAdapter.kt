@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
+import com.bandit.helper.BandItEnums
 import com.bandit.helper.Normalization
 import java.time.LocalDateTime
 
@@ -57,9 +58,9 @@ class ConcertAdapter(
 
         with(holder.binding) {
             when(concert.type) {
-                Concert.Type.Simple -> concertLayout.setBackgroundColor(Color.CYAN)
-                Concert.Type.Tournament -> concertLayout.setBackgroundColor(Color.RED)
-                Concert.Type.Festival -> concertLayout.setBackgroundColor(Color.GREEN)
+                BandItEnums.Concert.Type.Simple -> concertLayout.setBackgroundColor(Color.CYAN)
+                BandItEnums.Concert.Type.Tournament -> concertLayout.setBackgroundColor(Color.RED)
+                BandItEnums.Concert.Type.Festival -> concertLayout.setBackgroundColor(Color.GREEN)
             }
             concertTitle.text = concert.name.uppercase()
             concertCityCountry.text = "${Normalization.normalizeWord(concert.city)}, " +

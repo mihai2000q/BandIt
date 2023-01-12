@@ -1,6 +1,7 @@
 package com.bandit.data.model
 
 import com.bandit.helper.AndroidUtils
+import com.bandit.helper.BandItEnums
 import java.time.LocalDateTime
 
 data class Concert(
@@ -9,14 +10,13 @@ data class Concert(
     val city: String,
     val country: String,
     val place: String,
-    val type: Type,
+    val type: BandItEnums.Concert.Type,
     private val _id: Int = AndroidUtils.generateRandomId()
 ) : java.io.Serializable, Comparable<Concert> {
-    enum class Type { Tournament, Simple, Festival }
     val id get() = _id
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
-            "", "", "", Type.Simple)
+            "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
     override fun compareTo(other: Concert): Int {
