@@ -42,7 +42,8 @@ class ConcertsFragment : Fragment() {
                 viewModel.selectedConcert.value = concert
                 detailFragment.show(childFragmentManager, ConcertDetailDialogFragment.TAG) },
             { concert -> viewModel.selectedConcert.value = concert; return@ConcertAdapter true },
-            { concert -> return@ConcertAdapter viewModel.removeConcert(concert) }) {
+            { concert -> return@ConcertAdapter viewModel.removeConcert(concert) }) { concert ->
+                viewModel.selectedConcert.value = concert
                 ConcertEditDialogFragment().show(childFragmentManager, ConcertEditDialogFragment.TAG)
                 return@ConcertAdapter true
             }
