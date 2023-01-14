@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.builder.adapter.ConcertAdapter
+import com.bandit.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 
 class ConcertsFragment : Fragment() {

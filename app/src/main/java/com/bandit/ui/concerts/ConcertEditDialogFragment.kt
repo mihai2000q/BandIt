@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertEditBinding
-import com.bandit.helper.Constants
 import java.time.LocalDateTime
+import com.bandit.constant.Constants
 
 class ConcertEditDialogFragment : DialogFragment() {
 
@@ -35,9 +36,11 @@ class ConcertEditDialogFragment : DialogFragment() {
                     binding?.concertEditCity?.text.toString(),
                     binding?.concertEditCountry?.text.toString(),
                     binding?.concertEditPlace?.text.toString(),
-                    Concert.Type.Simple
+                    BandItEnums.Concert.Type.Simple,
+                    viewModel.selectedConcert.value?.id ?: -1
                 )
             )
+            this.dismiss()
         }
 
         return binding?.root

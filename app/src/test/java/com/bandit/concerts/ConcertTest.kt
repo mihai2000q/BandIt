@@ -1,7 +1,8 @@
 package com.bandit.concerts
 
 import com.bandit.data.model.Concert
-import com.bandit.helper.Constants
+import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -16,14 +17,14 @@ class ConcertTest {
             "Los Angeles",
             "United States",
             "Big Arena",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         )
         assertEquals(concert.name, "Concert1")
         assertEquals(concert.dateTime, LocalDateTime.parse("2020-10-25T20:30"))
         assertEquals(concert.city, "Los Angeles")
         assertEquals(concert.country, "United States")
         assertEquals(concert.place, "Big Arena")
-        assertEquals(concert.type, Concert.Type.Tournament)
+        assertEquals(concert.type, BandItEnums.Concert.Type.Tournament)
     }
     @Test
     fun concert_init_id() {
@@ -31,7 +32,7 @@ class ConcertTest {
         for (i in 1..100) {
             val concert = Concert.getEmpty()
             assertNotNull(concert.id)
-            if (concert.id < 0 || concert.id > Constants.INT_MAX)
+            if (concert.id < 0 || concert.id > Constants.MAX_NR_ITEMS)
                 fail("The Id should be between these boundaries")
         }
     }
@@ -43,7 +44,7 @@ class ConcertTest {
             "Los Angeles",
             "USA",
             "Big Arena",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "Concert",
@@ -51,7 +52,7 @@ class ConcertTest {
             "Los Angeles",
             "USA",
             "Big Arena",
-            Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament
         )
         assertEquals(concert1, concert2)
         assertNotEquals(concert1.id, concert2.id)
@@ -65,7 +66,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert2",
@@ -73,7 +74,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert3",
@@ -81,7 +82,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert4",
@@ -89,7 +90,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert5",
@@ -97,7 +98,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert6",
@@ -105,7 +106,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             )
         )
         outcome.sort()
@@ -116,7 +117,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert6",
@@ -124,7 +125,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert5",
@@ -132,7 +133,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert1",
@@ -140,7 +141,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert2",
@@ -148,7 +149,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert3",
@@ -156,7 +157,7 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament
             )
         )
         assertEquals(outcome, expected)
