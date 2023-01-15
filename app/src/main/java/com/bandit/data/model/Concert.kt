@@ -3,6 +3,7 @@ package com.bandit.data.model
 import com.bandit.constant.BandItEnums
 import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
+import kotlin.math.abs
 
 class Concert(
     val name: String,
@@ -16,6 +17,16 @@ class Concert(
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
             "", "", "", BandItEnums.Concert.Type.Simple)
+    }
+
+    fun is7DaysApart(): Boolean {
+        return  LocalDateTime.now().year == this.dateTime.year &&
+                LocalDateTime.now().month == this.dateTime.month &&
+                abs(this.dateTime.dayOfMonth - LocalDateTime.now().dayOfMonth) <= 7
+    }
+
+    fun isOneYearApart(): Boolean {
+        return this.dateTime.year - LocalDateTime.now().year > 0
     }
 
     override fun compareTo(other: Concert): Int {
@@ -51,7 +62,6 @@ class Concert(
         result = 31 * result + type.hashCode()
         return result
     }
-
 
 }
 

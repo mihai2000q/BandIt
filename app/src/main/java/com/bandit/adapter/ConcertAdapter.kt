@@ -67,8 +67,8 @@ class ConcertAdapter(
                     concert.country.normalizeWord()
             concertPlace.text = concert.place
             concertDate.text = when {
-                isConcert7DaysApart(concert) -> concert.dateTime.dayOfWeek.name.normalizeWord()
-                isConcertOneYearApart(concert) -> "${concert.dateTime.dayOfMonth} " +
+                concert.is7DaysApart() -> concert.dateTime.dayOfWeek.name.normalizeWord()
+                concert.isOneYearApart() -> "${concert.dateTime.dayOfMonth} " +
                         concert.dateTime.month.name.substring(0..2).normalizeWord() +
                         " ${concert.dateTime.year}"
                 else -> "${concert.dateTime.dayOfMonth} " +
@@ -79,15 +79,5 @@ class ConcertAdapter(
 
     override fun getItemCount(): Int {
         return concerts.size
-    }
-
-    private fun isConcert7DaysApart(concert: Concert): Boolean {
-        return  LocalDateTime.now().year == concert.dateTime.year &&
-                LocalDateTime.now().month == concert.dateTime.month &&
-                concert.dateTime.dayOfMonth - LocalDateTime.now().dayOfMonth <= 7
-    }
-
-    private fun isConcertOneYearApart(concert: Concert): Boolean {
-        return concert.dateTime.year - LocalDateTime.now().year > 0
     }
 }
