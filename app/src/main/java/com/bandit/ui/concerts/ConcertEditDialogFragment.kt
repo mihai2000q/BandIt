@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.constant.BandItEnums
+import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertEditBinding
+import java.time.LocalDateTime
 import com.bandit.constant.Constants
 
 class ConcertEditDialogFragment : DialogFragment() {
@@ -18,8 +21,28 @@ class ConcertEditDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //TODO:NOT IMPLEMENTED YET
         binding = DialogFragmentConcertEditBinding.inflate(layoutInflater, container, false)
+
+        binding?.concertEditName?.setText(viewModel.selectedConcert.value?.name)
+        binding?.concertEditCity?.setText(viewModel.selectedConcert.value?.city)
+        binding?.concertEditCountry?.setText(viewModel.selectedConcert.value?.country)
+        binding?.concertEditPlace?.setText(viewModel.selectedConcert.value?.place)
+
+        binding?.concertEditSaveBt?.setOnClickListener {
+            viewModel.editConcert(
+                Concert(
+                    binding?.concertEditName?.text.toString(),
+                    LocalDateTime.now(),
+                    binding?.concertEditCity?.text.toString(),
+                    binding?.concertEditCountry?.text.toString(),
+                    binding?.concertEditPlace?.text.toString(),
+                    BandItEnums.Concert.Type.Simple,
+                    viewModel.selectedConcert.value?.id ?: -1
+                )
+            )
+            this.dismiss()
+        }
+
         return binding?.root
     }
 
