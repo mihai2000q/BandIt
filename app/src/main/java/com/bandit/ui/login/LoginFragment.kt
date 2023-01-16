@@ -9,8 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
+import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
-import com.bandit.di.DILocator
+import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoginFragment : Fragment() {
@@ -29,8 +30,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding) {
+            fragmentLoginCbRemember.isChecked = AndroidUtils.getBooleanPreference(
+                super.requireActivity(), Constants.Preferences.REMEMBER_ME
+            )
+
             with(viewModel) {
                 email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
                 fragmentLoginBtLogin.setOnClickListener {
@@ -39,6 +43,11 @@ class LoginFragment : Fragment() {
                         fragmentLoginEtPassword.text.toString()
                         ) {
                         loginNavigationUnlocked()
+                        AndroidUtils.savePreference(
+                            super.requireActivity(),
+                            Constants.Preferences.REMEMBER_ME,
+                            binding.fragmentLoginCbRemember.isChecked
+                        )
                     }
                 }
             }
