@@ -6,6 +6,12 @@ import android.content.SharedPreferences.Editor
 import com.bandit.constant.Constants
 
 object PreferencesUtils {
+    fun resetPreferences(activity: Activity) {
+        val editor: Editor = activity
+            .getSharedPreferences(Constants.Preferences.APP_PREFERENCES, Context.MODE_PRIVATE).edit()
+        editor.putBoolean(Constants.Preferences.REMEMBER_ME, false)
+        editor.apply()
+    }
     fun savePreference(activity: Activity, key: String, value: Any) {
         val editor: Editor = activity
             .getSharedPreferences(Constants.Preferences.APP_PREFERENCES, Context.MODE_PRIVATE).edit()

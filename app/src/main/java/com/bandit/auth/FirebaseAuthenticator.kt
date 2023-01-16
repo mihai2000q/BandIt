@@ -3,6 +3,7 @@ package com.bandit.auth
 import android.util.Log
 import com.bandit.constant.Constants
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 class FirebaseAuthenticator : Authenticator {
@@ -30,12 +31,17 @@ class FirebaseAuthenticator : Authenticator {
         return result
     }
 
-    override fun createUser(email: String, password: String): Boolean? {
+    override fun createUser(email: String, password: String, displayName: String): Boolean? {
         var result: Boolean? = null
         _auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 Log.d(Constants.Firebase.AUTH_TAG, "create user: success")
                 _currentUser = _auth.currentUser
+                _currentUser?.updateProfile(
+                    userProfileChangeRequest {
+                        this.displayName = displayName
+                    }
+                )
                 _currentUser?.sendEmailVerification()
                 result = true
             }
