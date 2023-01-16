@@ -21,7 +21,11 @@ object Constants {
         const val FILTER_CONCERT_TAG = "FILTER CONCERT DIALOG FRAGMENT"
     }
     object Firebase {
-        const val TAG = "Firebase"
+        const val DATABASE_TAG = "FirebaseDB"
+        const val AUTH_TAG = "FirebaseAuth"
     }
-
+    object Preferences {
+        const val APP_PREFERENCES = "App Preferences"
+        const val REMEMBER_ME = "Remember Me "
+    }
 }
