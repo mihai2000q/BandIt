@@ -41,7 +41,7 @@ class FirebaseDatabase : Database {
         _firestore.collection(table)
             .add(item)
             .addOnFailureListener {
-                Log.e(Constants.Firebase.TAG, "${item.javaClass.name} ERROR $it")
+                Log.e(Constants.Firebase.DATABASE_TAG, "${item.javaClass.name} ERROR $it")
             }
     }
 
@@ -57,7 +57,7 @@ class FirebaseDatabase : Database {
                 action(doc)
             }
             .addOnFailureListener{
-                Log.e(Constants.Firebase.TAG, "Error while selecting item of " +
+                Log.e(Constants.Firebase.DATABASE_TAG, "Error while selecting item of " +
                         "type ${item.javaClass.name} with error $it")
             }
     }
@@ -83,9 +83,9 @@ class FirebaseDatabase : Database {
                         )
                 }
                 .addOnFailureListener {
-                    Log.e(Constants.Firebase.TAG, "Concerts ERROR $it")
+                    Log.e(Constants.Firebase.DATABASE_TAG, "Concerts ERROR $it")
                 }
-            Log.i(Constants.Firebase.TAG, "Concerts imported successfully")
+            Log.i(Constants.Firebase.DATABASE_TAG, "Concerts imported successfully")
         }
     }.await()
 
