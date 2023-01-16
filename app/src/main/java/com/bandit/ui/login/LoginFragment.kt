@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.util.AndroidUtils
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.bandit.util.PreferencesUtils
 
 class LoginFragment : Fragment() {
 
@@ -31,10 +30,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            fragmentLoginCbRemember.isChecked = AndroidUtils.getBooleanPreference(
-                super.requireActivity(), Constants.Preferences.REMEMBER_ME
-            )
-
             with(viewModel) {
                 email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
                 fragmentLoginBtLogin.setOnClickListener {
@@ -42,12 +37,7 @@ class LoginFragment : Fragment() {
                         fragmentLoginEtUsername.text.toString(),
                         fragmentLoginEtPassword.text.toString()
                         ) {
-                        loginNavigationUnlocked()
-                        AndroidUtils.savePreference(
-                            super.requireActivity(),
-                            Constants.Preferences.REMEMBER_ME,
-                            binding.fragmentLoginCbRemember.isChecked
-                        )
+                        login()
                     }
                 }
             }
@@ -63,12 +53,16 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    private fun loginNavigationUnlocked() {
-        this.requireActivity().findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)
-            ?.visibility = View.VISIBLE
-        this.requireActivity().findViewById<DrawerLayout>(R.id.main_drawer_layout)
-            ?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    private fun login() {
+        PreferencesUtils.savePreference(
+            super.requireActivity(),
+            Constants.Preferences.REMEMBER_ME,
+            binding.fragmentLoginCbRemember.isChecked
+        )
+        AndroidUtils.unlockNavigation(
+            super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
+            super.requireActivity().findViewById(R.id.main_drawer_layout)
+        )
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
     }
-
 }

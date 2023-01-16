@@ -13,6 +13,7 @@ import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
+import com.bandit.util.PreferencesUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -53,13 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authentication(navController: NavController) {
-        if(AndroidUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
+        if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
             && DILocator.getAuthenticator().currentUser != null) {
             navController.navigate(R.id.action_loginFragment_to_homeFragment)
         }
-        else {
-            binding.mainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            binding.mainBottomNavigationView.visibility = View.INVISIBLE
-        }
+        else
+            AndroidUtils.lockNavigation(
+                binding.mainBottomNavigationView,
+                binding.mainDrawerLayout
+            )
     }
 }
