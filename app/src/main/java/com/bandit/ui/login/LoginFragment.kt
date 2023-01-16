@@ -30,18 +30,15 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            with(viewModel) {
-                email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
-                fragmentLoginBtLogin.setOnClickListener {
-                    signInWithEmailAndPassword(
-                        fragmentLoginEtUsername.text.toString(),
-                        fragmentLoginEtPassword.text.toString()
-                        ) {
-                        login()
-                    }
+            viewModel.email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
+            fragmentLoginBtLogin.setOnClickListener {
+                viewModel.signInWithEmailAndPassword(
+                    fragmentLoginEtUsername.text.toString(),
+                    fragmentLoginEtPassword.text.toString()
+                ) {
+                    login()
                 }
             }
-
             fragmentLoginBtSignup.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             }
