@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:ems="10"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:minHeight="48dp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/fragment_login_cb_remember"
