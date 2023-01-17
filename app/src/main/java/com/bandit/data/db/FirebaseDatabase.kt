@@ -6,8 +6,10 @@ import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.BaseModel
-import com.bandit.mapper.Mappers
+import com.bandit.mapper.ConcertMapper
+import com.bandit.mapper.Mapper
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.async
@@ -24,7 +26,7 @@ class FirebaseDatabase : Database {
     }
 
     override fun addConcert(concert: Concert) {
-        addItem("Concerts", Mappers.Concert.fromConcertToDBEntry(concert))
+        addItem("Concerts", ConcertMapper.fromItemToDbEntry(concert))
     }
 
     override fun removeConcert(concert: Concert) {
@@ -33,7 +35,7 @@ class FirebaseDatabase : Database {
 
     override fun editConcert(concert: Concert) {
         selectItemById("Concerts", concert) {
-            it.set(Mappers.Concert.fromConcertToDBEntry(concert))
+            it.set(ConcertMapper.fromItemToDbEntry(concert))
         }
     }
 
@@ -62,25 +64,30 @@ class FirebaseDatabase : Database {
             }
     }
 
-    private suspend fun readConcerts() = coroutineScope {
+    private suspend fun readConcerts() {
+        readItem("Concerts", concerts, ConcertMapper) { result ->
+            ConcertDBEntry(
+                result.get(Constants.Concert.Fields.id) as Long,
+                result.get(Constants.Concert.Fields.name) as String,
+                result.get(Constants.Concert.Fields.dateTime) as String,
+                result.get(Constants.Concert.Fields.city) as String,
+                result.get(Constants.Concert.Fields.country) as String,
+                result.get(Constants.Concert.Fields.place) as String,
+                result.get(Constants.Concert.Fields.type) as Long
+            )
+        }
+    }
+
+    private suspend fun <T, E> readItem(table: String,
+                                        list: MutableList<T>,
+                                        mapper: Mapper<T, E>,
+                                        action: (QueryDocumentSnapshot) -> E) = coroutineScope {
         async {
-            Firebase.firestore.collection("Concerts")
+            Firebase.firestore.collection(table)
                 .get()
                 .addOnSuccessListener {
                     for (result in it)
-                        concerts.add(
-                            Mappers.Concert.fromDBEntryToConcert(
-                                ConcertDBEntry(
-                                    result.get(Constants.Concert.Fields.id) as Long,
-                                    result.get(Constants.Concert.Fields.name) as String,
-                                    result.get(Constants.Concert.Fields.dateTime) as String,
-                                    result.get(Constants.Concert.Fields.city) as String,
-                                    result.get(Constants.Concert.Fields.country) as String,
-                                    result.get(Constants.Concert.Fields.place) as String,
-                                    result.get(Constants.Concert.Fields.type) as Long,
-                                )
-                            )
-                        )
+                        list.add(mapper.fromDbEntryToItem(action(result)))
                 }
                 .addOnFailureListener {
                     Log.e(Constants.Firebase.DATABASE_TAG, "Concerts ERROR $it")
