@@ -23,7 +23,6 @@ object AndroidUtils {
         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         bottomNavigationView?.visibility = View.INVISIBLE
     }
-    //Context.INPUT_METHOD_SERVICE
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.hideSoftInputFromWindow(view.windowToken, 0)

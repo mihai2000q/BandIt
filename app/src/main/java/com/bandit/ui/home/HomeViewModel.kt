@@ -16,9 +16,9 @@ class HomeViewModel : ViewModel() {
     private val _elements = MutableLiveData<Map<String, BandItEnums.Home.NavigationType>>()
     val elements: LiveData<Map<String, BandItEnums.Home.NavigationType>> get() = _elements
     init {
-        val database = DILocator.getDatabase()
+        val database = DILocator.database
         _elements.value = database.homeNavigationElementsMap
-        _builder = DILocator.getHomeBuilder()
+        _builder = DILocator.homeBuilder
     }
 
     fun generateHomeElements(elements: Map<String, BandItEnums.Home.NavigationType>,

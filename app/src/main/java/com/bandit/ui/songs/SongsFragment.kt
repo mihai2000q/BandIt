@@ -10,19 +10,20 @@ import com.bandit.databinding.FragmentSongsBinding
 
 class SongsFragment : Fragment() {
 
-    private var binding: FragmentSongsBinding? = null
+    private var _binding: FragmentSongsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSongsBinding.inflate(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = FragmentSongsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }

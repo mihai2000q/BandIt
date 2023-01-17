@@ -10,20 +10,21 @@ import com.bandit.databinding.FragmentChatsBinding
 
 class ChatsFragment : Fragment() {
 
-    private var binding: FragmentChatsBinding? = null
+    private var _binding: FragmentChatsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ChatsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentChatsBinding.inflate(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = FragmentChatsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
 }
