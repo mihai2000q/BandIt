@@ -9,6 +9,6 @@ class SignupViewModel : ViewModel() {
     val password = MutableLiveData<String>()
     val displayName = MutableLiveData<String>()
     fun createUser() {
-        DILocator.getAuthenticator().createUser(email.value!!, password.value!!, displayName.value!!)
+        DILocator.authenticator.createUser(email.value!!, password.value!!, displayName.value!!)
     }
 }

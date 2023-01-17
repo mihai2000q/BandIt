@@ -1,5 +1,6 @@
 package com.bandit.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by activityViewModels()
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +32,7 @@ class HomeFragment : Fragment() {
             HomeAccountDialogFragment().show(childFragmentManager, HomeAccountDialogFragment.TAG)
         }
 
-        binding?.homeTvWelcome?.text = "Welcome ${DILocator.getAuthenticator().currentUser!!.displayName}, to"
+        binding?.homeTvWelcome?.text = "Welcome ${DILocator.authenticator.currentUser!!.displayName}, to"
 
         return binding?.root
     }

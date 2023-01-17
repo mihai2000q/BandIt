@@ -3,7 +3,6 @@ package com.bandit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         lifecycleScope.launchWhenCreated {
-            DILocator.getDatabase().init()
+            DILocator.database.init()
         }
 
         val bottomNavView = binding.mainBottomNavigationView
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun authentication(navController: NavController) {
         if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.getAuthenticator().currentUser != null) {
+            && DILocator.authenticator.currentUser != null) {
             navController.navigate(R.id.action_loginFragment_to_homeFragment)
         }
         else

@@ -37,7 +37,7 @@ class HomeAccountDialogFragment : DialogFragment() {
     }
 
     private fun signOut() {
-        DILocator.getAuthenticator().signOut()
+        DILocator.authenticator.signOut()
         //go back to login fragment
         for(i in 0 until findNavController().backQueue.size)
             findNavController().popBackStack()

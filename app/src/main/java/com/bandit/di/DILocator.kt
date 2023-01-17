@@ -9,9 +9,9 @@ import com.bandit.data.db.FirebaseDatabase
 
 object DILocator {
     private val androidBuilder = AndroidBuilder()
-    private val database = FirebaseDatabase()
-    private val authenticator = FirebaseAuthenticator()
-    fun getHomeBuilder(): HomeBuilder = androidBuilder
-    fun getDatabase(): Database = database
-    fun getAuthenticator(): Authenticator = authenticator
+    private val db = FirebaseDatabase()
+    private val auth = FirebaseAuthenticator()
+    val homeBuilder: HomeBuilder get() = androidBuilder
+    val database: Database get() = db
+    val authenticator: Authenticator get() = auth
 }
