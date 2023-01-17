@@ -10,19 +10,20 @@ import com.bandit.databinding.FragmentTodolistBinding
 
 class TodoListFragment : Fragment() {
 
-    private var binding: FragmentTodolistBinding? = null
+    private var _binding: FragmentTodolistBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: TodoListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentTodolistBinding.inflate(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = FragmentTodolistBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
