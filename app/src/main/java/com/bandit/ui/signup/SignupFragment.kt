@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
@@ -37,7 +38,16 @@ class SignupFragment : Fragment() {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
             signupBtNext.setOnClickListener { signUpBtNext() }
+            signupBtNext.isEnabled = false
+            signupEtString.addTextChangedListener {
+                signupBtNext.isEnabled = it.toString().isNotEmpty()
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     @SuppressLint("SetTextI18n")
@@ -79,11 +89,6 @@ class SignupFragment : Fragment() {
                 else -> {}
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }
