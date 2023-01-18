@@ -63,7 +63,7 @@ class ConcertRepository(database: Database? = null) : BaseRepository(database) {
                 concert.country,
                 concert.place,
                 concert.type,
-                _userUid = concert.userUid
+                userUid = concert.userUid
             )
         }
         return newConcert
