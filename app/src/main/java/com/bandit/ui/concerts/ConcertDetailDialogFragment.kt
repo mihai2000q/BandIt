@@ -1,5 +1,6 @@
 package com.bandit.ui.concerts
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.constant.Constants
+import com.bandit.extension.StringExtensions.normalizeWord
 
 class ConcertDetailDialogFragment : DialogFragment() {
 
@@ -34,11 +36,15 @@ class ConcertDetailDialogFragment : DialogFragment() {
         _binding = null
     }
 
+    @SuppressLint("SetTextI18n")
     private fun assignConcertDetails(concert: Concert) {
-        binding.concertDetailPlace.text = concert.place
         binding.concertDetailTitle.text = concert.name
+        binding.concertDetailDateTime.text = concert.dateTime.toLocalDate().toString() +
+                " ${concert.dateTime.hour}:${concert.dateTime.minute}"
         binding.concertDetailCity.text = concert.city
         binding.concertDetailCountry.text = concert.country
+        binding.concertDetailPlace.text = concert.place
+        binding.concertDetailType.text = concert.type.name.normalizeWord()
     }
 
     companion object {
