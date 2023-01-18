@@ -67,6 +67,7 @@ class ConcertAdapter(
                         concert.country.normalizeWord()
                 concertPlace.text = concert.place
                 concertDate.text = when {
+                    concert.is24HoursApart() -> "${concert.dateTime.hour}:${concert.dateTime.minute}"
                     concert.is7DaysApart() -> concert.dateTime.dayOfWeek.name.normalizeWord()
                     concert.isOneYearApart() -> "${concert.dateTime.dayOfMonth} " +
                             concert.dateTime.month.name.substring(0..2).normalizeWord() +

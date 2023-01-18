@@ -39,7 +39,7 @@ class ConcertAddDialogFragment : DialogFragment() {
                     binding.concertAddCountry.text.toString(),
                     "",
                     BandItEnums.Concert.Type.Simple,
-                    _userUid = DILocator.authenticator.currentUser?.uid
+                    userUid = DILocator.authenticator.currentUser?.uid
                 )
             )
             this.dismiss()

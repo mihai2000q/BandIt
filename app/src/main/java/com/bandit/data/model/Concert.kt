@@ -3,32 +3,32 @@ package com.bandit.data.model
 import com.bandit.constant.BandItEnums
 import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
-import kotlin.math.abs
 
-class Concert(
+data class Concert(
     val name: String,
     val dateTime: LocalDateTime,
     val city: String,
     val country: String,
     val place: String,
     val type: BandItEnums.Concert.Type,
-    id: Int = AndroidUtils.generateRandomId(),
-    private val _userUid: String? = ""
+    override val id: Int = AndroidUtils.generateRandomId(),
+    val userUid: String? = ""
 ) : BaseModel(id), Comparable<Concert> {
-    val userUid get() = _userUid
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
             "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
+    fun is24HoursApart(): Boolean {
+        return LocalDateTime.now().isAfter(this.dateTime.minusHours(24))
+    }
+
     fun is7DaysApart(): Boolean {
-        return  LocalDateTime.now().year == this.dateTime.year &&
-                LocalDateTime.now().month == this.dateTime.month &&
-                abs(this.dateTime.dayOfMonth - LocalDateTime.now().dayOfMonth) <= 7
+        return LocalDateTime.now().isAfter(this.dateTime.minusDays(7))
     }
 
     fun isOneYearApart(): Boolean {
-        return this.dateTime.year - LocalDateTime.now().year > 0
+        return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
     }
 
     override fun compareTo(other: Concert): Int {
