@@ -43,6 +43,11 @@ class FirebaseDatabase : Database {
         }
     }
 
+    override fun clearData() {
+        concerts.clear()
+        homeNavigationElementsMap.clear()
+    }
+
     private suspend fun addItem(table: String, item: Any) = coroutineScope {
         async {
             _firestore.collection(table)

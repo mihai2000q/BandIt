@@ -66,6 +66,10 @@ class MockDatabase : Database {
         TODO("Not yet implemented")
     }
 
+    override fun clearData() {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun init() {
         TODO("Not yet implemented")
     }

@@ -47,6 +47,8 @@ class AccountDialogFragment : DialogFragment() {
             super.requireActivity().findViewById(R.id.main_drawer_layout)
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
+        requireActivity().viewModelStore.clear()
+        DILocator.database.clearData()
     }
 
     companion object {
