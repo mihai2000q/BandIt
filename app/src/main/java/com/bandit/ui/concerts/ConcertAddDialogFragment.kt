@@ -15,22 +15,28 @@ import java.time.LocalDateTime
 
 class ConcertAddDialogFragment : DialogFragment() {
 
-    var binding: DialogFragmentConcertAddBinding? = null
+    private var _binding: DialogFragmentConcertAddBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertAddBinding.inflate(inflater, container, false)
-        binding?.concertBtAdd?.setOnClickListener {
+    ): View {
+        _binding = DialogFragmentConcertAddBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.concertBtAdd.setOnClickListener {
             viewModel.addConcert(
                 Concert(
-                    binding?.concertAddName?.text.toString(),
+                    binding.concertAddName.text.toString(),
                     LocalDateTime.now().plusDays(5),
-                    binding?.concertAddCity?.text.toString(),
-                    binding?.concertAddCountry?.text.toString(),
+                    binding.concertAddCity.text.toString(),
+                    binding.concertAddCountry.text.toString(),
                     "",
                     BandItEnums.Concert.Type.Simple,
                     _userUid = DILocator.authenticator.currentUser?.uid
@@ -38,13 +44,11 @@ class ConcertAddDialogFragment : DialogFragment() {
             )
             this.dismiss()
         }
-
-        return binding?.root
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

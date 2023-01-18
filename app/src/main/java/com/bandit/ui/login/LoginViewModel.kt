@@ -30,12 +30,16 @@ class LoginViewModel : ViewModel() {
                 )
             }.join()
             if (result == true) {
-                Log.i(Constants.Login.VIEW_MODEL_TAG, "User logged in")
+                Log.i(TAG, "User logged in")
                 onSuccess?.invoke()
             } else {
-                Log.i(Constants.Login.VIEW_MODEL_TAG, "User couldn't log in")
+                Log.i(TAG, "User couldn't log in")
                 onFailure?.invoke()
             }
         }
+    }
+
+    companion object {
+        const val TAG = Constants.Login.VIEW_MODEL_TAG
     }
 }

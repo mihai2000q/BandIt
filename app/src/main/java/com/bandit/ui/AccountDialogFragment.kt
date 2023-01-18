@@ -1,4 +1,4 @@
-package com.bandit.ui.home
+package com.bandit.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,22 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
-import com.bandit.databinding.DialogFragmentHomeAccountBinding
+import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
 
-class HomeAccountDialogFragment : DialogFragment() {
+class AccountDialogFragment : DialogFragment() {
 
-    private var _binding: DialogFragmentHomeAccountBinding? = null
+    private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogFragmentHomeAccountBinding.inflate(layoutInflater, container, false)
+        _binding = DialogFragmentAccountBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

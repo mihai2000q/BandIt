@@ -11,43 +11,48 @@ import com.bandit.constant.Constants
 
 class ConcertFilterDialogFragment : DialogFragment() {
 
-    private var binding: DialogFragmentConcertFilterBinding? = null
+    private var _binding: DialogFragmentConcertFilterBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertFilterBinding.inflate(
+    ): View {
+        _binding = DialogFragmentConcertFilterBinding.inflate(
             layoutInflater, container, false
         )
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         with(viewModel.filters) {
-            binding?.concertFilterName?.setText(value?.get(ConcertsViewModel.Filter.Name))
-            binding?.concertFilterCity?.setText(value?.get(ConcertsViewModel.Filter.City))
-            binding?.concertFilterCountry?.setText(value?.get(ConcertsViewModel.Filter.Country))
+            binding.concertFilterName.setText(value?.get(ConcertsViewModel.Filter.Name))
+            binding.concertFilterCity.setText(value?.get(ConcertsViewModel.Filter.City))
+            binding.concertFilterCountry.setText(value?.get(ConcertsViewModel.Filter.Country))
         }
 
-        binding?.concertFilterButton?.setOnClickListener {
+        binding.concertFilterButton.setOnClickListener {
             viewModel.filterConcerts(
-                binding?.concertFilterName?.text.toString(),
-                binding?.concertFilterCity?.text.toString(),
-                binding?.concertFilterCountry?.text.toString(),
+                binding.concertFilterName.text.toString(),
+                binding.concertFilterCity.text.toString(),
+                binding.concertFilterCountry.text.toString(),
             )
             with(viewModel.filters) {
-                value?.replace(ConcertsViewModel.Filter.Name, binding?.concertFilterName?.text.toString())
-                value?.replace(ConcertsViewModel.Filter.City, binding?.concertFilterCity?.text.toString())
-                value?.replace(ConcertsViewModel.Filter.Country, binding?.concertFilterCountry?.text.toString())
+                value?.replace(ConcertsViewModel.Filter.Name, binding.concertFilterName.text.toString())
+                value?.replace(ConcertsViewModel.Filter.City, binding.concertFilterCity.text.toString())
+                value?.replace(ConcertsViewModel.Filter.Country, binding.concertFilterCountry.text.toString())
             }
             this.dismiss()
         }
 
-        return binding?.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

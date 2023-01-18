@@ -12,16 +12,16 @@ import com.bandit.constant.Constants
 
 class ConcertDetailDialogFragment : DialogFragment() {
 
-    private var binding: DialogFragmentConcertDetailBinding? = null
+    private var _binding: DialogFragmentConcertDetailBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertDetailBinding.inflate(inflater, container, false)
-
-        return binding?.root
+    ): View {
+        _binding = DialogFragmentConcertDetailBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,14 +31,14 @@ class ConcertDetailDialogFragment : DialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     private fun assignConcertDetails(concert: Concert) {
-        binding?.concertDetailPlace?.text = concert.place
-        binding?.concertDetailTitle?.text = concert.name
-        binding?.concertDetailCity?.text = concert.city
-        binding?.concertDetailCountry?.text = concert.country
+        binding.concertDetailPlace.text = concert.place
+        binding.concertDetailTitle.text = concert.name
+        binding.concertDetailCity.text = concert.city
+        binding.concertDetailCountry.text = concert.country
     }
 
     companion object {

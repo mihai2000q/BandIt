@@ -14,28 +14,34 @@ import com.bandit.constant.Constants
 
 class ConcertEditDialogFragment : DialogFragment() {
 
-    private var binding: DialogFragmentConcertEditBinding? = null
+    private var _binding: DialogFragmentConcertEditBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertEditBinding.inflate(layoutInflater, container, false)
+    ): View {
+        _binding = DialogFragmentConcertEditBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
-        binding?.concertEditName?.setText(viewModel.selectedConcert.value?.name)
-        binding?.concertEditCity?.setText(viewModel.selectedConcert.value?.city)
-        binding?.concertEditCountry?.setText(viewModel.selectedConcert.value?.country)
-        binding?.concertEditPlace?.setText(viewModel.selectedConcert.value?.place)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding?.concertEditSaveBt?.setOnClickListener {
+        binding.concertEditName.setText(viewModel.selectedConcert.value?.name)
+        binding.concertEditCity.setText(viewModel.selectedConcert.value?.city)
+        binding.concertEditCountry.setText(viewModel.selectedConcert.value?.country)
+        binding.concertEditPlace.setText(viewModel.selectedConcert.value?.place)
+
+        binding.concertEditSaveBt.setOnClickListener {
             viewModel.editConcert(
                 Concert(
-                    binding?.concertEditName?.text.toString(),
+                    binding.concertEditName.text.toString(),
                     LocalDateTime.now(),
-                    binding?.concertEditCity?.text.toString(),
-                    binding?.concertEditCountry?.text.toString(),
-                    binding?.concertEditPlace?.text.toString(),
+                    binding.concertEditCity.text.toString(),
+                    binding.concertEditCountry.text.toString(),
+                    binding.concertEditPlace.text.toString(),
                     BandItEnums.Concert.Type.Simple,
                     viewModel.selectedConcert.value?.id ?: -1,
                     viewModel.selectedConcert.value?.userUid
@@ -44,12 +50,11 @@ class ConcertEditDialogFragment : DialogFragment() {
             this.dismiss()
         }
 
-        return binding?.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {
