@@ -4,6 +4,7 @@ import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -17,56 +18,58 @@ class ConcertRepositoryTest {
         concertRepository = ConcertRepository()
     }
     private fun import_data() {
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the beast",
-                LocalDateTime.of(2023, 10, 21, 20,0),
-                "Los Angeles",
-                "United States",
-                "Big Arena",
-                BandItEnums.Concert.Type.Tournament
+        runBlocking {
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the beast",
+                    LocalDateTime.of(2023, 10, 21, 20, 0),
+                    "Los Angeles",
+                    "United States",
+                    "Big Arena",
+                    BandItEnums.Concert.Type.Tournament
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the beast 2",
-                LocalDateTime.of(2023, 11, 21, 20,0),
-                "Los Angeles",
-                "United States of America",
-                "Big Arena 2",
-                BandItEnums.Concert.Type.Tournament
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the beast 2",
+                    LocalDateTime.of(2023, 11, 21, 20, 0),
+                    "Los Angeles",
+                    "United States of America",
+                    "Big Arena 2",
+                    BandItEnums.Concert.Type.Tournament
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the concert",
-                LocalDateTime.of(2024, 7, 21, 20,0),
-                "L A ",
-                "U.S.A",
-                "Small Arena",
-                BandItEnums.Concert.Type.Simple
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the concert",
+                    LocalDateTime.of(2024, 7, 21, 20, 0),
+                    "L A ",
+                    "U.S.A",
+                    "Small Arena",
+                    BandItEnums.Concert.Type.Simple
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Rock fest",
-                LocalDateTime.of(2024, 9, 21, 23,0),
-                "Berlin",
-                "Germany",
-                "rock fest Arena",
-                BandItEnums.Concert.Type.Festival
+            concertRepository.addConcert(
+                Concert(
+                    "Rock fest",
+                    LocalDateTime.of(2024, 9, 21, 23, 0),
+                    "Berlin",
+                    "Germany",
+                    "rock fest Arena",
+                    BandItEnums.Concert.Type.Festival
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Amon Amar cool",
-                LocalDateTime.parse("2023-02-09T12:00"),
-                "Leipzig",
-                "Germany",
-                "rock fest Arena",
-                BandItEnums.Concert.Type.Simple
+            concertRepository.addConcert(
+                Concert(
+                    "Amon Amar cool",
+                    LocalDateTime.parse("2023-02-09T12:00"),
+                    "Leipzig",
+                    "Germany",
+                    "rock fest Arena",
+                    BandItEnums.Concert.Type.Simple
+                )
             )
-        )
+        }
     }
     @Test
     fun concert_repository_add() {
@@ -121,12 +124,14 @@ class ConcertRepositoryTest {
     }
     @Test
     fun concert_repository_different_ids() {
-        with(concertRepository) {
-            for (i in 0 until Constants.MAX_NR_ITEMS / 2)
-                addConcert(Concert.getEmpty())
-            for (concert in concerts)
-                if(concerts.filter { it.id == concert.id }.size > 1)
+        runBlocking {
+            with(concertRepository) {
+                for (i in 0 until Constants.MAX_NR_ITEMS / 2)
+                    addConcert(Concert.getEmpty())
+                for (concert in concerts)
+                    if (concerts.filter { it.id == concert.id }.size > 1)
                         fail("Id's should be different")
+            }
         }
     }
     @Test
@@ -162,18 +167,20 @@ class ConcertRepositoryTest {
             newConcert.type,
             concertToEdit.id
         )
-        concertRepository.editConcert(concertToEdit)
-        assert_concert(
-            concertRepository,
-            5,
-            0,
-            "newConcert",
-            LocalDateTime.parse("2020-12-10T10:00"),
-            "newCity",
-            "newCountry",
-            "newPlace",
-            BandItEnums.Concert.Type.Festival
-        )
+        runBlocking {
+            concertRepository.editConcert(concertToEdit)
+            assert_concert(
+                concertRepository,
+                5,
+                0,
+                "newConcert",
+                LocalDateTime.parse("2020-12-10T10:00"),
+                "newCity",
+                "newCountry",
+                "newPlace",
+                BandItEnums.Concert.Type.Festival
+            )
+        }
     }
     @Test
     fun concert_repository_filter() {
@@ -224,7 +231,7 @@ class ConcertRepositoryTest {
         val before = repository.concerts.filter { it == concertToRemove }
         assertEquals(1, before.size)
         assertEquals(size, repository.concerts.size)
-        repository.removeConcert(concertToRemove)
+        runBlocking { repository.removeConcert(concertToRemove) }
         val after = repository.concerts.filter { it == concertToRemove }
         assertEquals(0, after.size)
         assertEquals(size - 1, repository.concerts.size)
@@ -242,7 +249,7 @@ class ConcertRepositoryTest {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        repository.addConcert(Concert(name, dateTime, city, country, place, type))
+        runBlocking { repository.addConcert(Concert(name, dateTime, city, country, place, type)) }
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
     }
     private fun assert_concert(
