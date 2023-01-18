@@ -1,9 +1,13 @@
 package com.bandit.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bandit.constant.Constants
 import com.bandit.di.DILocator
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     private val _email = MutableLiveData<String>()
@@ -14,11 +18,24 @@ class LoginViewModel : ViewModel() {
             _email.value = _authenticator.currentUser?.email
         }
     }
-    fun signInWithEmailAndPassword(email: String?, password: String?,
-                                   onSuccess: (() -> Unit)? = null, onFailure: (() -> Unit)? = null) {
-        if(_authenticator.signInWithEmailAndPassword(email ?: "", password ?: "") == true)
-            onSuccess?.invoke()
-        else
-            onFailure?.invoke()
+    suspend fun signInWithEmailAndPassword(email: String?,
+                                           password: String?,
+                                           onSuccess: (() -> Unit)? = null,
+                                           onFailure: (() -> Unit)? = null) {
+        viewModelScope.launch {
+            var result: Boolean? = null
+            launch { result = _authenticator.signInWithEmailAndPassword(
+                email ?: "",
+                password ?: ""
+                )
+            }.join()
+            if (result == true) {
+                Log.i(Constants.Login.VIEW_MODEL_TAG, "User logged in")
+                onSuccess?.invoke()
+            } else {
+                Log.i(Constants.Login.VIEW_MODEL_TAG, "User couldn't log in")
+                onFailure?.invoke()
+            }
+        }
     }
 }
