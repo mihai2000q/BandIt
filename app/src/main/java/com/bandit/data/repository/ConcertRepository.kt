@@ -9,18 +9,18 @@ class ConcertRepository(database: Database? = null) : BaseRepository(database) {
     init {
         _concerts.addAll(_database?.concerts ?: listOf())
     }
-    fun addConcert(concert: Concert) {
+    suspend fun addConcert(concert: Concert) {
         val newConcert = reassignId(concert)
         _database?.addConcert(newConcert)
         _concerts.add(newConcert)
     }
-    fun removeConcert(concert: Concert): Boolean {
+    suspend fun removeConcert(concert: Concert): Boolean {
         _database?.removeConcert(concert)
         if(!_concerts.contains(concert)) return false
         _concerts.remove(concert)
         return true
     }
-    fun editConcert(concert: Concert) {
+    suspend fun editConcert(concert: Concert) {
         _database?.editConcert(concert)
         _concerts
             .asSequence()
@@ -62,7 +62,8 @@ class ConcertRepository(database: Database? = null) : BaseRepository(database) {
                 concert.city,
                 concert.country,
                 concert.place,
-                concert.type
+                concert.type,
+                _userUid = concert.userUid
             )
         }
         return newConcert

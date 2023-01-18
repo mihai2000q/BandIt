@@ -12,8 +12,10 @@ class Concert(
     val country: String,
     val place: String,
     val type: BandItEnums.Concert.Type,
-    id: Int = AndroidUtils.generateRandomId()
+    id: Int = AndroidUtils.generateRandomId(),
+    private val _userUid: String? = ""
 ) : BaseModel(id), Comparable<Concert> {
+    val userUid get() = _userUid
     companion object {
         fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
             "", "", "", BandItEnums.Concert.Type.Simple)

@@ -25,6 +25,8 @@ class ConcertTest {
         assertEquals(concert.country, "United States")
         assertEquals(concert.place, "Big Arena")
         assertEquals(concert.type, BandItEnums.Concert.Type.Tournament)
+        assertNotNull(concert.id)
+        assertNull(concert.userUid)
     }
     @Test
     fun concert_init_id() {

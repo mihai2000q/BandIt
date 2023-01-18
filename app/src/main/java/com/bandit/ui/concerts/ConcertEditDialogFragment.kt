@@ -37,7 +37,8 @@ class ConcertEditDialogFragment : DialogFragment() {
                     binding?.concertEditCountry?.text.toString(),
                     binding?.concertEditPlace?.text.toString(),
                     BandItEnums.Concert.Type.Simple,
-                    viewModel.selectedConcert.value?.id ?: -1
+                    viewModel.selectedConcert.value?.id ?: -1,
+                    viewModel.selectedConcert.value?.userUid
                 )
             )
             this.dismiss()

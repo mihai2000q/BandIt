@@ -14,7 +14,8 @@ object ConcertMapper : Mapper<Concert, ConcertDBEntry> {
             entry.country,
             entry.place,
             mapIntToConcertType(entry.type.toInt()),
-            entry.id.toInt()
+            entry.id.toInt(),
+            entry.userUid
         )
     }
 
@@ -26,7 +27,8 @@ object ConcertMapper : Mapper<Concert, ConcertDBEntry> {
             item.city,
             item.country,
             item.place,
-            mapConcertTypeToInt(item.type).toLong()
+            mapConcertTypeToInt(item.type).toLong(),
+            item.userUid ?: ""
         )
     }
 

@@ -10,6 +10,7 @@ import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertAddBinding
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import com.bandit.di.DILocator
 import java.time.LocalDateTime
 
 class ConcertAddDialogFragment : DialogFragment() {
@@ -31,7 +32,8 @@ class ConcertAddDialogFragment : DialogFragment() {
                     binding?.concertAddCity?.text.toString(),
                     binding?.concertAddCountry?.text.toString(),
                     "",
-                    BandItEnums.Concert.Type.Simple
+                    BandItEnums.Concert.Type.Simple,
+                    _userUid = DILocator.authenticator.currentUser?.uid
                 )
             )
             this.dismiss()

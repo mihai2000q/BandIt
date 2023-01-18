@@ -7,5 +7,6 @@ data class ConcertDBEntry(
     val city: String,
     val country: String,
     val place: String,
-    val type: Long
+    val type: Long,
+    val userUid: String
 )
