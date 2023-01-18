@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.bandit.adapter.ConcertAdapter
+import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.AccountDialogFragment
 
