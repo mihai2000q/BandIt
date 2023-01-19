@@ -25,6 +25,8 @@ class ConcertTest {
         assertEquals(concert.country, "United States")
         assertEquals(concert.place, "Big Arena")
         assertEquals(concert.type, BandItEnums.Concert.Type.Tournament)
+        assertNotNull(concert.id)
+        assertNull(concert.userUid)
     }
     @Test
     fun concert_init_id() {
@@ -161,5 +163,116 @@ class ConcertTest {
             )
         )
         assertEquals(outcome, expected)
+    }
+    @Test
+    fun concert_isOutdated() {
+        val concert1 = Concert(
+            "",
+            LocalDateTime.now().minusSeconds(1),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert2 = Concert(
+            "",
+            LocalDateTime.now().plusSeconds(1),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        assertTrue(concert1.isOutdated())
+        assertTrue(!concert2.isOutdated())
+    }
+    @Test
+    fun concert_is24HoursApart() {
+        val concert1 = Concert(
+            "",
+            LocalDateTime.now().plusHours(3),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert2 = Concert(
+            "",
+            LocalDateTime.now().plusHours(25),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert3 = Concert(
+            "",
+            LocalDateTime.now().plusHours(23).plusMinutes(59),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        assertTrue(concert1.is24HoursApart())
+        assertTrue(!concert2.is24HoursApart())
+        assertTrue(concert3.is24HoursApart())
+    }
+    @Test
+    fun concert_is7DaysApart() {
+        val concert1 = Concert(
+            "",
+            LocalDateTime.now().plusDays(3),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert2 = Concert(
+            "",
+            LocalDateTime.now().plusDays(8),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert3 = Concert(
+            "",
+            LocalDateTime.now().plusDays(6).plusHours(23).plusMinutes(59),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        assertTrue(concert1.is7DaysApart())
+        assertTrue(!concert2.is7DaysApart())
+        assertTrue(concert3.is7DaysApart())
+    }
+    @Test
+    fun concert_isOneYearApart() {
+        val concert1 = Concert(
+            "",
+            LocalDateTime.now().plusDays(380),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert2 = Concert(
+            "",
+            LocalDateTime.now().plusDays(364),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert3 = Concert(
+            "",
+            LocalDateTime.now().plusYears(1).plusMinutes(1),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        assertTrue(concert1.isOneYearApart())
+        assertTrue(!concert2.isOneYearApart())
+        assertTrue(concert3.isOneYearApart())
     }
 }

@@ -42,6 +42,9 @@ class SignupFragment : Fragment() {
             signupEtString.addTextChangedListener {
                 signupBtNext.isEnabled = it.toString().isNotEmpty()
             }
+            signupEtPassword.addTextChangedListener {
+                signupBtNext.isEnabled = it.toString().isNotEmpty()
+            }
         }
     }
 

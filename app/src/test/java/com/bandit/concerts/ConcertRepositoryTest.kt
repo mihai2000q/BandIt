@@ -4,10 +4,13 @@ import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ConcertRepositoryTest {
     private lateinit var concertRepository: ConcertRepository
@@ -17,56 +20,58 @@ class ConcertRepositoryTest {
         concertRepository = ConcertRepository()
     }
     private fun import_data() {
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the beast",
-                LocalDateTime.of(2023, 10, 21, 20,0),
-                "Los Angeles",
-                "United States",
-                "Big Arena",
-                BandItEnums.Concert.Type.Tournament
+        runBlocking {
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the beast",
+                    LocalDateTime.of(2023, 10, 21, 20, 0),
+                    "Los Angeles",
+                    "United States",
+                    "Big Arena",
+                    BandItEnums.Concert.Type.Tournament
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the beast 2",
-                LocalDateTime.of(2023, 11, 21, 20,0),
-                "Los Angeles",
-                "United States of America",
-                "Big Arena 2",
-                BandItEnums.Concert.Type.Tournament
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the beast 2",
+                    LocalDateTime.of(2023, 11, 21, 20, 0),
+                    "Los Angeles",
+                    "United States of America",
+                    "Big Arena 2",
+                    BandItEnums.Concert.Type.Tournament
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Legacy of the concert",
-                LocalDateTime.of(2024, 7, 21, 20,0),
-                "L A ",
-                "U.S.A",
-                "Small Arena",
-                BandItEnums.Concert.Type.Simple
+            concertRepository.addConcert(
+                Concert(
+                    "Legacy of the concert",
+                    LocalDateTime.of(2024, 7, 21, 20, 0),
+                    "L A ",
+                    "U.S.A",
+                    "Small Arena",
+                    BandItEnums.Concert.Type.Simple
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Rock fest",
-                LocalDateTime.of(2024, 9, 21, 23,0),
-                "Berlin",
-                "Germany",
-                "rock fest Arena",
-                BandItEnums.Concert.Type.Festival
+            concertRepository.addConcert(
+                Concert(
+                    "Rock fest",
+                    LocalDateTime.of(2024, 9, 21, 23, 0),
+                    "Berlin",
+                    "Germany",
+                    "rock fest Arena",
+                    BandItEnums.Concert.Type.Festival
+                )
             )
-        )
-        concertRepository.addConcert(
-            Concert(
-                "Amon Amar cool",
-                LocalDateTime.parse("2023-02-09T12:00"),
-                "Leipzig",
-                "Germany",
-                "rock fest Arena",
-                BandItEnums.Concert.Type.Simple
+            concertRepository.addConcert(
+                Concert(
+                    "Amon Amar cool",
+                    LocalDateTime.parse("2023-02-09T12:00"),
+                    "Leipzig",
+                    "Germany",
+                    "rock fest Arena",
+                    BandItEnums.Concert.Type.Simple
+                )
             )
-        )
+        }
     }
     @Test
     fun concert_repository_add() {
@@ -121,12 +126,14 @@ class ConcertRepositoryTest {
     }
     @Test
     fun concert_repository_different_ids() {
-        with(concertRepository) {
-            for (i in 0 until Constants.MAX_NR_ITEMS / 2)
-                addConcert(Concert.getEmpty())
-            for (concert in concerts)
-                if(concerts.filter { it.id == concert.id }.size > 1)
+        runBlocking {
+            with(concertRepository) {
+                for (i in 0 until Constants.MAX_NR_ITEMS / 2)
+                    addConcert(Concert.getEmpty())
+                for (concert in concerts)
+                    if (concerts.filter { it.id == concert.id }.size > 1)
                         fail("Id's should be different")
+            }
         }
     }
     @Test
@@ -162,24 +169,27 @@ class ConcertRepositoryTest {
             newConcert.type,
             concertToEdit.id
         )
-        concertRepository.editConcert(concertToEdit)
-        assert_concert(
-            concertRepository,
-            5,
-            0,
-            "newConcert",
-            LocalDateTime.parse("2020-12-10T10:00"),
-            "newCity",
-            "newCountry",
-            "newPlace",
-            BandItEnums.Concert.Type.Festival
-        )
+        runBlocking {
+            concertRepository.editConcert(concertToEdit)
+            assert_concert(
+                concertRepository,
+                5,
+                0,
+                "newConcert",
+                LocalDateTime.parse("2020-12-10T10:00"),
+                "newCity",
+                "newCountry",
+                "newPlace",
+                BandItEnums.Concert.Type.Festival
+            )
+        }
     }
     @Test
-    fun concert_repository_filter() {
+    fun concert_repository_filter_string() {
         import_data()
         //one result
-        val outcome = concertRepository.filterConcerts("am", null, null)
+        val outcome = concertRepository.filterConcerts(
+            "am", null, null, null, null, null,null)
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
@@ -192,7 +202,8 @@ class ConcertRepositoryTest {
         assertEquals(expected, outcome.first())
 
         //multiple result - multiple words for filtering
-        val outcome2 = concertRepository.filterConcerts("lEgAcy oF thE BeaSt", null, null)
+        val outcome2 = concertRepository.filterConcerts("lEgAcy oF thE BeaSt",
+            null, null,null, null, null, null)
         val expected2 = listOf(
             Concert(
                 "Legacy of the beast",
@@ -214,17 +225,76 @@ class ConcertRepositoryTest {
         assertEquals(outcome2.size, 2)
         assertEquals(expected2, outcome2)
 
-        //more filters
-        val outcome3 = concertRepository.filterConcerts("am", "Leipzig", "Germany")
+        //multiple filters
+        val outcome3 = concertRepository.filterConcerts("am",
+            null, null,"Leipzig", "Germany", null, null)
         assertEquals(outcome3.size, 1)
         assertEquals(expected, outcome3.first())
+
+        //assert name in between
+        val outcome4 = concertRepository.filterConcerts(
+            "amar", null, null, null, null, null,null)
+        assertEquals(outcome4.size, 1)
+        assertEquals(expected, outcome4.first())
+
+        //assert place
+        val outcome5 = concertRepository.filterConcerts(
+            "amar", null, null, null, null, "rock fest",null)
+        assertEquals(outcome5.size, 1)
+        assertEquals(expected, outcome5.first())
+    }
+    @Test
+    fun concert_repository_filter_date_time() {
+        import_data()
+        //assert date
+        val outcome = concertRepository.filterConcerts(
+            null,
+            LocalDate.of(2023,2,9),
+            null,
+            null, null, null, null)
+        val expected = Concert(
+            "Amon Amar cool",
+            LocalDateTime.parse("2023-02-09T12:00"),
+            "Leipzig",
+            "Germany",
+            "rock fest Arena",
+            BandItEnums.Concert.Type.Simple
+        )
+        assertEquals(outcome.size, 1)
+        assertEquals(expected, outcome.first())
+        //assert time
+        val outcome2 = concertRepository.filterConcerts(
+            null, null,
+            LocalTime.parse("12:00"),
+            null, null, null, null)
+        assertEquals(outcome2.size, 1)
+        assertEquals(expected, outcome.first())
+    }
+    @Test
+    fun concert_repository_filter_type() {
+        import_data()
+        val outcome = concertRepository.filterConcerts(
+            null,
+            null,
+            null,
+            null, null, null, BandItEnums.Concert.Type.Festival)
+        val expected = Concert(
+            "Rock fest",
+            LocalDateTime.of(2024, 9, 21, 23, 0),
+            "Berlin",
+            "Germany",
+            "rock fest Arena",
+            BandItEnums.Concert.Type.Festival
+        )
+        assertEquals(outcome.size, 1)
+        assertEquals(expected, outcome.first())
     }
     private fun remove_concert(repository: ConcertRepository, index: Int, size: Int) {
         val concertToRemove = repository.concerts[index]
         val before = repository.concerts.filter { it == concertToRemove }
         assertEquals(1, before.size)
         assertEquals(size, repository.concerts.size)
-        repository.removeConcert(concertToRemove)
+        runBlocking { repository.removeConcert(concertToRemove) }
         val after = repository.concerts.filter { it == concertToRemove }
         assertEquals(0, after.size)
         assertEquals(size - 1, repository.concerts.size)
@@ -242,7 +312,7 @@ class ConcertRepositoryTest {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        repository.addConcert(Concert(name, dateTime, city, country, place, type))
+        runBlocking { repository.addConcert(Concert(name, dateTime, city, country, place, type)) }
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
     }
     private fun assert_concert(

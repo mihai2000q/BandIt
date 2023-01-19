@@ -1,48 +1,42 @@
 package com.bandit.ui.concerts
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
-import com.bandit.data.model.Concert
-import com.bandit.databinding.DialogFragmentConcertAddBinding
+import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
-import java.time.LocalDateTime
+import com.bandit.data.model.Concert
+import com.bandit.di.DILocator
+import com.bandit.util.AndroidUtils
 
-class ConcertAddDialogFragment : DialogFragment() {
+class ConcertAddDialogFragment : ConcertDialogFragment() {
 
-    var binding: DialogFragmentConcertAddBinding? = null
-    private val viewModel: ConcertsViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertAddBinding.inflate(inflater, container, false)
-        binding?.concertBtAdd?.setOnClickListener {
-            viewModel.addConcert(
-                Concert(
-                    binding?.concertAddName?.text.toString(),
-                    LocalDateTime.now().plusDays(5),
-                    binding?.concertAddCity?.text.toString(),
-                    binding?.concertAddCountry?.text.toString(),
-                    "",
-                    BandItEnums.Concert.Type.Simple
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        spinnerType()
+        with(binding) {
+            concertButton.setText(R.string.add_button)
+            concertButton.setOnClickListener {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    concertButton
                 )
-            )
-            this.dismiss()
+                viewModel.addConcert(
+                    Concert(
+                        concertEtName.text.toString(),
+                        parseDateTime(),
+                        concertEtCity.text.toString(),
+                        concertEtCountry.text.toString(),
+                        concertEtPlace.text.toString(),
+                        BandItEnums.Concert.Type.values()[typeIndex],
+                        userUid = DILocator.authenticator.currentUser?.uid
+                    )
+                )
+                super.dismiss()
+            }
         }
-
-        return binding?.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     companion object {

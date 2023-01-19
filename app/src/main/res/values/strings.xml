@@ -19,6 +19,14 @@
     <string name="home_tv_welcome">Welcome, name to</string>
     <string name="item_edit">Edit</string>
     <string name="item_delete">Delete</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="concert_field_name">Name</string>
+    <string name="concert_field_date">Date</string>
+    <string name="concert_field_time">Time</string>
+    <string name="concert_field_city">City</string>
+    <string name="concert_field_country">Country</string>
+    <string name="concert_field_place">Place</string>
+    <string name="concert_field_type">Type</string>
+    <string name="add_button">Add</string>
+    <string name="save_button">Save</string>
+    <string name="filter_button">Filter</string>
 </resources>
