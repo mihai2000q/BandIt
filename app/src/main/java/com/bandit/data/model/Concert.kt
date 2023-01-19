@@ -19,6 +19,10 @@ data class Concert(
             "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
+    fun isOutdated(): Boolean {
+        return LocalDateTime.now().isAfter(this.dateTime)
+    }
+
     fun is24HoursApart(): Boolean {
         return LocalDateTime.now().isAfter(this.dateTime.minusHours(24))
     }

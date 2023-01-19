@@ -165,6 +165,27 @@ class ConcertTest {
         assertEquals(outcome, expected)
     }
     @Test
+    fun concert_isOutdated() {
+        val concert1 = Concert(
+            "",
+            LocalDateTime.now().minusSeconds(1),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        val concert2 = Concert(
+            "",
+            LocalDateTime.now().plusSeconds(1),
+            "",
+            "",
+            "",
+            BandItEnums.Concert.Type.Tournament
+        )
+        assertTrue(concert1.isOutdated())
+        assertTrue(!concert2.isOutdated())
+    }
+    @Test
     fun concert_is24HoursApart() {
         val concert1 = Concert(
             "",
