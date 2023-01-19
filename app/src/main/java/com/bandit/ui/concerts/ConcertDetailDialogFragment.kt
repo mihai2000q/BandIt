@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.constant.Constants
+import com.bandit.extension.StringExtensions.get2Characters
 import com.bandit.extension.StringExtensions.normalizeWord
 
 class ConcertDetailDialogFragment : DialogFragment() {
@@ -40,7 +41,8 @@ class ConcertDetailDialogFragment : DialogFragment() {
     private fun assignConcertDetails(concert: Concert) {
         binding.concertDetailTitle.text = concert.name
         binding.concertDetailDateTime.text = concert.dateTime.toLocalDate().toString() +
-                " ${concert.dateTime.hour}:${concert.dateTime.minute}"
+                " ${concert.dateTime.hour.toString().get2Characters()}:" +
+                concert.dateTime.minute.toString().get2Characters()
         binding.concertDetailCity.text = concert.city
         binding.concertDetailCountry.text = concert.country
         binding.concertDetailPlace.text = concert.place

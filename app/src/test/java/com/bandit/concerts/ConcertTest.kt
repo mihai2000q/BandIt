@@ -245,7 +245,6 @@ class ConcertTest {
         assertTrue(!concert2.is7DaysApart())
         assertTrue(concert3.is7DaysApart())
     }
-
     @Test
     fun concert_isOneYearApart() {
         val concert1 = Concert(
@@ -276,5 +275,4 @@ class ConcertTest {
         assertTrue(!concert2.isOneYearApart())
         assertTrue(concert3.isOneYearApart())
     }
-
 }

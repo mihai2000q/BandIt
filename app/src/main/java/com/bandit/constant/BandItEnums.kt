@@ -6,8 +6,8 @@ sealed class BandItEnums {
     }
     object Concert {
         enum class Type {
-            Tournament,
             Simple,
+            Tournament,
             Festival
         }
     }
