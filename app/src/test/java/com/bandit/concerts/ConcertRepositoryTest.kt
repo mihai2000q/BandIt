@@ -8,7 +8,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ConcertRepositoryTest {
     private lateinit var concertRepository: ConcertRepository
@@ -183,10 +185,11 @@ class ConcertRepositoryTest {
         }
     }
     @Test
-    fun concert_repository_filter() {
+    fun concert_repository_filter_string() {
         import_data()
         //one result
-        val outcome = concertRepository.filterConcerts("am", null, null)
+        val outcome = concertRepository.filterConcerts(
+            "am", null, null, null, null, null,null)
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
@@ -199,7 +202,8 @@ class ConcertRepositoryTest {
         assertEquals(expected, outcome.first())
 
         //multiple result - multiple words for filtering
-        val outcome2 = concertRepository.filterConcerts("lEgAcy oF thE BeaSt", null, null)
+        val outcome2 = concertRepository.filterConcerts("lEgAcy oF thE BeaSt",
+            null, null,null, null, null, null)
         val expected2 = listOf(
             Concert(
                 "Legacy of the beast",
@@ -221,10 +225,69 @@ class ConcertRepositoryTest {
         assertEquals(outcome2.size, 2)
         assertEquals(expected2, outcome2)
 
-        //more filters
-        val outcome3 = concertRepository.filterConcerts("am", "Leipzig", "Germany")
+        //multiple filters
+        val outcome3 = concertRepository.filterConcerts("am",
+            null, null,"Leipzig", "Germany", null, null)
         assertEquals(outcome3.size, 1)
         assertEquals(expected, outcome3.first())
+
+        //assert name in between
+        val outcome4 = concertRepository.filterConcerts(
+            "amar", null, null, null, null, null,null)
+        assertEquals(outcome4.size, 1)
+        assertEquals(expected, outcome4.first())
+
+        //assert place
+        val outcome5 = concertRepository.filterConcerts(
+            "amar", null, null, null, null, "rock fest",null)
+        assertEquals(outcome5.size, 1)
+        assertEquals(expected, outcome5.first())
+    }
+    @Test
+    fun concert_repository_filter_date_time() {
+        import_data()
+        //assert date
+        val outcome = concertRepository.filterConcerts(
+            null,
+            LocalDate.of(2023,2,9),
+            null,
+            null, null, null, null)
+        val expected = Concert(
+            "Amon Amar cool",
+            LocalDateTime.parse("2023-02-09T12:00"),
+            "Leipzig",
+            "Germany",
+            "rock fest Arena",
+            BandItEnums.Concert.Type.Simple
+        )
+        assertEquals(outcome.size, 1)
+        assertEquals(expected, outcome.first())
+        //assert time
+        val outcome2 = concertRepository.filterConcerts(
+            null, null,
+            LocalTime.parse("12:00"),
+            null, null, null, null)
+        assertEquals(outcome2.size, 1)
+        assertEquals(expected, outcome.first())
+    }
+    @Test
+    fun concert_repository_filter_type() {
+        import_data()
+        val outcome = concertRepository.filterConcerts(
+            null,
+            null,
+            null,
+            null, null, null, BandItEnums.Concert.Type.Festival)
+        val expected = Concert(
+            "Rock fest",
+            LocalDateTime.of(2024, 9, 21, 23, 0),
+            "Berlin",
+            "Germany",
+            "rock fest Arena",
+            BandItEnums.Concert.Type.Festival
+        )
+        assertEquals(outcome.size, 1)
+        assertEquals(expected, outcome.first())
     }
     private fun remove_concert(repository: ConcertRepository, index: Int, size: Int) {
         val concertToRemove = repository.concerts[index]

@@ -1,7 +1,11 @@
 package com.bandit.data.repository
 
+import com.bandit.constant.BandItEnums
 import com.bandit.data.db.Database
 import com.bandit.data.model.Concert
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ConcertRepository(database: Database? = null) : BaseRepository(database) {
     private val _concerts: MutableList<Concert> = mutableListOf()
@@ -27,32 +31,54 @@ class ConcertRepository(database: Database? = null) : BaseRepository(database) {
             .filter { it.id == concert.id }
             .forEach { _concerts[_concerts.indexOf(it)] = concert }
     }
-    fun filterConcerts(name: String?, city: String?, country: String?): List<Concert> {
-        return _concerts
+    fun filterConcerts(
+        name: String?,
+        date: LocalDate?,
+        time: LocalTime?,
+        city: String?,
+        country: String?,
+        place: String?,
+        type: BandItEnums.Concert.Type?
+    ): List<Concert> =
+        _concerts
             .asSequence()
-            .filter { filter(it.name, name) }
-            .filter { filter(it.city, city) }
-            .filter { filter(it.country, country) }
+            .filter { filterString(it.name, name) }
+            .filter { filterDate(it.dateTime, date) }
+            .filter { filterTime(it.dateTime, time) }
+            .filter { filterString(it.city, city) }
+            .filter { filterString(it.country, country) }
+            .filter { filterString(it.place, place) }
+            .filter { filterType(it.type, type) }
             .toList()
-    }
-    private fun filterOne(string: String, other: String?): Boolean {
+    private fun filterDate(dateTime: LocalDateTime, other: LocalDate?) =
+        if(other == null)
+            true
+        else dateTime.toLocalDate().equals(other)
+    private fun filterTime(dateTime: LocalDateTime, other: LocalTime?) =
+        if(other == null)
+            true
+        else dateTime.toLocalTime().equals(other)
+    private fun filterType(type: BandItEnums.Concert.Type, other: BandItEnums.Concert.Type?) =
+        if(other == null)
+            true
+        else type == other
+
+    private fun filterString(string: String, other: String?) =
+        if(other != null) {
+            if(other.split(" ").size > 1)
+                filterOneString(string, other)
+            else
+                filterMultipleStrings(string, other)
+        } else true
+    private fun filterMultipleStrings(string: String, other: String?): Boolean {
         string.split(" ").forEach {
-            if(it.lowercase().startsWith(other?.lowercase() ?: ""))
+            if(filterOneString(it, other))
                 return true
         }
         return false
     }
-    private fun filterMultiple(string: String, other: String?): Boolean {
-        return string.lowercase().startsWith(other?.lowercase() ?: "")
-    }
-    private fun filter(string: String, other: String?): Boolean {
-        return if(other != null) {
-            if(other.split(" ").size > 1)
-                filterMultiple(string, other)
-            else
-                filterOne(string, other)
-        } else true
-    }
+    private fun filterOneString(string: String, other: String?) =
+        string.lowercase().startsWith(other?.lowercase() ?: "")
     private fun reassignId(concert: Concert): Concert {
         var newConcert: Concert = concert
         while(isIdUsed(newConcert.id)) {
