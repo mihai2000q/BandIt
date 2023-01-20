@@ -1,12 +1,14 @@
 package com.bandit.util
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.drawerlayout.widget.DrawerLayout
 import com.bandit.constant.Constants
@@ -51,5 +53,9 @@ object AndroidUtils {
             activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
             displayMetrics.heightPixels
         }
+    }
+    fun toastNotification(context: Context, message: String,
+                          length: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(context, message, length).show()
     }
 }

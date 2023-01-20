@@ -1,11 +1,12 @@
 package com.bandit.ui.login
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -58,6 +59,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.fragmentLoginBtLogin
+        )
         PreferencesUtils.savePreference(
             super.requireActivity(),
             Constants.Preferences.REMEMBER_ME,
@@ -71,5 +77,10 @@ class LoginFragment : Fragment() {
             DILocator.database.init()
         }
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        AndroidUtils.toastNotification(
+            this.requireContext(),
+            resources.getString(R.string.Login_Toast),
+            Toast.LENGTH_LONG
+        )
     }
 }
