@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -40,6 +41,9 @@ class SignupFragment : Fragment() {
             signupBtNext.setOnClickListener { signUpBtNext() }
             signupBtNext.isEnabled = false
             signupEtString.addTextChangedListener {
+                signupBtNext.isEnabled = it.toString().isNotEmpty()
+            }
+            signupEtPassword.addTextChangedListener {
                 signupBtNext.isEnabled = it.toString().isNotEmpty()
             }
         }
@@ -84,6 +88,11 @@ class SignupFragment : Fragment() {
                         super.requireActivity(),
                         Context.INPUT_METHOD_SERVICE,
                         signupTitle
+                    )
+                    AndroidUtils.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.Signup_Toast),
+                        Toast.LENGTH_LONG
                     )
                 }
                 else -> {}

@@ -13,6 +13,7 @@ import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,10 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        lifecycleScope.launchWhenCreated {
-            DILocator.database.init()
-        }
 
         val bottomNavView = binding.mainBottomNavigationView
         bottomNavView.selectedItemId = R.id.navigation_home //solving small issue by setting a default
@@ -55,6 +52,9 @@ class MainActivity : AppCompatActivity() {
     private fun authentication(navController: NavController) {
         if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
             && DILocator.authenticator.currentUser != null) {
+            lifecycleScope.launch {
+                DILocator.database.init()
+            }
             navController.navigate(R.id.action_loginFragment_to_homeFragment)
         }
         else

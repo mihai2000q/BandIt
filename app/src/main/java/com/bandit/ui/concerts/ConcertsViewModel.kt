@@ -3,9 +3,14 @@ package com.bandit.ui.concerts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.di.DILocator
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
 
 class ConcertsViewModel : ViewModel() {
     private val _repository = ConcertRepository(DILocator.database)
@@ -13,27 +18,43 @@ class ConcertsViewModel : ViewModel() {
     val concerts: LiveData<List<Concert>> get() = _concerts
     val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
 
-    enum class Filter { Name, City, Country }
+    enum class Filter { Name, Date, Time, City, Country, Place, Type }
     private val _filters = MutableLiveData<MutableMap<Filter, String>>()
     val filters: LiveData<MutableMap<Filter, String>> get() = _filters
+    val previousFilters: MutableLiveData<Concert> = MutableLiveData()
     init {
         _filters.value = mutableMapOf()
         Filter.values().forEach { _filters.value?.put(it, "") }
     }
     fun addConcert(concert: Concert) {
-        _repository.addConcert(concert)
-        _concerts.value = _repository.concerts
+        viewModelScope.launch {
+            launch { _repository.addConcert(concert) }.join()
+            _concerts.value = _repository.concerts
+        }
     }
     fun removeConcert(concert: Concert): Boolean {
-        val result = _repository.removeConcert(concert)
-        _concerts.value = _repository.concerts
+        var result = false
+        viewModelScope.launch {
+            launch { result = _repository.removeConcert(concert) }.join()
+            _concerts.value = _repository.concerts
+        }
         return result
     }
     fun editConcert(concert: Concert) {
-        _repository.editConcert(concert)
-        _concerts.value = _repository.concerts
+        viewModelScope.launch {
+            launch { _repository.editConcert(concert) }.join()
+            _concerts.value = _repository.concerts
+        }
     }
-    fun filterConcerts(name: String?, city: String?, country: String?) {
-        _concerts.value = _repository.filterConcerts(name, city, country)
+    fun filterConcerts(
+        name: String?,
+        date: LocalDate?,
+        time: LocalTime?,
+        city: String?,
+        country: String?,
+        place: String?,
+        type: BandItEnums.Concert.Type?
+    ) {
+        _concerts.value = _repository.filterConcerts(name, date, time, city, country, place, type)
     }
 }

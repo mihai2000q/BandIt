@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
+import com.bandit.ui.AccountDialogFragment
 
 class HomeFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class HomeFragment : Fragment() {
         )
 
         binding.homeBtAccount.setOnClickListener{
-            HomeAccountDialogFragment().show(childFragmentManager, HomeAccountDialogFragment.TAG)
+            AccountDialogFragment().show(childFragmentManager, AccountDialogFragment.TAG)
         }
 
         binding.homeTvWelcome.text = "Welcome ${DILocator.authenticator.currentUser!!.displayName}, to"

@@ -6,8 +6,9 @@ import com.bandit.constant.BandItEnums
 interface Database {
     val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType>
     val concerts: List<Concert>
-    fun addConcert(concert: Concert)
-    fun removeConcert(concert: Concert)
-    fun editConcert(concert: Concert)
     suspend fun init()
+    suspend fun addConcert(concert: Concert)
+    suspend fun removeConcert(concert: Concert)
+    suspend fun editConcert(concert: Concert)
+    fun clearData()
 }

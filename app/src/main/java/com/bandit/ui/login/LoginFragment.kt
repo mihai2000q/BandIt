@@ -1,17 +1,22 @@
 package com.bandit.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
+import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import kotlinx.coroutines.*
 
 class LoginFragment : Fragment() {
 
@@ -32,11 +37,14 @@ class LoginFragment : Fragment() {
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
             fragmentLoginBtLogin.setOnClickListener {
-                viewModel.signInWithEmailAndPassword(
-                    fragmentLoginEtUsername.text.toString(),
-                    fragmentLoginEtPassword.text.toString()
-                ) {
-                    login()
+                lifecycleScope.launch {
+                    runBlocking {
+                        viewModel.signInWithEmailAndPassword(
+                            fragmentLoginEtUsername.text.toString(),
+                            fragmentLoginEtPassword.text.toString(),
+                            { login() }
+                        )
+                    }
                 }
             }
             fragmentLoginBtSignup.setOnClickListener {
@@ -51,6 +59,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.fragmentLoginBtLogin
+        )
         PreferencesUtils.savePreference(
             super.requireActivity(),
             Constants.Preferences.REMEMBER_ME,
@@ -60,6 +73,14 @@ class LoginFragment : Fragment() {
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
             super.requireActivity().findViewById(R.id.main_drawer_layout)
         )
+        lifecycleScope.launch {
+            DILocator.database.init()
+        }
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        AndroidUtils.toastNotification(
+            this.requireContext(),
+            resources.getString(R.string.Login_Toast),
+            Toast.LENGTH_LONG
+        )
     }
 }

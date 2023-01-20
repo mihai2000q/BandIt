@@ -1,53 +1,68 @@
 package com.bandit.ui.concerts
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
-import com.bandit.databinding.DialogFragmentConcertFilterBinding
+import android.widget.Toast
+import com.bandit.R
 import com.bandit.constant.Constants
+import com.bandit.ui.concerts.ConcertsViewModel.*
+import com.bandit.util.AndroidUtils
+import java.time.LocalDate
+import java.time.LocalTime
 
-class ConcertFilterDialogFragment : DialogFragment() {
+class ConcertFilterDialogFragment : ConcertDialogFragment() {
 
-    private var binding: DialogFragmentConcertFilterBinding? = null
-    private val viewModel: ConcertsViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentConcertFilterBinding.inflate(
-            layoutInflater, container, false
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val map = mapOf(
+            binding.concertEtName to Filter.Name,
+            binding.concertEtDate to Filter.Date,
+            binding.concertEtTime to Filter.Time,
+            binding.concertEtCity to Filter.City,
+            binding.concertEtCountry to Filter.Country,
+            binding.concertEtPlace to Filter.Place,
         )
-
-        with(viewModel.filters) {
-            binding?.concertFilterName?.setText(value?.get(ConcertsViewModel.Filter.Name))
-            binding?.concertFilterCity?.setText(value?.get(ConcertsViewModel.Filter.City))
-            binding?.concertFilterCountry?.setText(value?.get(ConcertsViewModel.Filter.Country))
-        }
-
-        binding?.concertFilterButton?.setOnClickListener {
-            viewModel.filterConcerts(
-                binding?.concertFilterName?.text.toString(),
-                binding?.concertFilterCity?.text.toString(),
-                binding?.concertFilterCountry?.text.toString(),
-            )
-            with(viewModel.filters) {
-                value?.replace(ConcertsViewModel.Filter.Name, binding?.concertFilterName?.text.toString())
-                value?.replace(ConcertsViewModel.Filter.City, binding?.concertFilterCity?.text.toString())
-                value?.replace(ConcertsViewModel.Filter.Country, binding?.concertFilterCountry?.text.toString())
+        with(binding) {
+            concertEtSpinnerType.visibility = View.GONE // bug
+            concertButton.setText(R.string.filter_button)
+            with(viewModel.filters.value) {
+                map.forEach { (key, value) -> key.setText(this?.get(value)) }
+                /*val type = this?.get(Filter.Type)
+                concertEtSpinnerType.setSelection(
+                    if(type.isNullOrEmpty()) 0 else type.toInt()
+                )*/
             }
-            this.dismiss()
+
+            concertButton.setOnClickListener {
+                viewModel.filterConcerts(
+                    concertEtName.text.toString(),
+                    if(concertEtDate.text.toString().isEmpty())
+                        null
+                    else
+                        LocalDate.parse(concertEtDate.text.toString()),
+                    if(concertEtTime.text.toString().isEmpty())
+                        null
+                    else
+                        LocalTime.parse(concertEtTime.text.toString()),
+                    concertEtCity.text.toString(),
+                    concertEtCountry.text.toString(),
+                    concertEtPlace.text.toString(),
+                    //BandItEnums.Concert.Type.values()[typeIndex] 
+                    null
+                )
+                map.forEach { (key, value) ->
+                    viewModel.filters.value?.replace(value, key.text.toString())
+                }
+                viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.Concert_Filter_Toast)
+                )
+                super.dismiss()
+            }
         }
-
-        return binding?.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     companion object {

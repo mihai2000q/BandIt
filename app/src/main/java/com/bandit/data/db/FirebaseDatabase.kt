@@ -6,14 +6,16 @@ import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.BaseModel
+import com.bandit.di.DILocator
 import com.bandit.mapper.ConcertMapper
 import com.bandit.mapper.Mapper
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+import java.util.*
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
@@ -21,78 +23,108 @@ class FirebaseDatabase : Database {
     private val _firestore = Firebase.firestore
 
     override suspend fun init() {
-        readHomeNavigationElements()
-        readConcerts()
+        runBlocking {
+            readHomeNavigationElements()
+            readConcerts()
+        }
     }
 
-    override fun addConcert(concert: Concert) {
+    override suspend fun addConcert(concert: Concert) {
         addItem("Concerts", ConcertMapper.fromItemToDbEntry(concert))
     }
 
-    override fun removeConcert(concert: Concert) {
+    override suspend fun removeConcert(concert: Concert) {
         selectItemById("Concerts", concert) { it.delete() }
     }
 
-    override fun editConcert(concert: Concert) {
+    override suspend fun editConcert(concert: Concert) {
         selectItemById("Concerts", concert) {
             it.set(ConcertMapper.fromItemToDbEntry(concert))
         }
     }
 
-    private fun addItem(table: String, item: Any) {
-        _firestore.collection(table)
-            .add(item)
-            .addOnFailureListener {
-                Log.e(Constants.Firebase.DATABASE_TAG, "${item.javaClass.name} ERROR $it")
-            }
+    override fun clearData() {
+        concerts.clear()
+        homeNavigationElementsMap.clear()
     }
 
-    private fun selectItemById(table: String, item: BaseModel, action: (DocumentReference) -> Unit) {
-        _firestore.collection(table)
-            .get()
-            .addOnSuccessListener {
-                val result = it.filter { c -> c.get("id") as Long == item.id.toLong() }
-                if(result.size > 1)
-                    throw RuntimeException("There can't be more items " +
-                            "of type ${item.javaClass.name} with the same ID")
-                val doc = _firestore.collection(table).document(result.first().id)
-                action(doc)
-            }
-            .addOnFailureListener{
-                Log.e(Constants.Firebase.DATABASE_TAG, "Error while selecting item of " +
-                        "type ${item.javaClass.name} with error $it")
-            }
-    }
-
-    private suspend fun readConcerts() {
-        readItem("Concerts", concerts, ConcertMapper) { result ->
-            ConcertDBEntry(
-                result.get(Constants.Concert.Fields.id) as Long,
-                result.get(Constants.Concert.Fields.name) as String,
-                result.get(Constants.Concert.Fields.dateTime) as String,
-                result.get(Constants.Concert.Fields.city) as String,
-                result.get(Constants.Concert.Fields.country) as String,
-                result.get(Constants.Concert.Fields.place) as String,
-                result.get(Constants.Concert.Fields.type) as Long
-            )
+    private suspend fun addItem(table: String, item: Any) = coroutineScope {
+        async {
+            _firestore.collection(table)
+                .add(item)
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.DATABASE_TAG, "${item.javaClass.name} ERROR $it")
+                }.await()
         }
-    }
+    }.await()
+
+    private suspend fun selectItemById(table: String,
+                                       item: BaseModel,
+                                       action: (DocumentReference) -> Unit) = coroutineScope {
+        async {
+            _firestore.collection(table)
+                .get()
+                .addOnSuccessListener {
+                    val result = it.filter { c -> c.get("id") as Long == item.id.toLong() }
+                    if (result.size > 1)
+                        throw RuntimeException(
+                            "There can't be more items " +
+                                    "of type ${item.javaClass.name} with the same ID"
+                        )
+                    val doc = _firestore.collection(table).document(result.first().id)
+                    action(doc)
+                }
+                .addOnFailureListener {
+                    Log.e(
+                        Constants.Firebase.DATABASE_TAG, "Error while selecting item of " +
+                                "type ${item.javaClass.name} with error $it"
+                    )
+                }.await()
+        }
+    }.await()
+
+    private suspend fun readConcerts() = coroutineScope {
+        async {
+            readItem(
+                "Concerts",
+                concerts,
+                ConcertMapper,
+                DILocator.authenticator.currentUser?.uid
+            ) { result ->
+                ConcertDBEntry(
+                    result.get(Constants.Concert.Fields.id) as Long,
+                    result.get(Constants.Concert.Fields.name) as String,
+                    result.get(Constants.Concert.Fields.dateTime) as String,
+                    result.get(Constants.Concert.Fields.city) as String,
+                    result.get(Constants.Concert.Fields.country) as String,
+                    result.get(Constants.Concert.Fields.place) as String,
+                    result.get(Constants.Concert.Fields.type) as Long,
+                    result.get(Constants.Concert.Fields.userUid) as String
+                )
+            }
+        }
+    }.await()
 
     private suspend fun <T, E> readItem(table: String,
-                                        list: MutableList<T>,
-                                        mapper: Mapper<T, E>,
-                                        action: (QueryDocumentSnapshot) -> E) = coroutineScope {
+                                list: MutableList<T>,
+                                mapper: Mapper<T, E>,
+                                userUid: String?,
+                                action: (QueryDocumentSnapshot) -> E) = coroutineScope {
         async {
             Firebase.firestore.collection(table)
                 .get()
                 .addOnSuccessListener {
                     for (result in it)
-                        list.add(mapper.fromDbEntryToItem(action(result)))
+                        if (!userUid.isNullOrEmpty()
+                            && result.getString("userUid") != null
+                            && userUid == result.getString("userUid")
+                        )
+                            list.add(mapper.fromDbEntryToItem(action(result)))
                 }
                 .addOnFailureListener {
                     Log.e(Constants.Firebase.DATABASE_TAG, "Concerts ERROR $it")
-                }
-            Log.i(Constants.Firebase.DATABASE_TAG, "Concerts imported successfully")
+                }.await()
+            Log.i(Constants.Firebase.DATABASE_TAG, "$table imported successfully")
         }
     }.await()
 

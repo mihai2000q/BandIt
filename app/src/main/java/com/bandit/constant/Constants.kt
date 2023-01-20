@@ -2,6 +2,9 @@ package com.bandit.constant
 
 object Constants {
     const val MAX_NR_ITEMS = 100_000
+    object Login {
+        const val VIEW_MODEL_TAG = "LoginViewModel"
+    }
     object Home {
         const val ACCOUNT_HOME_TAG = "ACCOUNT HOME DIALOG FRAGMENT"
     }
@@ -14,6 +17,7 @@ object Constants {
             const val country = "country"
             const val place = "place"
             const val type = "type"
+            const val userUid = "userUid"
         }
         const val ADD_CONCERT_TAG = "ADD CONCERT DIALOG FRAGMENT"
         const val DETAIL_CONCERT_TAG = "DETAIL CONCERT DIALOG FRAGMENT"
