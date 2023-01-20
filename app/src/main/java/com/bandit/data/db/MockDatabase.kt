@@ -4,14 +4,14 @@ import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import java.time.LocalDateTime
 
-class MockDatabase : Database {
-    override val homeNavigationElementsMap get() = mapOf(
+class MockDatabase {
+    val homeNavigationElementsMap get() = mapOf(
         "Concerts" to BandItEnums.Home.NavigationType.Bottom,
         "Songs" to BandItEnums.Home.NavigationType.Bottom,
         "Chats" to BandItEnums.Home.NavigationType.Bottom,
         "Schedule" to BandItEnums.Home.NavigationType.Bottom,
     )
-    override val concerts = mutableListOf(
+    val concerts = mutableListOf(
         Concert(
             "Legacy of the beast",
             LocalDateTime.of(2023, 10, 21, 20,0),
@@ -54,23 +54,15 @@ class MockDatabase : Database {
         )
     )
 
-    override suspend fun addConcert(concert: Concert) {
+    fun addConcert(concert: Concert) {
         concerts.add(concert)
     }
 
-    override suspend fun removeConcert(concert: Concert) {
+    fun removeConcert(concert: Concert) {
         concerts.remove(concert)
     }
 
-    override suspend fun editConcert(concert: Concert) {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearData() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun init() {
+     fun editConcert(concert: Concert) {
         TODO("Not yet implemented")
     }
 

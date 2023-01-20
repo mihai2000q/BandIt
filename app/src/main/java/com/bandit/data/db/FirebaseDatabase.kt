@@ -29,17 +29,23 @@ class FirebaseDatabase : Database {
         }
     }
 
-    override suspend fun addConcert(concert: Concert) {
-        addItem("Concerts", ConcertMapper.fromItemToDbEntry(concert))
+    override suspend fun add(item: Any) {
+        when(item) {
+            is Concert -> addItem("Concerts", ConcertMapper.fromItemToDbEntry(item))
+        }
     }
 
-    override suspend fun removeConcert(concert: Concert) {
-        selectItemById("Concerts", concert) { it.delete() }
+    override suspend fun remove(item: Any) {
+        when (item) {
+            is Concert -> selectItemById("Concerts", item) { it.delete() }
+        }
     }
 
-    override suspend fun editConcert(concert: Concert) {
-        selectItemById("Concerts", concert) {
-            it.set(ConcertMapper.fromItemToDbEntry(concert))
+    override suspend fun edit(item: Any) {
+        when (item) {
+            is Concert -> selectItemById("Concerts", item) {
+                it.set(ConcertMapper.fromItemToDbEntry(item))
+            }
         }
     }
 

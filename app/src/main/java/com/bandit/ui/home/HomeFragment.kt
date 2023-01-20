@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
             )
         }
 
-        binding.homeTvWelcome.text = "Welcome ${DILocator.authenticator.currentUser!!.displayName}, to"
+        binding.homeTvWelcome.text = "Welcome ${DILocator.authenticator.currentUser?.displayName ?: ""}, to"
     }
 
     override fun onDestroyView() {

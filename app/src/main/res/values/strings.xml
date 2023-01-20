@@ -5,10 +5,8 @@
     <string name="fragment_login_bt_signup">Sign Up</string>
     <string name="fragment_login_tv_username">Username: </string>
     <string name="fragment_login_tv_password">Password: </string>
-    <string name="fragment_login_et_username_hint" />
     <string name="fragment_login_cb_remember">Remember Me</string>
     <string name="fragment_login_tv_registered">Not Registered Yet?</string>
-    <string name="fragment_login_iv_logo" />
     <string name="title_concerts">Concerts</string>
     <string name="title_songs">Songs</string>
     <string name="title_home">Home</string>

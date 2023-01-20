@@ -7,8 +7,8 @@ interface Database {
     val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType>
     val concerts: List<Concert>
     suspend fun init()
-    suspend fun addConcert(concert: Concert)
-    suspend fun removeConcert(concert: Concert)
-    suspend fun editConcert(concert: Concert)
+    suspend fun add(item: Any)
+    suspend fun remove(item: Any)
+    suspend fun edit(item: Any)
     fun clearData()
 }
