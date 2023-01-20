@@ -29,21 +29,28 @@ class ConcertsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val concertAddDialogFragment = ConcertAddDialogFragment()
+        val concertFilterDialogFragment = ConcertFilterDialogFragment()
+        val concertDetailDialogFragment = ConcertDetailDialogFragment()
+        val concertEditDialogFragment = ConcertEditDialogFragment()
+        val accountDialogFragment = AccountDialogFragment(binding.concertsBtAccount)
         with(binding) {
             concertsBtAdd.setOnClickListener {
-                ConcertAddDialogFragment().show(childFragmentManager, ConcertAddDialogFragment.TAG)
+                AndroidUtils.showDialogFragment(
+                    concertAddDialogFragment,
+                    childFragmentManager
+                )
             }
             concertsBtFilter.setOnClickListener {
-                ConcertFilterDialogFragment().show(
-                    childFragmentManager,
-                    ConcertFilterDialogFragment.TAG
+                AndroidUtils.showDialogFragment(
+                    concertFilterDialogFragment,
+                    childFragmentManager
                 )
             }
             concertsBtAccount.setOnClickListener {
-                AccountDialogFragment(concertsBtAccount).show(
-                    childFragmentManager,
-                    AccountDialogFragment.TAG
+                AndroidUtils.showDialogFragment(
+                    accountDialogFragment,
+                    childFragmentManager
                 )
                 concertsBtAccount.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -57,9 +64,9 @@ class ConcertsFragment : Fragment() {
                 concerts.observe(viewLifecycleOwner) {
                     concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
                         selectedConcert.value = concert
-                        ConcertDetailDialogFragment().show(
-                            childFragmentManager,
-                            ConcertDetailDialogFragment.TAG
+                        AndroidUtils.showDialogFragment(
+                            concertDetailDialogFragment,
+                            childFragmentManager
                         )
                     },
                         { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
@@ -71,9 +78,9 @@ class ConcertsFragment : Fragment() {
                             return@ConcertAdapter removeConcert(concert)
                         }) { concert ->
                         selectedConcert.value = concert
-                        ConcertEditDialogFragment().show(
-                            childFragmentManager,
-                            ConcertEditDialogFragment.TAG
+                        AndroidUtils.showDialogFragment(
+                            concertEditDialogFragment,
+                            childFragmentManager
                         )
                         return@ConcertAdapter true
                     }

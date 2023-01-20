@@ -5,13 +5,17 @@ import android.content.Context
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.bandit.constant.Constants
+import com.bandit.ui.concerts.ConcertAddDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.random.Random
 
@@ -57,5 +61,12 @@ object AndroidUtils {
     fun toastNotification(context: Context, message: String,
                           length: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(context, message, length).show()
+    }
+    fun showDialogFragment(dialogFragment: DialogFragment, childFragmentManager: FragmentManager) {
+        if(!dialogFragment.isVisible)
+            dialogFragment.show(
+                childFragmentManager,
+                dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
+            )
     }
 }
