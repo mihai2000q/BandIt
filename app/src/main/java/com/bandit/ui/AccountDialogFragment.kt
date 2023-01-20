@@ -43,6 +43,7 @@ class AccountDialogFragment : DialogFragment() {
         for(i in 0 until findNavController().backQueue.size)
             findNavController().popBackStack()
         findNavController().navigate(R.id.navigation_login)
+
         AndroidUtils.lockNavigation(
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
             super.requireActivity().findViewById(R.id.main_drawer_layout)
