@@ -2,10 +2,12 @@ package com.bandit.ui.concerts
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
+import com.bandit.util.AndroidUtils
 
 class ConcertEditDialogFragment : ConcertDialogFragment() {
 
@@ -36,6 +38,10 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                         viewModel.selectedConcert.value!!.id,
                         viewModel.selectedConcert.value!!.userUid
                     )
+                )
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.Concert_Edit_Toast)
                 )
                 super.dismiss()
             }

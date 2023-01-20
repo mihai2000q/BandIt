@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.AccountDialogFragment
+import com.bandit.util.AndroidUtils
 
 class ConcertsFragment : Fragment() {
 
@@ -42,7 +45,13 @@ class ConcertsFragment : Fragment() {
                 viewModel.selectedConcert.value = concert
                 ConcertDetailDialogFragment().show(childFragmentManager, ConcertDetailDialogFragment.TAG) },
                 { concert -> viewModel.selectedConcert.value = concert; return@ConcertAdapter true },
-                { concert -> return@ConcertAdapter viewModel.removeConcert(concert) }) { concert ->
+                { concert ->
+                    AndroidUtils.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.Concert_Remove_Toast),
+                    )
+                    return@ConcertAdapter viewModel.removeConcert(concert)
+                }) { concert ->
                 viewModel.selectedConcert.value = concert
                 ConcertEditDialogFragment().show(childFragmentManager, ConcertEditDialogFragment.TAG)
                 return@ConcertAdapter true

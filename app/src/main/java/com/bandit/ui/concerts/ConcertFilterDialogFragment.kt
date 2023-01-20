@@ -3,9 +3,11 @@ package com.bandit.ui.concerts
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.ui.concerts.ConcertsViewModel.*
+import com.bandit.util.AndroidUtils
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -54,6 +56,10 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
                     viewModel.filters.value?.replace(value, key.text.toString())
                 }
                 viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.Concert_Filter_Toast)
+                )
                 super.dismiss()
             }
         }

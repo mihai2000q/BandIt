@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
@@ -49,6 +50,11 @@ class AccountDialogFragment : DialogFragment() {
         PreferencesUtils.resetPreferences(this.requireActivity())
         requireActivity().viewModelStore.clear()
         DILocator.database.clearData()
+        AndroidUtils.toastNotification(
+            this.requireContext(),
+            resources.getString(R.string.Sign_out_Toast),
+            Toast.LENGTH_LONG
+        )
     }
 
     companion object {

@@ -3,6 +3,7 @@ package com.bandit.ui.concerts
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
@@ -33,6 +34,10 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                         BandItEnums.Concert.Type.values()[typeIndex],
                         userUid = DILocator.authenticator.currentUser?.uid
                     )
+                )
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.Concert_Add_Toast)
                 )
                 super.dismiss()
             }
