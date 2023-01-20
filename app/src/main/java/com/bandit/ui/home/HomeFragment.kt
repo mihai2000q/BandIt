@@ -3,6 +3,8 @@ package com.bandit.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -35,7 +37,13 @@ class HomeFragment : Fragment() {
         )
 
         binding.homeBtAccount.setOnClickListener{
-            AccountDialogFragment().show(childFragmentManager, AccountDialogFragment.TAG)
+            AccountDialogFragment(binding.homeBtAccount).show(childFragmentManager, AccountDialogFragment.TAG)
+            binding.homeBtAccount.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.requireContext(),
+                    R.drawable.ic_baseline_account_clicked
+                )
+            )
         }
 
         binding.homeTvWelcome.text = "Welcome ${DILocator.authenticator.currentUser!!.displayName}, to"

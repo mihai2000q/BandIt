@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
@@ -30,31 +30,54 @@ class ConcertsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.concertsBtAdd.setOnClickListener {
-            ConcertAddDialogFragment().show(childFragmentManager, ConcertAddDialogFragment.TAG)
-        }
-        binding.concertsBtFilter.setOnClickListener {
-            ConcertFilterDialogFragment().show(childFragmentManager, ConcertFilterDialogFragment.TAG)
-        }
-        binding.concertsBtAccount.setOnClickListener {
-            AccountDialogFragment().show(childFragmentManager, AccountDialogFragment.TAG)
-        }
-
-        viewModel.concerts.observe(viewLifecycleOwner) {
-            binding.concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
-                viewModel.selectedConcert.value = concert
-                ConcertDetailDialogFragment().show(childFragmentManager, ConcertDetailDialogFragment.TAG) },
-                { concert -> viewModel.selectedConcert.value = concert; return@ConcertAdapter true },
-                { concert ->
-                    AndroidUtils.toastNotification(
+        with(binding) {
+            concertsBtAdd.setOnClickListener {
+                ConcertAddDialogFragment().show(childFragmentManager, ConcertAddDialogFragment.TAG)
+            }
+            concertsBtFilter.setOnClickListener {
+                ConcertFilterDialogFragment().show(
+                    childFragmentManager,
+                    ConcertFilterDialogFragment.TAG
+                )
+            }
+            concertsBtAccount.setOnClickListener {
+                AccountDialogFragment(concertsBtAccount).show(
+                    childFragmentManager,
+                    AccountDialogFragment.TAG
+                )
+                concertsBtAccount.setImageDrawable(
+                    ContextCompat.getDrawable(
                         super.requireContext(),
-                        resources.getString(R.string.Concert_Remove_Toast),
+                        R.drawable.ic_baseline_account_clicked
                     )
-                    return@ConcertAdapter viewModel.removeConcert(concert)
-                }) { concert ->
-                viewModel.selectedConcert.value = concert
-                ConcertEditDialogFragment().show(childFragmentManager, ConcertEditDialogFragment.TAG)
-                return@ConcertAdapter true
+                )
+            }
+
+            with(viewModel) {
+                concerts.observe(viewLifecycleOwner) {
+                    concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
+                        selectedConcert.value = concert
+                        ConcertDetailDialogFragment().show(
+                            childFragmentManager,
+                            ConcertDetailDialogFragment.TAG
+                        )
+                    },
+                        { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
+                        { concert ->
+                            AndroidUtils.toastNotification(
+                                super.requireContext(),
+                                resources.getString(R.string.Concert_Remove_Toast),
+                            )
+                            return@ConcertAdapter removeConcert(concert)
+                        }) { concert ->
+                        selectedConcert.value = concert
+                        ConcertEditDialogFragment().show(
+                            childFragmentManager,
+                            ConcertEditDialogFragment.TAG
+                        )
+                        return@ConcertAdapter true
+                    }
+                }
             }
         }
     }

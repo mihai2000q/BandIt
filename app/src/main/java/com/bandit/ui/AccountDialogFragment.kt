@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
@@ -14,7 +16,7 @@ import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
 
-class AccountDialogFragment : DialogFragment() {
+class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment() {
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +37,12 @@ class AccountDialogFragment : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        accountButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                this.requireContext(),
+                R.drawable.ic_baseline_account
+            )
+        )
     }
 
     private fun signOut() {
