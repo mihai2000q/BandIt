@@ -31,7 +31,7 @@ abstract class BaseRepository<T : BaseModel>(
             .forEach { _list[_list.indexOf(it)] = item }
     }
     protected abstract fun reassignId(item: T): T
-    protected fun isIdUsed(id: Int): Boolean {
+    protected fun isIdUsed(id: Long): Boolean {
         return !_list.none { it.id == id }
     }
 }
