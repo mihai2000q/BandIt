@@ -11,4 +11,13 @@ sealed class BandItEnums {
             Festival
         }
     }
+    object Account {
+        enum class Role {
+            LeadGuitar,
+            RhythmGuitar,
+            Bass,
+            Vocalist,
+            Drums
+        }
+    }
 }
