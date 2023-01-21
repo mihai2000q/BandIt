@@ -8,5 +8,5 @@ data class ConcertDBEntry(
     val country: String,
     val place: String,
     val type: Long,
-    override val userUid: String
-) : BaseEntry(id, userUid)
+    val userUid: String
+) : BaseEntry(id)
