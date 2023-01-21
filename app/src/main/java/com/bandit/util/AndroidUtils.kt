@@ -21,7 +21,7 @@ import kotlin.random.Random
 
 
 object AndroidUtils {
-    fun generateRandomId() = Random.nextInt(Constants.MAX_NR_ITEMS)
+    fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
     fun unlockNavigation(bottomNavigationView: BottomNavigationView?, drawerLayout: DrawerLayout?) {
         bottomNavigationView?.visibility = View.VISIBLE
         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)

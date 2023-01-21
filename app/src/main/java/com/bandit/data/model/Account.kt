@@ -4,14 +4,11 @@ import com.bandit.constant.BandItEnums
 import com.bandit.util.AndroidUtils
 
 data class Account(
-    val firstName: String,
-    val lastName: String,
+    val name: String,
     val nickname: String,
     val role: BandItEnums.Account.Role,
     val bands: List<Band>,
     val isSetup: Boolean = false,
-    override val id: Int = AndroidUtils.generateRandomId(),
+    override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : BaseModel(id) {
-    val name get() = "$firstName $lastName"
-}
+) : BaseModel(id)

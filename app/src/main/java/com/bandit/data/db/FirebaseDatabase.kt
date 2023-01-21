@@ -1,21 +1,22 @@
 package com.bandit.data.db
 
 import android.util.Log
-import com.bandit.data.db.entry.ConcertDBEntry
-import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import com.bandit.data.db.entry.ConcertDBEntry
 import com.bandit.data.model.BaseModel
+import com.bandit.data.model.Concert
 import com.bandit.di.DILocator
+import com.bandit.mapper.AccountMapper
 import com.bandit.mapper.ConcertMapper
 import com.bandit.mapper.Mapper
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import java.util.*
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
@@ -26,26 +27,25 @@ class FirebaseDatabase : Database {
         runBlocking {
             readHomeNavigationElements()
             readConcerts()
+            readAccounts()
         }
     }
 
     override suspend fun add(item: Any) {
         when(item) {
-            is Concert -> addItem("Concerts", ConcertMapper.fromItemToDbEntry(item))
+            is Concert -> setItem("Concerts", ConcertMapper.fromItemToDbEntry(item))
         }
     }
 
     override suspend fun remove(item: Any) {
         when (item) {
-            is Concert -> selectItemById("Concerts", item) { it.delete() }
+            is Concert -> deleteItem("Concerts", item)
         }
     }
 
     override suspend fun edit(item: Any) {
         when (item) {
-            is Concert -> selectItemById("Concerts", item) {
-                it.set(ConcertMapper.fromItemToDbEntry(item))
-            }
+            is Concert -> setItem("Concerts", item)
         }
     }
 
@@ -54,32 +54,22 @@ class FirebaseDatabase : Database {
         homeNavigationElementsMap.clear()
     }
 
-    private suspend fun addItem(table: String, item: Any) = coroutineScope {
+    private suspend fun setItem(table: String, item: BaseModel) = coroutineScope {
         async {
-            _firestore.collection(table)
-                .add(item)
+            _firestore.collection(table).document(generateDocumentName(table, item.id))
+                .set(item)
                 .addOnFailureListener {
                     Log.e(Constants.Firebase.DATABASE_TAG, "${item.javaClass.name} ERROR $it")
                 }.await()
         }
     }.await()
 
-    private suspend fun selectItemById(table: String,
-                                       item: BaseModel,
-                                       action: (DocumentReference) -> Unit) = coroutineScope {
+    private suspend fun deleteItem(table: String,
+                                       item: BaseModel) = coroutineScope {
         async {
             _firestore.collection(table)
-                .get()
-                .addOnSuccessListener {
-                    val result = it.filter { c -> c.get("id") as Long == item.id.toLong() }
-                    if (result.size > 1)
-                        throw RuntimeException(
-                            "There can't be more items " +
-                                    "of type ${item.javaClass.name} with the same ID"
-                        )
-                    val doc = _firestore.collection(table).document(result.first().id)
-                    action(doc)
-                }
+                .document(generateDocumentName(table, item.id))
+                .delete()
                 .addOnFailureListener {
                     Log.e(
                         Constants.Firebase.DATABASE_TAG, "Error while selecting item of " +
@@ -111,11 +101,13 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun <T, E> readItem(table: String,
-                                list: MutableList<T>,
-                                mapper: Mapper<T, E>,
-                                userUid: String?,
-                                action: (QueryDocumentSnapshot) -> E) = coroutineScope {
+    private suspend fun <T, E> readItem(
+        table: String,
+        list: MutableList<T>,
+        mapper: Mapper<T, E>,
+        userUid: String?,
+        action: (QueryDocumentSnapshot) -> E)
+    = coroutineScope {
         async {
             Firebase.firestore.collection(table)
                 .get()
@@ -146,4 +138,9 @@ class FirebaseDatabase : Database {
                 )
             )
     }
+
+    private fun generateDocumentName(table: String, id: Long): String {
+        return "${table.lowercase().dropLast(1)}$id"
+    }
+
 }

@@ -11,7 +11,7 @@ data class Concert(
     val country: String,
     val place: String,
     val type: BandItEnums.Concert.Type,
-    override val id: Int = AndroidUtils.generateRandomId(),
+    override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
 ) : BaseModel(id), Comparable<Concert> {
     companion object {

@@ -2,7 +2,6 @@ package com.bandit.ui.concerts
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants

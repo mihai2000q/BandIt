@@ -14,14 +14,14 @@ object ConcertMapper : Mapper<Concert, ConcertDBEntry> {
             entry.country,
             entry.place,
             mapIntToConcertType(entry.type.toInt()),
-            entry.id.toInt(),
+            entry.id,
             entry.userUid
         )
     }
 
     override fun fromItemToDbEntry(item: Concert): ConcertDBEntry {
         return ConcertDBEntry(
-            item.id.toLong(),
+            item.id,
             item.name,
             item.dateTime.toString(),
             item.city,
