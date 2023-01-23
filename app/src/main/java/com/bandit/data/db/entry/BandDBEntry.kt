@@ -1,9 +1,9 @@
 package com.bandit.data.db.entry
 
 data class BandDBEntry(
-    override val id: Long,
-    val name: String,
-    val membersIds: Array<Long>
+    override val id: Long = -1,
+    val name: String? = null,
+    val membersIds: Array<Long>? = null
 ) : BaseEntry(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

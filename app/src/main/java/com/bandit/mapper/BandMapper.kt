@@ -7,7 +7,7 @@ import com.bandit.data.model.Band
 object BandMapper {
     fun fromDbEntryToItem(entry: BandDBEntry, members: List<Account>): Band {
         return Band(
-            entry.name,
+            entry.name ?: "",
             members as MutableList<Account>,
             entry.id
         )

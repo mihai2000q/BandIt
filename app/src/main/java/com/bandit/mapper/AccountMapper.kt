@@ -8,11 +8,10 @@ import com.bandit.data.model.Band
 object AccountMapper {
     fun fromDbEntryToItem(entry: AccountDBEntry): Account {
         return Account(
-            entry.name,
-            entry.nickname,
-            this.mapIntToAccountRole(entry.role.toInt()),
+            entry.name ?: "",
+            entry.nickname ?: "",
+            this.mapIntToAccountRole(entry.role?.toInt() ?: 0),
             entry.bandId,
-            entry.isSetup,
             entry.id,
             entry.userUid
         )
@@ -25,7 +24,6 @@ object AccountMapper {
             item.nickname,
             this.mapAccountRoleToInt(item.role).toLong(),
             item.bandId,
-            item.isSetup,
             item.userUid ?: ""
         )
     }
