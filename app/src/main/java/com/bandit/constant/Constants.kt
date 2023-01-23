@@ -1,5 +1,7 @@
 package com.bandit.constant
 
+import android.nfc.Tag
+
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
     object Login {
@@ -35,7 +37,12 @@ object Constants {
         const val FILTER_CONCERT_TAG = "FILTER CONCERT DIALOG FRAGMENT"
     }
     object Firebase {
-        const val DATABASE_TAG = "FirebaseDB"
+        object Database {
+            const val accounts = "Accounts"
+            const val bands = "Bands"
+            const val concerts = "Concerts"
+            const val TAG = "FirebaseDB"
+        }
         const val AUTH_TAG = "FirebaseAuth"
     }
     object Preferences {

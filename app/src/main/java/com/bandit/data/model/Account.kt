@@ -7,9 +7,8 @@ data class Account(
     val name: String,
     val nickname: String,
     val role: BandItEnums.Account.Role,
+    var bandId: Long?,
     val isSetup: Boolean = false,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : BaseModel(id) {
-    val bands: MutableList<Band> = mutableListOf()
-}
+) : BaseModel(id)
