@@ -1,7 +1,5 @@
 package com.bandit.constant
 
-import android.nfc.Tag
-
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
     object Login {
@@ -9,16 +7,6 @@ object Constants {
     }
     object Home {
         const val ACCOUNT_HOME_TAG = "ACCOUNT HOME DIALOG FRAGMENT"
-    }
-    object Account {
-        object Fields {
-            const val id = "id"
-            const val name = "name"
-            const val nickname = "nickname"
-            const val role = "role"
-            const val isSetup = "isSetup"
-            const val userUid = "userUid"
-        }
     }
     object Concert {
         object Fields {
@@ -38,9 +26,10 @@ object Constants {
     }
     object Firebase {
         object Database {
-            const val accounts = "Accounts"
-            const val bands = "Bands"
-            const val concerts = "Concerts"
+            const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
+            const val ACCOUNTS = "Accounts"
+            const val BANDS = "Bands"
+            const val CONCERTS = "Concerts"
             const val TAG = "FirebaseDB"
         }
         const val AUTH_TAG = "FirebaseAuth"
