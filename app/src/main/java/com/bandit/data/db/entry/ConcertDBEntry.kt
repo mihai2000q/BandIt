@@ -1,7 +1,7 @@
 package com.bandit.data.db.entry
 
 data class ConcertDBEntry(
-    val id: Long,
+    override val id: Long,
     val name: String,
     val dateTime: String,
     val city: String,
@@ -9,4 +9,4 @@ data class ConcertDBEntry(
     val place: String,
     val type: Long,
     val userUid: String
-)
+) : BaseEntry(id)

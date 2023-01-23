@@ -21,7 +21,7 @@ class ConcertRepositoryTest {
     }
     private fun import_data() {
         runBlocking {
-            concertRepository.addConcert(
+            concertRepository.add(
                 Concert(
                     "Legacy of the beast",
                     LocalDateTime.of(2023, 10, 21, 20, 0),
@@ -31,7 +31,7 @@ class ConcertRepositoryTest {
                     BandItEnums.Concert.Type.Tournament
                 )
             )
-            concertRepository.addConcert(
+            concertRepository.add(
                 Concert(
                     "Legacy of the beast 2",
                     LocalDateTime.of(2023, 11, 21, 20, 0),
@@ -41,7 +41,7 @@ class ConcertRepositoryTest {
                     BandItEnums.Concert.Type.Tournament
                 )
             )
-            concertRepository.addConcert(
+            concertRepository.add(
                 Concert(
                     "Legacy of the concert",
                     LocalDateTime.of(2024, 7, 21, 20, 0),
@@ -51,7 +51,7 @@ class ConcertRepositoryTest {
                     BandItEnums.Concert.Type.Simple
                 )
             )
-            concertRepository.addConcert(
+            concertRepository.add(
                 Concert(
                     "Rock fest",
                     LocalDateTime.of(2024, 9, 21, 23, 0),
@@ -61,7 +61,7 @@ class ConcertRepositoryTest {
                     BandItEnums.Concert.Type.Festival
                 )
             )
-            concertRepository.addConcert(
+            concertRepository.add(
                 Concert(
                     "Amon Amar cool",
                     LocalDateTime.parse("2023-02-09T12:00"),
@@ -122,16 +122,16 @@ class ConcertRepositoryTest {
         remove_concert(concertRepository, 1, 2)
         remove_concert(concertRepository, 0, 1)
 
-        assertEquals(concertRepository.concerts.size, 0)
+        assertEquals(concertRepository.list.size, 0)
     }
     @Test
     fun concert_repository_different_ids() {
         runBlocking {
             with(concertRepository) {
                 for (i in 0 until Constants.MAX_NR_ITEMS / 2)
-                    addConcert(Concert.getEmpty())
-                for (concert in concerts)
-                    if (concerts.filter { it.id == concert.id }.size > 1)
+                    add(Concert.getEmpty())
+                for (concert in list)
+                    if (list.filter { it.id == concert.id }.size > 1)
                         fail("Id's should be different")
             }
         }
@@ -139,7 +139,7 @@ class ConcertRepositoryTest {
     @Test
     fun concert_repository_edit() {
         import_data()
-        var concertToEdit = concertRepository.concerts[0]
+        var concertToEdit = concertRepository.list[0]
         val newConcert = Concert(
             "newConcert",
             LocalDateTime.parse("2020-12-10T10:00"),
@@ -170,7 +170,7 @@ class ConcertRepositoryTest {
             concertToEdit.id
         )
         runBlocking {
-            concertRepository.editConcert(concertToEdit)
+            concertRepository.edit(concertToEdit)
             assert_concert(
                 concertRepository,
                 5,
@@ -290,16 +290,16 @@ class ConcertRepositoryTest {
         assertEquals(expected, outcome.first())
     }
     private fun remove_concert(repository: ConcertRepository, index: Int, size: Int) {
-        val concertToRemove = repository.concerts[index]
-        val before = repository.concerts.filter { it == concertToRemove }
+        val concertToRemove = repository.list[index]
+        val before = repository.list.filter { it == concertToRemove }
         assertEquals(1, before.size)
-        assertEquals(size, repository.concerts.size)
-        runBlocking { repository.removeConcert(concertToRemove) }
-        val after = repository.concerts.filter { it == concertToRemove }
+        assertEquals(size, repository.list.size)
+        runBlocking { repository.remove(concertToRemove) }
+        val after = repository.list.filter { it == concertToRemove }
         assertEquals(0, after.size)
-        assertEquals(size - 1, repository.concerts.size)
+        assertEquals(size - 1, repository.list.size)
         assertThrows(IndexOutOfBoundsException::class.java) {
-            repository.concerts[size - 1]
+            repository.list[size - 1]
         }
     }
     private fun add_concert(
@@ -312,7 +312,7 @@ class ConcertRepositoryTest {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        runBlocking { repository.addConcert(Concert(name, dateTime, city, country, place, type)) }
+        runBlocking { repository.add(Concert(name, dateTime, city, country, place, type)) }
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
     }
     private fun assert_concert(
@@ -326,14 +326,14 @@ class ConcertRepositoryTest {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        assertEquals(size, repository.concerts.size)
-        assertNotNull(repository.concerts[index].id)
-        assertEquals(name, repository.concerts[index].name)
-        assertEquals(dateTime, repository.concerts[index].dateTime)
-        assertEquals(city, repository.concerts[index].city)
-        assertEquals(country, repository.concerts[index].country)
-        assertEquals(place, repository.concerts[index].place)
-        assertEquals(type, repository.concerts[index].type)
+        assertEquals(size, repository.list.size)
+        assertNotNull(repository.list[index].id)
+        assertEquals(name, repository.list[index].name)
+        assertEquals(dateTime, repository.list[index].dateTime)
+        assertEquals(city, repository.list[index].city)
+        assertEquals(country, repository.list[index].country)
+        assertEquals(place, repository.list[index].place)
+        assertEquals(type, repository.list[index].type)
     }
 
 }

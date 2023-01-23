@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_login_iv_logo"
-            app:layout_constraintVertical_bias="0.55" />
+            app:layout_constraintVertical_bias="0.56" />
 
         <Button
             android:id="@+id/fragment_login_bt_signup"
@@ -39,18 +39,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_bt_login" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_login_bt_login"
+            app:layout_constraintVertical_bias="0.7" />
 
         <ImageView
             android:id="@+id/fragment_login_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/fragment_login_iv_logo"
+            android:scaleX="2"
+            android:scaleY="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.13"
+            app:layout_constraintVertical_bias="0.100000024"
+            app:srcCompat="@mipmap/ic_logo_foreground"
             tools:ignore="ImageContrastCheck"
             tools:src="@drawable/ic_launcher_foreground" />
 
@@ -86,7 +89,6 @@
             android:layout_marginBottom="8dp"
             android:autofillHints=""
             android:ems="10"
-            android:hint="@string/fragment_login_et_username_hint"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="@color/black"

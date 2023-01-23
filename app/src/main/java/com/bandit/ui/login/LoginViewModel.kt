@@ -14,9 +14,8 @@ class LoginViewModel : ViewModel() {
     val email: LiveData<String> get() = _email
     private val _authenticator = DILocator.authenticator
     init {
-        if(_authenticator.currentUser != null) {
+        if(_authenticator.currentUser != null)
             _email.value = _authenticator.currentUser?.email
-        }
     }
     suspend fun signInWithEmailAndPassword(email: String?,
                                            password: String?,

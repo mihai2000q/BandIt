@@ -1,3 +1,3 @@
 package com.bandit.data.model
 
-open class BaseModel(open val id: Int)
+abstract class BaseModel(open val id: Long)
