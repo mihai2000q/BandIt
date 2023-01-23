@@ -11,10 +11,13 @@ class SignupViewModel : ViewModel() {
     val password = MutableLiveData<String>()
     fun createUser() {
         viewModelScope.launch {
-            DILocator.authenticator.createUser(
-                email.value!!,
-                password.value!!
-            )
+            launch {
+                DILocator.authenticator.createUser(
+                    email.value!!,
+                    password.value!!
+                )
+            }.join()
+            launch { DILocator.database.setUserAccountSetup(false) }.join()
         }
     }
 }
