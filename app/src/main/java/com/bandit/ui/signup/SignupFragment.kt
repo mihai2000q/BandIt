@@ -60,44 +60,44 @@ class SignupFragment : Fragment() {
             when(phase) {
                 0 ->  {
                     viewModel.email.value = signupEtString.text.toString()
-                    signupEtString.setText("")
                     signupEtPassword.visibility = View.VISIBLE
                     signupEtString.visibility = View.GONE
-                    signupTvSubject.text = "Password:"
-                    signupProgressBar.progress++
-                    phase++
+                    phase("Password:")
                 }
                 1 -> {
                     viewModel.password.value = signupEtPassword.text.toString()
                     signupEtPassword.visibility = View.GONE
-                    signupTvSubject.text = "Nickname:"
-                    signupEtString.visibility = View.VISIBLE
-                    signupProgressBar.progress++
-                    phase++
-                }
-                2 -> {
-                    viewModel.displayName.value = signupEtString.text.toString()
                     signupEtString.visibility = View.GONE
                     signupBtNext.visibility = View.GONE
                     signupBtCancel.text = "Go Back"
-                    signupTvSubject.text = "A confirmation email has been sent"
-                    signupProgressBar.progress++
-                    phase++
-                    viewModel.createUser()
-                    AndroidUtils.hideKeyboard(
-                        super.requireActivity(),
-                        Context.INPUT_METHOD_SERVICE,
-                        signupTitle
-                    )
-                    AndroidUtils.toastNotification(
-                        super.requireContext(),
-                        resources.getString(R.string.Signup_Toast),
-                        Toast.LENGTH_LONG
-                    )
+                    phase("A confirmation email has been sent")
+                    signup()
                 }
                 else -> {}
             }
         }
+    }
+
+    private fun phase(subjectText: String) {
+        with(binding) {
+            signupTvSubject.text = subjectText
+            signupProgressBar.progress++
+            phase++
+        }
+    }
+
+    private fun signup() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.signupTitle
+        )
+        viewModel.createUser()
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.Signup_Toast),
+            Toast.LENGTH_LONG
+        )
     }
 
 }
