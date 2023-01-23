@@ -4,11 +4,18 @@ import com.bandit.constant.BandItEnums
 import com.bandit.util.AndroidUtils
 
 data class Account(
-    val name: String,
-    val nickname: String,
-    val role: BandItEnums.Account.Role,
+    var name: String,
+    var nickname: String,
+    var role: BandItEnums.Account.Role,
     var bandId: Long?,
-    val isSetup: Boolean = false,
+    var isSetup: Boolean = false,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : BaseModel(id)
+) : BaseModel(id) {
+    fun isEmpty(): Boolean {
+        return this == EMPTY
+    }
+    companion object {
+        val EMPTY = Account("", "", BandItEnums.Account.Role.LeadGuitar, -1)
+    }
+}

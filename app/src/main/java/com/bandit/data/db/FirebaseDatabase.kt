@@ -27,8 +27,8 @@ import kotlinx.coroutines.tasks.await
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
-    override val currentAccount: Account get() = _currentAccount
-    override val currentBand: Band get() = _currentBand
+    override val currentAccount: Account get() = if(::_currentAccount.isInitialized) _currentAccount else Account.EMPTY
+    override val currentBand: Band get() = if(::_currentBand.isInitialized) _currentBand else Band.EMPTY
     private lateinit var _currentAccount: Account
     private lateinit var _currentBand: Band
     private val _firestore = Firebase.firestore
@@ -51,6 +51,18 @@ class FirebaseDatabase : Database {
 
     override suspend fun edit(item: Any) {
         set(item)
+    }
+
+    override suspend fun updateAccount(account: Account) {
+        if(!::_currentAccount.isInitialized) return
+        with(_currentAccount) {
+            name = account.name
+            nickname = account.nickname
+            role = account.role
+            isSetup = account.isSetup
+            bandId = account.bandId
+            set(this)
+        }
     }
 
     override fun clearData() {
@@ -153,11 +165,13 @@ class FirebaseDatabase : Database {
         val accounts: MutableList<Account> = mutableListOf()
         async {
 
-            accountDBEntry = readAccountDbEntries {
+            val entries = readAccountDbEntries {
                 return@readAccountDbEntries it.userUid == DILocator.authenticator.currentUser?.uid
-            }.first()
+            }
 
-            //if(accountDBEntry == null) return@async
+            if(entries.isEmpty()) return@async
+
+            accountDBEntry = entries.first()
             bandDBEntry = readBandDbEntry(accountDBEntry.id)
 
             val accountDbEntries = readAccountDbEntries {

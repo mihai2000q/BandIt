@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.databinding.DialogFragmentAccountBinding
@@ -20,6 +21,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: AccountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +33,21 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.accountBtSignOut.setOnClickListener { signOut() }
+        with(binding) {
+            accountBtSignOut.setOnClickListener { signOut() }
+            with(viewModel) {
+                accountEtName.setText(name.value)
+                accountEtNickname.setText(nickname.value)
+                accountEtRole.setText(role.value)
+
+                accountBtSave.setOnClickListener {
+                    updateAccount(
+                        accountEtName.text.toString(),
+                        accountEtNickname.text.toString()
+                    )
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
