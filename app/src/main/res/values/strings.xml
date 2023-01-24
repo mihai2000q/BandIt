@@ -36,4 +36,5 @@
     <string name="signup_bt_next">Next</string>
     <string name="band_button_empty">Create A Band</string>
     <string name="create_button">Create</string>
+    <string name="band_bt_invite">Invite</string>
 </resources>

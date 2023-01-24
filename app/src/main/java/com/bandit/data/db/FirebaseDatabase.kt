@@ -80,6 +80,27 @@ class FirebaseDatabase : Database {
             ?.accountSetup
     }
 
+    override suspend fun setBandInvitationDBEntry(bandInvitationDBEntry: BandInvitationDBEntry) {
+        _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
+            .document(generateDocumentNameId(Constants.Firebase.Database.BAND_INVITATIONS,
+                bandInvitationDBEntry.id ?: -1))
+            .set(bandInvitationDBEntry)
+            .await()
+    }
+
+    override suspend fun sendBandInvitation(email: String) {
+        val accounts = readAccountDbEntries { it.email == email }
+        if(accounts.isEmpty()) return
+        setBandInvitationDBEntry(
+            BandInvitationDBEntry(
+                AndroidUtils.generateRandomLong(),
+                currentBand.id,
+                accounts.first().id,
+                false
+            )
+        )
+    }
+
     override fun clearData() {
         concerts.clear()
         homeNavigationElementsMap.clear()
@@ -88,17 +109,7 @@ class FirebaseDatabase : Database {
     private suspend fun set(item: Any) {
         when(item) {
             is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDbEntry(item))
-            is Band -> {
-                setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDbEntry(item))
-                setBandInvitationDBEntry(
-                    BandInvitationDBEntry(
-                        AndroidUtils.generateRandomLong(),
-                        item.id,
-                        currentAccount.id,
-                        true
-                    )
-                )
-            }
+            is Band -> setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDbEntry(item))
             is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDbEntry(item))
         }
     }
@@ -245,14 +256,6 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    override suspend fun setBandInvitationDBEntry(bandInvitationDBEntry: BandInvitationDBEntry) {
-        _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
-            .document(generateDocumentNameId(Constants.Firebase.Database.BAND_INVITATIONS,
-                bandInvitationDBEntry.id ?: -1))
-            .set(bandInvitationDBEntry)
-            .await()
-    }
-
     private suspend fun readBandInvitationDBEntry(bandId: Long)
     : List<BandInvitationDBEntry> = coroutineScope {
         async {
@@ -285,6 +288,7 @@ class FirebaseDatabase : Database {
             return@async bandDBEntries
         }
     }.await()
+
     private fun readHomeNavigationElements() {
         //TODO: temporary, move it to database
         if(homeNavigationElementsMap.isEmpty())

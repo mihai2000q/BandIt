@@ -36,7 +36,8 @@ class AccountViewModel : ViewModel() {
                         name,
                         nickname,
                         _currentAccount.role,
-                        null
+                        null,
+                        _currentAccount.email
                     )
                 )
             }

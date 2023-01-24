@@ -8,13 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.builder.HomeBuilder
 import com.bandit.constant.BandItEnums
+import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeViewModel : ViewModel() {
     private val _builder: HomeBuilder
     private val _elements = MutableLiveData<Map<String, BandItEnums.Home.NavigationType>>()
-    val elements: LiveData<Map<String, BandItEnums.Home.NavigationType>> get() = _elements
+    val elements: LiveData<Map<String, BandItEnums.Home.NavigationType>> = _elements
     init {
         val database = DILocator.database
         _elements.value = database.homeNavigationElementsMap
