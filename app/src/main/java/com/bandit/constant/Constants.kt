@@ -5,8 +5,12 @@ object Constants {
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"
     }
-    object Home {
-        const val ACCOUNT_HOME_TAG = "ACCOUNT HOME DIALOG FRAGMENT"
+    object Account {
+        const val TAG = "ACCOUNT DIALOG FRAGMENT"
+    }
+    object Band {
+        const val CREATE_BAND_TAG = "CREATE BAND DIALOG FRAGMENT"
+        const val BAND_TAG = "BAND DIALOG FRAGMENT"
     }
     object Concert {
         object Fields {
@@ -29,6 +33,7 @@ object Constants {
             const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
             const val ACCOUNTS = "Accounts"
             const val BANDS = "Bands"
+            const val BAND_INVITATIONS = "BandInvitation"
             const val CONCERTS = "Concerts"
             const val TAG = "FirebaseDB"
         }
