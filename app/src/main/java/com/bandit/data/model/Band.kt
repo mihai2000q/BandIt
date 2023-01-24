@@ -4,6 +4,7 @@ import com.bandit.util.AndroidUtils
 
 data class Band(
     val name: String,
+    val creator: Long,
     val members: MutableMap<Account, Boolean>,
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id) {
@@ -12,6 +13,6 @@ data class Band(
     }
 
     companion object {
-        val EMPTY = Band("", mutableMapOf())
+        val EMPTY = Band("", -1, mutableMapOf())
     }
 }

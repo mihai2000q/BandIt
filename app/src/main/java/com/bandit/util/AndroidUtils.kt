@@ -14,8 +14,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import com.bandit.R
 import com.bandit.constant.Constants
+import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
@@ -75,17 +78,27 @@ object AndroidUtils {
     fun bandButton(
         activity: FragmentActivity,
         button: Button,
+        band: LiveData<Band>,
+        viewLifecycleOwner: LifecycleOwner,
         createBandDialogFragment: CreateBandDialogFragment,
         bandDialogFragment: BandDialogFragment
     ) {
-        if(DILocator.database.currentBand.isEmpty())
-            button.setOnClickListener {
-                showDialogFragment(createBandDialogFragment, activity.supportFragmentManager)
-            }
-        else {
-            button.text = DILocator.database.currentBand.name
-            button.setOnClickListener {
-                showDialogFragment(bandDialogFragment, activity.supportFragmentManager)
+        band.observe(viewLifecycleOwner) {
+            if (it.isEmpty())
+                button.setOnClickListener {
+                    showDialogFragment(
+                        createBandDialogFragment,
+                        activity.supportFragmentManager
+                    )
+                }
+            else {
+                button.text = it.name
+                button.setOnClickListener {
+                    showDialogFragment(
+                        bandDialogFragment,
+                        activity.supportFragmentManager
+                    )
+                }
             }
         }
     }

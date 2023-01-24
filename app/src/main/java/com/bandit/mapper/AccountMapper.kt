@@ -12,6 +12,7 @@ object AccountMapper {
             entry.nickname ?: "",
             this.mapIntToAccountRole(entry.role?.toInt() ?: 0),
             entry.bandId,
+            entry.email ?: "",
             entry.id,
             entry.userUid
         )
@@ -23,6 +24,7 @@ object AccountMapper {
             item.name,
             item.nickname,
             this.mapAccountRoleToInt(item.role).toLong(),
+            item.email,
             item.bandId,
             item.userUid ?: ""
         )

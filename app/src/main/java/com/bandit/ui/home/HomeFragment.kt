@@ -11,6 +11,7 @@ import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +36,14 @@ class HomeFragment : Fragment() {
         val createBandDialogFragment = CreateBandDialogFragment()
         val bandDialogFragment = BandDialogFragment()
         with(binding) {
-            AndroidUtils.bandButton(super.requireActivity(), homeBtBand,
-                createBandDialogFragment, bandDialogFragment)
+            AndroidUtils.bandButton(
+                super.requireActivity(),
+                homeBtBand,
+                bandViewModel.band,
+                viewLifecycleOwner,
+                createBandDialogFragment,
+                bandDialogFragment
+            )
             viewModel.generateHomeElements(
                 viewModel.elements.value ?: mapOf(),
                 homeSvTableLayout,

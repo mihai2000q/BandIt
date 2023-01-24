@@ -21,6 +21,7 @@ class FirstLoginViewModel : ViewModel() {
                     nickname.value!!,
                     role.value!!,
                     null,
+                    DILocator.authenticator.currentUser?.email ?: "",
                     userUid = DILocator.authenticator.currentUser?.uid
                 )
             )

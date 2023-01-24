@@ -8,6 +8,7 @@ object BandMapper {
     fun fromDbEntryToItem(entry: BandDBEntry, members: MutableMap<Account, Boolean>): Band {
         return Band(
             entry.name ?: "",
+            entry.creator ?: -1,
             members,
             entry.id
         )
@@ -18,7 +19,8 @@ object BandMapper {
         item.members.forEach { (key, value) -> members[key.id] = value }
         return BandDBEntry(
             item.id,
-            item.name
+            item.name,
+            item.creator
         )
     }
 }

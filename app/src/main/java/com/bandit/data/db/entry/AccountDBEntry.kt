@@ -5,6 +5,7 @@ data class AccountDBEntry(
     val name: String? = null,
     val nickname: String? = null,
     val role: Long? = null,
+    val email: String? = null,
     val bandId: Long? = null,
     val userUid: String? = null
 ) : BaseEntry(id)
