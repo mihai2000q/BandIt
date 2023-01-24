@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
-import com.bandit.ui.AccountDialogFragment
+import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.util.AndroidUtils
 
 class ConcertsFragment : Fragment() {

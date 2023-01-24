@@ -1,4 +1,4 @@
-package com.bandit.ui
+package com.bandit.ui.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

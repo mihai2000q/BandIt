@@ -1,4 +1,4 @@
-package com.bandit.ui
+package com.bandit.ui.account
 
 import android.os.Bundle
 import android.view.LayoutInflater
