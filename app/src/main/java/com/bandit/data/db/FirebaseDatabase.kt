@@ -37,7 +37,8 @@ class FirebaseDatabase : Database {
     override suspend fun init() {
         runBlocking {
             readHomeNavigationElements()
-            readAccountAndBand()
+            readAccount()
+            readBand()
             readConcerts()
         }
     }
@@ -175,21 +176,25 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readAccountAndBand() = coroutineScope {
-        var accountDBEntry: AccountDBEntry
+    private suspend fun readAccount() = coroutineScope {
+        async {
+            val accountDBEntries = readAccountDbEntries {
+                return@readAccountDbEntries it.userUid == DILocator.authenticator.currentUser?.uid
+            }
+            if (accountDBEntries.isEmpty()) return@async
+            _currentAccount = AccountMapper.fromDbEntryToItem(accountDBEntries.first())
+        }
+    }.await()
+
+    private suspend fun readBand() = coroutineScope {
         var bandDBEntry: BandDBEntry
         val accounts: MutableList<Account> = mutableListOf()
         async {
 
-            val accountDBEntries = readAccountDbEntries {
-                return@readAccountDbEntries it.userUid == DILocator.authenticator.currentUser?.uid
-            }
-            if(accountDBEntries.isEmpty()) return@async
-            accountDBEntry = accountDBEntries.first()
+            var bandDBEntries: List<BandDBEntry> = listOf()
+            if(_currentAccount.bandId != null)
+                bandDBEntries = readBandDbEntries(_currentAccount.bandId!!)
 
-            _currentAccount = AccountMapper.fromDbEntryToItem(accountDBEntry)
-
-            val bandDBEntries = readBandDbEntries(accountDBEntry.id)
             if(bandDBEntries.isEmpty()) return@async
             bandDBEntry = bandDBEntries.first()
 
