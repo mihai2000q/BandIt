@@ -54,7 +54,7 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
-                android:id="@+id/concerts_bt_replacement"
+                android:id="@+id/concerts_bt_band"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -73,7 +73,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/concerts_bt_add"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/concerts_bt_replacement"
+                app:layout_constraintStart_toEndOf="@+id/concerts_bt_band"
                 app:layout_constraintTop_toBottomOf="@+id/concerts_tv_title"
                 app:srcCompat="@drawable/ic_baseline_filter"
                 tools:ignore="SpeakableTextPresentCheck" />

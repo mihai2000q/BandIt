@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
-import com.bandit.ui.AccountDialogFragment
+import com.bandit.ui.account.AccountDialogFragment
+import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
 
