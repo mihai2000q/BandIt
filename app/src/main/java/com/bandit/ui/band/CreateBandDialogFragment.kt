@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
-import com.bandit.databinding.FragmentCreateBandBinding
+import com.bandit.databinding.DialogFragmentCreateBandBinding
 
 class CreateBandDialogFragment : DialogFragment() {
 
-    private var _binding: FragmentCreateBandBinding? = null
+    private var _binding: DialogFragmentCreateBandBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
 
@@ -19,7 +19,7 @@ class CreateBandDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCreateBandBinding.inflate(inflater, container, false)
+        _binding = DialogFragmentCreateBandBinding.inflate(inflater, container, false)
         return binding.root
     }
 
