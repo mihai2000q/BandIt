@@ -15,5 +15,7 @@ interface Database {
     suspend fun remove(item: Any)
     suspend fun edit(item: Any)
     suspend fun updateAccount(account: Account)
+    suspend fun setUserAccountSetup(isAccountSetup: Boolean)
+    suspend fun isUserAccountSetup(): Boolean?
     fun clearData()
 }

@@ -29,16 +29,14 @@ class AccountViewModel : ViewModel() {
         name: String,
         nickname: String
     ) {
-        if(_currentAccount.isEmpty())
+        if(!_currentAccount.isEmpty())
             viewModelScope.launch {
                 _database.updateAccount(
                     Account(
                         name,
                         nickname,
                         _currentAccount.role,
-                        _currentAccount.bandId,
-                        _currentAccount.isSetup,
-                        _currentAccount.id
+                        null
                     )
                 )
             }

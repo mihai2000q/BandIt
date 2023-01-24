@@ -7,8 +7,6 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthenticator : Authenticator {
@@ -47,16 +45,11 @@ class FirebaseAuthenticator : Authenticator {
         }
     }.await()
 
-    override suspend fun createUser(email: String, password: String, displayName: String): Boolean? {
+    override suspend fun createUser(email: String, password: String): Boolean? {
         var result: Boolean? = null
         _currentUser = _auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 Log.d(Constants.Firebase.AUTH_TAG, "create user: success")
-                _currentUser?.updateProfile(
-                    userProfileChangeRequest {
-                        this.displayName = displayName
-                    }
-                )
                 _currentUser?.sendEmailVerification()
                 result = true
             }
@@ -65,6 +58,14 @@ class FirebaseAuthenticator : Authenticator {
                 result = false
             }.await().user
         return result
+    }
+
+    override suspend fun updateDisplayName(displayName: String) {
+        _currentUser?.updateProfile(
+            userProfileChangeRequest {
+                this.displayName = displayName
+            }
+        )?.await()
     }
 
     override fun signOut() {

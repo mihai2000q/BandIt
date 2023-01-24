@@ -8,7 +8,6 @@ data class Account(
     var nickname: String,
     var role: BandItEnums.Account.Role,
     var bandId: Long?,
-    var isSetup: Boolean = false,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
 ) : BaseModel(id) {
