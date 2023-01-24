@@ -5,21 +5,20 @@ import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 
 object BandMapper {
-    fun fromDbEntryToItem(entry: BandDBEntry, members: List<Account>): Band {
+    fun fromDbEntryToItem(entry: BandDBEntry, members: MutableMap<Account, Boolean>): Band {
         return Band(
             entry.name ?: "",
-            members as MutableList<Account>,
+            members,
             entry.id
         )
     }
 
     fun fromItemToDbEntry(item: Band): BandDBEntry {
-        val memberIds = mutableListOf<Long>()
-        item.members.forEach { memberIds.add(it.id) }
+        val members: MutableMap<Long, Boolean> = mutableMapOf()
+        item.members.forEach { (key, value) -> members[key.id] = value }
         return BandDBEntry(
             item.id,
-            item.name,
-            memberIds.toTypedArray()
+            item.name
         )
     }
 }

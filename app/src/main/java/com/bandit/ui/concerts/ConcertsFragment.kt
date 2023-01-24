@@ -11,6 +11,8 @@ import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.account.AccountDialogFragment
+import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
 class ConcertsFragment : Fragment() {
@@ -34,7 +36,11 @@ class ConcertsFragment : Fragment() {
         val concertDetailDialogFragment = ConcertDetailDialogFragment()
         val concertEditDialogFragment = ConcertEditDialogFragment()
         val accountDialogFragment = AccountDialogFragment(binding.concertsBtAccount)
+        val createBandDialogFragment = CreateBandDialogFragment()
+        val bandDialogFragment = BandDialogFragment()
         with(binding) {
+            AndroidUtils.bandButton(super.requireActivity(), concertsBtBand,
+                createBandDialogFragment, bandDialogFragment)
             concertsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,

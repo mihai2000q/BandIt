@@ -17,7 +17,7 @@
     <string name="home_tv_welcome">Welcome, name to</string>
     <string name="item_edit">Edit</string>
     <string name="item_delete">Delete</string>
-    <string name="concert_field_name">Name</string>
+    <string name="field_name">Name</string>
     <string name="concert_field_date">Date</string>
     <string name="concert_field_time">Time</string>
     <string name="concert_field_city">City</string>
@@ -27,14 +27,13 @@
     <string name="add_button">Add</string>
     <string name="save_button">Save</string>
     <string name="filter_button">Filter</string>
-    <string name="account_field_name">Name</string>
     <string name="account_field_nickname">Nickname</string>
     <string name="account_field_role">Role</string>
     <string name="account_field_bands">Bands</string>
     <string name="button_sign_out">Sign Out</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_up_title">Sign Up</string>
     <string name="sign_up_bt_cancel">Cancel</string>
     <string name="signup_bt_next">Next</string>
+    <string name="band_button_empty">Create A Band</string>
+    <string name="create_button">Create</string>
 </resources>

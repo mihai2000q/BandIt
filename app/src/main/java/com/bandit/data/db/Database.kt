@@ -2,6 +2,7 @@ package com.bandit.data.db
 
 import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
+import com.bandit.data.db.entry.BandInvitationDBEntry
 import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 
@@ -16,6 +17,7 @@ interface Database {
     suspend fun edit(item: Any)
     suspend fun updateAccount(account: Account)
     suspend fun setUserAccountSetup(isAccountSetup: Boolean)
+    suspend fun setBandInvitationDBEntry(bandInvitationDBEntry: BandInvitationDBEntry)
     suspend fun isUserAccountSetup(): Boolean?
     fun clearData()
 }
