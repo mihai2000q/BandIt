@@ -33,7 +33,7 @@ object Constants {
             const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
             const val ACCOUNTS = "Accounts"
             const val BANDS = "Bands"
-            const val BAND_INVITATIONS = "BandInvitation"
+            const val BAND_INVITATIONS = "BandInvitations"
             const val CONCERTS = "Concerts"
             const val TAG = "FirebaseDB"
         }
