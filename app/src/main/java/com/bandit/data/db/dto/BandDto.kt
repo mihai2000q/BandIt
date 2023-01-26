@@ -1,7 +1,7 @@
-package com.bandit.data.db.entry
+package com.bandit.data.db.dto
 
-data class BandDBEntry(
+data class BandDto(
     override val id: Long = -1,
     val name: String? = null,
     val creator: Long? = null
-) : BaseEntry(id)
+) : BaseDto(id)

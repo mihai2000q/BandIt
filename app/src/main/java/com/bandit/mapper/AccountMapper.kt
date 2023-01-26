@@ -1,12 +1,11 @@
 package com.bandit.mapper
 
 import com.bandit.constant.BandItEnums
-import com.bandit.data.db.entry.AccountDBEntry
+import com.bandit.data.db.dto.AccountDto
 import com.bandit.data.model.Account
-import com.bandit.data.model.Band
 
 object AccountMapper {
-    fun fromDbEntryToItem(entry: AccountDBEntry): Account {
+    fun fromDbEntryToItem(entry: AccountDto): Account {
         return Account(
             entry.name ?: "",
             entry.nickname ?: "",
@@ -18,8 +17,8 @@ object AccountMapper {
         )
     }
 
-    fun fromItemToDbEntry(item: Account): AccountDBEntry {
-        return AccountDBEntry(
+    fun fromItemToDbEntry(item: Account): AccountDto {
+        return AccountDto(
             item.id,
             item.name,
             item.nickname,

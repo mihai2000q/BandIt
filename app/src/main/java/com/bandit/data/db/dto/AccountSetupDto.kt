@@ -1,6 +1,6 @@
-package com.bandit.data.db.entry
+package com.bandit.data.db.dto
 
-data class AccountSetupDBEntry(
+data class AccountSetupDto(
     val accountSetup: Boolean? = null,
     val userUid: String? = null
 )

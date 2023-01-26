@@ -3,7 +3,7 @@ package com.bandit.ui.band
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bandit.data.db.entry.BandInvitationDBEntry
+import com.bandit.data.db.dto.BandInvitationDto
 import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
@@ -28,7 +28,7 @@ class BandViewModel : ViewModel() {
                 this@BandViewModel.band.value = band
                 add(band)
                 setBandInvitationDBEntry(
-                    BandInvitationDBEntry(
+                    BandInvitationDto(
                         AndroidUtils.generateRandomLong(),
                         band.id,
                         currentAccount.id,

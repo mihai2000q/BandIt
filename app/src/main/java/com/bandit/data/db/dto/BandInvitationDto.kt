@@ -1,6 +1,6 @@
-package com.bandit.data.db.entry
+package com.bandit.data.db.dto
 
-data class BandInvitationDBEntry(
+data class BandInvitationDto(
     val id: Long? = null,
     val bandId: Long? = null,
     val accountId: Long? = null,

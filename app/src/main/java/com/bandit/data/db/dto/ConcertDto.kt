@@ -1,6 +1,6 @@
-package com.bandit.data.db.entry
+package com.bandit.data.db.dto
 
-data class ConcertDBEntry(
+data class ConcertDto(
     override val id: Long,
     val name: String,
     val dateTime: String,
@@ -9,4 +9,4 @@ data class ConcertDBEntry(
     val place: String,
     val type: Long,
     val userUid: String
-) : BaseEntry(id)
+) : BaseDto(id)
