@@ -31,6 +31,7 @@ import com.bandit.ui.adapter.BandAdapter
                  with(viewModel) {
                      email.value = bandEtEmail.text.toString()
                      sendBandInvitation()
+                     bandEtEmail.setText("")
                  }
              }
              viewModel.members.observe(viewLifecycleOwner) {

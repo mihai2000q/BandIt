@@ -10,6 +10,7 @@ import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class BandViewModel : ViewModel() {
     private val _band = MutableLiveData(DILocator.database.currentBand)
@@ -26,7 +27,6 @@ class BandViewModel : ViewModel() {
                     currentAccount.id,
                     mutableMapOf(currentAccount to true)
                 )
-                _band.value = band
                 add(band)
                 setBandInvitationDBEntry(
                     BandInvitationDto(
@@ -47,16 +47,18 @@ class BandViewModel : ViewModel() {
                         currentAccount.userUid
                     )
                 )
-                _members.value?.set(currentAccount, true)
+                _band.value = band
+                _members.value = _band.value?.members
             }
         }
     }
 
     fun sendBandInvitation() {
         viewModelScope.launch {
-            DILocator.database.sendBandInvitation(email.value ?: "")
+            runBlocking { DILocator.database.sendBandInvitation(email.value ?: "") }
         }
         _band.value = DILocator.database.currentBand
+        val band = _band.value
         _members.value = _band.value?.members
     }
 }

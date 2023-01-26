@@ -88,20 +88,22 @@ class FirebaseDatabase : Database {
             .await()
     }
 
-    override suspend fun sendBandInvitation(email: String) {
-        val accountDtos = readAccountDbEntries { it.email == email }
-        if(accountDtos.isEmpty()) return
-        val accountDto = accountDtos.first()
-        _currentBand.members[AccountMapper.fromDbEntryToItem(accountDto)] = false
-        setBandInvitationDBEntry(
-            BandInvitationDto(
-                AndroidUtils.generateRandomLong(),
-                currentBand.id,
-                accountDto.id,
-                false
+    override suspend fun sendBandInvitation(email: String) = coroutineScope {
+        async {
+            val accountDtos = readAccountDbEntries { it.email == email }
+            if (accountDtos.isEmpty()) return@async
+            val accountDto = accountDtos.first()
+            _currentBand.members[AccountMapper.fromDbEntryToItem(accountDto)] = false
+            setBandInvitationDBEntry(
+                BandInvitationDto(
+                    AndroidUtils.generateRandomLong(),
+                    currentBand.id,
+                    accountDto.id,
+                    false
+                )
             )
-        )
-    }
+        }
+    }.await()
 
     override fun clearData() {
         concerts.clear()
@@ -222,19 +224,20 @@ class FirebaseDatabase : Database {
             if(bandDBEntries.isEmpty()) return@async
             bandDto = bandDBEntries.first()
 
-            val accountDbEntries = readAccountDbEntries {
-                return@readAccountDbEntries it.bandId == bandDto.id
+            val bandInvitationDBEntries = readBandInvitationDBEntry(bandDto.id)
+
+            val accountDbEntries = readAccountDbEntries {a ->
+                return@readAccountDbEntries bandInvitationDBEntries.filter { it.accountId == a.id }.size == 1
             }
 
             accountDbEntries.forEach {
                 accounts.add(AccountMapper.fromDbEntryToItem(it))
             }
-            val bandInvitationDBEntries = readBandInvitationDBEntry(bandDto.id)
 
             val map: MutableMap<Account, Boolean> = mutableMapOf()
 
             bandInvitationDBEntries.forEach { b ->
-                accounts.forEach {a ->
+                accounts.forEach { a ->
                     if(a.id == b.accountId)
                         map[a] = b.accepted ?: false
                 }
