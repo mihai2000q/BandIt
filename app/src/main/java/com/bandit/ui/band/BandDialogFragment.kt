@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandBinding
+import com.bandit.ui.adapter.BandAdapter
 
  class BandDialogFragment : DialogFragment() {
 
@@ -31,6 +32,9 @@ import com.bandit.databinding.DialogFragmentBandBinding
                      email.value = bandEtEmail.text.toString()
                      sendBandInvitation()
                  }
+             }
+             viewModel.members.observe(viewLifecycleOwner) {
+                 bandMemberList.adapter = BandAdapter(it)
              }
          }
      }

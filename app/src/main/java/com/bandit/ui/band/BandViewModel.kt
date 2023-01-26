@@ -1,5 +1,6 @@
 package com.bandit.ui.band
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +12,12 @@ import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
 class BandViewModel : ViewModel() {
-    val band = MutableLiveData<Band>()
+    private val _band = MutableLiveData(DILocator.database.currentBand)
+    val band: LiveData<Band> = _band
+    private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())
+    val members: LiveData<MutableMap<Account, Boolean>> = _members
     val name = MutableLiveData<String>()
     val email = MutableLiveData<String>()
-    init {
-        band.value = DILocator.database.currentBand
-    }
     fun createBand() {
         viewModelScope.launch {
             with(DILocator.database) {
@@ -25,7 +26,7 @@ class BandViewModel : ViewModel() {
                     currentAccount.id,
                     mutableMapOf(currentAccount to true)
                 )
-                this@BandViewModel.band.value = band
+                _band.value = band
                 add(band)
                 setBandInvitationDBEntry(
                     BandInvitationDto(
@@ -46,13 +47,16 @@ class BandViewModel : ViewModel() {
                         currentAccount.userUid
                     )
                 )
+                _members.value?.set(currentAccount, true)
             }
         }
     }
 
     fun sendBandInvitation() {
         viewModelScope.launch {
-                DILocator.database.sendBandInvitation(email.value ?: "")
+            DILocator.database.sendBandInvitation(email.value ?: "")
         }
+        _band.value = DILocator.database.currentBand
+        _members.value = _band.value?.members
     }
 }

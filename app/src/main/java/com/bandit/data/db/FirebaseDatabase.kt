@@ -89,13 +89,15 @@ class FirebaseDatabase : Database {
     }
 
     override suspend fun sendBandInvitation(email: String) {
-        val accounts = readAccountDbEntries { it.email == email }
-        if(accounts.isEmpty()) return
+        val accountDtos = readAccountDbEntries { it.email == email }
+        if(accountDtos.isEmpty()) return
+        val accountDto = accountDtos.first()
+        _currentBand.members[AccountMapper.fromDbEntryToItem(accountDto)] = false
         setBandInvitationDBEntry(
             BandInvitationDto(
                 AndroidUtils.generateRandomLong(),
                 currentBand.id,
-                accounts.first().id,
+                accountDto.id,
                 false
             )
         )
@@ -109,7 +111,10 @@ class FirebaseDatabase : Database {
     private suspend fun set(item: Any) {
         when(item) {
             is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDbEntry(item))
-            is Band -> setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDbEntry(item))
+            is Band -> {
+                setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDbEntry(item))
+                _currentBand = item
+            }
             is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDbEntry(item))
         }
     }
