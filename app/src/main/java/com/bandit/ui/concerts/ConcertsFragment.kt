@@ -77,12 +77,12 @@ class ConcertsFragment : Fragment() {
             with(viewModel) {
                 concerts.observe(viewLifecycleOwner) {
                     concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
-                        selectedConcert.value = concert
-                        AndroidUtils.showDialogFragment(
-                            concertDetailDialogFragment,
-                            childFragmentManager
-                        )
-                    },
+                            selectedConcert.value = concert
+                            AndroidUtils.showDialogFragment(
+                                concertDetailDialogFragment,
+                                childFragmentManager
+                            )
+                        },
                         { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
                         { concert ->
                             AndroidUtils.toastNotification(
@@ -90,7 +90,8 @@ class ConcertsFragment : Fragment() {
                                 resources.getString(R.string.Concert_Remove_Toast),
                             )
                             return@ConcertAdapter removeConcert(concert)
-                        }) { concert ->
+                        }
+                    ) { concert ->
                         selectedConcert.value = concert
                         AndroidUtils.showDialogFragment(
                             concertEditDialogFragment,
