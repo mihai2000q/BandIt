@@ -41,6 +41,10 @@ class ConcertsFragment : Fragment() {
         val createBandDialogFragment = CreateBandDialogFragment()
         val bandDialogFragment = BandDialogFragment()
         with(binding) {
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                concertsBtAdd.isEnabled = !it.isEmpty()
+                concertsBtFilter.isEnabled = !it.isEmpty()
+            }
             AndroidUtils.bandButton(
                 super.requireActivity(),
                 concertsBtBand,

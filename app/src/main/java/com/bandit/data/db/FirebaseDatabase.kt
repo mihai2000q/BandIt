@@ -199,7 +199,7 @@ class FirebaseDatabase : Database {
                 "Concerts",
                 concerts,
                 ConcertMapper,
-                DILocator.authenticator.currentUser?.uid
+                _currentBand.id
             ) { result ->
                 ConcertDto(
                     result.get(Constants.Concert.Fields.id) as Long,
@@ -209,7 +209,7 @@ class FirebaseDatabase : Database {
                     result.get(Constants.Concert.Fields.country) as String,
                     result.get(Constants.Concert.Fields.place) as String,
                     result.get(Constants.Concert.Fields.type) as Long,
-                    result.get(Constants.Concert.Fields.userUid) as String
+                    result.get("bandId") as Long
                 )
             }
         }
@@ -219,17 +219,14 @@ class FirebaseDatabase : Database {
         table: String,
         list: MutableList<T>,
         mapper: Mapper<T, E>,
-        userUid: String?,
+        bandId: Long,
         action: (QueryDocumentSnapshot) -> E) = coroutineScope {
         async {
             _firestore.collection(table)
                 .get()
                 .addOnSuccessListener {
                     for (result in it)
-                        if (!userUid.isNullOrEmpty()
-                            && result.getString("userUid") != null
-                            && userUid == result.getString("userUid")
-                        )
+                        if (bandId == result.getLong("bandId"))
                             list.add(mapper.fromDbEntryToItem(action(result)))
                 }
                 .addOnFailureListener {
