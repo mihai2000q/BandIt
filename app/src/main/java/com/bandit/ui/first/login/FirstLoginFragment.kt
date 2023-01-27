@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -47,6 +46,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
             firstLoginBtNext.setOnClickListener { firstLoginBtNext() }
+            // TODO: on last phase it stays disabled
             /*firstLoginEtString.addTextChangedListener {
                 firstLoginBtNext.isEnabled = it.toString().isNotEmpty()
             }*/
@@ -143,8 +143,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         roleIndex = position
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
 }

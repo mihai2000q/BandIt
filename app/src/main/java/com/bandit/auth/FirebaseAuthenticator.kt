@@ -38,8 +38,10 @@ class FirebaseAuthenticator : Authenticator {
                             "Sign in with email and password: failed"
                         )
                         result = false
-                    }.await().user
+                    }.await()
+                    .user
             }
+            // TODO: Add catch exception
             catch (_: Exception) {}
             return@async result
         }

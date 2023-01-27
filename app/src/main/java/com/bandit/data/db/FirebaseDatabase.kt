@@ -34,7 +34,7 @@ class FirebaseDatabase : Database {
             readAccount()
             readBand()
             readBandInvitation()
-            if(!_currentBand.isEmpty()) return@runBlocking
+            if(_currentBand.isEmpty()) return@runBlocking
             readConcerts()
         }
     }
@@ -62,29 +62,41 @@ class FirebaseDatabase : Database {
         }
     }
 
-    override suspend fun setUserAccountSetup(isAccountSetup: Boolean) {
-        _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-            .document(generateDocumentNameUserUid())
-            .set(AccountSetupDto(isAccountSetup, DILocator.authenticator.currentUser!!.uid))
-            .await()
-    }
+    override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
+        async {
+            _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
+                .document(generateDocumentNameUserUid())
+                .set(AccountSetupDto(isAccountSetup, DILocator.authenticator.currentUser!!.uid))
+                .await()
+            return@async
+        }
+    }.await()
 
-    override suspend fun isUserAccountSetup(): Boolean? {
-        return _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-            .document(generateDocumentNameUserUid())
-            .get()
-            .await()
-            .toObject(AccountSetupDto::class.java)
-            ?.accountSetup
-    }
+    override suspend fun isUserAccountSetup(): Boolean? = coroutineScope {
+        async {
+            return@async _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
+                .document(generateDocumentNameUserUid())
+                .get()
+                .await()
+                .toObject(AccountSetupDto::class.java)
+                ?.accountSetup
+        }
+    }.await()
 
-    override suspend fun setBandInvitationDBEntry(bandInvitationDto: BandInvitationDto) {
-        _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
-            .document(generateDocumentNameId(Constants.Firebase.Database.BAND_INVITATIONS,
-                bandInvitationDto.id ?: -1))
-            .set(bandInvitationDto)
-            .await()
-    }
+    override suspend fun setBandInvitationDBEntry(bandInvitationDto: BandInvitationDto) = coroutineScope {
+        async {
+            _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
+                .document(
+                    generateDocumentNameId(
+                        Constants.Firebase.Database.BAND_INVITATIONS,
+                        bandInvitationDto.id ?: -1
+                    )
+                )
+                .set(bandInvitationDto)
+                .await()
+            return@async
+        }
+    }.await()
 
     override suspend fun sendBandInvitation(email: String) = coroutineScope {
         async {

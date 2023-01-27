@@ -16,10 +16,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
-import com.bandit.di.DILocator
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView

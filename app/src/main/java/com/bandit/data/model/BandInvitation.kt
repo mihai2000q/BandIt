@@ -7,15 +7,11 @@ data class BandInvitation (
     val account: Account,
     var hasAccepted: Boolean,
     override val id: Long = AndroidUtils.generateRandomLong()
-    ) : BaseModel(id) {
+) : BaseModel(id) {
     fun isEmpty(): Boolean {
         return this == EMPTY
     }
     companion object {
-        val EMPTY = BandInvitation(
-            Band.EMPTY,
-            Account.EMPTY,
-            false
-        )
+        val EMPTY = BandInvitation(Band.EMPTY, Account.EMPTY, false)
     }
 }
