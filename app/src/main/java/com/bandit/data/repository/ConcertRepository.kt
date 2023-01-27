@@ -66,7 +66,7 @@ class ConcertRepository(database: Database? = null) : BaseRepository<Concert>(da
                 item.country,
                 item.place,
                 item.type,
-                userUid = item.userUid
+                item.bandId
             )
         }
         return newConcert

@@ -1,4 +1,4 @@
-package com.bandit.ui
+package com.bandit.ui.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,7 +36,8 @@ class AccountViewModel : ViewModel() {
                         name,
                         nickname,
                         _currentAccount.role,
-                        null
+                        null,
+                        _currentAccount.email
                     )
                 )
             }

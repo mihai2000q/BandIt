@@ -1,26 +1,26 @@
 package com.bandit.mapper
 
 import com.bandit.constant.BandItEnums
-import com.bandit.data.db.entry.ConcertDBEntry
+import com.bandit.data.db.dto.ConcertDto
 import com.bandit.data.model.Concert
 import java.time.LocalDateTime
 
-object ConcertMapper : Mapper<Concert, ConcertDBEntry> {
-    override fun fromDbEntryToItem(entry: ConcertDBEntry): Concert {
+object ConcertMapper : Mapper<Concert, ConcertDto> {
+    override fun fromDbEntryToItem(entry: ConcertDto): Concert {
         return Concert(
-            entry.name,
+            entry.name ?: "",
             LocalDateTime.parse(entry.dateTime),
-            entry.city,
-            entry.country,
-            entry.place,
-            mapIntToConcertType(entry.type.toInt()),
+            entry.city ?: "",
+            entry.country ?: "",
+            entry.place ?: "",
+            mapIntToConcertType(entry.type?.toInt() ?: 0),
             entry.id,
-            entry.userUid
+            entry.bandId ?: -1
         )
     }
 
-    override fun fromItemToDbEntry(item: Concert): ConcertDBEntry {
-        return ConcertDBEntry(
+    override fun fromItemToDbEntry(item: Concert): ConcertDto {
+        return ConcertDto(
             item.id,
             item.name,
             item.dateTime.toString(),
@@ -28,7 +28,7 @@ object ConcertMapper : Mapper<Concert, ConcertDBEntry> {
             item.country,
             item.place,
             mapConcertTypeToInt(item.type).toLong(),
-            item.userUid ?: ""
+            item.bandId
         )
     }
 

@@ -10,7 +10,10 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
-import com.bandit.ui.AccountDialogFragment
+import com.bandit.ui.account.AccountDialogFragment
+import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
 class ConcertsFragment : Fragment() {
@@ -18,6 +21,7 @@ class ConcertsFragment : Fragment() {
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +38,21 @@ class ConcertsFragment : Fragment() {
         val concertDetailDialogFragment = ConcertDetailDialogFragment()
         val concertEditDialogFragment = ConcertEditDialogFragment()
         val accountDialogFragment = AccountDialogFragment(binding.concertsBtAccount)
+        val createBandDialogFragment = CreateBandDialogFragment()
+        val bandDialogFragment = BandDialogFragment()
         with(binding) {
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                concertsBtAdd.isEnabled = !it.isEmpty()
+                concertsBtFilter.isEnabled = !it.isEmpty()
+            }
+            AndroidUtils.bandButton(
+                super.requireActivity(),
+                concertsBtBand,
+                bandViewModel.band,
+                viewLifecycleOwner,
+                createBandDialogFragment,
+                bandDialogFragment
+            )
             concertsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,
@@ -63,12 +81,12 @@ class ConcertsFragment : Fragment() {
             with(viewModel) {
                 concerts.observe(viewLifecycleOwner) {
                     concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
-                        selectedConcert.value = concert
-                        AndroidUtils.showDialogFragment(
-                            concertDetailDialogFragment,
-                            childFragmentManager
-                        )
-                    },
+                            selectedConcert.value = concert
+                            AndroidUtils.showDialogFragment(
+                                concertDetailDialogFragment,
+                                childFragmentManager
+                            )
+                        },
                         { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
                         { concert ->
                             AndroidUtils.toastNotification(
@@ -76,7 +94,8 @@ class ConcertsFragment : Fragment() {
                                 resources.getString(R.string.Concert_Remove_Toast),
                             )
                             return@ConcertAdapter removeConcert(concert)
-                        }) { concert ->
+                        }
+                    ) { concert ->
                         selectedConcert.value = concert
                         AndroidUtils.showDialogFragment(
                             concertEditDialogFragment,

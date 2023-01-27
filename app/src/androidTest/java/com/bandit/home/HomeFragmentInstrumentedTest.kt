@@ -30,7 +30,7 @@ class HomeFragmentInstrumentedTest {
         onView(withId(R.id.home_tv_welcome)).check(matches(isDisplayed()))
         onView(withId(R.id.home_tv_title)).check(matches(withText("BandIt")))
         onView(withId(R.id.home_bt_account)).check(matches(isDisplayed()))
-        onView(withId(R.id.home_bt_replacement)).check(matches(isDisplayed()))
+        onView(withId(R.id.home_bt_band)).check(matches(isDisplayed()))
 
         onView(withId(R.id.home_scroll_view)).check(matches(isDisplayed()))
         onView(withId(R.id.home_sv_table_layout)).check(matches(isDisplayed()))

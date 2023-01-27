@@ -17,7 +17,8 @@ sealed class BandItEnums {
             RhythmGuitar,
             Bass,
             Vocalist,
-            Drums
+            Drums,
+            Manager
         }
     }
 }

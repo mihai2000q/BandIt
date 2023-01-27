@@ -35,7 +35,7 @@ class ConcertFragmentInstrumentedTest {
         onView(withId(R.id.concerts_bt_account)).check(matches(isDisplayed()))
         onView(withId(R.id.concerts_bt_filter)).check(matches(isDisplayed()))
         onView(withId(R.id.concerts_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.concerts_bt_replacement)).check(matches(isDisplayed()))
+        onView(withId(R.id.concerts_bt_band)).check(matches(isDisplayed()))
 
         onView(withId(R.id.concerts_list)).check(matches(isDisplayed()))
     }

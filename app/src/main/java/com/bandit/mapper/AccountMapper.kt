@@ -1,28 +1,29 @@
 package com.bandit.mapper
 
 import com.bandit.constant.BandItEnums
-import com.bandit.data.db.entry.AccountDBEntry
+import com.bandit.data.db.dto.AccountDto
 import com.bandit.data.model.Account
-import com.bandit.data.model.Band
 
-object AccountMapper {
-    fun fromDbEntryToItem(entry: AccountDBEntry): Account {
+object AccountMapper : Mapper<Account, AccountDto> {
+    override fun fromDbEntryToItem(entry: AccountDto): Account {
         return Account(
             entry.name ?: "",
             entry.nickname ?: "",
             this.mapIntToAccountRole(entry.role?.toInt() ?: 0),
             entry.bandId,
+            entry.email ?: "",
             entry.id,
             entry.userUid
         )
     }
 
-    fun fromItemToDbEntry(item: Account): AccountDBEntry {
-        return AccountDBEntry(
+    override fun fromItemToDbEntry(item: Account): AccountDto {
+        return AccountDto(
             item.id,
             item.name,
             item.nickname,
             this.mapAccountRoleToInt(item.role).toLong(),
+            item.email,
             item.bandId,
             item.userUid ?: ""
         )

@@ -17,7 +17,8 @@ class ConcertTest {
             "Los Angeles",
             "United States",
             "Big Arena",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertEquals(concert.name, "Concert1")
         assertEquals(concert.dateTime, LocalDateTime.parse("2020-10-25T20:30"))
@@ -26,13 +27,13 @@ class ConcertTest {
         assertEquals(concert.place, "Big Arena")
         assertEquals(concert.type, BandItEnums.Concert.Type.Tournament)
         assertNotNull(concert.id)
-        assertNull(concert.userUid)
+        assertNotNull(concert.bandId)
     }
     @Test
     fun concert_init_id() {
         //Repeated tests improvised
         for (i in 1..100) {
-            val concert = Concert.getEmpty()
+            val concert = Concert.EMPTY
             assertNotNull(concert.id)
             if (concert.id < 0 || concert.id > Constants.MAX_NR_ITEMS)
                 fail("The Id should be between these boundaries")
@@ -46,7 +47,8 @@ class ConcertTest {
             "Los Angeles",
             "USA",
             "Big Arena",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert2 = Concert(
             "Concert",
@@ -54,7 +56,8 @@ class ConcertTest {
             "Los Angeles",
             "USA",
             "Big Arena",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertEquals(concert1, concert2)
         assertNotEquals(concert1.id, concert2.id)
@@ -68,7 +71,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert2",
@@ -76,7 +80,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert3",
@@ -84,7 +89,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert4",
@@ -92,7 +98,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert5",
@@ -100,7 +107,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert6",
@@ -108,7 +116,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             )
         )
         outcome.sort()
@@ -119,7 +128,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert6",
@@ -127,7 +137,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert5",
@@ -135,7 +146,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert1",
@@ -143,7 +155,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert2",
@@ -151,7 +164,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Concert3",
@@ -159,7 +173,8 @@ class ConcertTest {
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             )
         )
         assertEquals(outcome, expected)
@@ -172,7 +187,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert2 = Concert(
             "",
@@ -180,7 +196,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertTrue(concert1.isOutdated())
         assertTrue(!concert2.isOutdated())
@@ -193,7 +210,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert2 = Concert(
             "",
@@ -201,7 +219,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert3 = Concert(
             "",
@@ -209,7 +228,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertTrue(concert1.is24HoursApart())
         assertTrue(!concert2.is24HoursApart())
@@ -223,7 +243,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert2 = Concert(
             "",
@@ -231,7 +252,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert3 = Concert(
             "",
@@ -239,7 +261,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertTrue(concert1.is7DaysApart())
         assertTrue(!concert2.is7DaysApart())
@@ -253,7 +276,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert2 = Concert(
             "",
@@ -261,7 +285,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         val concert3 = Concert(
             "",
@@ -269,7 +294,8 @@ class ConcertTest {
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament
+            BandItEnums.Concert.Type.Tournament,
+            -1
         )
         assertTrue(concert1.isOneYearApart())
         assertTrue(!concert2.isOneYearApart())

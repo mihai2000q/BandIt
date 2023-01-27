@@ -14,7 +14,6 @@ import java.time.LocalTime
 
 class ConcertRepositoryTest {
     private lateinit var concertRepository: ConcertRepository
-
     @Before
     fun setup() {
         concertRepository = ConcertRepository()
@@ -28,7 +27,8 @@ class ConcertRepositoryTest {
                     "Los Angeles",
                     "United States",
                     "Big Arena",
-                    BandItEnums.Concert.Type.Tournament
+                    BandItEnums.Concert.Type.Tournament,
+                    -1
                 )
             )
             concertRepository.add(
@@ -38,7 +38,8 @@ class ConcertRepositoryTest {
                     "Los Angeles",
                     "United States of America",
                     "Big Arena 2",
-                    BandItEnums.Concert.Type.Tournament
+                    BandItEnums.Concert.Type.Tournament,
+                    -1
                 )
             )
             concertRepository.add(
@@ -48,7 +49,8 @@ class ConcertRepositoryTest {
                     "L A ",
                     "U.S.A",
                     "Small Arena",
-                    BandItEnums.Concert.Type.Simple
+                    BandItEnums.Concert.Type.Simple,
+                    -1
                 )
             )
             concertRepository.add(
@@ -58,7 +60,8 @@ class ConcertRepositoryTest {
                     "Berlin",
                     "Germany",
                     "rock fest Arena",
-                    BandItEnums.Concert.Type.Festival
+                    BandItEnums.Concert.Type.Festival,
+                    -1
                 )
             )
             concertRepository.add(
@@ -68,7 +71,8 @@ class ConcertRepositoryTest {
                     "Leipzig",
                     "Germany",
                     "rock fest Arena",
-                    BandItEnums.Concert.Type.Simple
+                    BandItEnums.Concert.Type.Simple,
+                    -1
                 )
             )
         }
@@ -129,7 +133,7 @@ class ConcertRepositoryTest {
         runBlocking {
             with(concertRepository) {
                 for (i in 0 until Constants.MAX_NR_ITEMS / 2)
-                    add(Concert.getEmpty())
+                    add(Concert.EMPTY)
                 for (concert in list)
                     if (list.filter { it.id == concert.id }.size > 1)
                         fail("Id's should be different")
@@ -146,7 +150,8 @@ class ConcertRepositoryTest {
             "newCity",
             "newCountry",
             "newPlace",
-            BandItEnums.Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival,
+            -1
         )
         //before
         assert_concert(
@@ -167,6 +172,7 @@ class ConcertRepositoryTest {
             newConcert.country,
             newConcert.place,
             newConcert.type,
+            newConcert.bandId,
             concertToEdit.id
         )
         runBlocking {
@@ -196,7 +202,8 @@ class ConcertRepositoryTest {
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Simple
+            BandItEnums.Concert.Type.Simple,
+            -1
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -211,7 +218,8 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States",
                 "Big Arena",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             ),
             Concert(
                 "Legacy of the beast 2",
@@ -219,7 +227,8 @@ class ConcertRepositoryTest {
                 "Los Angeles",
                 "United States of America",
                 "Big Arena 2",
-                BandItEnums.Concert.Type.Tournament
+                BandItEnums.Concert.Type.Tournament,
+                -1
             )
         )
         assertEquals(outcome2.size, 2)
@@ -258,7 +267,8 @@ class ConcertRepositoryTest {
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Simple
+            BandItEnums.Concert.Type.Simple,
+            -1
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -284,7 +294,8 @@ class ConcertRepositoryTest {
             "Berlin",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Festival
+            BandItEnums.Concert.Type.Festival,
+            -1
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -312,7 +323,7 @@ class ConcertRepositoryTest {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        runBlocking { repository.add(Concert(name, dateTime, city, country, place, type)) }
+        runBlocking { repository.add(Concert(name, dateTime, city, country, place, type, -1)) }
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
     }
     private fun assert_concert(

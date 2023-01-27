@@ -35,7 +35,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                         concertEtPlace.text.toString(),
                         BandItEnums.Concert.Type.values()[typeIndex],
                         viewModel.selectedConcert.value!!.id,
-                        viewModel.selectedConcert.value!!.userUid
+                        viewModel.selectedConcert.value!!.bandId
                     )
                 )
                 AndroidUtils.toastNotification(

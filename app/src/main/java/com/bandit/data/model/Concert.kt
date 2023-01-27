@@ -11,12 +11,12 @@ data class Concert(
     val country: String,
     val place: String,
     val type: BandItEnums.Concert.Type,
-    override val id: Long = AndroidUtils.generateRandomLong(),
-    val userUid: String? = ""
+    val bandId: Long,
+    override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id), Comparable<Concert> {
     companion object {
-        fun getEmpty(): Concert = Concert("", LocalDateTime.now(),
-            "", "", "", BandItEnums.Concert.Type.Simple)
+        val EMPTY = Concert("", LocalDateTime.now(),
+            "", "", "", BandItEnums.Concert.Type.Simple, -1)
     }
 
     fun isOutdated(): Boolean {
@@ -55,6 +55,7 @@ data class Concert(
         if (country != other.country) return false
         if (place != other.place) return false
         if (type != other.type) return false
+        if (bandId != other.bandId) return false
 
         return true
     }
@@ -66,6 +67,7 @@ data class Concert(
         result = 31 * result + country.hashCode()
         result = 31 * result + place.hashCode()
         result = 31 * result + type.hashCode()
+        result = 31 * result + bandId.hashCode()
         return result
     }
 

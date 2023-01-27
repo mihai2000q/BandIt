@@ -5,17 +5,23 @@ import android.content.Context
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.ui.concerts.ConcertAddDialogFragment
+import com.bandit.data.model.Band
+import com.bandit.di.DILocator
+import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.random.Random
 
@@ -68,5 +74,32 @@ object AndroidUtils {
                 childFragmentManager,
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
+    }
+    fun bandButton(
+        activity: FragmentActivity,
+        button: Button,
+        band: LiveData<Band>,
+        viewLifecycleOwner: LifecycleOwner,
+        createBandDialogFragment: CreateBandDialogFragment,
+        bandDialogFragment: BandDialogFragment
+    ) {
+        band.observe(viewLifecycleOwner) {
+            if (it.isEmpty())
+                button.setOnClickListener {
+                    showDialogFragment(
+                        createBandDialogFragment,
+                        activity.supportFragmentManager
+                    )
+                }
+            else {
+                button.text = it.name
+                button.setOnClickListener {
+                    showDialogFragment(
+                        bandDialogFragment,
+                        activity.supportFragmentManager
+                    )
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.bandit.ui
+package com.bandit.ui.account
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -83,7 +83,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     }
 
     companion object {
-        const val TAG = Constants.Home.ACCOUNT_HOME_TAG
+        const val TAG = Constants.Account.TAG
     }
 
 }

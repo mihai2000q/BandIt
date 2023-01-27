@@ -15,7 +15,7 @@ import java.time.LocalTime
 class ConcertsViewModel : ViewModel() {
     private val _repository = ConcertRepository(DILocator.database)
     private val _concerts = MutableLiveData(_repository.list)
-    val concerts: LiveData<List<Concert>> get() = _concerts
+    val concerts: LiveData<List<Concert>> = _concerts
     val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
 
     enum class Filter { Name, Date, Time, City, Country, Place, Type }

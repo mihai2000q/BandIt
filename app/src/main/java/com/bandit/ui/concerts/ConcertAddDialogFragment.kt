@@ -32,7 +32,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),
                         BandItEnums.Concert.Type.values()[typeIndex],
-                        userUid = DILocator.authenticator.currentUser?.uid
+                        DILocator.database.currentBand.id
                     )
                 )
                 AndroidUtils.toastNotification(

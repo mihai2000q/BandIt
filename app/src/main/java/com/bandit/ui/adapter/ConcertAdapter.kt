@@ -3,7 +3,6 @@ package com.bandit.ui.adapter
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,7 @@ import com.bandit.constant.BandItEnums
 import com.bandit.extension.StringExtensions.get2Characters
 import com.bandit.extension.StringExtensions.normalizeWord
 
-class ConcertAdapter(
+data class ConcertAdapter(
     private val concerts: List<Concert>,
     private val onConcertClick: (Concert) -> Unit,
     private val onConcertLongClick: (Concert) -> Boolean,
