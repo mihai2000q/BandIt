@@ -12,6 +12,9 @@ object Constants {
         const val CREATE_BAND_TAG = "CREATE BAND DIALOG FRAGMENT"
         const val BAND_TAG = "BAND DIALOG FRAGMENT"
     }
+    object Home {
+        const val BAND_INVITATION_TAG = "BAND INVITATION DIALOG FRAGMENT"
+    }
     object Concert {
         object Fields {
             const val id = "id"

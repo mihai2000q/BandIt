@@ -66,11 +66,20 @@ class HomeFragment : Fragment() {
 
             homeTvWelcome.text = "Welcome ${DILocator.database.currentAccount.nickname}, to"
         }
+        bandInvitation()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun bandInvitation() {
+        if(!DILocator.database.currentBandInvitation.isEmpty()) {
+            val bandInvitationDialogFragment = BandInvitationDialogFragment()
+            AndroidUtils.showDialogFragment(bandInvitationDialogFragment, childFragmentManager)
+        }
+
     }
 
 }
