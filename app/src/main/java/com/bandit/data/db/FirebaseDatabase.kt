@@ -20,15 +20,12 @@ import kotlinx.coroutines.tasks.await
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
-    override val currentAccount: Account get() =
-        if(::_currentAccount.isInitialized) _currentAccount else Account.EMPTY
-    override val currentBand: Band get() =
-        if(::_currentBand.isInitialized) _currentBand else Band.EMPTY
-    override val currentBandInvitation: BandInvitation get() =
-        if(::_currentBandInvitation.isInitialized) _currentBandInvitation else BandInvitation.EMPTY
-    private lateinit var _currentAccount: Account
-    private lateinit var _currentBand: Band
-    private lateinit var _currentBandInvitation: BandInvitation
+    override val currentAccount: Account get() = _currentAccount
+    override val currentBand: Band get() = _currentBand
+    override val currentBandInvitation: BandInvitation get() = _currentBandInvitation
+    private var _currentAccount = Account.EMPTY
+    private var _currentBand = Band.EMPTY
+    private var _currentBandInvitation = BandInvitation.EMPTY
     private val _firestore = Firebase.firestore
 
     override suspend fun init() {
@@ -37,7 +34,7 @@ class FirebaseDatabase : Database {
             readAccount()
             readBand()
             readBandInvitation()
-            if(!::_currentBand.isInitialized) return@runBlocking
+            if(!_currentBand.isEmpty()) return@runBlocking
             readConcerts()
         }
     }
@@ -55,7 +52,7 @@ class FirebaseDatabase : Database {
     }
 
     override suspend fun updateAccount(account: Account) {
-        if(!::_currentAccount.isInitialized) return
+        if(!_currentAccount.isEmpty()) return
         with(_currentAccount) {
             name = account.name
             nickname = account.nickname
