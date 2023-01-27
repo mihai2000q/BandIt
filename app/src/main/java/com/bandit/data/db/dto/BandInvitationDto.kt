@@ -4,5 +4,5 @@ data class BandInvitationDto(
     val id: Long? = null,
     val bandId: Long? = null,
     val accountId: Long? = null,
-    val accepted: Boolean? = null
+    var accepted: Boolean? = null
 )
