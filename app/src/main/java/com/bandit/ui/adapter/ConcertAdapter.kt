@@ -1,6 +1,5 @@
 package com.bandit.ui.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ data class ConcertAdapter(
         )
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val concert = concerts[position]
 
@@ -55,8 +53,10 @@ data class ConcertAdapter(
                     }
                 concertLayout.setBackgroundColor(color)
                 concertTitle.text = concert.name.uppercase()
-                concertCityCountry.text = "${concert.city.normalizeWord()}, " +
-                        concert.country.normalizeWord()
+                concertCityCountry.text = buildString {
+                    append("${concert.city.normalizeWord()}, ")
+                    append(concert.country.normalizeWord())
+                }
                 concertPlace.text = concert.place
                 concertDate.text = when {
                     concert.is24HoursApart() -> "${concert.dateTime.hour.toString().get2Characters()}:" +

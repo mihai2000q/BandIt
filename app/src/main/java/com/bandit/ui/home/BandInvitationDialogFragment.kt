@@ -1,6 +1,5 @@
 package com.bandit.ui.home
 
-import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,12 +26,14 @@ class BandInvitationDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             val bandInvitation = DILocator.database.currentBandInvitation
-            bandInvitationTvTitle.text = "You have been invited to ${bandInvitation.band.name}"
+            bandInvitationTvTitle.text = buildString {
+                append("You have been invited to ")
+                append(bandInvitation.band.name)
+            }
             bandInvitationBtAccept.setOnClickListener {
                 lifecycleScope.launch {
                     launch { DILocator.database.acceptBandInvitation() }.join()

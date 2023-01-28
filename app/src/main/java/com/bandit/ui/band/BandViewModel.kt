@@ -58,7 +58,6 @@ class BandViewModel : ViewModel() {
             runBlocking { DILocator.database.sendBandInvitation(email.value ?: "") }
         }
         _band.value = DILocator.database.currentBand
-        val band = _band.value
         _members.value = _band.value?.members
     }
 }

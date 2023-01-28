@@ -1,6 +1,5 @@
 package com.bandit.ui.concerts
 
-import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -86,15 +85,16 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun datePickerDialog() {
         val calendar = Calendar.getInstance()
         datePickerDialog = DatePickerDialog(
             this.requireContext(),
             { _, year, month, dayOfMonth ->
-                binding.concertEtDate.setText("$year-" +
-                        "${(month + 1).toString().get2Characters()}-" +
-                        dayOfMonth.toString().get2Characters())
+                binding.concertEtDate.setText(buildString {
+                    append("$year-")
+                    append("${(month + 1).toString().get2Characters()}-")
+                    append(dayOfMonth.toString().get2Characters())
+                })
                 datePickerDialog.dismiss()
             },
             calendar.get(Calendar.YEAR),
@@ -104,14 +104,15 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
     }
 
-    @SuppressLint("SetTextI18n")
     private fun timePickerDialog() {
         val calendar = Calendar.getInstance()
         timePickerDialog = TimePickerDialog(
             this.requireContext(),
             { _, hourOfDay, minute ->
-                binding.concertEtTime.setText("${hourOfDay.toString().get2Characters()}:" +
-                        minute.toString().get2Characters())
+                binding.concertEtTime.setText(buildString {
+                    append("${hourOfDay.toString().get2Characters()}:")
+                    append(minute.toString().get2Characters())
+                })
                 timePickerDialog.dismiss()
             },
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -124,7 +125,5 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
         typeIndex = position
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 }

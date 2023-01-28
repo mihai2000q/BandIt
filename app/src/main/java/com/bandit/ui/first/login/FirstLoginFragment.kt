@@ -1,6 +1,5 @@
 package com.bandit.ui.first.login
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -58,17 +57,16 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         _binding = null
     }
 
-    @SuppressLint("SetTextI18n")
     private fun firstLoginBtNext() {
         with(binding) {
             when (phase) {
                 0 -> {
                     viewModel.name.value = firstLoginEtString.text.toString()
-                    phase("Nickname:")
+                    phase(resources.getString(R.string.first_login_tv_subject_nickname))
                 }
                 1 -> {
                     viewModel.nickname.value = firstLoginEtString.text.toString()
-                    phase("Role:")
+                    phase(resources.getString(R.string.first_login_tv_subject_role))
                     firstLoginEtString.visibility = View.INVISIBLE
                     firstLoginSpinnerRole.visibility = View.VISIBLE
                     AndroidUtils.hideKeyboard(
@@ -81,8 +79,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
                     firstLoginSpinnerRole.visibility = View.GONE
                     firstLoginBtCancel.visibility = View.GONE
-                    firstLoginBtNext.text = "Go To Home"
-                    phase("Congratulations on making your account")
+                    firstLoginBtNext.setText(R.string.first_login_bt_next_last)
+                    phase(resources.getString(R.string.first_login_tv_subject_last))
                     createAccount()
                 }
                 3 -> {

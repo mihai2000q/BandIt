@@ -1,8 +1,9 @@
 package com.bandit.ui.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,7 +31,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
     
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val createBandDialogFragment = CreateBandDialogFragment()
@@ -64,7 +64,11 @@ class HomeFragment : Fragment() {
                 )
             }
 
-            homeTvWelcome.text = "Welcome ${DILocator.database.currentAccount.nickname}, to"
+            homeTvWelcome.text = buildString {
+                append("Welcome ")
+                append(DILocator.database.currentAccount.nickname)
+                append(", to")
+            }
         }
         bandInvitation()
     }

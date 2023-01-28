@@ -36,19 +36,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            viewModel.email.observe(viewLifecycleOwner) { fragmentLoginEtUsername.setText(it) }
-            fragmentLoginBtLogin.setOnClickListener {
+            viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
+            loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
                     runBlocking {
                         viewModel.signInWithEmailAndPassword(
-                            fragmentLoginEtUsername.text.toString(),
-                            fragmentLoginEtPassword.text.toString(),
+                            loginEtEmail.text.toString(),
+                            loginEtPassword.text.toString(),
                             { login() }
                         )
                     }
                 }
             }
-            fragmentLoginBtSignup.setOnClickListener {
+            loginBtSignup.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             }
         }
@@ -63,7 +63,7 @@ class LoginFragment : Fragment() {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
-            binding.fragmentLoginBtLogin
+            binding.loginBtLogin
         )
         var result: Boolean? = null
         lifecycleScope.launch {
@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
                 PreferencesUtils.savePreference(
                     super.requireActivity(),
                     Constants.Preferences.REMEMBER_ME,
-                    binding.fragmentLoginCbRemember.isChecked
+                    binding.loginCbRemember.isChecked
                 )
                 AndroidUtils.unlockNavigation(
                     super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
@@ -84,7 +84,7 @@ class LoginFragment : Fragment() {
             } else if (result == false) {
                 findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
                 val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
-                firstLoginViewModel.rememberMe.value = binding.fragmentLoginCbRemember.isChecked
+                firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
                 AndroidUtils.lockNavigation(
                     super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                     super.requireActivity().findViewById(R.id.main_drawer_layout)

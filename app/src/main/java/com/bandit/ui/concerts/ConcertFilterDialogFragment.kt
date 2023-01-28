@@ -1,9 +1,7 @@
 package com.bandit.ui.concerts
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.ui.concerts.ConcertsViewModel.*
@@ -13,7 +11,6 @@ import java.time.LocalTime
 
 class ConcertFilterDialogFragment : ConcertDialogFragment() {
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val map = mapOf(
@@ -26,9 +23,11 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
         )
         with(binding) {
             concertEtSpinnerType.visibility = View.GONE // bug
-            concertButton.setText(R.string.filter_button)
+            concertButton.setText(R.string.bt_filter)
             with(viewModel.filters.value) {
                 map.forEach { (key, value) -> key.setText(this?.get(value)) }
+                /* TODO: fix the filtering for concert type
+                    it should not force the user to always use it */
                 /*val type = this?.get(Filter.Type)
                 concertEtSpinnerType.setSelection(
                     if(type.isNullOrEmpty()) 0 else type.toInt()
