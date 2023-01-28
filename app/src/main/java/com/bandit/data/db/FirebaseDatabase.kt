@@ -34,7 +34,7 @@ class FirebaseDatabase : Database {
             readBand()
             readBandInvitation()
             if(_currentBand.isEmpty()) return@runBlocking
-            readConcerts()
+            readItems()
         }
     }
 
@@ -51,7 +51,7 @@ class FirebaseDatabase : Database {
     }
 
     override suspend fun updateAccount(account: Account) {
-        if(!_currentAccount.isEmpty()) return
+        if(_currentAccount.isEmpty()) return
         with(_currentAccount) {
             name = account.name
             nickname = account.nickname
@@ -128,8 +128,10 @@ class FirebaseDatabase : Database {
             setBandInvitation(bandInvitationDto)
 
             _currentAccount.bandId = bandInvitationDto.bandId
-            updateAccount(currentAccount)
+            updateAccount(_currentAccount)
             readBand()
+            _currentBandInvitation = BandInvitation.EMPTY
+            readItems()
         }
     }.await()
 
@@ -216,22 +218,23 @@ class FirebaseDatabase : Database {
         val accounts: MutableList<Account> = mutableListOf()
         async {
 
-            var bandDBEntries: List<BandDto> = listOf()
-            if(_currentAccount.bandId != null)
-                bandDBEntries = readBandDtos(_currentAccount.bandId!!)
+            if(_currentAccount.bandId == null) return@async
 
-            if(bandDBEntries.isEmpty()) return@async
-            bandDto = bandDBEntries.first()
+            val bandDtos = readBandDtos(_currentAccount.bandId!!)
+
+            if(bandDtos.size != 1)
+                throw RuntimeException("there can't be more than one band associated with an account")
+            bandDto = bandDtos.first()
 
             val bandInvitationDtos = readBandInvitationDtos {
                 it.bandId == bandDto.id
             }
 
-            val accountDbEntries = readAccountDtos { a ->
+            val accountDtos = readAccountDtos { a ->
                 return@readAccountDtos bandInvitationDtos.filter { it.accountId == a.id }.size == 1
             }
 
-            accountDbEntries.forEach {
+            accountDtos.forEach {
                 accounts.add(AccountMapper.fromDtoToItem(it))
             }
 
@@ -246,7 +249,7 @@ class FirebaseDatabase : Database {
 
             _currentBand = BandMapper.fromDbEntryToItem(bandDto, map)
 
-            Log.i(Constants.Firebase.Database.TAG, "Accounts imported successfully")
+            Log.i(Constants.Firebase.Database.TAG, "Band imported successfully")
         }
     }.await()
 
@@ -273,6 +276,12 @@ class FirebaseDatabase : Database {
                 band,
                 _currentAccount
             )
+        }
+    }.await()
+
+    private suspend fun readItems() = coroutineScope {
+        async {
+            readConcerts()
         }
     }.await()
 

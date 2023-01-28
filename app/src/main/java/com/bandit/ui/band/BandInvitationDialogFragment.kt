@@ -1,4 +1,4 @@
-package com.bandit.ui.home
+package com.bandit.ui.band
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
@@ -16,6 +17,7 @@ class BandInvitationDialogFragment : DialogFragment() {
 
     private var _binding: DialogFragmentBandInvitationBinding? = null
     private val binding get() = _binding!!
+    private val bandViewModel: BandViewModel by activityViewModels()
     private var clicked = false
 
     override fun onCreateView(
@@ -37,6 +39,7 @@ class BandInvitationDialogFragment : DialogFragment() {
             bandInvitationBtAccept.setOnClickListener {
                 lifecycleScope.launch {
                     launch { DILocator.database.acceptBandInvitation() }.join()
+                    bandViewModel.refresh()
                     clicked = true
                     super.dismiss()
                 }
