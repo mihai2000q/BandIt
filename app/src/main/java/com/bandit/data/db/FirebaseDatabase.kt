@@ -296,7 +296,7 @@ class FirebaseDatabase : Database {
             return@async accountDbEntries
         }
     }.await()
-    
+
     private suspend fun readBandDtos(bandId: Long): List<BandDto> = coroutineScope {
         async {
             val bandDtos = _firestore.collection(Constants.Firebase.Database.BANDS)

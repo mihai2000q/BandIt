@@ -9,11 +9,8 @@ abstract class BaseRepository<T>(
 )
 where T : BaseModel
 {
-    private val _list: MutableList<T> = mutableListOf()
+    private val _list: MutableList<T> = databaseList?.toMutableList() ?: mutableListOf()
     val list: List<T> get() = _list
-    init {
-        _list.addAll(databaseList ?: listOf())
-    }
     suspend fun add(item: T) {
         val newItem = reassignId(item)
         _database?.add(newItem)
