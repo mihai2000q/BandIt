@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/content_description_account_iv_picture"
             android:padding="8dp"
             app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
             app:layout_constraintStart_toStartOf="parent"

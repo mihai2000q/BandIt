@@ -101,7 +101,8 @@
             app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
             app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
             app:layout_constraintVertical_bias="0.6"
-            android:autofillHints="" />
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/signup_et_password"
@@ -115,12 +116,14 @@
             app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
             app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
             app:layout_constraintVertical_bias="0.6"
-            android:autofillHints="" />
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <ImageView
             android:id="@+id/signup_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_iv_logo"
             android:scaleX="4"
             android:scaleY="4"
             app:layout_constraintBottom_toBottomOf="parent"

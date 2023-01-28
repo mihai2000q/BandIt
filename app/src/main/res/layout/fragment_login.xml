@@ -46,6 +46,7 @@
             android:id="@+id/login_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_iv_logo"
             android:scaleX="2"
             android:scaleY="2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -99,7 +100,7 @@
             app:layout_constraintStart_toEndOf="@+id/login_tv_email"
             app:layout_constraintTop_toTopOf="@+id/login_tv_email"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields" />
 
         <EditText
             android:id="@+id/login_et_password"
@@ -116,7 +117,7 @@
             app:layout_constraintStart_toEndOf="@+id/login_tv_password"
             app:layout_constraintStart_toStartOf="@+id/login_et_email"
             app:layout_constraintTop_toTopOf="@+id/login_tv_password"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
         <CheckBox
             android:id="@+id/login_cb_remember"

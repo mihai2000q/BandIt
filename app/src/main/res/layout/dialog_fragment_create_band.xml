@@ -30,7 +30,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/et_name"
+            android:text="@string/tv_name"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/create_band_bt_create"
             app:layout_constraintEnd_toStartOf="@+id/create_band_et_name"
