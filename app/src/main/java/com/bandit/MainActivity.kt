@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_todolist,
                 R.id.navigation_login,
-                R.id.navigation_signup -> binding.mainBottomNavigationView.visibility = View.GONE
+                R.id.navigation_signup,
+                R.id.navigation_first_login -> binding.mainBottomNavigationView.visibility = View.GONE
                 else -> binding.mainBottomNavigationView.visibility = View.VISIBLE
             }
         }

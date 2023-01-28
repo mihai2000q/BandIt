@@ -90,10 +90,6 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
                 val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
                 firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
-                AndroidUtils.lockNavigation(
-                    super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
-                    super.requireActivity().findViewById(R.id.main_drawer_layout)
-                )
             }
             AndroidUtils.toastNotification(
                 super.requireContext(),
