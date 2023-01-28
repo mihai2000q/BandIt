@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         setupNavigationElements(navController)
+        supportActionBar?.hide()
 
         authentication(navController)
     }
