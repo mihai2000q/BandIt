@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
@@ -26,5 +27,9 @@ class FirstLoginViewModel : ViewModel() {
                 )
             )
         }
+    }
+
+    companion object {
+        const val TAG = Constants.FirstLogin.VIEW_MODEL_TAG
     }
 }

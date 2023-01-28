@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
@@ -41,5 +42,9 @@ class AccountViewModel : ViewModel() {
                     )
                 )
             }
+    }
+
+    companion object {
+        const val TAG = Constants.Account.VIEW_MODEL_TAG
     }
 }

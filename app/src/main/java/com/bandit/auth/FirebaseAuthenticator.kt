@@ -19,26 +19,30 @@ class FirebaseAuthenticator : Authenticator {
             _currentUser = _auth.currentUser
     }
 
-    override suspend fun signInWithEmailAndPassword(email: String,
-                                                    password: String): Boolean? = coroutineScope {
+    override suspend fun signInWithEmailAndPassword(
+        email: String,
+        password: String
+    ): Boolean? =
+    coroutineScope {
         async {
             var result: Boolean? = null
             try {
                 _currentUser = _auth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener {
                         Log.d(
-                            Constants.Firebase.AUTH_TAG,
+                            Constants.Firebase.Auth.TAG,
                             "sign in with email and password: success"
                         )
                         result = true
                     }
                     .addOnFailureListener {
                         Log.w(
-                            Constants.Firebase.AUTH_TAG,
+                            Constants.Firebase.Auth.TAG,
                             "Sign in with email and password: failed"
                         )
                         result = false
-                    }.await()
+                    }
+                    .await()
                     .user
             }
             // TODO: Add catch exception
@@ -51,14 +55,16 @@ class FirebaseAuthenticator : Authenticator {
         var result: Boolean? = null
         _currentUser = _auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                Log.d(Constants.Firebase.AUTH_TAG, "create user: success")
+                Log.d(Constants.Firebase.Auth.TAG, "create user: success")
                 _currentUser?.sendEmailVerification()
                 result = true
             }
             .addOnFailureListener {
-                Log.w(Constants.Firebase.AUTH_TAG, "create user: failed")
+                Log.w(Constants.Firebase.Auth.TAG, "create user: failed")
                 result = false
-            }.await().user
+            }
+            .await()
+            .user
         return result
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bandit.constant.BandItEnums
+import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.di.DILocator
@@ -55,5 +56,9 @@ class ConcertsViewModel : ViewModel() {
         type: BandItEnums.Concert.Type?
     ) {
         _concerts.value = _repository.filterConcerts(name, date, time, city, country, place, type)
+    }
+
+    companion object {
+        const val TAG = Constants.Concert.VIEW_MODEL_TAG
     }
 }
