@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
+import com.bandit.util.AndroidUtils
 
 class CreateBandDialogFragment : DialogFragment() {
 
@@ -30,6 +32,10 @@ class CreateBandDialogFragment : DialogFragment() {
                 with(viewModel) {
                     name.value = createBandEtName.text.toString()
                     createBand()
+                    AndroidUtils.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.create_band_toast)
+                    )
                 }
                 super.dismiss()
             }

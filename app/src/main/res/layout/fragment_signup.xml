@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="Sign Up"
+            android:text="@string/sign_up_title"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:backgroundTint="@color/eton_blue"
             android:scaleX="1.25"
             android:scaleY="1.25"
-            android:text="Cancel"
+            android:text="@string/bt_cancel"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/signup_bt_next"
@@ -66,7 +66,7 @@
             android:layout_margin="16dp"
             android:scaleX="1.25"
             android:scaleY="1.25"
-            android:text="Next"
+            android:text="@string/bt_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:text="Email:"
+            android:text="@string/tv_email"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/signup_bt_cancel"
             app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,8 @@
             app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
             app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
             app:layout_constraintVertical_bias="0.6"
-            android:autofillHints="" />
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/signup_et_password"
@@ -115,12 +116,14 @@
             app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
             app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
             app:layout_constraintVertical_bias="0.6"
-            android:autofillHints="" />
+            android:autofillHints=""
+            tools:ignore="LabelFor" />
 
         <ImageView
             android:id="@+id/signup_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_iv_logo"
             android:scaleX="4"
             android:scaleY="4"
             app:layout_constraintBottom_toBottomOf="parent"

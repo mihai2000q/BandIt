@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="concert_field_date">Date</string>
+    <string name="concert_field_time">Time</string>
+    <string name="concert_field_city">City</string>
+    <string name="concert_field_country">Country</string>
+    <string name="concert_field_place">Place</string>
+    <string name="concert_field_type">Type</string>
+</resources>

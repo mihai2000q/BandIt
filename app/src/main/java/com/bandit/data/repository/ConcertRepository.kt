@@ -7,7 +7,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class ConcertRepository(database: Database? = null) : BaseRepository<Concert>(database, database?.concerts) {
+class ConcertRepository(database: Database? = null)
+    : BaseRepository<Concert>(database, database?.concerts) {
     fun filterConcerts(
         name: String?,
         date: LocalDate?,

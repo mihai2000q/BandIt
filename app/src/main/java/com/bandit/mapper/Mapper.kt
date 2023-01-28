@@ -1,6 +1,13 @@
 package com.bandit.mapper
 
-sealed interface Mapper<T, E> {
-    fun fromDbEntryToItem(entry: E): T
-    fun fromItemToDbEntry(item: T): E
+import com.bandit.data.db.dto.BaseDto
+import com.bandit.data.model.BaseModel
+
+sealed interface Mapper<T, E>
+where
+T : BaseModel,
+E : BaseDto
+{
+    fun fromDtoToItem(dto: E): T
+    fun fromItemToDto(item: T): E
 }

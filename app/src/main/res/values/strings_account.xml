@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="account_field_nickname">Nickname</string>
+    <string name="account_field_role">Role</string>
+    <string name="account_field_bands">Bands</string>
+</resources>

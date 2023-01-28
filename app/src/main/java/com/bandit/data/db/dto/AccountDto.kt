@@ -1,5 +1,7 @@
 package com.bandit.data.db.dto
 
+import com.bandit.data.model.BaseModel
+
 data class AccountDto(
     override val id: Long = -1,
     val name: String? = null,
@@ -8,4 +10,4 @@ data class AccountDto(
     val email: String? = null,
     val bandId: Long? = null,
     val userUid: String? = null
-) : BaseDto(id)
+) : BaseModel(id)

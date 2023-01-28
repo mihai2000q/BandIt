@@ -14,7 +14,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         spinnerType()
         with(binding) {
-            concertButton.setText(R.string.save_button)
+            concertButton.setText(R.string.bt_save)
             with(viewModel.selectedConcert.value!!) {
                 concertEtName.setText(name)
                 concertEtCity.setText(city)
@@ -40,7 +40,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 )
                 AndroidUtils.toastNotification(
                     super.requireContext(),
-                    resources.getString(R.string.Concert_Edit_Toast)
+                    resources.getString(R.string.concert_edit_toast)
                 )
                 super.dismiss()
             }

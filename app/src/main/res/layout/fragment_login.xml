@@ -16,36 +16,37 @@
         tools:layout_editor_absoluteX="1dp">
 
         <Button
-            android:id="@+id/fragment_login_bt_login"
+            android:id="@+id/login_bt_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/dark_spring_green"
-            android:text="@string/fragment_login_bt_login"
+            android:text="@string/login_bt_login"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_iv_logo"
+            app:layout_constraintTop_toBottomOf="@+id/login_iv_logo"
             app:layout_constraintVertical_bias="0.56" />
 
         <Button
-            android:id="@+id/fragment_login_bt_signup"
+            android:id="@+id/login_bt_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="140dp"
             android:layout_marginTop="16dp"
             android:background="@color/dark_spring_green"
-            android:text="@string/fragment_login_bt_signup"
+            android:text="@string/login_bt_signup"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_bt_login"
+            app:layout_constraintTop_toBottomOf="@+id/login_bt_login"
             app:layout_constraintVertical_bias="0.7" />
 
         <ImageView
-            android:id="@+id/fragment_login_iv_logo"
+            android:id="@+id/login_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_iv_logo"
             android:scaleX="2"
             android:scaleY="2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -58,32 +59,32 @@
             tools:src="@drawable/ic_launcher_foreground" />
 
         <TextView
-            android:id="@+id/fragment_login_tv_username"
+            android:id="@+id/login_tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/fragment_login_tv_username"
+            android:text="@string/tv_email"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_tv_password"
-            app:layout_constraintEnd_toStartOf="@+id/fragment_login_et_username"
+            app:layout_constraintBottom_toTopOf="@+id/login_tv_password"
+            app:layout_constraintEnd_toStartOf="@+id/login_et_email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_iv_logo"
+            app:layout_constraintTop_toBottomOf="@+id/login_iv_logo"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/fragment_login_tv_password"
+            android:id="@+id/login_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/fragment_login_tv_password"
+            android:text="@string/tv_password"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_cb_remember"
-            app:layout_constraintEnd_toStartOf="@+id/fragment_login_et_password"
+            app:layout_constraintBottom_toTopOf="@+id/login_cb_remember"
+            app:layout_constraintEnd_toStartOf="@+id/login_et_password"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_tv_username" />
+            app:layout_constraintTop_toBottomOf="@+id/login_tv_email" />
 
         <EditText
-            android:id="@+id/fragment_login_et_username"
+            android:id="@+id/login_et_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -93,16 +94,16 @@
             android:minHeight="48dp"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_et_password"
+            app:layout_constraintBottom_toBottomOf="@+id/login_tv_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/fragment_login_tv_username"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_iv_logo"
+            app:layout_constraintStart_toEndOf="@+id/login_tv_email"
+            app:layout_constraintTop_toTopOf="@+id/login_tv_email"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields" />
 
         <EditText
-            android:id="@+id/fragment_login_et_password"
+            android:id="@+id/login_et_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -110,33 +111,34 @@
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_cb_remember"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/login_tv_password"
+            app:layout_constraintEnd_toEndOf="@+id/login_et_email"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/fragment_login_tv_password"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_et_username"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:layout_constraintStart_toEndOf="@+id/login_tv_password"
+            app:layout_constraintStart_toStartOf="@+id/login_et_email"
+            app:layout_constraintTop_toTopOf="@+id/login_tv_password"
+            tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
         <CheckBox
-            android:id="@+id/fragment_login_cb_remember"
+            android:id="@+id/login_cb_remember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:text="@string/fragment_login_cb_remember"
+            android:text="@string/login_cb_remember"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_bt_login"
+            app:layout_constraintBottom_toTopOf="@+id/login_bt_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/fragment_login_tv_registered"
+            android:id="@+id/login_tv_registered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_login_tv_registered"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_login_bt_signup"
+            android:text="@string/login_tv_registered"
+            app:layout_constraintBottom_toTopOf="@+id/login_bt_signup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_login_bt_login" />
+            app:layout_constraintTop_toBottomOf="@+id/login_bt_login" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

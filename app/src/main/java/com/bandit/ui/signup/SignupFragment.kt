@@ -1,6 +1,5 @@
 package com.bandit.ui.signup
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -54,7 +53,6 @@ class SignupFragment : Fragment() {
         _binding = null
     }
 
-    @SuppressLint("SetTextI18n")
     private fun signUpBtNext() {
         with(binding) {
             when(phase) {
@@ -62,15 +60,15 @@ class SignupFragment : Fragment() {
                     viewModel.email.value = signupEtString.text.toString()
                     signupEtPassword.visibility = View.VISIBLE
                     signupEtString.visibility = View.GONE
-                    phase("Password:")
+                    phase(resources.getString(R.string.tv_password))
                 }
                 1 -> {
                     viewModel.password.value = signupEtPassword.text.toString()
                     signupEtPassword.visibility = View.GONE
                     signupEtString.visibility = View.GONE
                     signupBtNext.visibility = View.GONE
-                    signupBtCancel.text = "Go Back"
-                    phase("A confirmation email has been sent")
+                    signupBtCancel.setText(R.string.bt_go_back)
+                    phase(resources.getString(R.string.sign_up_tv_last))
                     signup()
                 }
                 else -> {}
@@ -95,7 +93,7 @@ class SignupFragment : Fragment() {
         viewModel.createUser()
         AndroidUtils.toastNotification(
             super.requireContext(),
-            resources.getString(R.string.Signup_Toast),
+            resources.getString(R.string.signup_toast),
             Toast.LENGTH_LONG
         )
     }

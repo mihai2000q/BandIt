@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.builder.HomeBuilder
 import com.bandit.constant.BandItEnums
-import com.bandit.data.model.Band
+import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -40,4 +40,7 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    companion object {
+        const val TAG = Constants.Home.VIEW_MODEL_TAG
+    }
 }

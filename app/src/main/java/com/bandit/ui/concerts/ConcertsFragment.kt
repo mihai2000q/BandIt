@@ -91,7 +91,7 @@ class ConcertsFragment : Fragment() {
                         { concert ->
                             AndroidUtils.toastNotification(
                                 super.requireContext(),
-                                resources.getString(R.string.Concert_Remove_Toast),
+                                resources.getString(R.string.concert_remove_toast),
                             )
                             return@ConcertAdapter removeConcert(concert)
                         }

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandBinding
 import com.bandit.ui.adapter.BandAdapter
+import com.bandit.util.AndroidUtils
 
  class BandDialogFragment : DialogFragment() {
 
@@ -32,6 +34,10 @@ import com.bandit.ui.adapter.BandAdapter
                      email.value = bandEtEmail.text.toString()
                      sendBandInvitation()
                      bandEtEmail.setText("")
+                     AndroidUtils.toastNotification(
+                         super.requireContext(),
+                         resources.getString(R.string.invite_band_toast)
+                     )
                  }
              }
              viewModel.members.observe(viewLifecycleOwner) {

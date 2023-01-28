@@ -22,7 +22,7 @@ class ConcertFragmentInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     private fun beforeEach() {
         //go to home
-        onView(withId(R.id.fragment_login_bt_login)).perform(click())
+        onView(withId(R.id.login_bt_login)).perform(click())
         //go to concerts
         onView(withText("Your Concerts")).perform(click())
     }

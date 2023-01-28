@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bandit.constant.Constants
 import com.bandit.data.db.dto.BandInvitationDto
 import com.bandit.data.model.Account
 import com.bandit.data.model.Band
@@ -28,7 +29,7 @@ class BandViewModel : ViewModel() {
                     mutableMapOf(currentAccount to true)
                 )
                 add(band)
-                setBandInvitationDBEntry(
+                setBandInvitation(
                     BandInvitationDto(
                         AndroidUtils.generateRandomLong(),
                         band.id,
@@ -58,7 +59,10 @@ class BandViewModel : ViewModel() {
             runBlocking { DILocator.database.sendBandInvitation(email.value ?: "") }
         }
         _band.value = DILocator.database.currentBand
-        val band = _band.value
         _members.value = _band.value?.members
+    }
+
+    companion object {
+        const val TAG = Constants.Band.VIEW_MODEL_TAG
     }
 }

@@ -3,7 +3,6 @@ package com.bandit.ui.concerts
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
@@ -17,7 +16,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         spinnerType()
         with(binding) {
-            concertButton.setText(R.string.add_button)
+            concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 AndroidUtils.hideKeyboard(
                     super.requireActivity(),
@@ -37,7 +36,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                 )
                 AndroidUtils.toastNotification(
                     super.requireContext(),
-                    resources.getString(R.string.Concert_Add_Toast)
+                    resources.getString(R.string.concert_add_toast)
                 )
                 super.dismiss()
             }

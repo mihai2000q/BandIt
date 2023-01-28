@@ -8,7 +8,6 @@ import com.bandit.data.model.*
 import com.bandit.di.DILocator
 import com.bandit.mapper.*
 import com.bandit.util.AndroidUtils
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -20,15 +19,12 @@ import kotlinx.coroutines.tasks.await
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
-    override val currentAccount: Account get() =
-        if(::_currentAccount.isInitialized) _currentAccount else Account.EMPTY
-    override val currentBand: Band get() =
-        if(::_currentBand.isInitialized) _currentBand else Band.EMPTY
-    override val currentBandInvitation: BandInvitation get() =
-        if(::_currentBandInvitation.isInitialized) _currentBandInvitation else BandInvitation.EMPTY
-    private lateinit var _currentAccount: Account
-    private lateinit var _currentBand: Band
-    private lateinit var _currentBandInvitation: BandInvitation
+    override val currentAccount: Account get() = _currentAccount
+    override val currentBand: Band get() = _currentBand
+    override val currentBandInvitation: BandInvitation get() = _currentBandInvitation
+    private var _currentAccount = Account.EMPTY
+    private var _currentBand = Band.EMPTY
+    private var _currentBandInvitation = BandInvitation.EMPTY
     private val _firestore = Firebase.firestore
 
     override suspend fun init() {
@@ -37,7 +33,7 @@ class FirebaseDatabase : Database {
             readAccount()
             readBand()
             readBandInvitation()
-            if(!::_currentBand.isInitialized) return@runBlocking
+            if(_currentBand.isEmpty()) return@runBlocking
             readConcerts()
         }
     }
@@ -55,7 +51,7 @@ class FirebaseDatabase : Database {
     }
 
     override suspend fun updateAccount(account: Account) {
-        if(!::_currentAccount.isInitialized) return
+        if(!_currentAccount.isEmpty()) return
         with(_currentAccount) {
             name = account.name
             nickname = account.nickname
@@ -65,37 +61,49 @@ class FirebaseDatabase : Database {
         }
     }
 
-    override suspend fun setUserAccountSetup(isAccountSetup: Boolean) {
-        _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-            .document(generateDocumentNameUserUid())
-            .set(AccountSetupDto(isAccountSetup, DILocator.authenticator.currentUser!!.uid))
-            .await()
-    }
+    override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
+        async {
+            _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
+                .document(generateDocumentNameUserUid())
+                .set(AccountSetupDto(isAccountSetup, DILocator.authenticator.currentUser!!.uid))
+                .await()
+            return@async
+        }
+    }.await()
 
-    override suspend fun isUserAccountSetup(): Boolean? {
-        return _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-            .document(generateDocumentNameUserUid())
-            .get()
-            .await()
-            .toObject(AccountSetupDto::class.java)
-            ?.accountSetup
-    }
+    override suspend fun isUserAccountSetup(): Boolean? = coroutineScope {
+        async {
+            return@async _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
+                .document(generateDocumentNameUserUid())
+                .get()
+                .await()
+                .toObject(AccountSetupDto::class.java)
+                ?.accountSetup
+        }
+    }.await()
 
-    override suspend fun setBandInvitationDBEntry(bandInvitationDto: BandInvitationDto) {
-        _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
-            .document(generateDocumentNameId(Constants.Firebase.Database.BAND_INVITATIONS,
-                bandInvitationDto.id ?: -1))
-            .set(bandInvitationDto)
-            .await()
-    }
+    override suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto) = coroutineScope {
+        async {
+            _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
+                .document(
+                    generateDocumentNameId(
+                        Constants.Firebase.Database.BAND_INVITATIONS,
+                        bandInvitationDto.id
+                    )
+                )
+                .set(bandInvitationDto)
+                .await()
+            return@async
+        }
+    }.await()
 
     override suspend fun sendBandInvitation(email: String) = coroutineScope {
         async {
-            val accountDtos = readAccountDbEntries { it.email == email }
+            val accountDtos = readAccountDtos { it.email == email }
             if (accountDtos.isEmpty()) return@async
             val accountDto = accountDtos.first()
-            _currentBand.members[AccountMapper.fromDbEntryToItem(accountDto)] = false
-            setBandInvitationDBEntry(
+            _currentBand.members[AccountMapper.fromDtoToItem(accountDto)] = false
+            setBandInvitation(
                 BandInvitationDto(
                     AndroidUtils.generateRandomLong(),
                     currentBand.id,
@@ -117,7 +125,7 @@ class FirebaseDatabase : Database {
 
             val bandInvitationDto = bandInvitationDtos.first()
             bandInvitationDto.accepted = true
-            setBandInvitationDBEntry(bandInvitationDto)
+            setBandInvitation(bandInvitationDto)
 
             _currentAccount.bandId = bandInvitationDto.bandId
             updateAccount(currentAccount)
@@ -150,12 +158,12 @@ class FirebaseDatabase : Database {
 
     private suspend fun set(item: Any) {
         when(item) {
-            is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDbEntry(item))
+            is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
             is Band -> {
                 setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDbEntry(item))
                 _currentBand = item
             }
-            is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDbEntry(item))
+            is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
         }
     }
 
@@ -193,57 +201,13 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readConcerts() = coroutineScope {
-        async {
-            readItem(
-                "Concerts",
-                concerts,
-                ConcertMapper,
-                _currentBand.id
-            ) { result ->
-                ConcertDto(
-                    result.get(Constants.Concert.Fields.id) as Long,
-                    result.get(Constants.Concert.Fields.name) as String,
-                    result.get(Constants.Concert.Fields.dateTime) as String,
-                    result.get(Constants.Concert.Fields.city) as String,
-                    result.get(Constants.Concert.Fields.country) as String,
-                    result.get(Constants.Concert.Fields.place) as String,
-                    result.get(Constants.Concert.Fields.type) as Long,
-                    result.get("bandId") as Long
-                )
-            }
-        }
-    }.await()
-
-    private suspend fun <T, E> readItem(
-        table: String,
-        list: MutableList<T>,
-        mapper: Mapper<T, E>,
-        bandId: Long,
-        action: (QueryDocumentSnapshot) -> E) = coroutineScope {
-        async {
-            _firestore.collection(table)
-                .get()
-                .addOnSuccessListener {
-                    for (result in it)
-                        if (bandId == result.getLong("bandId"))
-                            list.add(mapper.fromDbEntryToItem(action(result)))
-                }
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
-                }
-                .await()
-            Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
-        }
-    }.await()
-
     private suspend fun readAccount() = coroutineScope {
         async {
-            val accountDBEntries = readAccountDbEntries {
-                return@readAccountDbEntries it.userUid == DILocator.authenticator.currentUser?.uid
+            val accountDBEntries = readAccountDtos {
+                return@readAccountDtos it.userUid == DILocator.authenticator.currentUser?.uid
             }
             if (accountDBEntries.isEmpty()) return@async
-            _currentAccount = AccountMapper.fromDbEntryToItem(accountDBEntries.first())
+            _currentAccount = AccountMapper.fromDtoToItem(accountDBEntries.first())
         }
     }.await()
 
@@ -254,7 +218,7 @@ class FirebaseDatabase : Database {
 
             var bandDBEntries: List<BandDto> = listOf()
             if(_currentAccount.bandId != null)
-                bandDBEntries = readBandDbEntries(_currentAccount.bandId!!)
+                bandDBEntries = readBandDtos(_currentAccount.bandId!!)
 
             if(bandDBEntries.isEmpty()) return@async
             bandDto = bandDBEntries.first()
@@ -263,12 +227,12 @@ class FirebaseDatabase : Database {
                 it.bandId == bandDto.id
             }
 
-            val accountDbEntries = readAccountDbEntries {a ->
-                return@readAccountDbEntries bandInvitationDtos.filter { it.accountId == a.id }.size == 1
+            val accountDbEntries = readAccountDtos { a ->
+                return@readAccountDtos bandInvitationDtos.filter { it.accountId == a.id }.size == 1
             }
 
             accountDbEntries.forEach {
-                accounts.add(AccountMapper.fromDbEntryToItem(it))
+                accounts.add(AccountMapper.fromDtoToItem(it))
             }
 
             val map: MutableMap<Account, Boolean> = mutableMapOf()
@@ -299,7 +263,7 @@ class FirebaseDatabase : Database {
 
             if(bandInvitationDto.accepted == true) return@async
 
-            val bandDtos = readBandDbEntries(bandInvitationDto.bandId!!)
+            val bandDtos = readBandDtos(bandInvitationDto.bandId!!)
             if (bandDtos.size != 1)
                 throw RuntimeException("there can't be more bands associated with the same band invitation Id")
             val band = BandMapper.fromDbEntryToItem(bandDtos.first(), mutableMapOf())
@@ -312,7 +276,13 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readAccountDbEntries(predicate: (account: AccountDto) -> Boolean)
+    private suspend fun readConcerts() = coroutineScope {
+        async {
+            concerts += readItem("Concerts", ConcertMapper, _currentBand.id)
+        }
+    }.await()
+
+    private suspend fun readAccountDtos(predicate: (account: AccountDto) -> Boolean)
     : List<AccountDto> = coroutineScope {
         async {
             val accountDbEntries = _firestore.collection(Constants.Firebase.Database.ACCOUNTS)
@@ -327,8 +297,25 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
+    private suspend fun readBandDtos(bandId: Long): List<BandDto> = coroutineScope {
+        async {
+            val bandDtos = _firestore.collection(Constants.Firebase.Database.BANDS)
+                .get()
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.Database.TAG, "Accounts ERROR $it")
+                }
+                .await()
+                .toObjects<BandDto>()
+                .filter { it.id == bandId }
+
+            if(bandDtos.size > 1)
+                throw RuntimeException("there should be only one band linked to this account")
+            return@async bandDtos
+        }
+    }.await()
+
     private suspend fun readBandInvitationDtos(action: (BandInvitationDto) -> Boolean)
-    : List<BandInvitationDto> = coroutineScope {
+            : List<BandInvitationDto> = coroutineScope {
         async {
             return@async _firestore
                 .collection(Constants.Firebase.Database.BAND_INVITATIONS)
@@ -342,20 +329,25 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readBandDbEntries(bandId: Long): List<BandDto> = coroutineScope {
+    private suspend inline fun <T : BaseModel, reified E : BaseDto> readItem(
+        table: String,
+        mapper: Mapper<T, E>,
+        bandId: Long
+    ): List<T> =
+    coroutineScope {
         async {
-            val bandDBEntries = _firestore.collection(Constants.Firebase.Database.BANDS)
+            return@async _firestore.collection(table)
                 .get()
+                .addOnSuccessListener {
+                    Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
+                }
                 .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "Accounts ERROR $it")
+                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
                 }
                 .await()
-                .toObjects<BandDto>()
-                .filter { it.id == bandId }
-
-            if(bandDBEntries.size > 1)
-                throw RuntimeException("there should be only one band linked to this account")
-            return@async bandDBEntries
+                .toObjects<E>()
+                .filter { it.bandId == bandId }
+                .map { mapper.fromDtoToItem(it) }
         }
     }.await()
 

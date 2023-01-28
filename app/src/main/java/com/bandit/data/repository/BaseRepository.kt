@@ -3,15 +3,14 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.BaseModel
 
-abstract class BaseRepository<T : BaseModel>(
+abstract class BaseRepository<T>(
     private val _database: Database? = null,
     databaseList: List<T>?
-) {
-    private val _list: MutableList<T> = mutableListOf()
+)
+where T : BaseModel
+{
+    private val _list: MutableList<T> = databaseList?.toMutableList() ?: mutableListOf()
     val list: List<T> get() = _list
-    init {
-        _list.addAll(databaseList ?: listOf())
-    }
     suspend fun add(item: T) {
         val newItem = reassignId(item)
         _database?.add(newItem)

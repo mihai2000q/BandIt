@@ -1,6 +1,5 @@
 package com.bandit.ui.first.login
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -47,6 +46,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
             firstLoginBtNext.setOnClickListener { firstLoginBtNext() }
+            // TODO: on last phase it stays disabled
             /*firstLoginEtString.addTextChangedListener {
                 firstLoginBtNext.isEnabled = it.toString().isNotEmpty()
             }*/
@@ -58,17 +58,16 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         _binding = null
     }
 
-    @SuppressLint("SetTextI18n")
     private fun firstLoginBtNext() {
         with(binding) {
             when (phase) {
                 0 -> {
                     viewModel.name.value = firstLoginEtString.text.toString()
-                    phase("Nickname:")
+                    phase(resources.getString(R.string.first_login_tv_subject_nickname))
                 }
                 1 -> {
                     viewModel.nickname.value = firstLoginEtString.text.toString()
-                    phase("Role:")
+                    phase(resources.getString(R.string.first_login_tv_subject_role))
                     firstLoginEtString.visibility = View.INVISIBLE
                     firstLoginSpinnerRole.visibility = View.VISIBLE
                     AndroidUtils.hideKeyboard(
@@ -81,8 +80,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
                     firstLoginSpinnerRole.visibility = View.GONE
                     firstLoginBtCancel.visibility = View.GONE
-                    firstLoginBtNext.text = "Go To Home"
-                    phase("Congratulations on making your account")
+                    firstLoginBtNext.setText(R.string.first_login_bt_next_last)
+                    phase(resources.getString(R.string.first_login_tv_subject_last))
                     createAccount()
                 }
                 3 -> {
@@ -98,6 +97,10 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                         super.requireActivity().findViewById(R.id.main_drawer_layout)
                     )
+                    super.requireActivity().findViewById<TextView>(R.id.header_tv_email).text =
+                        DILocator.database.currentAccount.email
+                    super.requireActivity().findViewById<TextView>(R.id.header_tv_name).text =
+                        DILocator.database.currentAccount.name
                     findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
                 }
                 else -> {}
@@ -143,8 +146,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         roleIndex = position
     }
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
 }

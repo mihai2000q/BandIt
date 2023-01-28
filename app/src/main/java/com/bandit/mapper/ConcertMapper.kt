@@ -6,20 +6,20 @@ import com.bandit.data.model.Concert
 import java.time.LocalDateTime
 
 object ConcertMapper : Mapper<Concert, ConcertDto> {
-    override fun fromDbEntryToItem(entry: ConcertDto): Concert {
+    override fun fromDtoToItem(dto: ConcertDto): Concert {
         return Concert(
-            entry.name ?: "",
-            LocalDateTime.parse(entry.dateTime),
-            entry.city ?: "",
-            entry.country ?: "",
-            entry.place ?: "",
-            mapIntToConcertType(entry.type?.toInt() ?: 0),
-            entry.id,
-            entry.bandId ?: -1
+            dto.name ?: "",
+            LocalDateTime.parse(dto.dateTime),
+            dto.city ?: "",
+            dto.country ?: "",
+            dto.place ?: "",
+            mapIntToConcertType(dto.type?.toInt() ?: 0),
+            dto.id,
+            dto.bandId ?: -1
         )
     }
 
-    override fun fromItemToDbEntry(item: Concert): ConcertDto {
+    override fun fromItemToDto(item: Concert): ConcertDto {
         return ConcertDto(
             item.id,
             item.name,

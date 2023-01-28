@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelMemberBinding
 import com.bandit.di.DILocator
@@ -29,7 +30,6 @@ data class BandAdapter(
         return members.size
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
@@ -37,13 +37,13 @@ data class BandAdapter(
             bandTvName.text = account.name
             bandTvRole.text = account.role.name
             if(DILocator.database.currentBand.creator == account.id)
-                bandTvAccepted.text = "creator"
+                bandTvAccepted.setText(R.string.band_member_creator)
             else if(hasAccepted) {
-                bandTvAccepted.text = "accepted"
+                bandTvAccepted.setText(R.string.band_member_accepted_true)
                 bandTvAccepted.setTextColor(Color.GREEN)
             }
             else {
-                bandTvAccepted.text = "pending"
+                bandTvAccepted.setText(R.string.band_member_accepted_false)
                 bandTvAccepted.setTextColor(Color.RED)
             }
         }

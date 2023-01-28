@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bt_add">Add</string>
+    <string name="bt_save">Save</string>
+    <string name="bt_filter">Filter</string>
+    <string name="bt_sign_out">Sign Out</string>
+    <string name="bt_create">Create</string>
+    <string name="bt_invite">Invite</string>
+    <string name="bt_reject">Reject</string>
+    <string name="bt_accept">Accept</string>
+    <string name="bt_edit">Edit</string>
+    <string name="bt_delete">Delete</string>
+    <string name="bt_go_back">Go Back</string>
+    <string name="bt_next">Next</string>
+    <string name="bt_cancel">Cancel</string>
+</resources>

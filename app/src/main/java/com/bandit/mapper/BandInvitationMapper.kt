@@ -11,7 +11,7 @@ object BandInvitationMapper {
             band,
             account,
             dto.accepted ?: false,
-            dto.id ?: -1
+            dto.id
         )
     }
 

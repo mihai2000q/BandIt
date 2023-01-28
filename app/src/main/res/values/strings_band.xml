@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="band_button_empty">Create A Band</string>
+    <string name="band_member_creator">creator</string>
+    <string name="band_member_accepted_true">accepted</string>
+    <string name="band_member_accepted_false">pending</string>
+</resources>
