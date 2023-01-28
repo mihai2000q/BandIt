@@ -28,7 +28,7 @@ class BandViewModel : ViewModel() {
                     mutableMapOf(currentAccount to true)
                 )
                 add(band)
-                setBandInvitationDBEntry(
+                setBandInvitation(
                     BandInvitationDto(
                         AndroidUtils.generateRandomLong(),
                         band.id,

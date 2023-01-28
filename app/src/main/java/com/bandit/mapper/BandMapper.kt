@@ -5,18 +5,16 @@ import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 
 object BandMapper {
-    fun fromDbEntryToItem(entry: BandDto, members: MutableMap<Account, Boolean>): Band {
+    fun fromDbEntryToItem(dto: BandDto, members: MutableMap<Account, Boolean>): Band {
         return Band(
-            entry.name ?: "",
-            entry.creator ?: -1,
+            dto.name ?: "",
+            dto.creator ?: -1,
             members,
-            entry.id
+            dto.id
         )
     }
 
     fun fromItemToDbEntry(item: Band): BandDto {
-        val members: MutableMap<Long, Boolean> = mutableMapOf()
-        item.members.forEach { (key, value) -> members[key.id] = value }
         return BandDto(
             item.id,
             item.name,
