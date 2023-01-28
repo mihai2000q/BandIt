@@ -48,8 +48,7 @@ class BandViewModel : ViewModel() {
                         currentAccount.userUid
                     )
                 )
-                _band.value = band
-                _members.value = _band.value?.members
+                refresh()
             }
         }
     }
@@ -58,6 +57,10 @@ class BandViewModel : ViewModel() {
         viewModelScope.launch {
             runBlocking { DILocator.database.sendBandInvitation(email.value ?: "") }
         }
+        refresh()
+    }
+
+    fun refresh() {
         _band.value = DILocator.database.currentBand
         _members.value = _band.value?.members
     }

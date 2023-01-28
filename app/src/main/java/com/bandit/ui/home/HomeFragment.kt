@@ -12,6 +12,7 @@ import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.band.BandInvitationDialogFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
