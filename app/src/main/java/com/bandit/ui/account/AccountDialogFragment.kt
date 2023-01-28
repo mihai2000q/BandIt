@@ -77,7 +77,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         DILocator.database.clearData()
         AndroidUtils.toastNotification(
             this.requireContext(),
-            resources.getString(R.string.Sign_out_Toast),
+            resources.getString(R.string.sign_out_toast),
             Toast.LENGTH_LONG
         )
     }

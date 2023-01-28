@@ -40,7 +40,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 )
                 AndroidUtils.toastNotification(
                     super.requireContext(),
-                    resources.getString(R.string.Concert_Edit_Toast)
+                    resources.getString(R.string.concert_edit_toast)
                 )
                 super.dismiss()
             }

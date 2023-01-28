@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Login_Toast">You are now logged in</string>
-    <string name="Signup_Toast">Account created</string>
-    <string name="Sign_out_Toast">Signed out</string>
-    <string name="Concert_Add_Toast">Concert Added</string>
-    <string name="Concert_Edit_Toast">Concert Edited</string>
-    <string name="Concert_Remove_Toast">Concert Removed</string>
-    <string name="Concert_Filter_Toast">Concerts Filtered</string>
+    <string name="login_toast">You are now logged in</string>
+    <string name="signup_toast">Account created</string>
+    <string name="sign_out_toast">Signed out</string>
+    <string name="create_band_toast">Band Created</string>
+    <string name="invite_band_toast">Band Invitation Sent</string>
+    <string name="concert_add_toast">Concert Added</string>
+    <string name="concert_edit_toast">Concert Edited</string>
+    <string name="concert_remove_toast">Concert Removed</string>
+    <string name="concert_filter_toast">Concerts Filtered</string>
 </resources>

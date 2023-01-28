@@ -57,7 +57,7 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
                 viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
                 AndroidUtils.toastNotification(
                     super.requireContext(),
-                    resources.getString(R.string.Concert_Filter_Toast)
+                    resources.getString(R.string.concert_filter_toast)
                 )
                 super.dismiss()
             }

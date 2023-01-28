@@ -93,7 +93,7 @@ class SignupFragment : Fragment() {
         viewModel.createUser()
         AndroidUtils.toastNotification(
             super.requireContext(),
-            resources.getString(R.string.Signup_Toast),
+            resources.getString(R.string.signup_toast),
             Toast.LENGTH_LONG
         )
     }

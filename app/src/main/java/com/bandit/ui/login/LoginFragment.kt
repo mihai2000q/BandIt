@@ -97,7 +97,7 @@ class LoginFragment : Fragment() {
             }
             AndroidUtils.toastNotification(
                 super.requireContext(),
-                resources.getString(R.string.Login_Toast),
+                resources.getString(R.string.login_toast),
                 Toast.LENGTH_LONG
             )
         }
