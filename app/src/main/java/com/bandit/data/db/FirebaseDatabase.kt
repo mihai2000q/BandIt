@@ -8,7 +8,6 @@ import com.bandit.data.model.*
 import com.bandit.di.DILocator
 import com.bandit.mapper.*
 import com.bandit.util.AndroidUtils
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
@@ -202,50 +201,6 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readConcerts() = coroutineScope {
-        async {
-            readItem(
-                "Concerts",
-                concerts,
-                ConcertMapper,
-                _currentBand.id
-            ) { result ->
-                ConcertDto(
-                    result.get(Constants.Concert.Fields.id) as Long,
-                    result.get(Constants.Concert.Fields.name) as String,
-                    result.get(Constants.Concert.Fields.dateTime) as String,
-                    result.get(Constants.Concert.Fields.city) as String,
-                    result.get(Constants.Concert.Fields.country) as String,
-                    result.get(Constants.Concert.Fields.place) as String,
-                    result.get(Constants.Concert.Fields.type) as Long,
-                    result.get("bandId") as Long
-                )
-            }
-        }
-    }.await()
-
-    private suspend fun <T : BaseModel, E : BaseDto> readItem(
-        table: String,
-        list: MutableList<T>,
-        mapper: Mapper<T, E>,
-        bandId: Long,
-        action: (QueryDocumentSnapshot) -> E) = coroutineScope {
-        async {
-            _firestore.collection(table)
-                .get()
-                .addOnSuccessListener {
-                    for (result in it)
-                        if (bandId == result.getLong("bandId"))
-                            list.add(mapper.fromDtoToItem(action(result)))
-                }
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
-                }
-                .await()
-            Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
-        }
-    }.await()
-
     private suspend fun readAccount() = coroutineScope {
         async {
             val accountDBEntries = readAccountDtos {
@@ -321,6 +276,12 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
+    private suspend fun readConcerts() = coroutineScope {
+        async {
+            concerts += readItem("Concerts", ConcertMapper, _currentBand.id)
+        }
+    }.await()
+
     private suspend fun readAccountDtos(predicate: (account: AccountDto) -> Boolean)
     : List<AccountDto> = coroutineScope {
         async {
@@ -335,22 +296,7 @@ class FirebaseDatabase : Database {
             return@async accountDbEntries
         }
     }.await()
-
-    private suspend fun readBandInvitationDtos(action: (BandInvitationDto) -> Boolean)
-    : List<BandInvitationDto> = coroutineScope {
-        async {
-            return@async _firestore
-                .collection(Constants.Firebase.Database.BAND_INVITATIONS)
-                .get()
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "Band Invitations ERROR $it")
-                }
-                .await()
-                .toObjects<BandInvitationDto>()
-                .filter(action)
-        }
-    }.await()
-
+    
     private suspend fun readBandDtos(bandId: Long): List<BandDto> = coroutineScope {
         async {
             val bandDtos = _firestore.collection(Constants.Firebase.Database.BANDS)
@@ -365,6 +311,43 @@ class FirebaseDatabase : Database {
             if(bandDtos.size > 1)
                 throw RuntimeException("there should be only one band linked to this account")
             return@async bandDtos
+        }
+    }.await()
+
+    private suspend fun readBandInvitationDtos(action: (BandInvitationDto) -> Boolean)
+            : List<BandInvitationDto> = coroutineScope {
+        async {
+            return@async _firestore
+                .collection(Constants.Firebase.Database.BAND_INVITATIONS)
+                .get()
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.Database.TAG, "Band Invitations ERROR $it")
+                }
+                .await()
+                .toObjects<BandInvitationDto>()
+                .filter(action)
+        }
+    }.await()
+
+    private suspend inline fun <T : BaseModel, reified E : BaseDto> readItem(
+        table: String,
+        mapper: Mapper<T, E>,
+        bandId: Long
+    ): List<T> =
+    coroutineScope {
+        async {
+            return@async _firestore.collection(table)
+                .get()
+                .addOnSuccessListener {
+                    Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
+                }
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
+                }
+                .await()
+                .toObjects<E>()
+                .filter { it.bandId == bandId }
+                .map { mapper.fromDtoToItem(it) }
         }
     }.await()
 

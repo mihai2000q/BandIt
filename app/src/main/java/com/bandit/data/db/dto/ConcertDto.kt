@@ -8,5 +8,5 @@ data class ConcertDto(
     val country: String? = null,
     val place: String? = null,
     val type: Long? = null,
-    val bandId: Long? = null
-) : BaseDto(id)
+    override val bandId: Long? = null
+) : BaseDto(id, bandId)

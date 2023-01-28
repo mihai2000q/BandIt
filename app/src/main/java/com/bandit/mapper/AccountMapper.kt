@@ -4,8 +4,8 @@ import com.bandit.constant.BandItEnums
 import com.bandit.data.db.dto.AccountDto
 import com.bandit.data.model.Account
 
-object AccountMapper : Mapper<Account, AccountDto> {
-    override fun fromDtoToItem(dto: AccountDto): Account {
+object AccountMapper {
+    fun fromDtoToItem(dto: AccountDto): Account {
         return Account(
             dto.name ?: "",
             dto.nickname ?: "",
@@ -17,7 +17,7 @@ object AccountMapper : Mapper<Account, AccountDto> {
         )
     }
 
-    override fun fromItemToDto(item: Account): AccountDto {
+    fun fromItemToDto(item: Account): AccountDto {
         return AccountDto(
             item.id,
             item.name,
