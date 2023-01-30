@@ -13,7 +13,7 @@ object SongMapper : Mapper<Song, SongDto> {
             LocalDate.parse(dto.releaseDate),
             dto.albumName,
             dto.albumId,
-            Duration.parse(dto.duration),
+            Duration.parse("PT${dto.duration}S"),
             dto.id
         )
     }
@@ -25,7 +25,7 @@ object SongMapper : Mapper<Song, SongDto> {
             item.releaseDate.toString(),
             item.albumName,
             item.albumId,
-            item.duration.toString(),
+            item.duration.seconds,
             item.id
         )
     }

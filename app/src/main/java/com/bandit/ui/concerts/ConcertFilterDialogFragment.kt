@@ -65,6 +65,6 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Concert.FILTER_CONCERT_TAG
+        const val TAG = Constants.Concert.FILTER_TAG
     }
 }

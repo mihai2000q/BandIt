@@ -26,7 +26,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                 viewModel.addConcert(
                     Concert(
                         concertEtName.text.toString(),
-                        parseDateTime(),
+                        AndroidUtils.parseDateTime(concertEtDate, concertEtTime),
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),
@@ -44,6 +44,6 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Concert.ADD_CONCERT_TAG
+        const val TAG = Constants.Concert.ADD_TAG
     }
 }

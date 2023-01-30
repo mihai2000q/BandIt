@@ -37,20 +37,22 @@ class ConcertDetailDialogFragment : DialogFragment() {
     }
 
     private fun assignConcertDetails(concert: Concert) {
-        binding.concertDetailTitle.text = concert.name
-        binding.concertDetailDateTime.text = buildString {
-            append(concert.dateTime.toLocalDate().toString())
-            append(" ${concert.dateTime.hour.toString().get2Characters()}:")
-            append(concert.dateTime.minute.toString().get2Characters())
+        with(binding) {
+            concertDetailTitle.text = concert.name
+            concertDetailDateTime.text = buildString {
+                append(concert.dateTime.toLocalDate().toString())
+                append(" ${concert.dateTime.hour.toString().get2Characters()}:")
+                append(concert.dateTime.minute.toString().get2Characters())
+            }
+            concertDetailCity.text = concert.city
+            concertDetailCountry.text = concert.country
+            concertDetailPlace.text = concert.place
+            concertDetailType.text = concert.type.name.normalizeWord()
         }
-        binding.concertDetailCity.text = concert.city
-        binding.concertDetailCountry.text = concert.country
-        binding.concertDetailPlace.text = concert.place
-        binding.concertDetailType.text = concert.type.name.normalizeWord()
     }
 
     companion object {
-        const val TAG = Constants.Concert.DETAIL_CONCERT_TAG
+        const val TAG = Constants.Concert.DETAIL_TAG
     }
 
 }

@@ -29,7 +29,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 viewModel.editConcert(
                     Concert(
                         concertEtName.text.toString(),
-                        parseDateTime(),
+                        AndroidUtils.parseDateTime(concertEtDate, concertEtTime),
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),
@@ -49,6 +49,6 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Concert.EDIT_CONCERT_TAG
+        const val TAG = Constants.Concert.EDIT_TAG
     }
 }

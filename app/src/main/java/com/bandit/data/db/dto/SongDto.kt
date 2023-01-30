@@ -6,6 +6,6 @@ data class SongDto(
     val releaseDate: String? = null,
     val albumName: String? = null,
     val albumId: Long? = null,
-    val duration: String? = null,
+    val duration: Long? = null,
     override val id: Long = -1
 ) : BaseDto(id, bandId)
