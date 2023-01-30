@@ -10,9 +10,9 @@ data class Album(
     val songs: MutableList<Song> = mutableListOf(),
     val releaseDate: LocalDate? = null,
     val label: String = "",
-    val duration: Duration = Duration.ZERO,
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id) {
+    val duration: Duration = Duration.ZERO
 
     init {
         songs.forEach { duration.plus(it.duration) }

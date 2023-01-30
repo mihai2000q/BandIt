@@ -38,6 +38,8 @@ object Constants {
             const val BANDS = "Bands"
             const val BAND_INVITATIONS = "BandInvitations"
             const val CONCERTS = "Concerts"
+            const val SONGS = "Songs"
+            const val ALBUMS = "Albums"
             const val TAG = "FirebaseDB"
         }
         object Auth {

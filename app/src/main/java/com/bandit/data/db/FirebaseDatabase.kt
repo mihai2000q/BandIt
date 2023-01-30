@@ -18,6 +18,8 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
+    override val songs: MutableList<Song> = mutableListOf()
+    override val albums: MutableList<Album> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
@@ -166,6 +168,8 @@ class FirebaseDatabase : Database {
                 _currentBand = item
             }
             is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
+            is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
+            is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
         }
     }
 
@@ -174,6 +178,8 @@ class FirebaseDatabase : Database {
             is Account -> deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
             is Band -> deleteItem(Constants.Firebase.Database.BANDS, item)
             is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
+            is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
+            is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
         }
     }
 
@@ -282,12 +288,32 @@ class FirebaseDatabase : Database {
     private suspend fun readItems() = coroutineScope {
         async {
             readConcerts()
+            readSongs()
+            readAlbums()
         }
     }.await()
 
     private suspend fun readConcerts() = coroutineScope {
         async {
             concerts += readItem("Concerts", ConcertMapper, _currentBand.id)
+        }
+    }.await()
+
+    private suspend fun readSongs() = coroutineScope {
+        async {
+            songs += readItem("Songs", SongMapper, _currentBand.id)
+        }
+    }.await()
+
+    private suspend fun readAlbums() = coroutineScope {
+        async {
+            albums += readItem("Concerts", AlbumMapper, _currentBand.id)
+            albums.forEach { a ->
+                songs.forEach { s ->
+                    if(s.albumId == a.id)
+                        a.songs.add(s)
+                }
+            }
         }
     }.await()
 

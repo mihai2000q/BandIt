@@ -29,8 +29,7 @@ class AlbumRepository(database: Database? = null)
                 item.bandId,
                 item.songs,
                 item.releaseDate,
-                item.label,
-                item.duration
+                item.label
             )
         }
         return newAlbum
