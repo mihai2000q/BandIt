@@ -9,4 +9,8 @@
     <string name="concert_edit_toast">Concert Edited</string>
     <string name="concert_remove_toast">Concert Removed</string>
     <string name="concert_filter_toast">Concerts Filtered</string>
+    <string name="song_add_toast">Song Added</string>
+    <string name="song_edit_toast">Song Edited</string>
+    <string name="song_remove_toast">Song Removed</string>
+    <string name="song_filter_toast">Song Filtered</string>
 </resources>
