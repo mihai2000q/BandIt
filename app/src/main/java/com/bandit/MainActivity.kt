@@ -14,36 +14,44 @@ import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // TODO: avoid using another scope
+        //AndroidUtils.loadTask(this) { startApp() }
         lifecycleScope.launch {
-            launch {
-                binding = ActivityMainBinding.inflate(layoutInflater)
-                setContentView(binding.root)
-
-                val bottomNavView = binding.mainBottomNavigationView
-                bottomNavView.selectedItemId =
-                    R.id.navigation_home //solving small issue by setting a default
-
-                val navHostFragment = supportFragmentManager
-                    .findFragmentById(R.id.main_nav_host) as NavHostFragment
-                val navController = navHostFragment.navController
-
-                setSupportActionBar(binding.mainToolbar)
-                setupActionBarWithNavController(navController)
-                bottomNavView.setupWithNavController(navController)
-                binding.mainDrawerMenu.setupWithNavController(navController)
-                setupNavigationElements(navController)
-                supportActionBar?.hide()
-
-                authentication(navController)
-            }.join()
-
+            LoadingActivity.finish.value = false
+            super.startActivity(Intent(this@MainActivity, LoadingActivity::class.java))
+            launch { startApp() }.join()
+            LoadingActivity.finish.value = true
         }
+    }
+
+    private suspend fun startApp() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val bottomNavView = binding.mainBottomNavigationView
+        bottomNavView.selectedItemId =
+            R.id.navigation_home //solving small issue by setting a default
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.main_nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        setSupportActionBar(binding.mainToolbar)
+        setupActionBarWithNavController(navController)
+        bottomNavView.setupWithNavController(navController)
+        binding.mainDrawerMenu.setupWithNavController(navController)
+        setupNavigationElements(navController)
+        supportActionBar?.hide()
+
+        authentication(navController)
+        delay(3000) // testing loading
     }
 
     private fun setupNavigationElements(navController: NavController) {
