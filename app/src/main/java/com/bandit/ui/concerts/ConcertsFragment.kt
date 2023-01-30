@@ -45,6 +45,11 @@ class ConcertsFragment : Fragment() {
                 concertsBtAdd.isEnabled = !it.isEmpty()
                 concertsBtFilter.isEnabled = !it.isEmpty()
             }
+            AndroidUtils.accountButton(
+                super.requireActivity(),
+                concertsBtAccount,
+                accountDialogFragment
+            )
             AndroidUtils.bandButton(
                 super.requireActivity(),
                 concertsBtBand,
@@ -63,18 +68,6 @@ class ConcertsFragment : Fragment() {
                 AndroidUtils.showDialogFragment(
                     concertFilterDialogFragment,
                     childFragmentManager
-                )
-            }
-            concertsBtAccount.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    accountDialogFragment,
-                    childFragmentManager
-                )
-                concertsBtAccount.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        super.requireContext(),
-                        R.drawable.ic_baseline_account_clicked
-                    )
                 )
             }
 

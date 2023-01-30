@@ -9,15 +9,19 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
+import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -72,6 +76,24 @@ object AndroidUtils {
                 childFragmentManager,
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
+    }
+    fun accountButton(
+        activity: FragmentActivity,
+        button: ImageButton,
+        accountDialogFragment: AccountDialogFragment
+    ) {
+        button.setOnClickListener {
+            this.showDialogFragment(
+                accountDialogFragment,
+                activity.supportFragmentManager
+            )
+            button.setImageDrawable(
+                ContextCompat.getDrawable(
+                    activity.applicationContext,
+                    R.drawable.ic_baseline_account_clicked
+                )
+            )
+        }
     }
     fun bandButton(
         activity: FragmentActivity,

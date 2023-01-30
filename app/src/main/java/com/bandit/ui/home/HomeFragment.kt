@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -36,7 +35,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val createBandDialogFragment = CreateBandDialogFragment()
         val bandDialogFragment = BandDialogFragment()
+        val accountDialogFragment = AccountDialogFragment(binding.homeBtAccount)
         with(binding) {
+            AndroidUtils.accountButton(
+                super.requireActivity(),
+                homeBtAccount,
+                accountDialogFragment
+            )
             AndroidUtils.bandButton(
                 super.requireActivity(),
                 homeBtBand,
@@ -51,19 +56,6 @@ class HomeFragment : Fragment() {
                 super.requireContext(),
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
-
-            homeBtAccount.setOnClickListener {
-                AccountDialogFragment(homeBtAccount).show(
-                    childFragmentManager,
-                    AccountDialogFragment.TAG
-                )
-                homeBtAccount.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        super.requireContext(),
-                        R.drawable.ic_baseline_account_clicked
-                    )
-                )
-            }
 
             homeTvWelcome.text = buildString {
                 append("Welcome ")
