@@ -23,6 +23,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.bandit.LoadingActivity"
+            android:exported="true"/>
+        <activity
             android:name="com.bandit.MainActivity"
             android:exported="true"/>
         <meta-data
