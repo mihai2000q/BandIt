@@ -2,6 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Album
+import com.bandit.extension.StringExtensions.normalizeWord
 import java.time.Duration
 import java.time.LocalDate
 
@@ -34,4 +35,13 @@ class AlbumRepository(database: Database? = null)
         }
         return newAlbum
     }
+
+    fun isThereAnAlbum(name: String) : Long? {
+        val filteredList = list.filter { it.name == name.normalizeWord() }
+        return if(filteredList.size == 1)
+             filteredList.first().id
+        else null
+    }
+
+
 }

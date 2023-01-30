@@ -35,8 +35,8 @@ where T : BaseModel
         return !_list.none { it.id == id }
     }
     protected fun <E> filter(obj: E, other: E) =
-        when(other) {
-            is String -> filterString(obj as String, other)
+        when(obj) {
+            is String -> filterString(obj, other as String?)
             else -> filterObjects(obj, other)
         }
     private fun filterString(string: String, other: String?) =
