@@ -2,6 +2,7 @@ package com.bandit.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
@@ -10,19 +11,26 @@ import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
+import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
-
 
 object AndroidUtils {
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
@@ -32,7 +40,7 @@ object AndroidUtils {
     }
     fun lockNavigation(bottomNavigationView: BottomNavigationView?, drawerLayout: DrawerLayout?) {
         drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        bottomNavigationView?.visibility = View.GONE
+        bottomNavigationView?.visibility = View.INVISIBLE
     }
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
@@ -98,6 +106,30 @@ object AndroidUtils {
                     )
                 }
             }
+        }
+    }
+
+    fun loadTask(
+        activity: AppCompatActivity,
+        task: () -> Unit
+    ) {
+        activity.lifecycleScope.launch {
+            LoadingActivity.finish.value = false
+            activity.startActivity(Intent(activity, LoadingActivity::class.java))
+            launch { task() }.join()
+            LoadingActivity.finish.value = true
+        }
+    }
+
+    fun loadTask(
+        fragment: Fragment,
+        task: () -> Unit
+    ) {
+        fragment.lifecycleScope.launch {
+            LoadingActivity.finish.value = false
+            fragment.startActivity(Intent(fragment.context, LoadingActivity::class.java))
+            launch { task() }.join()
+            LoadingActivity.finish.value = true
         }
     }
 }
