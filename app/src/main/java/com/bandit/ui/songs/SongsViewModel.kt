@@ -77,9 +77,9 @@ class SongsViewModel : ViewModel() {
     }
     fun filterSongs(
         name: String?,
-        releaseDate: LocalDate?,
-        albumName: String?,
-        duration: Duration?
+        releaseDate: LocalDate? = null,
+        albumName: String? = null,
+        duration: Duration? = null
     ) {
         _songs.value = _songRepository.filterSongs(name, releaseDate, albumName, duration)
     }

@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
-import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.BandInvitationDialogFragment
 import com.bandit.ui.band.BandViewModel
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
@@ -24,7 +22,8 @@ class HomeFragment : Fragment() {
     private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -33,35 +32,21 @@ class HomeFragment : Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
-        val accountDialogFragment = AccountDialogFragment(binding.homeBtAccount)
         with(binding) {
-            AndroidUtils.accountButton(
+            AndroidComponents.header(
                 super.requireActivity(),
-                homeBtAccount,
-                accountDialogFragment
-            )
-            AndroidUtils.bandButton(
-                super.requireActivity(),
-                homeBtBand,
-                bandViewModel.band,
+                header.headerBtAccount,
+                header.headerBtBand,
                 viewLifecycleOwner,
-                createBandDialogFragment,
-                bandDialogFragment
+                bandViewModel.band
             )
+            header.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(
                 homeSvTableLayout,
                 super.requireActivity(),
                 super.requireContext(),
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
-
-            homeTvWelcome.text = buildString {
-                append("Welcome ")
-                append(DILocator.database.currentAccount.nickname)
-                append(", to")
-            }
         }
         bandInvitation()
     }
