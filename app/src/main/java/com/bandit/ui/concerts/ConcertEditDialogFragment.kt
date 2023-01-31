@@ -7,6 +7,7 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 
 class ConcertEditDialogFragment : ConcertDialogFragment() {
 
@@ -29,7 +30,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 viewModel.editConcert(
                     Concert(
                         concertEtName.text.toString(),
-                        AndroidUtils.parseDateTime(concertEtDate, concertEtTime),
+                        ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),

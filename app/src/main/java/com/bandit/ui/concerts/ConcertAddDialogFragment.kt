@@ -9,6 +9,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
@@ -26,7 +27,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                 viewModel.addConcert(
                     Concert(
                         concertEtName.text.toString(),
-                        AndroidUtils.parseDateTime(concertEtDate, concertEtTime),
+                        ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),

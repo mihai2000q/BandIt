@@ -7,6 +7,7 @@ import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.extension.StringExtensions.normalizeWord
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 
 class SongAddDialogFragment : SongDialogFragment() {
 
@@ -22,9 +23,9 @@ class SongAddDialogFragment : SongDialogFragment() {
                 )
                 viewModel.addSong(
                     songEtName.text.toString(),
-                    AndroidUtils.parseDate(songEtReleaseDate),
+                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
                     songEtAlbumName.text.toString().normalizeWord(),
-                    AndroidUtils.parseDuration(songEtDuration)
+                    ParserUtils.parseDuration(songEtDuration.text.toString())
                 )
                 AndroidUtils.toastNotification(
                     super.requireContext(),

@@ -177,37 +177,4 @@ object AndroidUtils {
         )
         return timePickerDialog
     }
-
-    fun parseDateTime(
-        editTextDate: EditText,
-        editTextTime: EditText
-    ): LocalDateTime {
-            return LocalDateTime.parse(
-                "${
-                    if (editTextDate.text.isNullOrEmpty())
-                        LocalDate.now().toString()
-                    else editTextDate.text
-                }T" + if (editTextTime.text.isNullOrEmpty())
-                    LocalTime.MIDNIGHT.minusMinutes(1).toString()
-                else
-                    editTextTime.text
-            )
-    }
-    fun parseDate(
-        editText: EditText
-    ): LocalDate = LocalDate.parse(
-        if (editText.text.isNullOrEmpty())
-            LocalDate.now().toString()
-        else editText.text
-    )
-
-    fun parseDuration(
-        editText: EditText
-    ) : Duration =
-        if(editText.text.isNullOrEmpty())
-            Duration.ZERO
-        else Duration.parse(
-            "PT${editText.text[0]}${editText.text[1]}M" +
-                    "${editText.text[3]}${editText.text[4]}S"
-        )
 }

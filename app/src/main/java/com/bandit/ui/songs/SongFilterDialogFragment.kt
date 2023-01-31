@@ -5,6 +5,7 @@ import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 
 class SongFilterDialogFragment : SongDialogFragment() {
 
@@ -15,9 +16,9 @@ class SongFilterDialogFragment : SongDialogFragment() {
             songButton.setOnClickListener {
                 viewModel.filterSongs(
                     songEtName.text.toString(),
-                    AndroidUtils.parseDate(songEtReleaseDate),
+                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
                     songEtAlbumName.text.toString(),
-                    AndroidUtils.parseDuration(songEtDuration)
+                    ParserUtils.parseDuration(songEtDuration.text.toString())
                 )
                 super.dismiss()
             }
