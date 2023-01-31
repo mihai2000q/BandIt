@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
@@ -45,6 +44,11 @@ class ConcertsFragment : Fragment() {
                 concertsBtAdd.isEnabled = !it.isEmpty()
                 concertsBtFilter.isEnabled = !it.isEmpty()
             }
+            AndroidUtils.accountButton(
+                super.requireActivity(),
+                concertsBtAccount,
+                accountDialogFragment
+            )
             AndroidUtils.bandButton(
                 super.requireActivity(),
                 concertsBtBand,
@@ -63,18 +67,6 @@ class ConcertsFragment : Fragment() {
                 AndroidUtils.showDialogFragment(
                     concertFilterDialogFragment,
                     childFragmentManager
-                )
-            }
-            concertsBtAccount.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    accountDialogFragment,
-                    childFragmentManager
-                )
-                concertsBtAccount.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        super.requireContext(),
-                        R.drawable.ic_baseline_account_clicked
-                    )
                 )
             }
 

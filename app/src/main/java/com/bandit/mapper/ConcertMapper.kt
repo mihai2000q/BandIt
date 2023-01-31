@@ -15,7 +15,7 @@ object ConcertMapper : Mapper<Concert, ConcertDto> {
             dto.place ?: "",
             mapIntToConcertType(dto.type?.toInt() ?: 0),
             dto.id,
-            dto.bandId ?: -1
+            dto.bandId
         )
     }
 

@@ -1,4 +1,4 @@
-package com.bandit.concerts
+package com.bandit.model
 
 import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums

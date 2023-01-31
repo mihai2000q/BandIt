@@ -25,11 +25,18 @@ object Constants {
         const val VIEW_MODEL_TAG = "HomeViewModel"
     }
     object Concert {
-        const val ADD_CONCERT_TAG = "ADD CONCERT DIALOG FRAGMENT"
-        const val DETAIL_CONCERT_TAG = "DETAIL CONCERT DIALOG FRAGMENT"
-        const val EDIT_CONCERT_TAG = "EDIT CONCERT DIALOG FRAGMENT"
-        const val FILTER_CONCERT_TAG = "FILTER CONCERT DIALOG FRAGMENT"
+        const val ADD_TAG = "ADD CONCERT DIALOG FRAGMENT"
+        const val DETAIL_TAG = "DETAIL CONCERT DIALOG FRAGMENT"
+        const val EDIT_TAG = "EDIT CONCERT DIALOG FRAGMENT"
+        const val FILTER_TAG = "FILTER CONCERT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ConcertsViewModel"
+    }
+    object Song {
+        const val ADD_TAG = "ADD SONG DIALOG FRAGMENT"
+        const val DETAIL_TAG = "DETAIL SONG DIALOG FRAGMENT"
+        const val EDIT_TAG = "EDIT SONG DIALOG FRAGMENT"
+        const val FILTER_TAG = "FILTER SONG DIALOG FRAGMENT"
+        const val VIEW_MODEL_TAG = "SongsViewModel"
     }
     object Firebase {
         object Database {
@@ -38,6 +45,8 @@ object Constants {
             const val BANDS = "Bands"
             const val BAND_INVITATIONS = "BandInvitations"
             const val CONCERTS = "Concerts"
+            const val SONGS = "Songs"
+            const val ALBUMS = "Albums"
             const val TAG = "FirebaseDB"
         }
         object Auth {
