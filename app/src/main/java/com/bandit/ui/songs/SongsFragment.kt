@@ -33,8 +33,6 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val songAddDialogFragment = SongAddDialogFragment()
-        val songDetailDialogFragment = SongDetailDialogFragment()
-        val songEditDialogFragment = SongEditDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment()
         with(binding) {
             AndroidComponents.header(
@@ -63,29 +61,9 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                 songs.observe(viewLifecycleOwner) {
                     songsList.adapter = SongAdapter(
                         it.sorted().reversed(),
-                        { song ->
-                            selectedSong.value = song
-                            AndroidUtils.showDialogFragment(
-                                songDetailDialogFragment,
-                                childFragmentManager
-                            )
-                        },
-                        { song -> selectedSong.value = song; return@SongAdapter true },
-                        { song ->
-                            AndroidUtils.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.song_remove_toast),
-                            )
-                            return@SongAdapter removeSong(song)
-                        }
-                    ) { concert ->
-                        selectedSong.value = concert
-                        AndroidUtils.showDialogFragment(
-                            songEditDialogFragment,
-                            childFragmentManager
-                        )
-                        return@SongAdapter true
-                    }
+                        viewModel,
+                        childFragmentManager
+                    )
                 }
             }
         }
