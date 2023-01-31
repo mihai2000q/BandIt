@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -85,6 +86,15 @@ object AndroidUtils {
                 childFragmentManager,
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
+    }
+    fun ifNullHide(
+        textView: TextView,
+        string: String?
+    ) {
+        if(string.isNullOrEmpty())
+            textView.visibility = View.GONE
+        else
+            textView.text = string
     }
     fun accountButton(
         activity: FragmentActivity,

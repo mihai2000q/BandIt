@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentSongDetailBinding
+import com.bandit.extension.print
+import com.bandit.util.AndroidUtils
 
 class SongDetailDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentSongDetailBinding? = null
@@ -37,9 +39,9 @@ class SongDetailDialogFragment : DialogFragment() {
     private fun assignSongDetails(song: Song) {
         with(binding) {
             songDetailName.text = song.name
-            songDetailReleaseDate.text = song.releaseDate.toString()
-            songDetailAlbumName.text = song.albumName
-            songDetailDuration.text = song.duration.toString()
+            songDetailReleaseDate.text = song.releaseDate.print()
+            AndroidUtils.ifNullHide(songDetailAlbumName, song.albumName)
+            songDetailDuration.text = song.duration.print()
         }
     }
 
