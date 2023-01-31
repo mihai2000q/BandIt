@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentSongsBinding
+import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.songs.albums.AlbumDialogFragment
 import com.bandit.util.AndroidUtils
 
 class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -32,8 +35,6 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val songAddDialogFragment = SongAddDialogFragment()
-        val songFilterDialogFragment = SongFilterDialogFragment()
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
@@ -43,8 +44,62 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                 bandViewModel.band
             )
             header.headerTvTitle.setText(R.string.title_songs)
-            songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
+            songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 5 / 8
             songsSearchView.setOnQueryTextListener(this@SongsFragment)
+            songsBtAlbumMode.setOnClickListener { viewModel.albumMode.value = !viewModel.albumMode.value!! }
+            viewModel.albumMode.observe(viewLifecycleOwner) {
+                if(it)
+                    albumMode()
+                else
+                    songMode()
+            }
+
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun albumMode() {
+        val albumAddDialogFragment = AlbumDialogFragment()
+        val albumFilterDialogFragment = AlbumDialogFragment()
+        with(binding) {
+            songsBtAlbumMode.setImageDrawable(
+                ContextCompat.getDrawable(
+                    super.requireContext(),
+                    R.drawable.ic_baseline_list
+                )
+            )
+            songsBtAdd.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    albumAddDialogFragment,
+                    childFragmentManager
+                )
+            }
+            songsBtFilter.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    albumFilterDialogFragment,
+                    childFragmentManager
+                )
+            }
+            viewModel.albums.observe(viewLifecycleOwner) {
+                songsList.adapter = AlbumAdapter(it)
+            }
+        }
+    }
+
+    private fun songMode() {
+        val songAddDialogFragment = SongAddDialogFragment()
+        val songFilterDialogFragment = SongFilterDialogFragment()
+        with(binding) {
+            songsBtAlbumMode.setImageDrawable(
+                ContextCompat.getDrawable(
+                    super.requireContext(),
+                    R.drawable.ic_baseline_album_view
+                )
+            )
             songsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     songAddDialogFragment,
@@ -57,21 +112,14 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                     childFragmentManager
                 )
             }
-            with(viewModel) {
-                songs.observe(viewLifecycleOwner) {
-                    songsList.adapter = SongAdapter(
-                        it.sorted().reversed(),
-                        viewModel,
-                        childFragmentManager
-                    )
-                }
+            viewModel.songs.observe(viewLifecycleOwner) {
+                songsList.adapter = SongAdapter(
+                    it.sorted().reversed(),
+                    viewModel,
+                    childFragmentManager
+                )
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
