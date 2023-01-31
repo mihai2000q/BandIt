@@ -1,8 +1,6 @@
 package com.bandit.ui.concerts
 
 import android.app.ActionBar
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
-import com.bandit.extension.StringExtensions.get2Characters
 import com.bandit.util.AndroidUtils
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.*
 
 open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
     

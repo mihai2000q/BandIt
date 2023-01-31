@@ -1,6 +1,5 @@
 package com.bandit.util
 
-import android.widget.EditText
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime

@@ -5,7 +5,6 @@ import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
-import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongEditDialogFragment : SongDialogFragment() {
