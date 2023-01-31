@@ -1,10 +1,11 @@
-package com.bandit
+package com.bandit.extension
 
 import com.bandit.extension.get2Characters
 import com.bandit.extension.print
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Duration
+import java.time.LocalDateTime
 
 class ExtensionsTest {
     @Test
@@ -29,5 +30,19 @@ class ExtensionsTest {
         val outcome2 = duration2.print()
         val expected2 = "02:00"
         assertEquals(outcome2, expected2)
+    }
+    @Test
+    fun print_extensions_date_time_print() {
+        val localDateTime = LocalDateTime.of(2023,12,14,21,30)
+        val outcome = localDateTime.print()
+        val expected = "14-12-2023 21:30"
+        assertEquals(expected, outcome)
+    }
+    @Test
+    fun print_extensions_date_time_print_name() {
+        val localDateTime = LocalDateTime.of(2023,12,14,21,30)
+        val outcome = localDateTime.printName()
+        val expected = "14 December 2023 21:30"
+        assertEquals(expected, outcome)
     }
 }

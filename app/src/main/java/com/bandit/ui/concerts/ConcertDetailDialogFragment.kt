@@ -11,6 +11,7 @@ import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.constant.Constants
 import com.bandit.extension.get2Characters
 import com.bandit.extension.normalizeWord
+import com.bandit.extension.print
 
 class ConcertDetailDialogFragment : DialogFragment() {
 
@@ -39,11 +40,7 @@ class ConcertDetailDialogFragment : DialogFragment() {
     private fun assignConcertDetails(concert: Concert) {
         with(binding) {
             concertDetailTitle.text = concert.name
-            concertDetailDateTime.text = buildString {
-                append(concert.dateTime.toLocalDate().toString())
-                append(" ${concert.dateTime.hour.toString().get2Characters()}:")
-                append(concert.dateTime.minute.toString().get2Characters())
-            }
+            concertDetailDateTime.text = concert.dateTime.print()
             concertDetailCity.text = concert.city
             concertDetailCountry.text = concert.country
             concertDetailPlace.text = concert.place
