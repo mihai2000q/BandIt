@@ -19,7 +19,6 @@ class BandViewModel : ViewModel() {
     private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())
     val members: LiveData<MutableMap<Account, Boolean>> = _members
     val name = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
     fun createBand() {
         viewModelScope.launch {
             with(DILocator.database) {
@@ -53,9 +52,9 @@ class BandViewModel : ViewModel() {
         }
     }
 
-    fun sendBandInvitation() {
+    fun sendBandInvitation(email: String) {
         viewModelScope.launch {
-            runBlocking { DILocator.database.sendBandInvitation(email.value ?: "") }
+            runBlocking { DILocator.database.sendBandInvitation(email) }
         }
         refresh()
     }

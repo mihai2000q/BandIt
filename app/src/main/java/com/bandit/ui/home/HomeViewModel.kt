@@ -3,30 +3,22 @@ package com.bandit.ui.home
 import android.content.Context
 import android.widget.TableLayout
 import android.widget.TableRow
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.builder.HomeBuilder
-import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeViewModel : ViewModel() {
-    private val _builder: HomeBuilder
-    private val _elements = MutableLiveData<Map<String, BandItEnums.Home.NavigationType>>()
-    val elements: LiveData<Map<String, BandItEnums.Home.NavigationType>> = _elements
-    init {
-        val database = DILocator.database
-        _elements.value = database.homeNavigationElementsMap
-        _builder = DILocator.homeBuilder
-    }
-
-    fun generateHomeElements(elements: Map<String, BandItEnums.Home.NavigationType>,
-                             layout: TableLayout, context:Context,
-                             bottomNav:BottomNavigationView?) {
+    private val _builder: HomeBuilder = DILocator.homeBuilder
+    private val _elements = MutableLiveData(DILocator.database.homeNavigationElementsMap)
+    fun generateHomeElements(
+        layout: TableLayout, context:Context,
+        bottomNav:BottomNavigationView?
+    ) {
         var index = 0
-        elements.forEach {
+        _elements.value?.forEach {
             val tableRow: TableRow
             val prefix = "table_row_"
             if (index % 2 == 0) {
