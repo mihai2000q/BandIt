@@ -1,6 +1,5 @@
-package com.bandit.songs
+package com.bandit.repository
 
-import com.bandit.BaseRepositoryTest
 import com.bandit.data.model.Song
 import com.bandit.data.repository.SongRepository
 import kotlinx.coroutines.runBlocking

@@ -1,4 +1,4 @@
-package com.bandit
+package com.bandit.repository
 
 import com.bandit.constant.Constants
 import com.bandit.data.model.BaseModel

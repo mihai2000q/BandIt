@@ -1,6 +1,5 @@
-package com.bandit.concerts
+package com.bandit.repository
 
-import com.bandit.BaseRepositoryTest
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.constant.BandItEnums

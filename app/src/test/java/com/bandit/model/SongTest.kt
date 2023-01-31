@@ -1,4 +1,4 @@
-package com.bandit.songs
+package com.bandit.model
 
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
