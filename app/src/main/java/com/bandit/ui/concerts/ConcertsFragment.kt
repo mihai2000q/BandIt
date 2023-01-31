@@ -64,14 +64,12 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
             }
 
-            with(viewModel) {
-                concerts.observe(viewLifecycleOwner) {
-                    concertsList.adapter = ConcertAdapter(
-                        it.sorted(),
-                        viewModel,
-                        this@ConcertsFragment.childFragmentManager
-                    )
-                }
+            viewModel.concerts.observe(viewLifecycleOwner) {
+                concertsList.adapter = ConcertAdapter(
+                    it.sorted(),
+                    viewModel,
+                    this@ConcertsFragment.childFragmentManager
+                )
             }
         }
     }

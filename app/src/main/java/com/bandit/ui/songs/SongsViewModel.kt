@@ -20,11 +20,11 @@ class SongsViewModel : ViewModel() {
     private val _songs = MutableLiveData(_songRepository.list)
     private val _albums = MutableLiveData(_albumRepository.list)
     val songs: LiveData<List<Song>> = _songs
+    val albums: LiveData<List<Album>> = _albums
     val selectedSong: MutableLiveData<Song> = MutableLiveData()
     val selectedAlbum: MutableLiveData<Album> = MutableLiveData()
     //val filterSong: MutableLiveData<Song> = MutableLiveData()
-    private val _albumMode = MutableLiveData<Boolean>()
-    val albumMode: LiveData<Boolean> = _albumMode
+    val albumMode = MutableLiveData(false)
 
     fun addSong(
         name: String,
