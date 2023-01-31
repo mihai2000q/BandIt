@@ -30,10 +30,6 @@ import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.time.Duration
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.*
 import kotlin.random.Random
 
@@ -95,96 +91,5 @@ object AndroidUtils {
             textView.visibility = View.GONE
         else
             textView.text = string
-    }
-    fun accountButton(
-        activity: FragmentActivity,
-        button: ImageButton,
-        accountDialogFragment: AccountDialogFragment
-    ) {
-        button.setOnClickListener {
-            this.showDialogFragment(
-                accountDialogFragment,
-                activity.supportFragmentManager
-            )
-            button.setImageDrawable(
-                ContextCompat.getDrawable(
-                    activity.applicationContext,
-                    R.drawable.ic_baseline_account_clicked
-                )
-            )
-        }
-    }
-    fun bandButton(
-        activity: FragmentActivity,
-        button: Button,
-        band: LiveData<Band>,
-        viewLifecycleOwner: LifecycleOwner,
-        createBandDialogFragment: CreateBandDialogFragment,
-        bandDialogFragment: BandDialogFragment
-    ) {
-        band.observe(viewLifecycleOwner) {
-            if (it.isEmpty())
-                button.setOnClickListener {
-                    showDialogFragment(
-                        createBandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
-            else {
-                button.text = it.name
-                button.setOnClickListener {
-                    showDialogFragment(
-                        bandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
-            }
-        }
-    }
-
-    fun datePickerDialog(
-        context: Context,
-        editText: EditText
-    ) : DatePickerDialog {
-        val calendar = Calendar.getInstance()
-        lateinit var datePickerDialog: DatePickerDialog
-        datePickerDialog = DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                editText.setText(buildString {
-                    append("$year-")
-                    append("${(month + 1).toString().get2Characters()}-")
-                    append(dayOfMonth.toString().get2Characters())
-                })
-                datePickerDialog.dismiss()
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.datePicker.minDate = calendar.timeInMillis
-        return datePickerDialog
-    }
-
-    fun timePickerDialog(
-        context: Context,
-        editText: EditText
-    ) : TimePickerDialog {
-        val calendar = Calendar.getInstance()
-        lateinit var timePickerDialog: TimePickerDialog
-        timePickerDialog = TimePickerDialog(
-            context,
-            { _, hourOfDay, minute ->
-                editText.setText(buildString {
-                    append("${hourOfDay.toString().get2Characters()}:")
-                    append(minute.toString().get2Characters())
-                })
-                timePickerDialog.dismiss()
-            },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
-            false
-        )
-        return timePickerDialog
     }
 }

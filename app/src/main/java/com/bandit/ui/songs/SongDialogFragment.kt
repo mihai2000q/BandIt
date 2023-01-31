@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
 import com.bandit.util.AndroidUtils
 
@@ -26,7 +27,7 @@ open class SongDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val datePickerDialog = AndroidUtils.datePickerDialog(super.requireContext(), songEtReleaseDate)
+            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate)
             songEtReleaseDate.setOnClickListener { datePickerDialog.show() }
         }
     }

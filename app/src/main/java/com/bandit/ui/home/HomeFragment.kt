@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.band.BandInvitationDialogFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
-import com.bandit.util.Header
 
 class HomeFragment : Fragment() {
 
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            Header(
+            AndroidComponents.header(
                 super.requireActivity(),
                 header.headerBtAccount,
                 header.headerBtBand,

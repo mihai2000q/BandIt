@@ -8,11 +8,11 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.builder.AndroidComponents
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
-import com.bandit.util.Header
 
 class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -37,7 +37,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         val concertDetailDialogFragment = ConcertDetailDialogFragment()
         val concertEditDialogFragment = ConcertEditDialogFragment()
         with(binding) {
-            Header(
+            AndroidComponents.header(
                 super.requireActivity(),
                 header.headerBtAccount,
                 header.headerBtBand,

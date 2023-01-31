@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
 import com.bandit.util.AndroidUtils
@@ -36,8 +37,8 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-            val datePickerDialog = AndroidUtils.datePickerDialog(super.requireContext(), concertEtDate)
-            val timePickerDialog = AndroidUtils.timePickerDialog(super.requireContext(), concertEtTime)
+            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate)
+            val timePickerDialog = AndroidComponents.timePickerDialog(super.requireContext(), concertEtTime)
             concertEtDate.setOnClickListener { datePickerDialog.show() }
             concertEtTime.setOnClickListener { timePickerDialog.show() }
         }
