@@ -40,14 +40,14 @@ where T : BaseModel
             else -> filterObjects(obj, other)
         }
     private fun filterString(string: String, other: String?) =
-        if(other != null) {
+        if(!other.isNullOrEmpty()) {
             if(other.split(" ").size > 1)
                 filterOneString(string, other)
             else
                 filterMultipleStrings(string, other)
         } else true
     private fun <E> filterObjects(obj: E, other: E) =
-        if(other == null)
+        if(other == null || obj == null)
             true
         else Objects.equals(obj, other)
     private fun filterMultipleStrings(string: String, other: String?): Boolean {

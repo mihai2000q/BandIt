@@ -12,5 +12,5 @@
     <string name="song_add_toast">Song Added</string>
     <string name="song_edit_toast">Song Edited</string>
     <string name="song_remove_toast">Song Removed</string>
-    <string name="song_filter_toast">Song Filtered</string>
+    <string name="song_filter_toast">Songs Filtered</string>
 </resources>

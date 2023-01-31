@@ -8,10 +8,10 @@ import java.time.LocalDate
 class SongRepository(database: Database? = null)
     : BaseRepository<Song>(database, database?.songs) {
     fun filterSongs(
-        name: String?,
-        releaseDate: LocalDate?,
-        albumName: String?,
-        duration: Duration?
+        name: String? = null,
+        releaseDate: LocalDate? = null,
+        albumName: String? = null,
+        duration: Duration? = null
     ): List<Song> =
         list
             .asSequence()

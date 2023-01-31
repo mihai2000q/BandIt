@@ -9,13 +9,13 @@ import java.time.LocalTime
 class ConcertRepository(database: Database? = null)
     : BaseRepository<Concert>(database, database?.concerts) {
     fun filterConcerts(
-        name: String?,
-        date: LocalDate?,
-        time: LocalTime?,
-        city: String?,
-        country: String?,
-        place: String?,
-        type: BandItEnums.Concert.Type?
+        name: String? = null,
+        date: LocalDate? = null,
+        time: LocalTime? = null,
+        city: String? = null,
+        country: String? = null,
+        place: String? = null,
+        type: BandItEnums.Concert.Type? = null
     ): List<Concert> =
         list
             .asSequence()

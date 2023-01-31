@@ -1,9 +1,9 @@
 package com.bandit.concerts
 
+import com.bandit.BaseRepositoryTest
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.constant.BandItEnums
-import com.bandit.constant.Constants
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -12,7 +12,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class ConcertRepositoryTest {
+class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
     private lateinit var concertRepository: ConcertRepository
     @Before
     fun setup() {
@@ -130,15 +130,7 @@ class ConcertRepositoryTest {
     }
     @Test
     fun concert_repository_different_ids() {
-        runBlocking {
-            with(concertRepository) {
-                for (i in 0 until Constants.MAX_NR_ITEMS / 2)
-                    add(Concert.EMPTY)
-                for (concert in list)
-                    if (list.filter { it.id == concert.id }.size > 1)
-                        fail("Id's should be different")
-            }
-        }
+        different_ids(concertRepository, Concert.EMPTY)
     }
     @Test
     fun concert_repository_edit() {
@@ -194,8 +186,7 @@ class ConcertRepositoryTest {
     fun concert_repository_filter_string() {
         import_data()
         //one result
-        val outcome = concertRepository.filterConcerts(
-            "am", null, null, null, null, null,null)
+        val outcome = concertRepository.filterConcerts(name = "am")
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
@@ -209,8 +200,7 @@ class ConcertRepositoryTest {
         assertEquals(expected, outcome.first())
 
         //multiple result - multiple words for filtering
-        val outcome2 = concertRepository.filterConcerts("lEgAcy oF thE BeaSt",
-            null, null,null, null, null, null)
+        val outcome2 = concertRepository.filterConcerts(name = "lEgAcy oF thE BeaSt")
         val expected2 = listOf(
             Concert(
                 "Legacy of the beast",
@@ -235,20 +225,17 @@ class ConcertRepositoryTest {
         assertEquals(expected2, outcome2)
 
         //multiple filters
-        val outcome3 = concertRepository.filterConcerts("am",
-            null, null,"Leipzig", "Germany", null, null)
+        val outcome3 = concertRepository.filterConcerts(name = "am", city = "Leipzig", country = "Germany")
         assertEquals(outcome3.size, 1)
         assertEquals(expected, outcome3.first())
 
         //assert name in between
-        val outcome4 = concertRepository.filterConcerts(
-            "amar", null, null, null, null, null,null)
+        val outcome4 = concertRepository.filterConcerts(name = "amar")
         assertEquals(outcome4.size, 1)
         assertEquals(expected, outcome4.first())
 
         //assert place
-        val outcome5 = concertRepository.filterConcerts(
-            "amar", null, null, null, null, "rock fest",null)
+        val outcome5 = concertRepository.filterConcerts(name = "amar", place = "rock fest")
         assertEquals(outcome5.size, 1)
         assertEquals(expected, outcome5.first())
     }
@@ -256,11 +243,7 @@ class ConcertRepositoryTest {
     fun concert_repository_filter_date_time() {
         import_data()
         //assert date
-        val outcome = concertRepository.filterConcerts(
-            null,
-            LocalDate.of(2023,2,9),
-            null,
-            null, null, null, null)
+        val outcome = concertRepository.filterConcerts(date = LocalDate.of(2023,2,9))
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
@@ -283,11 +266,7 @@ class ConcertRepositoryTest {
     @Test
     fun concert_repository_filter_type() {
         import_data()
-        val outcome = concertRepository.filterConcerts(
-            null,
-            null,
-            null,
-            null, null, null, BandItEnums.Concert.Type.Festival)
+        val outcome = concertRepository.filterConcerts( type = BandItEnums.Concert.Type.Festival)
         val expected = Concert(
             "Rock fest",
             LocalDateTime.of(2024, 9, 21, 23, 0),
@@ -329,7 +308,7 @@ class ConcertRepositoryTest {
     private fun assert_concert(
         repository: ConcertRepository,
         size: Int,
-        index:Int,
+        index: Int,
         name: String,
         dateTime: LocalDateTime,
         city: String,
