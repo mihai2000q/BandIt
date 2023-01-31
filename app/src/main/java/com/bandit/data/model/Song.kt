@@ -8,9 +8,9 @@ data class Song(
     val name: String,
     val bandId: Long,
     val releaseDate: LocalDate,
+    val duration: Duration = Duration.ZERO,
     val albumName: String? = null,
     val albumId: Long? = null,
-    val duration: Duration = Duration.ZERO,
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id), Comparable<Song> {
     override fun compareTo(other: Song): Int {

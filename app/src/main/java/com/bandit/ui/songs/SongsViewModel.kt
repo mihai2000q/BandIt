@@ -29,33 +29,15 @@ class SongsViewModel : ViewModel() {
     fun addSong(
         name: String,
         releaseDate: LocalDate,
-        albumName: String,
         duration: Duration
     ) {
         viewModelScope.launch {
-            val bandId = DILocator.database.currentBand.id
-            val result = _albumRepository.isThereAnAlbum(albumName)
-            var album: Album? = null
-            val albumId: Long
-            if(result == null) {
-                album = Album(albumName, bandId)
-                albumId = album.id
-            }
-            else
-                albumId = result
             val song = Song(
                 name,
-                bandId,
+                DILocator.database.currentBand.id,
                 releaseDate,
-                if(albumName.isEmpty() || albumName.isBlank()) null else albumName,
-                if(albumName.isEmpty() || albumName.isBlank()) null else albumId,
                 duration
             )
-            album?.songs?.add(song)
-            if (album != null) {
-                launch { _albumRepository.add(album) }.join()
-                _albums.value = _albumRepository.list
-            }
             launch { _songRepository.add(song) }.join()
             _songs.value = _songRepository.list
         }
@@ -86,9 +68,9 @@ class SongsViewModel : ViewModel() {
 
     fun filterAlbums(
         name: String?,
-        releaseDate: LocalDate?,
-        label: String?,
-        duration: Duration?
+        releaseDate: LocalDate? = null,
+        label: String? = null,
+        duration: Duration? = null
     ) {
         _albums.value = _albumRepository.filterAlbums(name, releaseDate, label, duration)
     }

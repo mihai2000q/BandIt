@@ -62,7 +62,7 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
             with(viewModel) {
                 songs.observe(viewLifecycleOwner) {
                     songsList.adapter = SongAdapter(
-                        it,
+                        it.sorted().reversed(),
                         { song ->
                             selectedSong.value = song
                             AndroidUtils.showDialogFragment(

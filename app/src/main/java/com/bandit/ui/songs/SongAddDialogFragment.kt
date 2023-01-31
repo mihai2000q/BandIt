@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
@@ -24,7 +23,6 @@ class SongAddDialogFragment : SongDialogFragment() {
                 viewModel.addSong(
                     songEtName.text.toString(),
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    songEtAlbumName.text.toString().normalizeWord(),
                     ParserUtils.parseDuration(songEtDuration.text.toString())
                 )
                 AndroidUtils.toastNotification(

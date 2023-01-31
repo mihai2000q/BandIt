@@ -20,7 +20,7 @@ class SongFilterDialogFragment : SongDialogFragment() {
                         null
                     else
                         ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    songEtAlbumName.text.toString(),
+                    null,
                     if(songEtDuration.text.isNullOrEmpty())
                         null
                     else

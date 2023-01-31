@@ -15,7 +15,6 @@ class SongEditDialogFragment : SongDialogFragment() {
             viewModel.selectedSong.observe(viewLifecycleOwner) {
                 songEtName.setText(it.name)
                 songEtReleaseDate.setText(it.releaseDate.toString())
-                songEtAlbumName.setText(it.albumName)
                 songEtDuration.setText(it.duration.toString())
             }
             songButton.setOnClickListener {
@@ -24,9 +23,9 @@ class SongEditDialogFragment : SongDialogFragment() {
                         songEtName.text.toString(),
                         viewModel.selectedSong.value!!.bandId,
                         ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                        songEtAlbumName.text.toString(),
-                        viewModel.selectedSong.value!!.albumId,
                         ParserUtils.parseDuration(songEtDuration.text.toString()),
+                        viewModel.selectedSong.value!!.albumName,
+                        viewModel.selectedSong.value!!.albumId,
                         viewModel.selectedSong.value!!.id
                     )
                 )

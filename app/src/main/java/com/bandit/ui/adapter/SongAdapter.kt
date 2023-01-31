@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Song
 import com.bandit.databinding.ModelSongBinding
+import com.bandit.extension.print
+import com.bandit.util.AndroidUtils
 
 data class SongAdapter(
     private val list: List<Song>,
@@ -43,7 +45,8 @@ data class SongAdapter(
             }
             with(binding) {
                 songName.text = song.name
-                songAlbumName.text = song.albumName
+                songReleaseDate.text = song.releaseDate.print()
+                AndroidUtils.ifNullHide(songAlbumName, song.albumName)
             }
         }
     }

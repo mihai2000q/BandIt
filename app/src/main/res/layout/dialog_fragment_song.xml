@@ -29,7 +29,6 @@
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/song_et_release_date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,25 +44,8 @@
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/song_et_duration"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/song_et_name" />
-
-            <EditText
-                android:id="@+id/song_et_album_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/song_field_album_name"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/song_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/song_et_duration" />
 
             <EditText
                 android:id="@+id/song_et_duration"
@@ -72,12 +54,12 @@
                 android:layout_marginVertical="8dp"
                 android:autofillHints=""
                 android:ems="10"
+                android:maxLength="5"
                 android:hint="@string/song_field_duration"
                 android:inputType="time"
                 android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/song_et_album_name"
+                app:layout_constraintBottom_toTopOf="@+id/song_button"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/song_et_release_date" />
 
@@ -91,7 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/song_et_album_name" />
+                app:layout_constraintTop_toBottomOf="@+id/song_et_duration" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

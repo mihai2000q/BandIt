@@ -14,9 +14,9 @@ class SongTest {
             "new song",
             -1,
             LocalDate.of(2012,9,13),
+            Duration.ofSeconds(90),
             "new album",
-            null,
-            Duration.ofSeconds(90)
+            null
         )
         assertEquals(song.name, "new song")
         assertEquals(song.releaseDate, LocalDate.parse("2012-09-13"))
@@ -42,25 +42,25 @@ class SongTest {
             "new song",
             -1,
             LocalDate.of(2012,9,13),
+            Duration.ofSeconds(90),
             "new album",
-            null,
-            Duration.ofSeconds(90)
+            null
         )
         val song2 = Song(
             "new song 2",
             -1,
             LocalDate.of(2012,9,13),
+            Duration.ofSeconds(90),
             "new album",
-            null,
-            Duration.ofSeconds(90)
+            null
         )
         val song3 = Song(
             "new song",
             -1,
             LocalDate.of(2012,9,13),
+            Duration.ofSeconds(90),
             "new album",
-            null,
-            Duration.ofSeconds(90)
+            null
         )
         assertEquals(song, song3)
         assertNotEquals(song, song2)
@@ -72,33 +72,33 @@ class SongTest {
                 "new song 3",
                 -1,
                 LocalDate.of(2011,9,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 4",
                 -1,
                 LocalDate.now(),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 1",
                 -1,
                 LocalDate.of(2010,9,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 2",
                 -1,
                 LocalDate.of(2010,10,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             )
         )
         outcome.sort()
@@ -107,33 +107,33 @@ class SongTest {
                 "new song 1",
                 -1,
                 LocalDate.of(2010,9,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 2",
                 -1,
                 LocalDate.of(2010,10,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 3",
                 -1,
                 LocalDate.of(2011,9,13),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             ),
             Song(
                 "new song 4",
                 -1,
                 LocalDate.now(),
+                Duration.ofSeconds(90),
                 "new album",
-                null,
-                Duration.ofSeconds(90)
+                null
             )
         )
         assertEquals(outcome, expected)

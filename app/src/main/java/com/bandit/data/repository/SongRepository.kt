@@ -28,9 +28,9 @@ class SongRepository(database: Database? = null)
                 item.name,
                 item.bandId,
                 item.releaseDate,
+                item.duration,
                 item.albumName,
                 item.albumId,
-                item.duration
             )
         }
         return newSong
