@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
-import com.bandit.ui.BaseFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
+import com.bandit.util.Header
 
-class ConcertsFragment : BaseFragment() {
+class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +37,16 @@ class ConcertsFragment : BaseFragment() {
         val concertDetailDialogFragment = ConcertDetailDialogFragment()
         val concertEditDialogFragment = ConcertEditDialogFragment()
         with(binding) {
+            Header(
+                super.requireActivity(),
+                header.headerBtAccount,
+                header.headerBtBand,
+                viewLifecycleOwner,
+                bandViewModel.band
+            )
+            concertsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
+            concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
+            header.headerTvTitle.setText(R.string.title_concerts)
             bandViewModel.band.observe(viewLifecycleOwner) {
                 concertsBtAdd.isEnabled = !it.isEmpty()
                 concertsBtFilter.isEnabled = !it.isEmpty()
@@ -85,5 +97,19 @@ class ConcertsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.filterConcerts(name = newText)
+        return false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.concert_filter_toast)
+        )
+        binding.concertsSearchView.clearFocus()
+        return false
     }
 }

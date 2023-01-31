@@ -48,12 +48,12 @@ class ConcertsViewModel : ViewModel() {
     }
     fun filterConcerts(
         name: String?,
-        date: LocalDate?,
-        time: LocalTime?,
-        city: String?,
-        country: String?,
-        place: String?,
-        type: BandItEnums.Concert.Type?
+        date: LocalDate? = null,
+        time: LocalTime? = null,
+        city: String? = null,
+        country: String? = null,
+        place: String? = null,
+        type: BandItEnums.Concert.Type? = null
     ) {
         _concerts.value = _repository.filterConcerts(name, date, time, city, country, place, type)
     }

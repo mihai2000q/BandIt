@@ -20,27 +20,36 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/concerts_bt_add"
+            <SearchView
+                android:id="@+id/concerts_search_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="#FFFFFF"
-                android:contentDescription="@string/content_description_bt_add"
-                app:srcCompat="@drawable/ic_baseline_add_circle"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:iconifiedByDefault="false"
+                android:inputType="textPersonName"
+                android:maxWidth="300dp"
+                android:queryHint="@string/search_view" />
 
             <ImageButton
                 android:id="@+id/concerts_bt_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_filter"
                 app:srcCompat="@drawable/ic_baseline_filter"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/concerts_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:contentDescription="@string/content_description_bt_add"
+                android:minWidth="48dp"
+                app:srcCompat="@drawable/ic_baseline_add_circle"
                 tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
 

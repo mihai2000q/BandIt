@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.databinding.FragmentSongsBinding
@@ -14,8 +15,9 @@ import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
+import com.bandit.util.Header
 
-class SongsFragment : Fragment() {
+class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
@@ -37,23 +39,17 @@ class SongsFragment : Fragment() {
         val songDetailDialogFragment = SongDetailDialogFragment()
         val songEditDialogFragment = SongEditDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment()
-        val accountDialogFragment = AccountDialogFragment(binding.songsBtAccount)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
         with(binding) {
-            AndroidUtils.accountButton(
+            Header(
                 super.requireActivity(),
-                songsBtAccount,
-                accountDialogFragment
-            )
-            AndroidUtils.bandButton(
-                super.requireActivity(),
-                songsBtBand,
-                bandViewModel.band,
+                header.headerBtAccount,
+                header.headerBtBand,
                 viewLifecycleOwner,
-                createBandDialogFragment,
-                bandDialogFragment
+                bandViewModel.band
             )
+            header.headerTvTitle.setText(R.string.title_songs)
+            songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
+            songsSearchView.setOnQueryTextListener(this@SongsFragment)
             songsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     songAddDialogFragment,
@@ -101,5 +97,19 @@ class SongsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.song_filter_toast)
+        )
+        binding.songsSearchView.clearFocus()
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.filterSongs(name = newText)
+        return false
     }
 }
