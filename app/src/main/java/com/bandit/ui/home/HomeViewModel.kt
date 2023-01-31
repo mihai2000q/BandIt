@@ -1,5 +1,6 @@
 package com.bandit.ui.home
 
+import android.app.Activity
 import android.content.Context
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -14,7 +15,9 @@ class HomeViewModel : ViewModel() {
     private val _builder: HomeBuilder = DILocator.homeBuilder
     private val _elements = MutableLiveData(DILocator.database.homeNavigationElementsMap)
     fun generateHomeElements(
-        layout: TableLayout, context:Context,
+        layout: TableLayout,
+        activity: Activity,
+        context: Context,
         bottomNav:BottomNavigationView?
     ) {
         var index = 0
@@ -22,13 +25,13 @@ class HomeViewModel : ViewModel() {
             val tableRow: TableRow
             val prefix = "table_row_"
             if (index % 2 == 0) {
-                tableRow = _builder.buildTableRow(context, prefix + (index + 1))
+                tableRow = _builder.buildTableRow(activity.applicationContext, prefix + (index + 1))
                 layout.addView(tableRow)
             } else
                 tableRow = layout.findViewWithTag(prefix + index)
 
             index++
-            tableRow.addView(_builder.buildHomeButton(context, it, bottomNav))
+            tableRow.addView(_builder.buildHomeButton(activity, context, it, bottomNav))
         }
     }
 

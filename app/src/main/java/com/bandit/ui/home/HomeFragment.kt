@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
             )
             viewModel.generateHomeElements(
                 homeSvTableLayout,
+                super.requireActivity(),
                 super.requireContext(),
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
