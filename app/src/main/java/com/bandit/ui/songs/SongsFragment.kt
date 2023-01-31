@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.builder.AndroidComponents
@@ -48,10 +49,7 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
             songsSearchView.setOnQueryTextListener(this@SongsFragment)
             songsBtAlbumMode.setOnClickListener { viewModel.albumMode.value = !viewModel.albumMode.value!! }
             viewModel.albumMode.observe(viewLifecycleOwner) {
-                if(it)
-                    albumMode()
-                else
-                    songMode()
+                if(it) albumMode() else songMode()
             }
 
         }
@@ -66,24 +64,11 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
         val albumAddDialogFragment = AlbumDialogFragment()
         val albumFilterDialogFragment = AlbumDialogFragment()
         with(binding) {
-            songsBtAlbumMode.setImageDrawable(
-                ContextCompat.getDrawable(
-                    super.requireContext(),
-                    R.drawable.ic_baseline_list
-                )
+            mode(
+                R.drawable.ic_baseline_list,
+                albumAddDialogFragment,
+                albumFilterDialogFragment
             )
-            songsBtAdd.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    albumAddDialogFragment,
-                    childFragmentManager
-                )
-            }
-            songsBtFilter.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    albumFilterDialogFragment,
-                    childFragmentManager
-                )
-            }
             viewModel.albums.observe(viewLifecycleOwner) {
                 songsList.adapter = AlbumAdapter(it)
             }
@@ -94,28 +79,42 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment()
         with(binding) {
+            mode(
+                R.drawable.ic_baseline_album_view,
+                songAddDialogFragment,
+                songFilterDialogFragment
+            )
+            viewModel.songs.observe(viewLifecycleOwner) {
+                songsList.adapter = SongAdapter(
+                    it.sorted().reversed(),
+                    viewModel,
+                    childFragmentManager
+                )
+            }
+        }
+    }
+
+    private fun mode(
+        drawableIcon: Int,
+        addDialogFragment: DialogFragment,
+        filterDialogFragment: DialogFragment
+    ) {
+        with(binding) {
             songsBtAlbumMode.setImageDrawable(
                 ContextCompat.getDrawable(
                     super.requireContext(),
-                    R.drawable.ic_baseline_album_view
+                    drawableIcon
                 )
             )
             songsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
-                    songAddDialogFragment,
+                    addDialogFragment,
                     childFragmentManager
                 )
             }
             songsBtFilter.setOnClickListener {
                 AndroidUtils.showDialogFragment(
-                    songFilterDialogFragment,
-                    childFragmentManager
-                )
-            }
-            viewModel.songs.observe(viewLifecycleOwner) {
-                songsList.adapter = SongAdapter(
-                    it.sorted().reversed(),
-                    viewModel,
+                    filterDialogFragment,
                     childFragmentManager
                 )
             }

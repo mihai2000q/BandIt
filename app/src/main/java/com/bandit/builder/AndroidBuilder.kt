@@ -55,7 +55,7 @@ class AndroidBuilder : HomeBuilder {
         )
         val params = TableRow.LayoutParams()
         params.width = TableRow.LayoutParams.WRAP_CONTENT
-        params.height = AndroidUtils.getScreenHeight(activity) / 4
+        params.height = AndroidUtils.getScreenHeight(activity) / 5
         params.setMargins(margins)
         button.layoutParams = params
         button.text = text
