@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.constant.Constants
-import com.bandit.extension.StringExtensions.get2Characters
-import com.bandit.extension.StringExtensions.normalizeWord
+import com.bandit.extension.get2Characters
+import com.bandit.extension.normalizeWord
 
 class ConcertDetailDialogFragment : DialogFragment() {
 

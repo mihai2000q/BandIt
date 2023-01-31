@@ -9,8 +9,8 @@ import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
 import com.bandit.constant.BandItEnums
-import com.bandit.extension.StringExtensions.get2Characters
-import com.bandit.extension.StringExtensions.normalizeWord
+import com.bandit.extension.get2Characters
+import com.bandit.extension.normalizeWord
 
 data class ConcertAdapter(
     private val concerts: List<Concert>,

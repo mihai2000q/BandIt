@@ -24,7 +24,7 @@ import androidx.lifecycle.LiveData
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
-import com.bandit.extension.StringExtensions.get2Characters
+import com.bandit.extension.get2Characters
 import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment

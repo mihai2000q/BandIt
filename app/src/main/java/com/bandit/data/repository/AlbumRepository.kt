@@ -2,7 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Album
-import com.bandit.extension.StringExtensions.normalizeWord
+import com.bandit.extension.normalizeWord
 import java.time.Duration
 import java.time.LocalDate
 
