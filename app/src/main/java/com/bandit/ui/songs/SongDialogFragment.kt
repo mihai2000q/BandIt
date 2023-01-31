@@ -27,7 +27,7 @@ open class SongDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate)
+            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate, true)
             songEtReleaseDate.setOnClickListener { datePickerDialog.show() }
             songEtDuration.addTextChangedListener {
                 if(it.toString().length == 2) {

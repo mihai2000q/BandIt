@@ -22,7 +22,8 @@ import java.util.*
 object AndroidComponents {
     fun datePickerDialog(
         context: Context,
-        editText: EditText
+        editText: EditText,
+        withPast: Boolean = false
     ) : DatePickerDialog {
         val calendar = Calendar.getInstance()
         lateinit var datePickerDialog: DatePickerDialog
@@ -40,7 +41,7 @@ object AndroidComponents {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
-        datePickerDialog.datePicker.minDate = calendar.timeInMillis
+        datePickerDialog.datePicker.minDate = if(withPast) 0 else calendar.timeInMillis
         return datePickerDialog
     }
 
