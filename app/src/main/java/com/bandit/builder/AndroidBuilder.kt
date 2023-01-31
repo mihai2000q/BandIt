@@ -1,5 +1,6 @@
 package com.bandit.builder
 
+import android.app.Activity
 import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -7,21 +8,20 @@ import android.widget.Button
 import android.widget.TableRow
 import androidx.core.view.setMargins
 import com.bandit.constant.BandItEnums
+import com.bandit.util.AndroidUtils
 import com.google.android.material.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 
 class AndroidBuilder : HomeBuilder {
     override fun buildHomeButton(
+        activity: Activity,
         context: Context,
         entry: Map.Entry<String, BandItEnums.Home.NavigationType>,
         bottomNav: BottomNavigationView?
     ): Button {
-        val params = TableRow.LayoutParams()
-        params.width = TableRow.LayoutParams.WRAP_CONTENT
-        params.height = 400
         val button = buildButton(
-            context, "Your ${entry.key}", params, 16, Gravity.CENTER, 15f)
+            activity, context, "Your ${entry.key}", 16, Gravity.CENTER, 15f)
         val destination: Int = com.bandit.R.id::class.java.fields.find {
             it.name.equals("navigation_" +
                     entry.key.lowercase().replace("\\s".toRegex(), "")
@@ -46,12 +46,16 @@ class AndroidBuilder : HomeBuilder {
         tableRow.tag = tag
         return tableRow
     }
-    private fun buildButton(context: Context, text: String,
-                            params: TableRow.LayoutParams,
+    private fun buildButton(activity: Activity,
+                            context: Context,
+                            text: String,
                             margins: Int, gravity: Int, textSize: Float): Button {
         val button = MaterialButton(
             ContextThemeWrapper(context, R.style.Widget_Material3_Button)
         )
+        val params = TableRow.LayoutParams()
+        params.width = TableRow.LayoutParams.WRAP_CONTENT
+        params.height = AndroidUtils.getScreenHeight(activity) / 4
         params.setMargins(margins)
         button.layoutParams = params
         button.text = text

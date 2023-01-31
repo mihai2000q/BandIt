@@ -36,9 +36,11 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         with(binding) {
             accountBtSignOut.setOnClickListener { signOut() }
             with(viewModel) {
-                accountEtName.setText(name.value)
-                accountEtNickname.setText(nickname.value)
-                accountEtRole.setText(role.value)
+                account.observe(viewLifecycleOwner) {
+                    accountEtName.setText(it.name)
+                    accountEtNickname.setText(it.nickname)
+                    accountEtRole.setText(it.role.name)
+                }
 
                 accountBtSave.setOnClickListener {
                     updateAccount(

@@ -17,10 +17,12 @@ class LoginViewModel : ViewModel() {
         if(_authenticator.currentUser != null)
             _email.value = _authenticator.currentUser?.email
     }
-    suspend fun signInWithEmailAndPassword(email: String?,
-                                           password: String?,
-                                           onSuccess: (() -> Unit)? = null,
-                                           onFailure: (() -> Unit)? = null) {
+    suspend fun signInWithEmailAndPassword(
+        email: String?,
+        password: String?,
+        onSuccess: (() -> Unit)? = null,
+        onFailure: (() -> Unit)? = null
+    ) {
         viewModelScope.launch {
             var result: Boolean? = null
             launch { result = _authenticator.signInWithEmailAndPassword(

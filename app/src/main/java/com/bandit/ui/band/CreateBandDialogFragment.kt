@@ -28,6 +28,9 @@ class CreateBandDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            viewModel.name.observe(viewLifecycleOwner) {
+                createBandEtName.setText(it)
+            }
             createBandBtCreate.setOnClickListener {
                 with(viewModel) {
                     name.value = createBandEtName.text.toString()

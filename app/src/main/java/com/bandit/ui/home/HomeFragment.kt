@@ -51,8 +51,8 @@ class HomeFragment : Fragment() {
                 bandDialogFragment
             )
             viewModel.generateHomeElements(
-                viewModel.elements.value ?: mapOf(),
                 homeSvTableLayout,
+                super.requireActivity(),
                 super.requireContext(),
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )

@@ -31,8 +31,7 @@ import com.bandit.util.AndroidUtils
          with(binding) {
              bandBtInvite.setOnClickListener {
                  with(viewModel) {
-                     email.value = bandEtEmail.text.toString()
-                     sendBandInvitation()
+                     sendBandInvitation(bandEtEmail.text.toString())
                      bandEtEmail.setText("")
                      AndroidUtils.toastNotification(
                          super.requireContext(),
