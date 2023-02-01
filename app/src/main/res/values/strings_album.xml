@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="album_remove_from_album">Remove From Album</string>
+    <string name="album_detail_tv_actual_songs">Playlist Songs: </string>
+</resources>

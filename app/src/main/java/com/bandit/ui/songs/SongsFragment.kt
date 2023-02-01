@@ -9,6 +9,7 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentSongsBinding
@@ -67,6 +68,7 @@ class SongsFragment : Fragment() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
         val albumFilterDialogFragment = AlbumFilterDialogFragment()
         with(binding) {
+            songsList.layoutManager = GridLayoutManager(context, 2)
             mode(
                 R.drawable.ic_baseline_list,
                 albumAddDialogFragment,
@@ -99,6 +101,7 @@ class SongsFragment : Fragment() {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment()
         with(binding) {
+            songsList.layoutManager = GridLayoutManager(context, 1)
             mode(
                 R.drawable.ic_baseline_album_view,
                 songAddDialogFragment,
@@ -108,7 +111,14 @@ class SongsFragment : Fragment() {
                 songsList.adapter = SongAdapter(
                     it.sorted().reversed(),
                     viewModel,
-                    childFragmentManager
+                    childFragmentManager,
+                    { song ->
+                        AndroidUtils.toastNotification(
+                            super.requireContext(),
+                            resources.getString(R.string.song_remove_toast),
+                        )
+                        return@SongAdapter viewModel.removeSong(song)
+                    }
                 )
             }
             songsSearchView.setOnQueryTextListener(

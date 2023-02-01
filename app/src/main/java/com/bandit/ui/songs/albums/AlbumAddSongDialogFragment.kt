@@ -9,14 +9,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.databinding.DialogFragmentAlbumDetailBinding
+import com.bandit.databinding.DialogFragmentAlbumAddSongBinding
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
-class AlbumDetailDialogFragment : DialogFragment() {
+class AlbumAddSongDialogFragment : DialogFragment() {
 
-    private var _binding: DialogFragmentAlbumDetailBinding? = null
+    private var _binding: DialogFragmentAlbumAddSongBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
 
@@ -25,7 +25,7 @@ class AlbumDetailDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogFragmentAlbumDetailBinding.inflate(layoutInflater, container, false)
+        _binding = DialogFragmentAlbumAddSongBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -35,31 +35,24 @@ class AlbumDetailDialogFragment : DialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        val album = viewModel.selectedAlbum.value!!
-        val albumAddSongDialogFragment = AlbumAddSongDialogFragment()
         with(binding) {
-            albumDetailTvAlbumName.text = album.name
-            albumDetailBtAddSongs.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    albumAddSongDialogFragment,
-                    childFragmentManager
-                )
-            }
-            viewModel.albums.observe(viewLifecycleOwner) {
-                albumDetailSongList.adapter =
-                    SongAdapter(
-                        album.songs,
-                        viewModel,
-                        childFragmentManager,
-                        { song ->
+                    albumSongsWithoutAlbum.adapter =
+                        SongAdapter(
+                            viewModel.getSongsWithoutAnAlbum(),
+                            viewModel,
+                            childFragmentManager,
+                            { return@SongAdapter true },
+                            resources.getString(R.string.album_remove_from_album),
+                            false
+                        ) {
+                            viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
                             AndroidUtils.toastNotification(
                                 super.requireContext(),
-                                resources.getString(R.string.album_remove_song_toast),
+                                resources.getString(R.string.album_add_song_toast)
                             )
-                            return@SongAdapter viewModel.removeSongFromAlbum(album, song)
+                            super.dismiss()
+                            return@SongAdapter
                         }
-                    )
-            }
         }
     }
 
@@ -69,6 +62,6 @@ class AlbumDetailDialogFragment : DialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Song.Album.DETAIL_TAG
+        const val TAG = Constants.Song.Album.ADD_SONG_TAG
     }
 }
