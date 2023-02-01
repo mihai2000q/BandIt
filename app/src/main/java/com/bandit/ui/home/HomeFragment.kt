@@ -36,12 +36,12 @@ class HomeFragment : Fragment() {
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                header.headerBtAccount,
-                header.headerBtBand,
+                homeHeader.headerBtAccount,
+                homeHeader.headerBtBand,
                 viewLifecycleOwner,
                 bandViewModel.band
             )
-            header.headerTvTitle.setText(R.string.title_home)
+            homeHeader.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(
                 homeSvTableLayout,
                 super.requireActivity(),
