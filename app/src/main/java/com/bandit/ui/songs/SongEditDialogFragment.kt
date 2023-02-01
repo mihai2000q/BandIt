@@ -5,6 +5,8 @@ import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
+import com.bandit.extension.print
+import com.bandit.extension.printName
 import com.bandit.util.ParserUtils
 
 class SongEditDialogFragment : SongDialogFragment() {
@@ -15,7 +17,7 @@ class SongEditDialogFragment : SongDialogFragment() {
             viewModel.selectedSong.observe(viewLifecycleOwner) {
                 songEtName.setText(it.name)
                 songEtReleaseDate.setText(it.releaseDate.toString())
-                songEtDuration.setText(it.duration.toString())
+                songEtDuration.setText(it.duration.print())
             }
             songButton.setOnClickListener {
                 viewModel.editSong(
