@@ -75,6 +75,7 @@ class SongsFragment : Fragment() {
                 albumFilterDialogFragment
             )
             viewModel.albums.observe(viewLifecycleOwner) {
+                if(viewModel.albumMode.value == false) return@observe
                 songsList.adapter = AlbumAdapter(super.requireActivity(), it, viewModel, childFragmentManager)
             }
             songsSearchView.setOnQueryTextListener(
@@ -108,6 +109,7 @@ class SongsFragment : Fragment() {
                 songFilterDialogFragment
             )
             viewModel.songs.observe(viewLifecycleOwner) {
+                if(viewModel.albumMode.value == true) return@observe
                 songsList.adapter = SongAdapter(
                     it.sorted().reversed(),
                     viewModel,
