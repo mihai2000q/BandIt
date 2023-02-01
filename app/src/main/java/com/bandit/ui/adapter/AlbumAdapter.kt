@@ -2,13 +2,27 @@ package com.bandit.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bandit.R
 import com.bandit.data.model.Album
 import com.bandit.databinding.ModelAlbumBinding
+import com.bandit.ui.songs.SongsViewModel
+import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
+import com.bandit.ui.songs.albums.AlbumEditDialogFragment
+import com.bandit.util.AndroidUtils
 
 data class AlbumAdapter(
-    private val albums: List<Album>
+    private val activity: FragmentActivity,
+    private val albums: List<Album>,
+    private val viewModel: SongsViewModel,
+    private val childFragmentManager: FragmentManager
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
+    private val albumEditDialogFragment = AlbumEditDialogFragment()
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment()
+
     inner class ViewHolder(val binding: ModelAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,7 +40,61 @@ data class AlbumAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val album = albums[position]
 
+        with(holder) {
+            itemView.layoutParams.width = AndroidUtils.getScreenWidth(activity) / 2
+            itemView.layoutParams.height = AndroidUtils.getScreenHeight(activity) / 4
+            itemView.setOnClickListener { onClick(album) }
+            itemView.setOnLongClickListener { onLongClick(holder, album) }
+            with(binding) {
+                albumName.text = album.name
+            }
+        }
+    }
+
+    private fun popupMenu(holder: ViewHolder, album: Album) {
+        val popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
+        popupMenu.inflate(R.menu.item_popup_menu)
+        popupMenu.setOnMenuItemClickListener {
+            popupMenu.dismiss()
+            when (it.itemId) {
+                R.id.popup_menu_delete -> onDelete(holder, album)
+                else -> onEdit(album)
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun onClick(album: Album) {
+        viewModel.selectedAlbum.value = album
+        AndroidUtils.showDialogFragment(
+            albumDetailDialogFragment,
+            childFragmentManager
+        )
+    }
+
+    private fun onLongClick(holder: ViewHolder, album: Album): Boolean {
+        popupMenu(holder, album)
+        viewModel.selectedAlbum.value = album
+        return true
+    }
+
+    private fun onDelete(holder: ViewHolder, album: Album): Boolean {
+        AndroidUtils.toastNotification(
+            holder.binding.root.context,
+            holder.binding.root.resources.getString(R.string.album_remove_toast),
+        )
+        return viewModel.removeAlbum(album)
+    }
+
+    private fun onEdit(album: Album): Boolean {
+        viewModel.selectedAlbum.value = album
+        AndroidUtils.showDialogFragment(
+            albumEditDialogFragment,
+            childFragmentManager
+        )
+        return true
     }
 
 }

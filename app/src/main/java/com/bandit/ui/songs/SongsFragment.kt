@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -15,10 +15,11 @@ import com.bandit.databinding.FragmentSongsBinding
 import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.band.BandViewModel
-import com.bandit.ui.songs.albums.AlbumDialogFragment
+import com.bandit.ui.songs.albums.AlbumAddDialogFragment
+import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
 
-class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
+class SongsFragment : Fragment() {
 
     private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
@@ -46,8 +47,10 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
             )
             header.headerTvTitle.setText(R.string.title_songs)
             songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 5 / 8
-            songsSearchView.setOnQueryTextListener(this@SongsFragment)
-            songsBtAlbumMode.setOnClickListener { viewModel.albumMode.value = !viewModel.albumMode.value!! }
+            songsBtAlbumMode.setOnClickListener {
+                songsSearchView.setQuery("", false)
+                viewModel.albumMode.value = !viewModel.albumMode.value!!
+            }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
@@ -61,8 +64,8 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun albumMode() {
-        val albumAddDialogFragment = AlbumDialogFragment()
-        val albumFilterDialogFragment = AlbumDialogFragment()
+        val albumAddDialogFragment = AlbumAddDialogFragment()
+        val albumFilterDialogFragment = AlbumFilterDialogFragment()
         with(binding) {
             mode(
                 R.drawable.ic_baseline_list,
@@ -70,8 +73,25 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                 albumFilterDialogFragment
             )
             viewModel.albums.observe(viewLifecycleOwner) {
-                songsList.adapter = AlbumAdapter(it)
+                songsList.adapter = AlbumAdapter(super.requireActivity(), it, viewModel, childFragmentManager)
             }
+            songsSearchView.setOnQueryTextListener(
+                object : OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        AndroidUtils.toastNotification(
+                            this@SongsFragment.requireContext(),
+                            resources.getString(R.string.album_filter_toast)
+                        )
+                        binding.songsSearchView.clearFocus()
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        viewModel.filterAlbums(name = newText)
+                        return false
+                    }
+                }
+            )
         }
     }
 
@@ -91,6 +111,23 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                     childFragmentManager
                 )
             }
+            songsSearchView.setOnQueryTextListener(
+                object : OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        AndroidUtils.toastNotification(
+                            this@SongsFragment.requireContext(),
+                            resources.getString(R.string.song_filter_toast)
+                        )
+                        binding.songsSearchView.clearFocus()
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        viewModel.filterSongs(name = newText)
+                        return false
+                    }
+                }
+            )
         }
     }
 
@@ -119,19 +156,5 @@ class SongsFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
             }
         }
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        AndroidUtils.toastNotification(
-            super.requireContext(),
-            resources.getString(R.string.song_filter_toast)
-        )
-        binding.songsSearchView.clearFocus()
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.filterSongs(name = newText)
-        return false
     }
 }

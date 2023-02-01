@@ -26,18 +26,8 @@ class SongsViewModel : ViewModel() {
     //val filterSong: MutableLiveData<Song> = MutableLiveData()
     val albumMode = MutableLiveData(false)
 
-    fun addSong(
-        name: String,
-        releaseDate: LocalDate,
-        duration: Duration
-    ) {
+    fun addSong(song: Song) {
         viewModelScope.launch {
-            val song = Song(
-                name,
-                DILocator.database.currentBand.id,
-                releaseDate,
-                duration
-            )
             launch { _songRepository.add(song) }.join()
             _songs.value = _songRepository.list
         }
@@ -45,7 +35,6 @@ class SongsViewModel : ViewModel() {
     fun removeSong(song: Song): Boolean {
         var result = false
         viewModelScope.launch {
-
             launch { result = _songRepository.remove(song) }.join()
             _songs.value = _songRepository.list
         }
@@ -64,6 +53,29 @@ class SongsViewModel : ViewModel() {
         duration: Duration? = null
     ) {
         _songs.value = _songRepository.filterSongs(name, releaseDate, albumName, duration)
+    }
+
+    fun addAlbum(album: Album) {
+        viewModelScope.launch {
+            launch { _albumRepository.add(album) }.join()
+            _albums.value = _albumRepository.list
+        }
+    }
+
+    fun removeAlbum(album: Album): Boolean {
+        var result = false
+        viewModelScope.launch {
+            launch { result = _albumRepository.remove(album) }.join()
+            _albums.value = _albumRepository.list
+        }
+        return result
+    }
+
+    fun editAlbum(album: Album) {
+        viewModelScope.launch {
+            launch { _albumRepository.edit(album) }.join()
+            _albums.value = _albumRepository.list
+        }
     }
 
     fun filterAlbums(

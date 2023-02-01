@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.DialogFragmentAlbumBinding
+import com.bandit.ui.songs.SongsViewModel
 
-class AlbumDialogFragment : DialogFragment() {
+open class AlbumDialogFragment : DialogFragment() {
 
     private var _binding: DialogFragmentAlbumBinding? = null
-    private val binding get() = _binding!!
+    protected val binding get() = _binding!!
+    protected val viewModel: SongsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,7 +27,8 @@ class AlbumDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-
+            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), albumEtReleaseDate, true)
+            albumEtReleaseDate.setOnClickListener { datePickerDialog.show() }
         }
     }
 
