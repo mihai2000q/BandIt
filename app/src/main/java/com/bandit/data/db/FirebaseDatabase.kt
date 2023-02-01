@@ -157,6 +157,8 @@ class FirebaseDatabase : Database {
         _currentBand = Band.EMPTY
         _currentBandInvitation = BandInvitation.EMPTY
         concerts.clear()
+        songs.clear()
+        albums.clear()
         homeNavigationElementsMap.clear()
     }
 
