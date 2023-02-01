@@ -18,9 +18,9 @@ fun LocalDateTime.printName() = this.toLocalDate().printName() +
         this.toLocalTime().print()
 
 fun LocalDate.print() = this.dayOfMonth.toString().get2Characters() +
-        " - " +
+        "-" +
         this.month.value.toString().get2Characters() +
-        " - " +
+        "-" +
         this.year.toString()
 
 fun LocalDate.printName() = this.dayOfMonth.toString().get2Characters() +

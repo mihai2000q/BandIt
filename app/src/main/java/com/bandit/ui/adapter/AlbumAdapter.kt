@@ -22,6 +22,8 @@ data class AlbumAdapter(
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
     private val albumEditDialogFragment = AlbumEditDialogFragment()
     private val albumDetailDialogFragment = AlbumDetailDialogFragment()
+    private lateinit var popupMenu: PopupMenu
+    private var isPopupShown = false
 
     inner class ViewHolder(val binding: ModelAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -43,7 +45,7 @@ data class AlbumAdapter(
         val album = albums[position]
 
         with(holder) {
-            itemView.layoutParams.width = AndroidUtils.getScreenWidth(activity) / 2
+            itemView.layoutParams.width = AndroidUtils.getScreenWidth(activity) * 7 / 16
             itemView.layoutParams.height = AndroidUtils.getScreenHeight(activity) / 4
             itemView.setOnClickListener { onClick(album) }
             itemView.setOnLongClickListener { onLongClick(holder, album) }
@@ -54,8 +56,9 @@ data class AlbumAdapter(
     }
 
     private fun popupMenu(holder: ViewHolder, album: Album) {
-        val popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
+        popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
         popupMenu.inflate(R.menu.item_popup_menu)
+        popupMenu.setOnDismissListener { isPopupShown = false }
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
@@ -63,7 +66,6 @@ data class AlbumAdapter(
                 else -> onEdit(album)
             }
         }
-        popupMenu.show()
     }
 
     private fun onClick(album: Album) {
@@ -74,8 +76,12 @@ data class AlbumAdapter(
         )
     }
 
-    private fun onLongClick(holder: ViewHolder, album: Album): Boolean {
+    private fun onLongClick(holder: AlbumAdapter.ViewHolder, album: Album): Boolean {
         popupMenu(holder, album)
+        if(!isPopupShown) {
+            isPopupShown = true
+            popupMenu.show()
+        }
         viewModel.selectedAlbum.value = album
         return true
     }

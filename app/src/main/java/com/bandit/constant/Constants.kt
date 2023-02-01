@@ -34,6 +34,7 @@ object Constants {
     object Song {
         object Album {
             const val ADD_TAG = "ADD ALBUM DIALOG FRAGMENT"
+            const val ADD_SONG_TAG = "ADD SONG TO ALBUM DIALOG FRAGMENT"
             const val DETAIL_TAG = "DETAIL ALBUM DIALOG FRAGMENT"
             const val EDIT_TAG = "EDIT ALBUM DIALOG FRAGMENT"
             const val FILTER_TAG = "FILTER ALBUM DIALOG FRAGMENT"

@@ -24,6 +24,8 @@ data class ConcertAdapter(
 ) : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
     private val concertEditDialogFragment = ConcertEditDialogFragment()
     private val concertDetailDialogFragment = ConcertDetailDialogFragment()
+    private lateinit var popupMenu: PopupMenu
+    private var isPopupShown = false
 
     inner class ViewHolder(val binding: ModelConcertBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -75,8 +77,9 @@ data class ConcertAdapter(
     }
 
     private fun popupMenu(holder: ViewHolder, concert: Concert) {
-        val popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
+        popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
         popupMenu.inflate(R.menu.item_popup_menu)
+        popupMenu.setOnDismissListener { isPopupShown = false }
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
@@ -84,7 +87,6 @@ data class ConcertAdapter(
                 else -> onEdit(concert)
             }
         }
-        popupMenu.show()
     }
 
     override fun getItemCount(): Int {
@@ -101,6 +103,10 @@ data class ConcertAdapter(
 
     private fun onLongClick(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
         popupMenu(holder, concert)
+        if(!isPopupShown) {
+            isPopupShown = true
+            popupMenu.show()
+        }
         viewModel.selectedConcert.value = concert
         return true
     }
