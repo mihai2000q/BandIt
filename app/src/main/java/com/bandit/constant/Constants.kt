@@ -32,6 +32,12 @@ object Constants {
         const val VIEW_MODEL_TAG = "ConcertsViewModel"
     }
     object Song {
+        object Album {
+            const val ADD_TAG = "ADD ALBUM DIALOG FRAGMENT"
+            const val DETAIL_TAG = "DETAIL ALBUM DIALOG FRAGMENT"
+            const val EDIT_TAG = "EDIT ALBUM DIALOG FRAGMENT"
+            const val FILTER_TAG = "FILTER ALBUM DIALOG FRAGMENT"
+        }
         const val ADD_TAG = "ADD SONG DIALOG FRAGMENT"
         const val DETAIL_TAG = "DETAIL SONG DIALOG FRAGMENT"
         const val EDIT_TAG = "EDIT SONG DIALOG FRAGMENT"
