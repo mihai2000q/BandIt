@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
+import com.bandit.data.model.Song
+import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
@@ -21,9 +23,12 @@ class SongAddDialogFragment : SongDialogFragment() {
                     songButton
                 )
                 viewModel.addSong(
-                    songEtName.text.toString(),
-                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    ParserUtils.parseDuration(songEtDuration.text.toString())
+                    Song(
+                        songEtName.text.toString(),
+                        DILocator.database.currentBand.id,
+                        ParserUtils.parseDate(songEtReleaseDate.text.toString()),
+                        ParserUtils.parseDuration(songEtDuration.text.toString())
+                    )
                 )
                 AndroidUtils.toastNotification(
                     super.requireContext(),

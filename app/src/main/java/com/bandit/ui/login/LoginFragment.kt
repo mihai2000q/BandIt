@@ -81,10 +81,6 @@ class LoginFragment : Fragment() {
                     super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                     super.requireActivity().findViewById(R.id.main_drawer_layout)
                 )
-                super.requireActivity().findViewById<TextView>(R.id.header_tv_email).text =
-                    DILocator.database.currentAccount.email
-                super.requireActivity().findViewById<TextView>(R.id.header_tv_name).text =
-                    DILocator.database.currentAccount.name
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else if (result == false) {
                 findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)

@@ -73,7 +73,7 @@ data class SongAdapter(
         )
     }
 
-    private fun onLongClick(holder: SongAdapter.ViewHolder, song: Song): Boolean {
+    private fun onLongClick(holder: ViewHolder, song: Song): Boolean {
         popupMenu(holder, song)
         viewModel.selectedSong.value = song
         return true
