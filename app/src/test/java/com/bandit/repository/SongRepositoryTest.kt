@@ -14,7 +14,7 @@ class SongRepositoryTest : BaseRepositoryTest<Song>() {
     fun setup() {
         songRepository = SongRepository()
     }
-    private fun import_data() {
+    override fun import_data() {
         runBlocking {
             songRepository.add(
                 Song(
@@ -79,23 +79,12 @@ class SongRepositoryTest : BaseRepositoryTest<Song>() {
     }
     @Test
     fun song_repository_remove() {
-        import_data()
-        val concertToRemove = songRepository.list[0]
-        val before = songRepository.list.filter { it == concertToRemove }
-        assertEquals(1, before.size)
-        assertEquals(6, songRepository.list.size)
-        runBlocking { songRepository.remove(concertToRemove) }
-        val after = songRepository.list.filter { it == concertToRemove }
-        assertEquals(0, after.size)
-        assertEquals(5, songRepository.list.size)
-        assertThrows(IndexOutOfBoundsException::class.java) {
-            songRepository.list[5]
-        }
+        repository_remove(songRepository)
     }
     @Test
     fun song_repository_edit() {
         import_data()
-        var concertToEdit = songRepository.list[0]
+        var songToEdit = songRepository.list[0]
         val newSong = Song(
             "new song",
             -1,
@@ -107,13 +96,13 @@ class SongRepositoryTest : BaseRepositoryTest<Song>() {
             "The prisoners",
             LocalDate.parse("2012-12-13")
         )
-        concertToEdit = Song(
+        songToEdit = Song(
             newSong.name,
             newSong.bandId,
             newSong.releaseDate,
-            id = concertToEdit.id
+            id = songToEdit.id
         )
-        runBlocking { songRepository.edit(concertToEdit) }
+        runBlocking { songRepository.edit(songToEdit) }
         assert_song(
             songRepository,
             "new song",

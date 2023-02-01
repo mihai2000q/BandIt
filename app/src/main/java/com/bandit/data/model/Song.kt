@@ -14,7 +14,10 @@ data class Song(
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id), Comparable<Song> {
     override fun compareTo(other: Song): Int {
-        return this.releaseDate.compareTo(other.releaseDate)
+        return if(this.releaseDate.compareTo(other.releaseDate) == 0)
+            this.name.compareTo(other.name)
+        else
+            this.releaseDate.compareTo(other.releaseDate)
     }
 
     override fun equals(other: Any?): Boolean {

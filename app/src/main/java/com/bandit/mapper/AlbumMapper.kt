@@ -9,9 +9,9 @@ object AlbumMapper : Mapper<Album, AlbumDto> {
         return Album(
             dto.name ?: "",
             dto.bandId,
-            mutableListOf(),
             LocalDate.parse(dto.releaseDate),
             dto.label ?: "",
+            mutableListOf(),
             dto.id
         )
     }
