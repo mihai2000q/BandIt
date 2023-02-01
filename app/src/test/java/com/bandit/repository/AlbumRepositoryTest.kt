@@ -7,6 +7,7 @@ import com.bandit.data.repository.SongRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import java.time.LocalDate
@@ -147,36 +148,39 @@ class AlbumRepositoryTest : BaseRepositoryTest<Album>() {
         )
         runBlocking {
             albumRepository.add(album)
-            albumRepository.addSong(
-                album.id,
-                newSong
-            )
+            albumRepository.addSong(album, newSong)
         }
         val songs = albumRepository.list[0].songs
         assertEquals(songs.size, 1)
-        assert_song(songs[0],newSong.name, newSong.releaseDate)
+        assert_song(songs[0],newSong.name, newSong.releaseDate, album.id, album.name)
+        val songAfterRemove: Song
         runBlocking {
-            albumRepository.removeSong(album.id, newSong)
+            songAfterRemove = albumRepository.removeSong(album, newSong)
         }
         val songsAfterRemove = albumRepository.list[0].songs
         assertEquals(songsAfterRemove.size, 0)
+        assert_song(songAfterRemove, songAfterRemove.name, songAfterRemove.releaseDate)
     }
     private fun assert_album(
         repository: AlbumRepository,
         name: String,
         releaseDate: LocalDate,
     ) {
-        Assert.assertNotNull(repository.list[0])
-        Assert.assertEquals(name, repository.list[0].name)
-        Assert.assertEquals(releaseDate, repository.list[0].releaseDate)
+        assertNotNull(repository.list[0])
+        assertEquals(name, repository.list[0].name)
+        assertEquals(releaseDate, repository.list[0].releaseDate)
     }
     private fun assert_song(
         song: Song,
         name: String,
         releaseDate: LocalDate,
+        albumId: Long? = null,
+        albumName: String? = null
     ) {
-        Assert.assertNotNull(song)
+        assertNotNull(song)
         assertEquals(name, song.name)
         assertEquals(releaseDate, song.releaseDate)
+        assertEquals(albumId, song.albumId)
+        assertEquals(albumName, song.albumName)
     }
 }
