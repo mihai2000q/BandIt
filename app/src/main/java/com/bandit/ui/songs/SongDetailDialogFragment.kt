@@ -41,7 +41,7 @@ class SongDetailDialogFragment : DialogFragment() {
             songDetailName.text = song.name
             songDetailReleaseDate.text = song.releaseDate.print()
             AndroidUtils.ifNullHide(songDetailAlbumName, song.albumName)
-            songDetailDuration.text = song.duration.print()
+            AndroidUtils.ifNullHide(songDetailDuration, song.duration.print())
         }
     }
 

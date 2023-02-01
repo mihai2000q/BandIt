@@ -5,7 +5,7 @@ import com.bandit.data.model.Song
 import java.time.Duration
 import java.time.LocalDate
 
-class SongRepository(database: Database? = null)
+class   SongRepository(database: Database? = null)
     : BaseRepository<Song>(database, database?.songs) {
     fun filterSongs(
         name: String? = null,
@@ -28,11 +28,15 @@ class SongRepository(database: Database? = null)
                 item.name,
                 item.bandId,
                 item.releaseDate,
+                item.duration,
                 item.albumName,
                 item.albumId,
-                item.duration
             )
         }
         return newSong
+    }
+
+    fun getSongsWithoutAnAlbum(): List<Song> {
+        return list.filter { it.albumId == null }
     }
 }

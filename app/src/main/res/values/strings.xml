@@ -6,5 +6,7 @@
     <string name="tv_password">Password:</string>
     <string name="et_email">Email</string>
     <string name="et_name">Name</string>
+    <string name="et_release_date">Release Date</string>
+    <string name="et_label">Label</string>
     <string name="search_view">Search</string>
 </resources>

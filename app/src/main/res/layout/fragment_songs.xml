@@ -23,6 +23,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/songs_bt_album_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="#FFFFFF"
+                android:contentDescription="@string/content_description_bt_album_view"
+                app:srcCompat="@drawable/ic_baseline_album_view"
+                tools:ignore="SpeakableTextPresentCheck" />
+
             <SearchView
                 android:id="@+id/songs_search_view"
                 android:layout_width="wrap_content"
@@ -30,7 +40,7 @@
                 android:layout_gravity="center"
                 android:iconifiedByDefault="false"
                 android:inputType="textPersonName"
-                android:maxWidth="300dp"
+                android:maxWidth="260dp"
                 android:queryHint="@string/search_view" />
 
             <ImageButton
@@ -57,11 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:padding="10dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="1"
             tools:listitem="@layout/model_song"/>
     </LinearLayout>
 </layout>

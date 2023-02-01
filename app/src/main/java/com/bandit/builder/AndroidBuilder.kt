@@ -54,8 +54,8 @@ class AndroidBuilder : HomeBuilder {
             ContextThemeWrapper(context, R.style.Widget_Material3_Button)
         )
         val params = TableRow.LayoutParams()
-        params.width = TableRow.LayoutParams.WRAP_CONTENT
-        params.height = AndroidUtils.getScreenHeight(activity) / 4
+        params.width = AndroidUtils.getScreenWidth(activity) * 7 / 16
+        params.height = AndroidUtils.getScreenHeight(activity) / 5
         params.setMargins(margins)
         button.layoutParams = params
         button.text = text

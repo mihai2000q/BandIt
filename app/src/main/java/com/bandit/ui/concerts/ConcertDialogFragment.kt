@@ -32,10 +32,6 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.dialog?.window?.setLayout(
-            ActionBar.LayoutParams.WRAP_CONTENT,
-            ActionBar.LayoutParams.WRAP_CONTENT
-        )
         with(binding) {
             val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate)
             val timePickerDialog = AndroidComponents.timePickerDialog(super.requireContext(), concertEtTime)

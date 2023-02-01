@@ -17,7 +17,7 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
     fun setup() {
         concertRepository = ConcertRepository()
     }
-    private fun import_data() {
+    override fun import_data() {
         runBlocking {
             concertRepository.add(
                 Concert(

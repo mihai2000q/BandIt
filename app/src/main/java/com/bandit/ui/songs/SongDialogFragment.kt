@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
-import com.bandit.util.AndroidUtils
 
 open class SongDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentSongBinding? = null
@@ -27,8 +27,17 @@ open class SongDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate)
+            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate, true)
             songEtReleaseDate.setOnClickListener { datePickerDialog.show() }
+            songEtDuration.addTextChangedListener {
+                if(it.toString().length == 2) {
+                    songEtDuration.setText(buildString {
+                        append(songEtDuration.text)
+                        append(":")
+                    })
+                    songEtDuration.setSelection(3)
+                }
+            }
         }
     }
 

@@ -13,4 +13,10 @@
     <string name="song_edit_toast">Song Edited</string>
     <string name="song_remove_toast">Song Removed</string>
     <string name="song_filter_toast">Songs Filtered</string>
+    <string name="album_add_toast">Album Added</string>
+    <string name="album_edit_toast">Album Edited</string>
+    <string name="album_remove_toast">Album Removed</string>
+    <string name="album_filter_toast">Albums Filtered</string>
+    <string name="album_add_song_toast">Song Added To Album</string>
+    <string name="album_remove_song_toast">Song Removed From Album</string>
 </resources>

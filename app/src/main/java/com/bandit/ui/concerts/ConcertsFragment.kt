@@ -64,32 +64,12 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
             }
 
-            with(viewModel) {
-                concerts.observe(viewLifecycleOwner) {
-                    concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
-                            selectedConcert.value = concert
-                            AndroidUtils.showDialogFragment(
-                                concertDetailDialogFragment,
-                                childFragmentManager
-                            )
-                        },
-                        { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
-                        { concert ->
-                            AndroidUtils.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.concert_remove_toast),
-                            )
-                            return@ConcertAdapter removeConcert(concert)
-                        }
-                    ) { concert ->
-                        selectedConcert.value = concert
-                        AndroidUtils.showDialogFragment(
-                            concertEditDialogFragment,
-                            childFragmentManager
-                        )
-                        return@ConcertAdapter true
-                    }
-                }
+            viewModel.concerts.observe(viewLifecycleOwner) {
+                concertsList.adapter = ConcertAdapter(
+                    it.sorted(),
+                    viewModel,
+                    this@ConcertsFragment.childFragmentManager
+                )
             }
         }
     }

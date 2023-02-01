@@ -2,6 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Album
+import com.bandit.data.model.Song
 import com.bandit.extension.normalizeWord
 import java.time.Duration
 import java.time.LocalDate
@@ -9,10 +10,10 @@ import java.time.LocalDate
 class AlbumRepository(database: Database? = null)
     : BaseRepository<Album>(database, database?.albums) {
     fun filterAlbums(
-        name: String?,
-        releaseDate: LocalDate?,
-        label: String?,
-        duration: Duration?
+        name: String? = null,
+        releaseDate: LocalDate? = null,
+        label: String? = null,
+        duration: Duration? = null
     ): List<Album> =
         list
             .asSequence()
@@ -28,12 +29,34 @@ class AlbumRepository(database: Database? = null)
             newAlbum = Album(
                 item.name,
                 item.bandId,
-                item.songs,
                 item.releaseDate,
-                item.label
+                item.label,
+                item.songs
             )
         }
         return newAlbum
+    }
+
+    suspend fun addSong(album: Album, song: Song): Song {
+        song.albumId = album.id
+        song.albumName = album.name
+        album.songs.add(song)
+        edit(album)
+        return song
+    }
+
+    suspend fun removeSong(album: Album, song: Song): Song {
+        if(!album.songs.remove(song)) return Song.EMPTY
+        edit(album)
+        song.albumId = null
+        song.albumName = null
+        return song
+    }
+
+    suspend fun editSong(album: Album, newSong: Song) {
+        val oldSong = album.songs.first { it.id == newSong.id }
+        album.songs[album.songs.indexOf(oldSong)] = newSong
+        edit(album)
     }
 
     fun isThereAnAlbum(name: String) : Long? {

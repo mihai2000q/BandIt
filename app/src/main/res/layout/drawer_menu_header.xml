@@ -14,7 +14,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/header_iv_logo"
+        android:id="@+id/drawer_header_iv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/content_description_iv_logo"
@@ -23,7 +23,7 @@
         tools:ignore="ImageContrastCheck" />
 
     <TextView
-        android:id="@+id/header_tv_app_name"
+        android:id="@+id/drawer_header_tv_app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -31,13 +31,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/header_tv_name"
+        android:id="@+id/drawer_header_tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/et_name" />
 
     <TextView
-        android:id="@+id/header_tv_email"
+        android:id="@+id/drawer_header_tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/et_email"

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
         }
+        drawerHeader()
         bandInvitation()
     }
 
@@ -56,12 +58,19 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun drawerHeader() {
+        /*super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
+            .text = DILocator.database.currentAccount.name
+        super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
+            .text = DILocator.database.currentAccount.email
+    */
+    }
+
     private fun bandInvitation() {
         if(!DILocator.database.currentBandInvitation.isEmpty()) {
             val bandInvitationDialogFragment = BandInvitationDialogFragment()
             AndroidUtils.showDialogFragment(bandInvitationDialogFragment, childFragmentManager)
         }
-
     }
 
 }
