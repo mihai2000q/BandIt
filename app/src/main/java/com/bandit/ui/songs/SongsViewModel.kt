@@ -37,6 +37,8 @@ class SongsViewModel : ViewModel() {
         viewModelScope.launch {
             launch { result = _songRepository.remove(song) }.join()
             _songs.value = _songRepository.list
+            if(song.albumId != null)
+                removeSongFromAlbum(_albums.value!!.first{ it.id == song.albumId }, song)
         }
         return result
     }
@@ -44,6 +46,8 @@ class SongsViewModel : ViewModel() {
         viewModelScope.launch {
             launch { _songRepository.edit(song) }.join()
             _songs.value = _songRepository.list
+            if(song.albumId != null)
+                editSongFromAlbum(_albums.value!!.first{ it.id == song.albumId }, song)
         }
     }
     fun filterSongs(
@@ -67,6 +71,13 @@ class SongsViewModel : ViewModel() {
         viewModelScope.launch {
             launch { result = _albumRepository.remove(album) }.join()
             _albums.value = _albumRepository.list
+            _songs.value!!
+                .filter { it.albumId == album.id }
+                .forEach {
+                    it.albumId = null
+                    it.albumName = null
+                    editSong(it)
+                }
         }
         return result
     }
@@ -74,9 +85,32 @@ class SongsViewModel : ViewModel() {
     fun editAlbum(album: Album) {
         viewModelScope.launch {
             launch { _albumRepository.edit(album) }.join()
+            if(didAlbumChangeName(album))
+               _songs.value!!.filter { it.albumId == album.id }
+                   .forEach {
+                       it.albumName = album.name
+                       editSong(it)
+                   }
             _albums.value = _albumRepository.list
         }
     }
+
+    fun addSongToAlbum(album: Album, song: Song) {
+        viewModelScope.launch {
+            launch { editSong(_albumRepository.addSong(album, song)) }.join()
+            _albums.value = _albumRepository.list
+        }
+    }
+
+    fun removeSongFromAlbum(album: Album, song: Song): Boolean {
+        viewModelScope.launch {
+            launch { editSong(_albumRepository.removeSong(album, song)) }.join()
+            _albums.value = _albumRepository.list
+        }
+        return true
+    }
+
+    fun getSongsWithoutAnAlbum() = _songRepository.getSongsWithoutAnAlbum()
 
     fun filterAlbums(
         name: String?,
@@ -86,6 +120,16 @@ class SongsViewModel : ViewModel() {
     ) {
         _albums.value = _albumRepository.filterAlbums(name, releaseDate, label, duration)
     }
+
+    private fun editSongFromAlbum(album: Album, song: Song): Boolean {
+        viewModelScope.launch {
+            launch { _albumRepository.editSong(album, song) }.join()
+            _albums.value = _albumRepository.list
+        }
+        return true
+    }
+
+    private fun didAlbumChangeName(album: Album) = _albums.value!!.first{ it.id == album.id }.name == album.name
 
     companion object {
         const val TAG = Constants.Song.VIEW_MODEL_TAG
