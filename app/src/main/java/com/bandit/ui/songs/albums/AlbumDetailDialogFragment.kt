@@ -48,7 +48,7 @@ class AlbumDetailDialogFragment : DialogFragment() {
             viewModel.albums.observe(viewLifecycleOwner) {
                 albumDetailSongList.adapter =
                     SongAdapter(
-                        album.songs,
+                        album.songs.sorted().reversed(),
                         viewModel,
                         childFragmentManager,
                         { song ->
@@ -57,7 +57,8 @@ class AlbumDetailDialogFragment : DialogFragment() {
                                 resources.getString(R.string.album_remove_song_toast),
                             )
                             return@SongAdapter viewModel.removeSongFromAlbum(album, song)
-                        }
+                        },
+                        resources.getString(R.string.album_remove_from_album)
                     )
             }
         }

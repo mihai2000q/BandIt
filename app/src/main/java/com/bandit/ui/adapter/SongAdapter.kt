@@ -73,7 +73,7 @@ data class SongAdapter(
         popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
         popupMenu.inflate(R.menu.item_popup_menu)
         if(deleteText != null)
-            popupMenu.menu[0].title = deleteText
+            popupMenu.menu[1].title = deleteText
         popupMenu.setOnDismissListener { isPopupShown = false }
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()

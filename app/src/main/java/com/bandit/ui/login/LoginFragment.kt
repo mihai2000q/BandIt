@@ -2,11 +2,11 @@ package com.bandit.ui.login
 
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +38,21 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
+            loginEtPassword.setOnKeyListener { _, keyCode, event ->
+                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    loginBtLogin.callOnClick()
+                    loginBtLogin.requestFocus()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+            loginCbRemember.setOnClickListener {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    loginCbRemember
+                )
+            }
             loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
                     runBlocking {
@@ -61,13 +76,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun login() {
-        AndroidUtils.hideKeyboard(
-            super.requireActivity(),
-            Context.INPUT_METHOD_SERVICE,
-            binding.loginBtLogin
-        )
         var result: Boolean? = null
         lifecycleScope.launch {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                binding.loginEtPassword
+            )
             launch { result = DILocator.database.isUserAccountSetup() }.join()
 
             if (result == true) {
