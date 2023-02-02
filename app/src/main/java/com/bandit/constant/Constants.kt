@@ -31,6 +31,11 @@ object Constants {
         const val FILTER_TAG = "FILTER CONCERT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ConcertsViewModel"
     }
+    object Schedule {
+        const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
+        const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
+        const val VIEW_MODEL_TAG = "ScheduleViewModel"
+    }
     object Song {
         object Album {
             const val ADD_TAG = "ADD ALBUM DIALOG FRAGMENT"
