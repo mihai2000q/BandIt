@@ -2,20 +2,22 @@ package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
 import com.bandit.util.AndroidUtils
+import java.time.Duration
 import java.time.LocalDateTime
 
 data class Concert(
     override val name: String,
     override val dateTime: LocalDateTime,
+    override val duration: Duration,
     override val bandId: Long,
     val city: String?,
     val country: String?,
     val place: String?,
     val concertType: BandItEnums.Concert.Type?,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : Event(name, dateTime, BandItEnums.Event.Type.Concert, bandId, id) {
+) : Event(name, dateTime, duration, BandItEnums.Event.Type.Concert, bandId, id) {
     companion object {
-        val EMPTY = Concert("", LocalDateTime.now(), -1,
+        val EMPTY = Concert("", LocalDateTime.now(), Duration.ZERO, -1,
             "", "", "", BandItEnums.Concert.Type.Simple)
     }
 

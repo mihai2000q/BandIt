@@ -14,6 +14,7 @@ class EventRepository(database: Database? = null)
             newEvent = Event(
                 item.name,
                 item.dateTime,
+                item.duration,
                 item.type,
                 item.bandId
             )
@@ -25,12 +26,14 @@ class EventRepository(database: Database? = null)
         name: String? = null,
         dateTime: LocalDateTime? = null,
         type: BandItEnums.Event.Type? = null,
+        duration: Duration? = null
     ): List<Event> =
         list
             .asSequence()
             .filter { filter(it.name, name) }
             .filter { filter(it.dateTime, dateTime) }
             .filter { filter(it.type, type) }
+            .filter { filter(it.duration, duration) }
             .toList()
 
 }

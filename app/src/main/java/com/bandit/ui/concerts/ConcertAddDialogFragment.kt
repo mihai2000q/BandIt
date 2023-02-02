@@ -10,6 +10,7 @@ import com.bandit.data.model.Concert
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
+import java.time.Duration
 
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
@@ -26,13 +27,15 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                 )
                 viewModel.addConcert(
                     Concert(
-                        concertEtName.text.toString(),
-                        ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
-                        DILocator.database.currentBand.id,
-                        concertEtCity.text.toString(),
-                        concertEtCountry.text.toString(),
-                        concertEtPlace.text.toString(),
-                        BandItEnums.Concert.Type.values()[typeIndex],
+                        name = concertEtName.text.toString(),
+                        dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
+                            concertEtTime.text.toString()),
+                        duration = Duration.ZERO,
+                        bandId = DILocator.database.currentBand.id,
+                        city = concertEtCity.text.toString(),
+                        country = concertEtCountry.text.toString(),
+                        place = concertEtPlace.text.toString(),
+                        concertType = BandItEnums.Concert.Type.values()[typeIndex],
                     )
                 )
                 AndroidUtils.toastNotification(
