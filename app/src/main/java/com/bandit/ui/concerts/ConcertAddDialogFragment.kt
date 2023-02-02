@@ -28,11 +28,11 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                     Concert(
                         concertEtName.text.toString(),
                         ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
+                        DILocator.database.currentBand.id,
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),
                         BandItEnums.Concert.Type.values()[typeIndex],
-                        DILocator.database.currentBand.id
                     )
                 )
                 AndroidUtils.toastNotification(

@@ -8,14 +8,14 @@ import java.time.LocalDateTime
 object ConcertMapper : Mapper<Concert, ConcertDto> {
     override fun fromDtoToItem(dto: ConcertDto): Concert {
         return Concert(
-            dto.name ?: "",
+            dto.name ?: "Null",
             LocalDateTime.parse(dto.dateTime),
-            dto.city ?: "",
-            dto.country ?: "",
-            dto.place ?: "",
+            dto.bandId,
+            dto.city,
+            dto.country,
+            dto.place,
             mapIntToConcertType(dto.type?.toInt() ?: 0),
-            dto.id,
-            dto.bandId
+            dto.id
         )
     }
 
@@ -27,7 +27,7 @@ object ConcertMapper : Mapper<Concert, ConcertDto> {
             item.city,
             item.country,
             item.place,
-            mapConcertTypeToInt(item.type).toLong(),
+            mapConcertTypeToInt(item.concertType)?.toLong(),
             item.bandId
         )
     }
@@ -35,7 +35,7 @@ object ConcertMapper : Mapper<Concert, ConcertDto> {
     private fun mapIntToConcertType(type: Int): BandItEnums.Concert.Type {
         return BandItEnums.Concert.Type.values().first { it.ordinal == type }
     }
-    private fun mapConcertTypeToInt(type: BandItEnums.Concert.Type): Int {
-        return type.ordinal
+    private fun mapConcertTypeToInt(type: BandItEnums.Concert.Type?): Int? {
+        return type?.ordinal
     }
 }

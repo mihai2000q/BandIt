@@ -23,7 +23,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtTime.setText(dateTime.toLocalTime().toString())
                 concertEtCountry.setText(country)
                 concertEtPlace.setText(place)
-                concertEtSpinnerType.setSelection(type.ordinal)
+                concertEtSpinnerType.setSelection(concertType?.ordinal ?: 0)
             }
 
             concertButton.setOnClickListener {
@@ -31,12 +31,12 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                     Concert(
                         concertEtName.text.toString(),
                         ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
+                        viewModel.selectedConcert.value!!.bandId,
                         concertEtCity.text.toString(),
                         concertEtCountry.text.toString(),
                         concertEtPlace.text.toString(),
                         BandItEnums.Concert.Type.values()[typeIndex],
-                        viewModel.selectedConcert.value!!.id,
-                        viewModel.selectedConcert.value!!.bandId
+                        viewModel.selectedConcert.value!!.id
                     )
                 )
                 AndroidUtils.toastNotification(

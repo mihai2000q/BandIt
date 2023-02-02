@@ -2,6 +2,7 @@ package com.bandit.ui.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
@@ -50,18 +51,22 @@ data class ConcertAdapter(
                 val color: Int = if(concert.isOutdated())
                     Color.RED
                 else
-                    when(concert.type) {
+                    when(concert.concertType) {
                         BandItEnums.Concert.Type.Simple -> Color.CYAN
                         BandItEnums.Concert.Type.Tournament -> Color.GRAY
                         BandItEnums.Concert.Type.Festival -> Color.GREEN
+                        else -> Color.LTGRAY
                     }
                 concertLayout.setBackgroundColor(color)
                 concertTitle.text = concert.name.uppercase()
-                concertCityCountry.text = buildString {
-                    append("${concert.city.normalizeWord()}, ")
-                    append(concert.country.normalizeWord())
-                }
-                concertPlace.text = concert.place
+                if(!concert.city.isNullOrEmpty() || !concert.country.isNullOrEmpty())
+                    concertCityCountry.text = buildString {
+                        append("${concert.city?.normalizeWord()}, ")
+                        append(concert.country?.normalizeWord())
+                    }
+                else
+                    concertCityCountry.visibility = View.GONE
+                AndroidUtils.ifNullHide(concertPlace, concert.place)
                 concertDate.text = when {
                     concert.is24HoursApart() -> "${concert.dateTime.hour.toString().get2Characters()}:" +
                             concert.dateTime.minute.toString().get2Characters()

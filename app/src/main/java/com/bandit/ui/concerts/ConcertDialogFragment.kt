@@ -1,6 +1,5 @@
 package com.bandit.ui.concerts
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
-import com.bandit.util.AndroidUtils
 
 open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
     

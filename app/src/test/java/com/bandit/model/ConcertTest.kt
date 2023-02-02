@@ -25,7 +25,7 @@ class ConcertTest {
         assertEquals(concert.city, "Los Angeles")
         assertEquals(concert.country, "United States")
         assertEquals(concert.place, "Big Arena")
-        assertEquals(concert.type, BandItEnums.Concert.Type.Tournament)
+        assertEquals(concert.concertType, BandItEnums.Concert.Type.Tournament)
         assertNotNull(concert.id)
         assertNotNull(concert.bandId)
     }

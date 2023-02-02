@@ -25,7 +25,7 @@ class ConcertRepository(database: Database? = null)
             .filter { filter(it.city, city) }
             .filter { filter(it.country, country) }
             .filter { filter(it.place, place) }
-            .filter { filter(it.type, type) }
+            .filter { filter(it.concertType, type) }
             .toList()
 
     override fun reassignId(item: Concert): Concert {
@@ -34,11 +34,11 @@ class ConcertRepository(database: Database? = null)
             newConcert = Concert(
                 item.name,
                 item.dateTime,
+                item.bandId,
                 item.city,
                 item.country,
                 item.place,
-                item.type,
-                item.bandId
+                item.concertType
             )
         }
         return newConcert

@@ -5,18 +5,18 @@ import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
 
 data class Concert(
-    val name: String,
-    val dateTime: LocalDateTime,
-    val city: String,
-    val country: String,
-    val place: String,
-    val type: BandItEnums.Concert.Type,
-    val bandId: Long,
+    override val name: String,
+    override val dateTime: LocalDateTime,
+    override val bandId: Long,
+    val city: String?,
+    val country: String?,
+    val place: String?,
+    val concertType: BandItEnums.Concert.Type?,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : BaseModel(id), Comparable<Concert> {
+) : Event(name, dateTime, BandItEnums.Event.Type.Concert, bandId, id), Comparable<Concert> {
     companion object {
-        val EMPTY = Concert("", LocalDateTime.now(),
-            "", "", "", BandItEnums.Concert.Type.Simple, -1)
+        val EMPTY = Concert("", LocalDateTime.now(), -1,
+            "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
     fun isOutdated(): Boolean {
@@ -40,7 +40,7 @@ data class Concert(
     }
 
     override fun toString(): String {
-        return "Concert(id=$id, name='$name', dateTime=$dateTime, city='$city', country='$country', place='$place', type=$type)"
+        return "Concert(id=$id, name='$name', dateTime=$dateTime, city='$city', country='$country', place='$place', type=$concertType)"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -54,7 +54,7 @@ data class Concert(
         if (city != other.city) return false
         if (country != other.country) return false
         if (place != other.place) return false
-        if (type != other.type) return false
+        if (concertType != other.concertType) return false
         if (bandId != other.bandId) return false
 
         return true
@@ -66,7 +66,7 @@ data class Concert(
         result = 31 * result + city.hashCode()
         result = 31 * result + country.hashCode()
         result = 31 * result + place.hashCode()
-        result = 31 * result + type.hashCode()
+        result = 31 * result + concertType.hashCode()
         result = 31 * result + bandId.hashCode()
         return result
     }

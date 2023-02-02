@@ -162,7 +162,7 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
             newConcert.city,
             newConcert.country,
             newConcert.place,
-            newConcert.type,
+            newConcert.concertType,
             newConcert.bandId,
             concertToEdit.id
         )
@@ -322,7 +322,7 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         assertEquals(city, repository.list[index].city)
         assertEquals(country, repository.list[index].country)
         assertEquals(place, repository.list[index].place)
-        assertEquals(type, repository.list[index].type)
+        assertEquals(type, repository.list[index].concertType)
     }
 
 }
