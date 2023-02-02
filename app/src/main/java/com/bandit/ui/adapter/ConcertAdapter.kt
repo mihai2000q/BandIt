@@ -67,16 +67,7 @@ data class ConcertAdapter(
                 else
                     concertCityCountry.visibility = View.GONE
                 AndroidUtils.ifNullHide(concertPlace, concert.place)
-                concertDate.text = when {
-                    concert.is24HoursApart() -> "${concert.dateTime.hour.toString().get2Characters()}:" +
-                            concert.dateTime.minute.toString().get2Characters()
-                    concert.is7DaysApart() -> concert.dateTime.dayOfWeek.name.normalizeWord()
-                    concert.isOneYearApart() -> "${concert.dateTime.dayOfMonth} " +
-                            concert.dateTime.month.name.substring(0..2).normalizeWord() +
-                            " ${concert.dateTime.year}"
-                    else -> "${concert.dateTime.dayOfMonth} " +
-                            concert.dateTime.month.name.normalizeWord()
-                }
+                concertDate.text = concert.printExplicitDateTime()
             }
         }
     }
