@@ -18,15 +18,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
+            <ImageButton
+                android:id="@+id/schedule_calendar_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:contentDescription="@string/content_description_bt_calendar_view"
+                app:srcCompat="@drawable/ic_baseline_list"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <SearchView
+                android:id="@+id/schedule_search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:iconifiedByDefault="false"
+                android:inputType="textPersonName"
+                android:queryHint="@string/search_view" />
+
+            <Spinner
+                android:id="@+id/schedule_spinner_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:autofillHints="@string/et_type" />
+
+            <ImageButton
+                android:id="@+id/schedule_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:contentDescription="@string/content_description_bt_add"
+                android:minWidth="48dp"
+                app:srcCompat="@drawable/ic_baseline_add_circle" />
+        </LinearLayout>
+
+        <CalendarView
+            android:id="@+id/schedule_calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/schedule_events_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/model_event"/>
 
     </LinearLayout>
 </layout>
