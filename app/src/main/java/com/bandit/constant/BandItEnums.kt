@@ -21,4 +21,11 @@ sealed class BandItEnums {
             Manager
         }
     }
+    object Event {
+        enum class Type {
+            Simple,
+            Training,
+            Concert
+        }
+    }
 }
