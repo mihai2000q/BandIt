@@ -10,4 +10,39 @@ open class Event(
     val type: BandItEnums.Event.Type,
     open val bandId: Long,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : BaseModel(id)
+) : BaseModel(id), Comparable<Event> {
+    override fun compareTo(other: Event): Int {
+        return this.dateTime.compareTo(other.dateTime)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Event
+
+        if (name != other.name) return false
+        if (dateTime != other.dateTime) return false
+        if (type != other.type) return false
+        if (bandId != other.bandId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + dateTime.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + bandId.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "Event(id=$id, name='$name', dateTime=$dateTime, type=$type, bandId=$bandId)"
+    }
+
+    companion object {
+        val EMPTY = Event("", LocalDateTime.now(), BandItEnums.Event.Type.Simple, -1)
+    }
+
+}

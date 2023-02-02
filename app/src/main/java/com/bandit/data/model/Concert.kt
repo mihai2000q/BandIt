@@ -13,7 +13,7 @@ data class Concert(
     val place: String?,
     val concertType: BandItEnums.Concert.Type?,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : Event(name, dateTime, BandItEnums.Event.Type.Concert, bandId, id), Comparable<Concert> {
+) : Event(name, dateTime, BandItEnums.Event.Type.Concert, bandId, id) {
     companion object {
         val EMPTY = Concert("", LocalDateTime.now(), -1,
             "", "", "", BandItEnums.Concert.Type.Simple)
@@ -33,10 +33,6 @@ data class Concert(
 
     fun isOneYearApart(): Boolean {
         return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
-    }
-
-    override fun compareTo(other: Concert): Int {
-        return this.dateTime.compareTo(other.dateTime)
     }
 
     override fun toString(): String {
