@@ -21,22 +21,6 @@ data class Concert(
             "", "", "", BandItEnums.Concert.Type.Simple)
     }
 
-    fun isOutdated(): Boolean {
-        return LocalDateTime.now().isAfter(this.dateTime)
-    }
-
-    fun is24HoursApart(): Boolean {
-        return LocalDateTime.now().isAfter(this.dateTime.minusHours(24))
-    }
-
-    fun is7DaysApart(): Boolean {
-        return LocalDateTime.now().isAfter(this.dateTime.minusDays(7))
-    }
-
-    fun isOneYearApart(): Boolean {
-        return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
-    }
-
     override fun toString(): String {
         return "Concert(id=$id, name='$name', dateTime=$dateTime, city='$city', country='$country', place='$place', type=$concertType)"
     }

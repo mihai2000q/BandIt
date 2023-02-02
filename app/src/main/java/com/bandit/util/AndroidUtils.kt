@@ -5,11 +5,14 @@ import android.content.Context
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -75,5 +78,26 @@ object AndroidUtils {
             textView.visibility = View.GONE
         else
             textView.text = string
+    }
+    fun durationEditTextSetup(editText: EditText) {
+        var backspace = false
+        editText.setOnKeyListener { _, keyCode, event ->
+            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_DEL)) {
+                backspace = true
+                return@setOnKeyListener false
+            }
+            backspace = false
+            return@setOnKeyListener false
+        }
+        editText.addTextChangedListener {
+            if(backspace) return@addTextChangedListener
+            if(it.toString().length == 2) {
+                editText.setText(buildString {
+                    append(editText.text)
+                    append(":")
+                })
+                editText.setSelection(3)
+            }
+        }
     }
 }

@@ -55,7 +55,6 @@ class SongsFragment : Fragment() {
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
-
         }
     }
 

@@ -1,6 +1,8 @@
 package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
+import com.bandit.extension.get2Characters
+import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
 import java.time.Duration
 import java.time.LocalDateTime
@@ -16,6 +18,40 @@ open class Event(
     override fun compareTo(other: Event): Int {
         return this.dateTime.compareTo(other.dateTime)
     }
+
+    fun isOutdated(): Boolean {
+        return LocalDateTime.now().isAfter(this.dateTime)
+    }
+
+    fun isInTheSameDay(): Boolean {
+        return is24HoursApart() && dateTime.toLocalDate().dayOfMonth == LocalDateTime.now().dayOfMonth
+    }
+
+    fun is24HoursApart(): Boolean {
+        return LocalDateTime.now().isAfter(this.dateTime.minusHours(24))
+    }
+
+    fun is7DaysApart(): Boolean {
+        return LocalDateTime.now().isAfter(this.dateTime.minusDays(7))
+    }
+
+    fun isOneYearApart(): Boolean {
+        return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
+    }
+
+    fun printExplicitDateTime() =
+        when {
+            this.isInTheSameDay() -> "Today"
+            this.is24HoursApart() -> "Next Day"
+            //this.is24HoursApart() -> "${this.dateTime.hour.toString().get2Characters()}:" +
+            //        this.dateTime.minute.toString().get2Characters()
+            this.is7DaysApart() -> this.dateTime.dayOfWeek.name.normalizeWord()
+            this.isOneYearApart() -> "${this.dateTime.dayOfMonth} " +
+                    this.dateTime.month.name.substring(0..2).normalizeWord() +
+                    " ${this.dateTime.year}"
+            else -> "${this.dateTime.dayOfMonth} " +
+                    this.dateTime.month.name.normalizeWord()
+        }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

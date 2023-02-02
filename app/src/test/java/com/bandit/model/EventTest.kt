@@ -7,6 +7,7 @@ import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import java.time.Duration
 import java.time.LocalDateTime
 
 class EventTest {
@@ -16,10 +17,12 @@ class EventTest {
             name = "new event",
             dateTime = LocalDateTime.of(2023,10,12,8,30),
             type = BandItEnums.Event.Type.Simple,
+            duration = Duration.ofMinutes(60),
             bandId = -1
         )
         assertEquals(event.name, "new event")
         assertEquals(event.dateTime, LocalDateTime.parse("2023-10-12T08:30"))
+        assertEquals(event.duration, Duration.ofMinutes(60))
         assertEquals(event.type, BandItEnums.Event.Type.Simple)
     }
     @Test
@@ -38,18 +41,21 @@ class EventTest {
             name = "new event",
             dateTime = LocalDateTime.of(2023,10,12,8,30),
             type = BandItEnums.Event.Type.Simple,
+            duration = Duration.ofMinutes(60),
             bandId = -1
         )
         val event2 = Event(
             name = "new event2",
             dateTime = LocalDateTime.of(2023,10,12,8,30),
             type = BandItEnums.Event.Type.Simple,
+            duration = Duration.ofMinutes(60),
             bandId = -1
         )
         val event3 = Event(
             name = "new event",
             dateTime = LocalDateTime.of(2023,10,12,8,30),
             type = BandItEnums.Event.Type.Simple,
+            duration = Duration.ofMinutes(60),
             bandId = -1
         )
         assertEquals(event1, event3)
@@ -62,18 +68,21 @@ class EventTest {
                 name = "event3",
                 dateTime = LocalDateTime.of(2023,10,12,8,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             ),
             Event(
                 name = "event1",
                 dateTime = LocalDateTime.of(2023,10,11,0,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             ),
             Event(
                 name = "event2",
                 dateTime = LocalDateTime.of(2023,10,12,7,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             )
         )
@@ -83,18 +92,21 @@ class EventTest {
                 name = "event1",
                 dateTime = LocalDateTime.of(2023,10,11,0,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             ),
             Event(
                 name = "event2",
                 dateTime = LocalDateTime.of(2023,10,12,7,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             ),
             Event(
                 name = "event3",
                 dateTime = LocalDateTime.of(2023,10,12,8,30),
                 type = BandItEnums.Event.Type.Simple,
+                duration = Duration.ofMinutes(60),
                 bandId = -1
             )
         )
