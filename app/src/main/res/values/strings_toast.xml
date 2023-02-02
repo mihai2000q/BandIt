@@ -19,4 +19,8 @@
     <string name="album_filter_toast">Albums Filtered</string>
     <string name="album_add_song_toast">Song Added To Album</string>
     <string name="album_remove_song_toast">Song Removed From Album</string>
+    <string name="event_add_toast">Event Added</string>
+    <string name="event_edit_toast">Event Edited</string>
+    <string name="event_remove_toast">Event Removed</string>
+    <string name="event_filter_toast">Events Filtered</string>
 </resources>
