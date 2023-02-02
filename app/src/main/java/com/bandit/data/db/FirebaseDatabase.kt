@@ -20,6 +20,7 @@ class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val songs: MutableList<Song> = mutableListOf()
     override val albums: MutableList<Album> = mutableListOf()
+    override val events: MutableList<Event> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
@@ -298,6 +299,7 @@ class FirebaseDatabase : Database {
             readConcerts()
             readSongs()
             readAlbums()
+            readEvents()
         }
     }.await()
 
@@ -322,6 +324,12 @@ class FirebaseDatabase : Database {
                         a.songs.add(s)
                 }
             }
+        }
+    }.await()
+
+    private suspend fun readEvents() = coroutineScope {
+        async {
+            events += readItem(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
         }
     }.await()
 

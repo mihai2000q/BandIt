@@ -54,6 +54,7 @@ object Constants {
             const val CONCERTS = "Concerts"
             const val SONGS = "Songs"
             const val ALBUMS = "Albums"
+            const val EVENTS = "Events"
             const val TAG = "FirebaseDB"
         }
         object Auth {
