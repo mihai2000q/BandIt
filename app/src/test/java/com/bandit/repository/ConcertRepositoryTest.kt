@@ -23,55 +23,55 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
                 Concert(
                     "Legacy of the beast",
                     LocalDateTime.of(2023, 10, 21, 20, 0),
+                    -1,
                     "Los Angeles",
                     "United States",
                     "Big Arena",
-                    BandItEnums.Concert.Type.Tournament,
-                    -1
+                    BandItEnums.Concert.Type.Tournament
                 )
             )
             concertRepository.add(
                 Concert(
                     "Legacy of the beast 2",
                     LocalDateTime.of(2023, 11, 21, 20, 0),
+                    -1,
                     "Los Angeles",
                     "United States of America",
                     "Big Arena 2",
-                    BandItEnums.Concert.Type.Tournament,
-                    -1
+                    BandItEnums.Concert.Type.Tournament
                 )
             )
             concertRepository.add(
                 Concert(
                     "Legacy of the concert",
                     LocalDateTime.of(2024, 7, 21, 20, 0),
+                    -1,
                     "L A ",
                     "U.S.A",
                     "Small Arena",
-                    BandItEnums.Concert.Type.Simple,
-                    -1
+                    BandItEnums.Concert.Type.Simple
                 )
             )
             concertRepository.add(
                 Concert(
                     "Rock fest",
                     LocalDateTime.of(2024, 9, 21, 23, 0),
+                    -1,
                     "Berlin",
                     "Germany",
                     "rock fest Arena",
-                    BandItEnums.Concert.Type.Festival,
-                    -1
+                    BandItEnums.Concert.Type.Festival
                 )
             )
             concertRepository.add(
                 Concert(
                     "Amon Amar cool",
                     LocalDateTime.parse("2023-02-09T12:00"),
+                    -1,
                     "Leipzig",
                     "Germany",
                     "rock fest Arena",
-                    BandItEnums.Concert.Type.Simple,
-                    -1
+                    BandItEnums.Concert.Type.Simple
                 )
             )
         }
@@ -138,11 +138,11 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         val newConcert = Concert(
             "newConcert",
             LocalDateTime.parse("2020-12-10T10:00"),
+            -1,
             "newCity",
             "newCountry",
             "newPlace",
-            BandItEnums.Concert.Type.Festival,
-            -1
+            BandItEnums.Concert.Type.Festival
         )
         //before
         assert_concert(
@@ -159,11 +159,11 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         concertToEdit = Concert(
             newConcert.name,
             newConcert.dateTime,
+            newConcert.bandId,
             newConcert.city,
             newConcert.country,
             newConcert.place,
             newConcert.concertType,
-            newConcert.bandId,
             concertToEdit.id
         )
         runBlocking {
@@ -189,11 +189,11 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
+            -1,
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Simple,
-            -1
+            BandItEnums.Concert.Type.Simple
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -204,20 +204,20 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
             Concert(
                 "Legacy of the beast",
                 LocalDateTime.of(2023, 10, 21, 20,0),
+                -1,
                 "Los Angeles",
                 "United States",
                 "Big Arena",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Legacy of the beast 2",
                 LocalDateTime.of(2023, 11, 21, 20,0),
+                -1,
                 "Los Angeles",
                 "United States of America",
                 "Big Arena 2",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             )
         )
         assertEquals(outcome2.size, 2)
@@ -246,11 +246,11 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         val expected = Concert(
             "Amon Amar cool",
             LocalDateTime.parse("2023-02-09T12:00"),
+            -1,
             "Leipzig",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Simple,
-            -1
+            BandItEnums.Concert.Type.Simple
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -269,11 +269,11 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         val expected = Concert(
             "Rock fest",
             LocalDateTime.of(2024, 9, 21, 23, 0),
+            -1,
             "Berlin",
             "Germany",
             "rock fest Arena",
-            BandItEnums.Concert.Type.Festival,
-            -1
+            BandItEnums.Concert.Type.Festival
         )
         assertEquals(outcome.size, 1)
         assertEquals(expected, outcome.first())
@@ -301,7 +301,7 @@ class ConcertRepositoryTest : BaseRepositoryTest<Concert>() {
         place: String,
         type: BandItEnums.Concert.Type
     ) {
-        runBlocking { repository.add(Concert(name, dateTime, city, country, place, type, -1)) }
+        runBlocking { repository.add(Concert(name, dateTime, -1, city, country, place, type)) }
         assert_concert(repository, size + 1, size ,name, dateTime, city, country, place, type)
     }
     private fun assert_concert(

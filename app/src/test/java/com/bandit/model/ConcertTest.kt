@@ -14,11 +14,11 @@ class ConcertTest {
         val concert = Concert(
             "Concert1",
             LocalDateTime.of(2020,10,25,20,30),
+            -1,
             "Los Angeles",
             "United States",
             "Big Arena",
             BandItEnums.Concert.Type.Tournament,
-            -1
         )
         assertEquals(concert.name, "Concert1")
         assertEquals(concert.dateTime, LocalDateTime.parse("2020-10-25T20:30"))
@@ -44,20 +44,20 @@ class ConcertTest {
         val concert1 = Concert(
             "Concert",
             LocalDateTime.of(2020,10,25,20,30),
+            -1,
             "Los Angeles",
             "USA",
             "Big Arena",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "Concert",
             LocalDateTime.of(2020,10,25,20,30),
+            -1,
             "Los Angeles",
             "USA",
             "Big Arena",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         assertEquals(concert1, concert2)
         assertNotEquals(concert1.id, concert2.id)
@@ -68,56 +68,56 @@ class ConcertTest {
             Concert(
                 "Concert1",
                 LocalDateTime.of(2020,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert2",
                 LocalDateTime.of(2021,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert3",
                 LocalDateTime.of(2023,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert4",
                 LocalDateTime.of(2020,1,23,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert5",
                 LocalDateTime.of(2020,10,25,20,29),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert6",
                 LocalDateTime.of(2020,10,25,19,29),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             )
         )
         outcome.sort()
@@ -125,56 +125,56 @@ class ConcertTest {
             Concert(
                 "Concert4",
                 LocalDateTime.of(2020,1,23,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert6",
                 LocalDateTime.of(2020,10,25,19,29),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert5",
                 LocalDateTime.of(2020,10,25,20,29),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert1",
                 LocalDateTime.of(2020,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert2",
                 LocalDateTime.of(2021,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             ),
             Concert(
                 "Concert3",
                 LocalDateTime.of(2023,10,25,20,30),
+                -1,
                 "",
                 "",
                 "",
-                BandItEnums.Concert.Type.Tournament,
-                -1
+                BandItEnums.Concert.Type.Tournament
             )
         )
         assertEquals(outcome, expected)
@@ -184,20 +184,20 @@ class ConcertTest {
         val concert1 = Concert(
             "",
             LocalDateTime.now().minusSeconds(1),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "",
             LocalDateTime.now().plusSeconds(1),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         assertTrue(concert1.isOutdated())
         assertTrue(!concert2.isOutdated())
@@ -207,29 +207,29 @@ class ConcertTest {
         val concert1 = Concert(
             "",
             LocalDateTime.now().plusHours(3),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "",
             LocalDateTime.now().plusHours(25),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert3 = Concert(
             "",
             LocalDateTime.now().plusHours(23).plusMinutes(59),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         assertTrue(concert1.is24HoursApart())
         assertTrue(!concert2.is24HoursApart())
@@ -240,29 +240,29 @@ class ConcertTest {
         val concert1 = Concert(
             "",
             LocalDateTime.now().plusDays(3),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "",
             LocalDateTime.now().plusDays(8),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert3 = Concert(
             "",
             LocalDateTime.now().plusDays(6).plusHours(23).plusMinutes(59),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         assertTrue(concert1.is7DaysApart())
         assertTrue(!concert2.is7DaysApart())
@@ -273,29 +273,29 @@ class ConcertTest {
         val concert1 = Concert(
             "",
             LocalDateTime.now().plusDays(380),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert2 = Concert(
             "",
             LocalDateTime.now().plusDays(364),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         val concert3 = Concert(
             "",
             LocalDateTime.now().plusYears(1).plusMinutes(1),
+            -1,
             "",
             "",
             "",
-            BandItEnums.Concert.Type.Tournament,
-            -1
+            BandItEnums.Concert.Type.Tournament
         )
         assertTrue(concert1.isOneYearApart())
         assertTrue(!concert2.isOneYearApart())
