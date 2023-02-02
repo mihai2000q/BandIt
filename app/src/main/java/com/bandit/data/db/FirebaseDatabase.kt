@@ -173,6 +173,7 @@ class FirebaseDatabase : Database {
             is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
             is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
             is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
+            is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
         }
     }
 
@@ -189,6 +190,7 @@ class FirebaseDatabase : Database {
             is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
             is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
             is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
+            is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
         }
     }
 
