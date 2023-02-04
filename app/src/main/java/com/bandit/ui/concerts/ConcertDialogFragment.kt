@@ -1,18 +1,15 @@
 package com.bandit.ui.concerts
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
-import com.bandit.util.AndroidUtils
 
 open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
     
@@ -46,16 +43,12 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
     }
 
     protected fun spinnerType() {
-        with(binding) {
-            val adapter = ArrayAdapter(
-                super.requireContext(),
-                android.R.layout.simple_spinner_item,
-                BandItEnums.Concert.Type.values()
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            concertEtSpinnerType.adapter = adapter
-            concertEtSpinnerType.onItemSelectedListener = this@ConcertDialogFragment
-        }
+        AndroidComponents.spinner(
+            super.requireContext(),
+            binding.concertEtSpinnerType,
+            this@ConcertDialogFragment,
+            BandItEnums.Concert.Type.values()
+        )
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

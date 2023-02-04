@@ -31,6 +31,12 @@ object Constants {
         const val FILTER_TAG = "FILTER CONCERT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ConcertsViewModel"
     }
+    object Schedule {
+        const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
+        const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
+        const val EDIT_TAG = "EDIT SCHEDULE DIALOG FRAGMENT"
+        const val VIEW_MODEL_TAG = "ScheduleViewModel"
+    }
     object Song {
         object Album {
             const val ADD_TAG = "ADD ALBUM DIALOG FRAGMENT"
@@ -54,6 +60,7 @@ object Constants {
             const val CONCERTS = "Concerts"
             const val SONGS = "Songs"
             const val ALBUMS = "Albums"
+            const val EVENTS = "Events"
             const val TAG = "FirebaseDB"
         }
         object Auth {

@@ -3,9 +3,12 @@ package com.bandit.builder
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
@@ -65,6 +68,22 @@ object AndroidComponents {
             false
         )
         return timePickerDialog
+    }
+
+    fun <T> spinner(
+        context: Context,
+        spinner: Spinner,
+        onItemSelectedListener: OnItemSelectedListener,
+        objects: Array<T>
+    ) {
+        val adapter = ArrayAdapter(
+            context,
+            android.R.layout.simple_spinner_item,
+            objects
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = onItemSelectedListener
     }
 
     fun header(

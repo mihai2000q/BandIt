@@ -1,36 +1,23 @@
 package com.bandit.util
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.data.model.Band
-import com.bandit.extension.get2Characters
-import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.*
 import kotlin.random.Random
 
 
@@ -91,5 +78,26 @@ object AndroidUtils {
             textView.visibility = View.GONE
         else
             textView.text = string
+    }
+    fun durationEditTextSetup(editText: EditText) {
+        var backspace = false
+        editText.setOnKeyListener { _, keyCode, event ->
+            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_DEL)) {
+                backspace = true
+                return@setOnKeyListener false
+            }
+            backspace = false
+            return@setOnKeyListener false
+        }
+        editText.addTextChangedListener {
+            if(backspace) return@addTextChangedListener
+            if(it.toString().length == 2) {
+                editText.setText(buildString {
+                    append(editText.text)
+                    append(":")
+                })
+                editText.setSelection(3)
+            }
+        }
     }
 }

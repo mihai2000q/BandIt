@@ -34,19 +34,17 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         super.onViewCreated(view, savedInstanceState)
         val concertAddDialogFragment = ConcertAddDialogFragment()
         val concertFilterDialogFragment = ConcertFilterDialogFragment()
-        val concertDetailDialogFragment = ConcertDetailDialogFragment()
-        val concertEditDialogFragment = ConcertEditDialogFragment()
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                header.headerBtAccount,
-                header.headerBtBand,
+                concertsHeader.headerBtAccount,
+                concertsHeader.headerBtBand,
                 viewLifecycleOwner,
                 bandViewModel.band
             )
             concertsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
-            header.headerTvTitle.setText(R.string.title_concerts)
+            concertsHeader.headerTvTitle.setText(R.string.title_concerts)
             bandViewModel.band.observe(viewLifecycleOwner) {
                 concertsBtAdd.isEnabled = !it.isEmpty()
                 concertsBtFilter.isEnabled = !it.isEmpty()

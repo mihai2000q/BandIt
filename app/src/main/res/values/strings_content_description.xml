@@ -6,4 +6,5 @@
     <string name="content_description_bt_filter">Filter items</string>
     <string name="content_description_bt_add">Add Item</string>
     <string name="content_description_bt_album_view">Album View</string>
+    <string name="content_description_bt_calendar_view">Calendar View</string>
 </resources>

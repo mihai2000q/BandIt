@@ -9,9 +9,9 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.constant.Constants
-import com.bandit.extension.get2Characters
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
+import com.bandit.util.AndroidUtils
 
 class ConcertDetailDialogFragment : DialogFragment() {
 
@@ -41,10 +41,10 @@ class ConcertDetailDialogFragment : DialogFragment() {
         with(binding) {
             concertDetailTitle.text = concert.name
             concertDetailDateTime.text = concert.dateTime.print()
-            concertDetailCity.text = concert.city
-            concertDetailCountry.text = concert.country
-            concertDetailPlace.text = concert.place
-            concertDetailType.text = concert.type.name.normalizeWord()
+            AndroidUtils.ifNullHide(concertDetailCity, concert.city)
+            AndroidUtils.ifNullHide(concertDetailCountry, concert.country)
+            AndroidUtils.ifNullHide(concertDetailPlace, concert.place)
+            AndroidUtils.ifNullHide(concertDetailType, concert.concertType?.name?.normalizeWord())
         }
     }
 

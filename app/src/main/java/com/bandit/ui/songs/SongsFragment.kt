@@ -41,12 +41,12 @@ class SongsFragment : Fragment() {
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                header.headerBtAccount,
-                header.headerBtBand,
+                songsHeader.headerBtAccount,
+                songsHeader.headerBtBand,
                 viewLifecycleOwner,
                 bandViewModel.band
             )
-            header.headerTvTitle.setText(R.string.title_songs)
+            songsHeader.headerTvTitle.setText(R.string.title_songs)
             songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 5 / 8
             songsBtAlbumMode.setOnClickListener {
                 songsSearchView.setQuery("", false)
@@ -55,7 +55,6 @@ class SongsFragment : Fragment() {
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
-
         }
     }
 

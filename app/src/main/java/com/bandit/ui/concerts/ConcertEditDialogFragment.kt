@@ -8,6 +8,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
+import java.time.Duration
 
 class ConcertEditDialogFragment : ConcertDialogFragment() {
 
@@ -23,20 +24,22 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtTime.setText(dateTime.toLocalTime().toString())
                 concertEtCountry.setText(country)
                 concertEtPlace.setText(place)
-                concertEtSpinnerType.setSelection(type.ordinal)
+                concertEtSpinnerType.setSelection(concertType?.ordinal ?: 0)
             }
 
             concertButton.setOnClickListener {
                 viewModel.editConcert(
                     Concert(
-                        concertEtName.text.toString(),
-                        ParserUtils.parseDateTime(concertEtDate.text.toString(), concertEtTime.text.toString()),
-                        concertEtCity.text.toString(),
-                        concertEtCountry.text.toString(),
-                        concertEtPlace.text.toString(),
-                        BandItEnums.Concert.Type.values()[typeIndex],
-                        viewModel.selectedConcert.value!!.id,
-                        viewModel.selectedConcert.value!!.bandId
+                        name = concertEtName.text.toString(),
+                        dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
+                            concertEtTime.text.toString()),
+                        duration = Duration.ZERO,
+                        bandId = viewModel.selectedConcert.value!!.bandId,
+                        city = concertEtCity.text.toString(),
+                        country = concertEtCountry.text.toString(),
+                        place = concertEtPlace.text.toString(),
+                        concertType =BandItEnums.Concert.Type.values()[typeIndex],
+                        id = viewModel.selectedConcert.value!!.id
                     )
                 )
                 AndroidUtils.toastNotification(

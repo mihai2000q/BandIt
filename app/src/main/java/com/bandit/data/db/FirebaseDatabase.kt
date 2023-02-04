@@ -20,6 +20,7 @@ class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
     override val songs: MutableList<Song> = mutableListOf()
     override val albums: MutableList<Album> = mutableListOf()
+    override val events: MutableList<Event> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
@@ -159,6 +160,7 @@ class FirebaseDatabase : Database {
         concerts.clear()
         songs.clear()
         albums.clear()
+        events.clear()
         homeNavigationElementsMap.clear()
     }
 
@@ -172,6 +174,7 @@ class FirebaseDatabase : Database {
             is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
             is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
             is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
+            is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
         }
     }
 
@@ -188,6 +191,7 @@ class FirebaseDatabase : Database {
             is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
             is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
             is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
+            is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
         }
     }
 
@@ -298,6 +302,7 @@ class FirebaseDatabase : Database {
             readConcerts()
             readSongs()
             readAlbums()
+            readEvents()
         }
     }.await()
 
@@ -322,6 +327,12 @@ class FirebaseDatabase : Database {
                         a.songs.add(s)
                 }
             }
+        }
+    }.await()
+
+    private suspend fun readEvents() = coroutineScope {
+        async {
+            events += readItem(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
         }
     }.await()
 

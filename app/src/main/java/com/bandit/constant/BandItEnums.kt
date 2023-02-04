@@ -21,4 +21,17 @@ sealed class BandItEnums {
             Manager
         }
     }
+    object Schedule {
+        enum class ViewType {
+            Month,
+            Week
+        }
+    }
+    object Event {
+        enum class Type {
+            Simple,
+            Training,
+            Concert
+        }
+    }
 }
