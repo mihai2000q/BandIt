@@ -7,8 +7,7 @@ import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import java.time.Duration
-import java.time.LocalDateTime
+import java.time.*
 
 class EventTest {
     @Test
@@ -112,5 +111,123 @@ class EventTest {
         )
         assertEquals(outcome, expected)
     }
-
+    @Test
+    fun event_isOutdated() {
+        val event1 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().minusSeconds(1),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusSeconds(1),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(event1.isOutdated())
+        Assert.assertTrue(!event2.isOutdated())
+    }
+    @Test
+    fun event_isInTheSameDay() {
+        val event1 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusMinutes(20),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusMinutes(30),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(event1.isInTheSameDay())
+        Assert.assertTrue(!event2.isInTheSameDay())
+    }
+    @Test
+    fun event_is24HoursApart() {
+        val event1 = Event(
+            name = "",
+            dateTime =LocalDateTime.now().plusHours(3),
+            duration = Duration.ofMinutes(100),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusHours(25),
+            duration = Duration.ofMinutes(100),
+            type = Event.EMPTY.type,
+            bandId =  -1
+        )
+        val event3 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusHours(23).plusMinutes(59),
+            duration = Duration.ofMinutes(120),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(event1.is24HoursApart())
+        Assert.assertTrue(!event2.is24HoursApart())
+        Assert.assertTrue(event3.is24HoursApart())
+    }
+    @Test
+    fun event_is7DaysApart() {
+        val event1 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusDays(3),
+            duration = Duration.ofHours(3),
+            type = Event.EMPTY.type,
+            bandId =  -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusDays(8),
+            duration = Duration.ofHours(100),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event3 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusDays(6).plusHours(23).plusMinutes(59),
+            duration = Duration.ofMinutes(98),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(event1.is7DaysApart())
+        Assert.assertTrue(!event2.is7DaysApart())
+        Assert.assertTrue(event3.is7DaysApart())
+    }
+    @Test
+    fun event_isOneYearApart() {
+        val event1 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusDays(380),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusDays(364),
+            duration = Duration.ofHours(100),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event3 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusYears(1).plusMinutes(1),
+            duration = Duration.ofHours(150),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(event1.isOneYearApart())
+        Assert.assertTrue(!event2.isOneYearApart())
+        Assert.assertTrue(event3.isOneYearApart())
+    }
 }
