@@ -13,9 +13,12 @@ import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import com.bandit.data.model.Concert
 import com.bandit.data.model.Event
 import com.bandit.databinding.DialogFragmentScheduleAddBinding
 import com.bandit.di.DILocator
+import com.bandit.mapper.EventMapper
+import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
@@ -24,6 +27,7 @@ class ScheduleAddDialogFragment : DialogFragment(), OnItemSelectedListener {
     private var _binding: DialogFragmentScheduleAddBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleViewModel by activityViewModels()
+    private val concertViewModel: ConcertsViewModel by activityViewModels()
     private var typeIndex = 0
     var date: MutableLiveData<String?> = MutableLiveData(null)
 
@@ -58,16 +62,17 @@ class ScheduleAddDialogFragment : DialogFragment(), OnItemSelectedListener {
             AndroidUtils.durationEditTextSetup(scheduleAddEtDuration)
             date.observe(viewLifecycleOwner) { scheduleAddEtDate.setText(date.value) }
             scheduleAddButton.setOnClickListener {
-                viewModel.addEvent(
-                    Event(
-                        name = scheduleAddEtName.text.toString(),
-                        dateTime = ParserUtils.parseDateTime(scheduleAddEtDate.text.toString(),
-                            scheduleAddEtTime.text.toString()),
-                        duration = ParserUtils.parseDuration(scheduleAddEtDuration.text.toString()),
-                        type = BandItEnums.Event.Type.values()[typeIndex],
-                        bandId = DILocator.database.currentBand.id
-                    )
+                val event = Event(
+                    name = scheduleAddEtName.text.toString(),
+                    dateTime = ParserUtils.parseDateTime(scheduleAddEtDate.text.toString(),
+                        scheduleAddEtTime.text.toString()),
+                    duration = ParserUtils.parseDuration(scheduleAddEtDuration.text.toString()),
+                    type = BandItEnums.Event.Type.values()[typeIndex],
+                    bandId = DILocator.database.currentBand.id
                 )
+                viewModel.addEvent(event)
+                if(event.type == BandItEnums.Event.Type.Concert)
+                    concertViewModel.addConcert(EventMapper.fromEventToConcert(event))
                 AndroidUtils.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.event_add_toast)
@@ -87,7 +92,7 @@ class ScheduleAddDialogFragment : DialogFragment(), OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        typeIndex = 0
+        typeIndex = position
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
