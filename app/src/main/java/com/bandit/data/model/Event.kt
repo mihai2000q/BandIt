@@ -41,6 +41,7 @@ open class Event(
 
     fun printExplicitDateTime() =
         when {
+            this.isOutdated() -> "Outdated"
             this.isInTheSameDay() -> "Today"
             this.is24HoursApart() -> "Next Day"
             //this.is24HoursApart() -> "${this.dateTime.hour.toString().get2Characters()}:" +

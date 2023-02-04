@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +18,7 @@ import com.bandit.extension.get2Characters
 import com.bandit.ui.adapter.EventAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 import java.time.Instant
 import java.time.ZoneId
 
@@ -42,7 +42,6 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            scheduleEventsView.layoutManager = GridLayoutManager(context, 1)
             AndroidComponents.header(
                 super.requireActivity(),
                 scheduleHeader.headerBtAccount,
@@ -50,19 +49,21 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
                 viewLifecycleOwner,
                 bandViewModel.band
             )
+            scheduleHeader.headerTvTitle.setText(R.string.title_schedule)
+            scheduleEventsView.layoutManager = GridLayoutManager(context, 1)
             AndroidComponents.spinner(
                 super.requireContext(),
                 scheduleSpinnerMode,
                 this@ScheduleFragment,
                 BandItEnums.Schedule.ViewType.values()
             )
-            scheduleCalendarMode.setOnClickListener {
-                scheduleSearchView.setQuery("", false)
-                viewModel.calendarMode.value = !viewModel.calendarMode.value!!
+            scheduleSwitchView.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.calendarMode.value = isChecked
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
                 if(it) calendarMode() else listMode()
             }
+            scheduleCalendarView.visibility = View.GONE
         }
     }
 
@@ -73,27 +74,41 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
 
     private fun calendarMode() {
         with(binding) {
+            scheduleHeader.root.visibility = View.GONE
             scheduleCalendarView.visibility = View.VISIBLE
             scheduleSearchView.visibility = View.INVISIBLE
             scheduleSpinnerMode.visibility = View.VISIBLE
             scheduleSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 15 / 32
-            scheduleCalendarMode.setImageDrawable(
-                ContextCompat.getDrawable(
-                    super.requireContext(),
-                    R.drawable.ic_baseline_list
-                )
-            )
-            scheduleAddDialogFragment.date.value =
-                Instant.ofEpochMilli(scheduleCalendarView.date)
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate()
-                    .toString()
+
+            if(viewModel.currentDate.value == null)
+                viewModel.currentDate.value =
+                    Instant.ofEpochMilli(scheduleCalendarView.date)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+            else
+                scheduleCalendarView.date = viewModel.currentDate.value!!
+                    .atStartOfDay(ZoneId.systemDefault())
+                    .toInstant()
+                    .toEpochMilli()
+
             scheduleCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                scheduleAddDialogFragment.date.value = year.toString() +
+                viewModel.currentDate.value = ParserUtils.parseDate(year.toString() +
                         "-" +
-                        month.toString().get2Characters() +
+                        month.plus(1).toString().get2Characters() +
                         "-" +
-                        dayOfMonth.toString().get2Characters()
+                        dayOfMonth.toString().get2Characters())
+            }
+            viewModel.currentDate.observe(viewLifecycleOwner) {
+                viewModel.filterEvents(date = it)
+                scheduleAddDialogFragment.date.value = it.toString()
+            }
+            viewModel.events.observe(viewLifecycleOwner) {
+                if(viewModel.calendarMode.value == false) return@observe
+                scheduleEventsView.adapter = EventAdapter(
+                    it.sorted(),
+                    viewModel,
+                    childFragmentManager
+                )
             }
             scheduleBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -106,16 +121,12 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
 
     private fun listMode() {
         with(binding) {
+            scheduleHeader.root.visibility = View.VISIBLE
             scheduleCalendarView.visibility = View.GONE
             scheduleSpinnerMode.visibility = View.GONE
             scheduleSearchView.visibility = View.VISIBLE
             scheduleSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 3 / 4
-            scheduleCalendarMode.setImageDrawable(
-                ContextCompat.getDrawable(
-                    super.requireContext(),
-                    R.drawable.ic_baseline_calendar
-                )
-            )
+            viewModel.removeFilters()
             viewModel.events.observe(viewLifecycleOwner) {
                 if(viewModel.calendarMode.value == true) return@observe
                 scheduleEventsView.adapter = EventAdapter(

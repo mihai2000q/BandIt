@@ -23,14 +23,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/schedule_calendar_mode"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/schedule_switch_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:contentDescription="@string/content_description_bt_calendar_view"
-                app:srcCompat="@drawable/ic_baseline_list"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:layout_height="match_parent" />
 
             <SearchView
                 android:id="@+id/schedule_search_view"
