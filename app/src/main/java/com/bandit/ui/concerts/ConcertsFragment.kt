@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.builder.AndroidComponents
-import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.databinding.FragmentConcertsBinding
+import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 

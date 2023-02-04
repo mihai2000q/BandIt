@@ -11,8 +11,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.bandit.R
-import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.constant.Constants
+import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils

@@ -2,11 +2,9 @@ package com.bandit.repository
 
 import com.bandit.constant.Constants
 import com.bandit.data.model.BaseModel
-import com.bandit.data.model.Song
 import com.bandit.data.repository.BaseRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
-import java.time.LocalDate
 
 abstract class BaseRepositoryTest <T : BaseModel> {
     protected fun different_ids(

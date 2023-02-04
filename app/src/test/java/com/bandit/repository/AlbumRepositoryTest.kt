@@ -3,9 +3,7 @@ package com.bandit.repository
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.data.repository.AlbumRepository
-import com.bandit.data.repository.SongRepository
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

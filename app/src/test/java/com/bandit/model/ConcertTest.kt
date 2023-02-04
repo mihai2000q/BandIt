@@ -1,11 +1,10 @@
 package com.bandit.model
 
-import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
-import org.junit.Test
-
+import com.bandit.data.model.Concert
 import org.junit.Assert.*
+import org.junit.Test
 import java.time.Duration
 import java.time.LocalDateTime
 

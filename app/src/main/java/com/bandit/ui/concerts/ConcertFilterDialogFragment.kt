@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.ui.concerts.ConcertsViewModel.*
+import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.util.AndroidUtils
 import java.time.LocalDate
 import java.time.LocalTime
