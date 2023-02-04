@@ -3,6 +3,7 @@ package com.bandit.mapper
 import com.bandit.constant.BandItEnums
 import com.bandit.data.db.dto.ConcertDto
 import com.bandit.data.model.Concert
+import com.bandit.data.model.Event
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -32,6 +33,17 @@ object ConcertMapper : Mapper<Concert, ConcertDto> {
             place = item.place,
             type = mapConcertTypeToInt(item.concertType)?.toLong(),
             bandId = item.bandId
+        )
+    }
+
+    fun fromConcertToEvent(concert: Concert): Event {
+        return Event(
+            concert.name,
+            concert.dateTime,
+            concert.duration,
+            concert.type,
+            concert.bandId,
+            concert.id
         )
     }
 
