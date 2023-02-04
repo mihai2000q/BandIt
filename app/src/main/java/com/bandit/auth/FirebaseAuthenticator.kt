@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthenticator : Authenticator {
     private val _auth = Firebase.auth
-    private var _currentUser = Firebase.auth.currentUser
+    private var _currentUser = _auth.currentUser
     override val currentUser get() = _currentUser
 
     init {

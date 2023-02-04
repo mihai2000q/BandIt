@@ -32,10 +32,6 @@ class ScheduleDetailDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.dialog?.window?.setLayout(
-            AndroidUtils.getScreenWidth(super.requireActivity()),
-            ActionBar.LayoutParams.WRAP_CONTENT
-        )
         viewModel.selectedEvent.observe(viewLifecycleOwner) { assignEventDetails(it) }
     }
 

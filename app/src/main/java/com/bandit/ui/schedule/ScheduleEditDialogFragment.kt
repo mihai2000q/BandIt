@@ -43,6 +43,6 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Schedule.ADD_TAG
+        const val TAG = Constants.Schedule.EDIT_TAG
     }
 }
