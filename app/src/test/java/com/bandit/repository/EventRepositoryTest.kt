@@ -9,6 +9,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 class EventRepositoryTest : BaseRepositoryTest<Event>() {
@@ -142,6 +143,24 @@ class EventRepositoryTest : BaseRepositoryTest<Event>() {
     }
     @Test
     fun event_repository_filter() {
+        import_data()
+        val outcome = eventRepository.filterEvents(
+            date = LocalDate.parse("2023-10-12")
+        )
+        val expected = listOf(
+            Event(
+                name = "Weekly Training Session",
+                dateTime = LocalDateTime.of(2023,10,12,8,30),
+                type = BandItEnums.Event.Type.Training,
+                bandId = -1,
+                duration = Duration.ofHours(2)
+            )
+        )
+        assertEquals(outcome.size, 1)
+        assertEquals(outcome, expected)
+    }
+    @Test
+    fun event_repository_filter_by_date() {
         import_data()
         val outcome = eventRepository.filterEvents(
             name = "Weekly Training Session",
