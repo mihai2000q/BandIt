@@ -34,6 +34,7 @@ object Constants {
     object Schedule {
         const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
         const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
+        const val EDIT_TAG = "EDIT SCHEDULE DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ScheduleViewModel"
     }
     object Song {

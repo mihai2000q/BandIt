@@ -12,23 +12,22 @@ object ParserUtils {
         textTime: String?
     ): LocalDateTime {
         return LocalDateTime.parse(
-            "${
-                if (textDate.isNullOrEmpty())
-                    LocalDate.now().toString()
-                else textDate
-            }T" + if (textTime.isNullOrEmpty())
-                LocalTime.MIDNIGHT.minusMinutes(1).toString()
-            else
-                textTime
+            "${parseDate(textDate)}T" + parseTime(textTime)
         )
     }
-    fun parseDate(
-        text: String?
-    ): LocalDate = LocalDate.parse(
+    fun parseDate(text: String?): LocalDate = LocalDate.parse(
         if (text.isNullOrEmpty())
             LocalDate.now().toString()
         else text
     )
+
+    fun parseTime(text: String?): LocalTime = LocalTime.parse(
+        if (text.isNullOrEmpty())
+            LocalTime.MIDNIGHT.minusMinutes(1).toString()
+        else
+            text
+    )
+
 
     fun parseDuration(
         text: String?

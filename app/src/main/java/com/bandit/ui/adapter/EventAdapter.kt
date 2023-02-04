@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
+import com.bandit.ui.schedule.ScheduleDetailDialogFragment
+import com.bandit.ui.schedule.ScheduleEditDialogFragment
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 
@@ -16,6 +18,8 @@ class EventAdapter(
     private val viewModel: ScheduleViewModel,
     private val childFragmentManager: FragmentManager
 ) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
+    private val scheduleDetailDialogFragment = ScheduleDetailDialogFragment()
+    private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 
@@ -67,7 +71,10 @@ class EventAdapter(
 
     private fun onClick(event: Event) {
         viewModel.selectedEvent.value = event
-
+        AndroidUtils.showDialogFragment(
+            scheduleDetailDialogFragment,
+            childFragmentManager
+        )
     }
 
     private fun onLongClick(holder: ViewHolder, event: Event): Boolean {
@@ -86,8 +93,12 @@ class EventAdapter(
         )
         return viewModel.removeEvent(event)
     }
-    //TODO: Implement editing for event
     private fun onEdit(event: Event): Boolean {
+        viewModel.selectedEvent.value = event
+        AndroidUtils.showDialogFragment(
+            scheduleEditDialogFragment,
+            childFragmentManager
+        )
         return true
     }
 

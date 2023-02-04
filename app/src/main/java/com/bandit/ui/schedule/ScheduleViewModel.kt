@@ -22,9 +22,7 @@ class ScheduleViewModel : ViewModel() {
     fun addEvent(event: Event) {
         viewModelScope.launch {
             launch { _repository.add(event) }.join()
-            _events.value = _repository.list
-            if(calendarMode.value == true)
-                filterEvents(date = currentDate.value)
+            refresh()
         }
     }
 
@@ -32,11 +30,16 @@ class ScheduleViewModel : ViewModel() {
         var result = false
         viewModelScope.launch {
             launch { result = _repository.remove(event) }.join()
-            _events.value = _repository.list
-            if(calendarMode.value == true)
-                filterEvents(date = currentDate.value)
+            refresh()
         }
         return result
+    }
+
+    fun editEvent(event: Event) {
+        viewModelScope.launch {
+            launch { _repository.edit(event) }.join()
+            refresh()
+        }
     }
 
     fun filterEvents(
@@ -48,6 +51,12 @@ class ScheduleViewModel : ViewModel() {
 
     fun removeFilters() {
         filterEvents()
+    }
+
+    private fun refresh() {
+        _events.value = _repository.list
+        if(calendarMode.value == true)
+            filterEvents(date = currentDate.value)
     }
 
     companion object {
