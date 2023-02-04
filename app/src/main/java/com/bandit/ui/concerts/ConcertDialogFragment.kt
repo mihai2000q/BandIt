@@ -1,5 +1,6 @@
 package com.bandit.ui.concerts
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,9 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
+import com.bandit.util.AndroidUtils
 
-open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
+abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
     
     private var _binding: DialogFragmentConcertBinding? = null
     protected val binding get() = _binding!!
@@ -30,10 +32,20 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val datePickerDialog = AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate)
-            val timePickerDialog = AndroidComponents.timePickerDialog(super.requireContext(), concertEtTime)
-            concertEtDate.setOnClickListener { datePickerDialog.show() }
-            concertEtTime.setOnClickListener { timePickerDialog.show() }
+            AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate) {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    concertEtDate
+                )
+            }
+            AndroidComponents.timePickerDialog(super.requireContext(), concertEtTime) {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    concertEtTime
+                )
+            }
         }
     }
 

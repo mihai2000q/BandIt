@@ -26,8 +26,9 @@ object AndroidComponents {
     fun datePickerDialog(
         context: Context,
         editText: EditText,
-        withPast: Boolean = false
-    ) : DatePickerDialog {
+        withPast: Boolean = false,
+        hideKeyboard: (() -> Unit)? = null
+    ) {
         val calendar = Calendar.getInstance()
         lateinit var datePickerDialog: DatePickerDialog
         datePickerDialog = DatePickerDialog(
@@ -45,12 +46,23 @@ object AndroidComponents {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.datePicker.minDate = if(withPast) 0 else calendar.timeInMillis
-        return datePickerDialog
+        editText.showSoftInputOnFocus = false
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus) {
+                datePickerDialog.show()
+                hideKeyboard?.invoke()
+            }
+        }
+        editText.setOnClickListener {
+            datePickerDialog.show()
+            hideKeyboard?.invoke()
+        }
     }
 
     fun timePickerDialog(
         context: Context,
-        editText: EditText
+        editText: EditText,
+        hideKeyboard: (() -> Unit)? = null
     ) : TimePickerDialog {
         val calendar = Calendar.getInstance()
         lateinit var timePickerDialog: TimePickerDialog
@@ -67,6 +79,17 @@ object AndroidComponents {
             calendar.get(Calendar.MINUTE),
             false
         )
+        editText.showSoftInputOnFocus = false
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus) {
+                timePickerDialog.show()
+                hideKeyboard?.invoke()
+            }
+        }
+        editText.setOnClickListener {
+            timePickerDialog.show()
+            hideKeyboard?.invoke()
+        }
         return timePickerDialog
     }
 

@@ -38,16 +38,8 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
                 this@ScheduleDialogFragment,
                 BandItEnums.Event.Type.values()
             )
-            val datePickerDialog = AndroidComponents.datePickerDialog(
-                super.requireContext(),
-                scheduleEtDate
-            )
-            val timePickerDialog = AndroidComponents.timePickerDialog(
-                super.requireContext(),
-                scheduleEtTime
-            )
-            scheduleEtDate.setOnClickListener { datePickerDialog.show() }
-            scheduleEtTime.setOnClickListener { timePickerDialog.show() }
+            AndroidComponents.datePickerDialog(super.requireContext(), scheduleEtDate)
+            AndroidComponents.timePickerDialog(super.requireContext(), scheduleEtTime)
             AndroidUtils.durationEditTextSetup(scheduleEtDuration)
         }
     }
