@@ -160,6 +160,7 @@ class FirebaseDatabase : Database {
         concerts.clear()
         songs.clear()
         albums.clear()
+        events.clear()
         homeNavigationElementsMap.clear()
     }
 
