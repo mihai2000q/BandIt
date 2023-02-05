@@ -8,10 +8,9 @@ import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
-import com.bandit.constant.BandItEnums
-import com.bandit.extension.get2Characters
 import com.bandit.extension.normalizeWord
 import com.bandit.ui.concerts.ConcertDetailDialogFragment
 import com.bandit.ui.concerts.ConcertEditDialogFragment

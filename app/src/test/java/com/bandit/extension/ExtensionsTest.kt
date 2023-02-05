@@ -1,7 +1,5 @@
 package com.bandit.extension
 
-import com.bandit.extension.get2Characters
-import com.bandit.extension.print
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.Duration

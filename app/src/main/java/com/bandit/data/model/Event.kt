@@ -1,7 +1,6 @@
 package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
-import com.bandit.extension.get2Characters
 import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
 import java.time.Duration

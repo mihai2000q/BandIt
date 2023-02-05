@@ -1,8 +1,8 @@
 package com.bandit.repository
 
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
-import com.bandit.constant.BandItEnums
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before

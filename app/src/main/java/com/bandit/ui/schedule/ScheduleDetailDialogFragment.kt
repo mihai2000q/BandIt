@@ -1,6 +1,5 @@
 package com.bandit.ui.schedule
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import com.bandit.databinding.DialogFragmentScheduleDetailBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
 import com.bandit.extension.printName
-import com.bandit.util.AndroidUtils
 
 class ScheduleDetailDialogFragment : DialogFragment() {
 

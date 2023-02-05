@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
-import com.bandit.constant.Constants
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
 import com.bandit.util.AndroidUtils

@@ -3,12 +3,8 @@ package com.bandit.builder
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
