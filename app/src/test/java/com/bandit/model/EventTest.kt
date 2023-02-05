@@ -7,9 +7,12 @@ import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import java.time.*
+import org.mockito.Mockito
+import java.time.Duration
+import java.time.LocalDateTime
 
 class EventTest {
+    private val localDateTime = LocalDateTime.parse("2023-02-05T10:00")
     @Test
     fun event_init() {
         val event = Event(
@@ -130,24 +133,29 @@ class EventTest {
         Assert.assertTrue(event1.isOutdated())
         Assert.assertTrue(!event2.isOutdated())
     }
+
     @Test
     fun event_isInTheSameDay() {
-        val event1 = Event(
-            name = "",
-            dateTime = LocalDateTime.now().plusMinutes(20),
-            duration = Duration.ofMinutes(10),
-            type = Event.EMPTY.type,
-            bandId = -1
-        )
-        val event2 = Event(
-            name = "",
-            dateTime = LocalDateTime.now().plusMinutes(30),
-            duration = Duration.ofMinutes(10),
-            type = Event.EMPTY.type,
-            bandId = -1
-        )
-        Assert.assertTrue(event1.isInTheSameDay())
-        Assert.assertTrue(!event2.isInTheSameDay())
+        Mockito.mockStatic(LocalDateTime::class.java).use {
+            it.`when`<Any>{LocalDateTime.now()}.thenReturn(localDateTime)
+            println(LocalDateTime.now())
+            val event1 = Event(
+                name = "",
+                dateTime = LocalDateTime.now().plusHours(14),
+                duration = Duration.ofMinutes(10),
+                type = Event.EMPTY.type,
+                bandId = -1
+            )
+            val event2 = Event(
+                name = "",
+                dateTime = LocalDateTime.now().plusHours(14).minusSeconds(1),
+                duration = Duration.ofMinutes(10),
+                type = Event.EMPTY.type,
+                bandId = -1
+            )
+            Assert.assertTrue(!event1.isInTheSameDay())
+            Assert.assertTrue(event2.isInTheSameDay())
+        }
     }
     @Test
     fun event_is24HoursApart() {
