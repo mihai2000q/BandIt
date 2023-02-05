@@ -3,16 +3,31 @@ package com.bandit.model
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Event
+import net.bytebuddy.asm.Advice.Local
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
+import org.junit.BeforeClass
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doCallRealMethod
+import org.mockito.kotlin.doReturn
 import java.time.Duration
 import java.time.LocalDateTime
 
 class EventTest {
-    private val localDateTime = LocalDateTime.parse("2023-02-05T10:00")
+    companion object {
+        private val defaultDateAndTime = LocalDateTime.parse("2023-02-05T10:00")
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            val localDateTime = Mockito.mockStatic(LocalDateTime::class.java, Mockito.CALLS_REAL_METHODS)
+            localDateTime.`when`<Any> { LocalDateTime.now() }.thenReturn(defaultDateAndTime)
+        }
+    }
     @Test
     fun event_init() {
         val event = Event(
@@ -133,29 +148,24 @@ class EventTest {
         Assert.assertTrue(event1.isOutdated())
         Assert.assertTrue(!event2.isOutdated())
     }
-
     @Test
     fun event_isInTheSameDay() {
-        Mockito.mockStatic(LocalDateTime::class.java).use {
-            it.`when`<Any>{LocalDateTime.now()}.thenReturn(localDateTime)
-            println(LocalDateTime.now())
-            val event1 = Event(
-                name = "",
-                dateTime = LocalDateTime.now().plusHours(14),
-                duration = Duration.ofMinutes(10),
-                type = Event.EMPTY.type,
-                bandId = -1
-            )
-            val event2 = Event(
-                name = "",
-                dateTime = LocalDateTime.now().plusHours(14).minusSeconds(1),
-                duration = Duration.ofMinutes(10),
-                type = Event.EMPTY.type,
-                bandId = -1
-            )
-            Assert.assertTrue(!event1.isInTheSameDay())
-            Assert.assertTrue(event2.isInTheSameDay())
-        }
+        val event1 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusHours(14),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        val event2 = Event(
+            name = "",
+            dateTime = LocalDateTime.now().plusHours(14).minusSeconds(1),
+            duration = Duration.ofMinutes(10),
+            type = Event.EMPTY.type,
+            bandId = -1
+        )
+        Assert.assertTrue(!event1.isInTheSameDay())
+        Assert.assertTrue(event2.isInTheSameDay())
     }
     @Test
     fun event_is24HoursApart() {
