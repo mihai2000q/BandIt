@@ -21,6 +21,7 @@ class FirebaseDatabase : Database {
     override val songs: MutableList<Song> = mutableListOf()
     override val albums: MutableList<Album> = mutableListOf()
     override val events: MutableList<Event> = mutableListOf()
+    override val tasks: MutableList<Task> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
@@ -174,6 +175,7 @@ class FirebaseDatabase : Database {
         songs.clear()
         albums.clear()
         events.clear()
+        tasks.clear()
         homeNavigationElementsMap.clear()
     }
 
@@ -188,6 +190,7 @@ class FirebaseDatabase : Database {
             is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
             is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
             is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
+            is Task -> setItem(Constants.Firebase.Database.TASKS, TaskMapper.fromItemToDto(item))
         }
     }
 
@@ -205,6 +208,7 @@ class FirebaseDatabase : Database {
             is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
             is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
             is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
+            is Task -> deleteItem(Constants.Firebase.Database.TASKS, item)
         }
     }
 
@@ -316,6 +320,7 @@ class FirebaseDatabase : Database {
             readSongs()
             readAlbums()
             readEvents()
+            readTasks()
         }
     }.await()
 
@@ -346,6 +351,12 @@ class FirebaseDatabase : Database {
     private suspend fun readEvents() = coroutineScope {
         async {
             events += readItem(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
+        }
+    }.await()
+
+    private suspend fun readTasks() = coroutineScope {
+        async {
+            tasks += readItem(Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id)
         }
     }.await()
 

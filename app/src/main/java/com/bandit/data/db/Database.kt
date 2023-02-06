@@ -10,6 +10,7 @@ interface Database {
     val songs: List<Song>
     val albums: List<Album>
     val events: List<Event>
+    val tasks: List<Task>
     val currentAccount: Account
     val currentBand: Band
     val currentBandInvitation: BandInvitation
