@@ -3,6 +3,27 @@ package com.bandit.constant
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
     const val PASSWORD_MIN_CHARACTERS = 8
+    object Firebase {
+        object Database {
+            const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
+            const val ACCOUNTS = "Accounts"
+            const val BANDS = "Bands"
+            const val BAND_INVITATIONS = "BandInvitations"
+            const val CONCERTS = "Concerts"
+            const val SONGS = "Songs"
+            const val ALBUMS = "Albums"
+            const val EVENTS = "Events"
+            const val TASKS = "Tasks"
+            const val TAG = "FirebaseDB"
+        }
+        object Auth {
+            const val TAG = "FirebaseAuth"
+        }
+    }
+    object Preferences {
+        const val APP_PREFERENCES = "App Preferences"
+        const val REMEMBER_ME = "Remember Me "
+    }
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"
     }
@@ -32,12 +53,6 @@ object Constants {
         const val FILTER_TAG = "FILTER CONCERT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ConcertsViewModel"
     }
-    object Schedule {
-        const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
-        const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
-        const val EDIT_TAG = "EDIT SCHEDULE DIALOG FRAGMENT"
-        const val VIEW_MODEL_TAG = "ScheduleViewModel"
-    }
     object Song {
         object Album {
             const val ADD_TAG = "ADD ALBUM DIALOG FRAGMENT"
@@ -52,24 +67,13 @@ object Constants {
         const val FILTER_TAG = "FILTER SONG DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "SongsViewModel"
     }
-    object Firebase {
-        object Database {
-            const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
-            const val ACCOUNTS = "Accounts"
-            const val BANDS = "Bands"
-            const val BAND_INVITATIONS = "BandInvitations"
-            const val CONCERTS = "Concerts"
-            const val SONGS = "Songs"
-            const val ALBUMS = "Albums"
-            const val EVENTS = "Events"
-            const val TAG = "FirebaseDB"
-        }
-        object Auth {
-            const val TAG = "FirebaseAuth"
-        }
+    object Schedule {
+        const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
+        const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
+        const val EDIT_TAG = "EDIT SCHEDULE DIALOG FRAGMENT"
+        const val VIEW_MODEL_TAG = "ScheduleViewModel"
     }
-    object Preferences {
-        const val APP_PREFERENCES = "App Preferences"
-        const val REMEMBER_ME = "Remember Me "
+    object ToDoList {
+        const val VIEW_MODEL_TAG = "ToDoListViewModel"
     }
 }
