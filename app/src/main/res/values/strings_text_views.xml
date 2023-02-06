@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tv_name">Name:</string>
+    <string name="tv_email">Email:</string>
+    <string name="tv_password">Password:</string>
+</resources>
