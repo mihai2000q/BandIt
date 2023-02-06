@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="login_toast">You are now logged in</string>
-    <string name="signup_toast">Account created</string>
+    <string name="first_login_toast">Account created successfully</string>
+    <string name="sign_up_toast">A confirmation email has been sent successfully</string>
     <string name="sign_out_toast">Signed out</string>
     <string name="create_band_toast">Band Created</string>
     <string name="invite_band_toast">Band Invitation Sent</string>

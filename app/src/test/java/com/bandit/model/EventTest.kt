@@ -3,18 +3,12 @@ package com.bandit.model
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Event
-import net.bytebuddy.asm.Advice.Local
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.BeforeClass
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
-import org.mockito.kotlin.any
-import org.mockito.kotlin.doCallRealMethod
-import org.mockito.kotlin.doReturn
 import java.time.Duration
 import java.time.LocalDateTime
 

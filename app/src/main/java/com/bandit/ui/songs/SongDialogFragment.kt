@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
 import com.bandit.util.AndroidUtils
@@ -23,6 +24,16 @@ abstract class SongDialogFragment : DialogFragment() {
     ): View {
         _binding = DialogFragmentSongBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    protected open fun validateFields(): Boolean {
+        with(binding) {
+            if (songEtName.text.isNullOrEmpty()) {
+                songEtName.error = resources.getString(R.string.et_name_validation)
+                return false
+            }
+        }
+        return true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

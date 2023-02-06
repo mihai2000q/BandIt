@@ -12,30 +12,42 @@ import com.bandit.util.ParserUtils
 
 class AlbumAddDialogFragment : AlbumDialogFragment() {
 
+    private val _database = DILocator.database
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             albumButton.setText(R.string.bt_add)
             albumButton.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    albumButton
-                )
-                viewModel.addAlbum(
-                    Album(
-                        albumEtName.text.toString(),
-                        DILocator.database.currentBand.id,
-                        ParserUtils.parseDate(albumEtReleaseDate.text.toString()),
-                        albumEtLabel.text.toString()
-                    )
-                )
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.album_add_toast)
-                )
-                super.dismiss()
+                if (validateFields())
+                    addAlbum()
             }
+        }
+    }
+
+    private fun addAlbum() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                albumButton
+            )
+            viewModel.addAlbum(
+                Album(
+                    albumEtName.text.toString(),
+                    _database.currentBand.id,
+                    ParserUtils.parseDate(albumEtReleaseDate.text.toString()),
+                    albumEtLabel.text.toString()
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.album_add_toast)
+            )
+            super.dismiss()
+            albumEtName.setText("")
+            albumEtReleaseDate.setText("")
+            albumEtLabel.setText("")
         }
     }
 

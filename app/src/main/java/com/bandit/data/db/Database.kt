@@ -19,10 +19,11 @@ interface Database {
     suspend fun edit(item: Any)
     suspend fun updateAccount(account: Account)
     suspend fun setUserAccountSetup(isAccountSetup: Boolean)
+    suspend fun isUserAccountSetup(): Boolean?
     suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto)
     suspend fun sendBandInvitation(email: String)
     suspend fun acceptBandInvitation()
     suspend fun rejectBandInvitation()
-    suspend fun isUserAccountSetup(): Boolean?
+    suspend fun isEmailInUse(email: String): Boolean
     fun clearData()
 }

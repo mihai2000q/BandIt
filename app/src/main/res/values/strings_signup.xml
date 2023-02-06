@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="sign_up_tv_last">A confirmation email has been sent</string>
     <string name="sign_up_title">@string/title_sign_up</string>
 </resources>

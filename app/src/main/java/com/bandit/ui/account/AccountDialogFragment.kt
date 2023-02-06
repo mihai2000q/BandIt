@@ -22,6 +22,8 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
+    private val _auth = DILocator.authenticator
+    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +66,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     }
 
     private fun signOut() {
-        DILocator.authenticator.signOut()
+        _auth.signOut()
         //go back to login fragment
         val navController = super.requireActivity().findNavController(R.id.main_nav_host)
         for(i in 0 until navController.backQueue.size)
@@ -77,7 +79,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
         super.requireActivity().viewModelStore.clear()
-        DILocator.database.clearData()
+        _database.clearData()
         AndroidUtils.toastNotification(
             super.requireContext(),
             resources.getString(R.string.sign_out_toast),

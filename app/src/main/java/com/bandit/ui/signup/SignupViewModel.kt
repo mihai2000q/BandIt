@@ -8,17 +8,18 @@ import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
 class SignupViewModel : ViewModel() {
+    private val _auth = DILocator.authenticator
+    private val _database = DILocator.database
     val email = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    fun createUser() {
+    fun createUser(password: String) {
         viewModelScope.launch {
             launch {
-                DILocator.authenticator.createUser(
+                _auth.createUser(
                     email.value!!,
-                    password.value!!
+                    password
                 )
             }.join()
-            launch { DILocator.database.setUserAccountSetup(false) }.join()
+            launch { _database.setUserAccountSetup(false) }.join()
         }
     }
 

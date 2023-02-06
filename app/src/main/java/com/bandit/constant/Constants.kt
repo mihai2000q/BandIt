@@ -2,6 +2,7 @@ package com.bandit.constant
 
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
+    const val PASSWORD_MIN_CHARACTERS = 8
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"
     }

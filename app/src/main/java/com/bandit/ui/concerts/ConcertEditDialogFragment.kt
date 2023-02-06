@@ -28,26 +28,54 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
             }
 
             concertButton.setOnClickListener {
-                viewModel.editConcert(
-                    Concert(
-                        name = concertEtName.text.toString(),
-                        dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
-                            concertEtTime.text.toString()),
-                        duration = Duration.ZERO,
-                        bandId = viewModel.selectedConcert.value!!.bandId,
-                        city = concertEtCity.text.toString(),
-                        country = concertEtCountry.text.toString(),
-                        place = concertEtPlace.text.toString(),
-                        concertType =BandItEnums.Concert.Type.values()[typeIndex],
-                        id = viewModel.selectedConcert.value!!.id
-                    )
-                )
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.concert_edit_toast)
-                )
-                super.dismiss()
+                if(validateFields())
+                    editConcert()
             }
+        }
+
+    }
+
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedConcert.value!!) {
+                if (concertEtName.text.toString() == name &&
+                    concertEtDate.text.toString() == dateTime.toLocalDate().toString() &&
+                    concertEtTime.text.toString() == dateTime.toLocalTime().toString() &&
+                    concertEtCity.text.toString() == city &&
+                    concertEtCountry.text.toString() == country &&
+                    concertEtPlace.text.toString() == place &&
+                    BandItEnums.Concert.Type.values()[typeIndex] == concertType
+                ) {
+                    concertEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
+    private fun editConcert() {
+        with(binding) {
+            viewModel.editConcert(
+                Concert(
+                    name = concertEtName.text.toString(),
+                    dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
+                        concertEtTime.text.toString()),
+                    duration = Duration.ZERO,
+                    bandId = viewModel.selectedConcert.value!!.bandId,
+                    city = concertEtCity.text.toString(),
+                    country = concertEtCountry.text.toString(),
+                    place = concertEtPlace.text.toString(),
+                    concertType = BandItEnums.Concert.Type.values()[typeIndex],
+                    id = viewModel.selectedConcert.value!!.id
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.concert_edit_toast)
+            )
+            super.dismiss()
         }
 
     }

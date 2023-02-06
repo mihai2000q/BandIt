@@ -1,10 +1,12 @@
 package com.bandit.ui.songs.albums
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
+import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class AlbumEditDialogFragment : AlbumDialogFragment() {
@@ -19,18 +21,50 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
                 albumEtLabel.setText(it.label)
             }
             albumButton.setOnClickListener {
-                viewModel.editAlbum(
-                    Album(
-                        albumEtName.text.toString(),
-                        viewModel.selectedAlbum.value!!.bandId,
-                        ParserUtils.parseDate(albumEtReleaseDate.text.toString()),
-                        albumEtLabel.text.toString(),
-                        viewModel.selectedAlbum.value!!.songs,
-                        viewModel.selectedAlbum.value!!.id
-                    )
-                )
-                super.dismiss()
+                if(validateFields())
+                    editAlbum()
             }
+        }
+    }
+
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedAlbum.value!!) {
+                if (albumEtName.text.toString() == name &&
+                    albumEtReleaseDate.text.toString() == releaseDate.toString() &&
+                    albumEtLabel.text.toString() == label
+                ) {
+                    albumEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
+    private fun editAlbum() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                albumEtName
+            )
+            viewModel.editAlbum(
+                Album(
+                    albumEtName.text.toString(),
+                    viewModel.selectedAlbum.value!!.bandId,
+                    ParserUtils.parseDate(albumEtReleaseDate.text.toString()),
+                    albumEtLabel.text.toString(),
+                    viewModel.selectedAlbum.value!!.songs,
+                    viewModel.selectedAlbum.value!!.id
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.album_edit_toast)
+            )
+            super.dismiss()
         }
     }
 

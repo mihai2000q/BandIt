@@ -1,11 +1,13 @@
 package com.bandit.ui.songs
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.extension.print
+import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongEditDialogFragment : SongDialogFragment() {
@@ -19,19 +21,51 @@ class SongEditDialogFragment : SongDialogFragment() {
                 songEtDuration.setText(it.duration.print())
             }
             songButton.setOnClickListener {
-                viewModel.editSong(
-                    Song(
-                        songEtName.text.toString(),
-                        viewModel.selectedSong.value!!.bandId,
-                        ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                        ParserUtils.parseDuration(songEtDuration.text.toString()),
-                        viewModel.selectedSong.value!!.albumName,
-                        viewModel.selectedSong.value!!.albumId,
-                        viewModel.selectedSong.value!!.id
-                    )
-                )
-                super.dismiss()
+                if(validateFields())
+                    editSong()
             }
+        }
+    }
+
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedSong.value!!) {
+                if (songEtName.text.toString() == name &&
+                    songEtReleaseDate.text.toString() == releaseDate.toString() &&
+                    songEtDuration.text.toString() == duration.print()
+                ) {
+                    songEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
+    private fun editSong() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                songEtName
+            )
+            viewModel.editSong(
+                Song(
+                    songEtName.text.toString(),
+                    viewModel.selectedSong.value!!.bandId,
+                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
+                    ParserUtils.parseDuration(songEtDuration.text.toString()),
+                    viewModel.selectedSong.value!!.albumName,
+                    viewModel.selectedSong.value!!.albumId,
+                    viewModel.selectedSong.value!!.id
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.song_edit_toast)
+            )
+            super.dismiss()
         }
     }
 

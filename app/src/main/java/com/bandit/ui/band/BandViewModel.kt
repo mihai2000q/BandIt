@@ -14,21 +14,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class BandViewModel : ViewModel() {
-    private val _band = MutableLiveData(DILocator.database.currentBand)
+    private val _database = DILocator.database
+    private val _band = MutableLiveData(_database.currentBand)
     val band: LiveData<Band> = _band
     private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())
     val members: LiveData<MutableMap<Account, Boolean>> = _members
     val name = MutableLiveData<String>()
     fun createBand() {
         viewModelScope.launch {
-            with(DILocator.database) {
+            with(_database) {
                 val band = Band(
                     name.value!!,
                     currentAccount.id,
                     mutableMapOf(currentAccount to true)
                 )
-                add(band)
-                setBandInvitation(
+                this.add(band)
+                this.setBandInvitation(
                     BandInvitationDto(
                         AndroidUtils.generateRandomLong(),
                         band.id,
@@ -36,7 +37,7 @@ class BandViewModel : ViewModel() {
                         true
                     )
                 )
-                updateAccount(
+                this.updateAccount(
                     Account(
                         currentAccount.name,
                         currentAccount.nickname,
@@ -54,13 +55,13 @@ class BandViewModel : ViewModel() {
 
     fun sendBandInvitation(email: String) {
         viewModelScope.launch {
-            runBlocking { DILocator.database.sendBandInvitation(email) }
+            runBlocking { _database.sendBandInvitation(email) }
         }
         refresh()
     }
 
     fun refresh() {
-        _band.value = DILocator.database.currentBand
+        _band.value = _database.currentBand
         _members.value = _band.value?.members
     }
 
