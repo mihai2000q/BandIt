@@ -43,6 +43,9 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
                 resources.getString(R.string.album_add_toast)
             )
             super.dismiss()
+            albumEtName.setText("")
+            albumEtReleaseDate.setText("")
+            albumEtLabel.setText("")
         }
     }
 

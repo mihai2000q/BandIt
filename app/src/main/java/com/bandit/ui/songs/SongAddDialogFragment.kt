@@ -43,6 +43,9 @@ class SongAddDialogFragment : SongDialogFragment() {
                 resources.getString(R.string.song_add_toast)
             )
             super.dismiss()
+            songEtName.setText("")
+            songEtReleaseDate.setText("")
+            songEtDuration.setText("")
         }
     }
 

@@ -57,6 +57,7 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
             scheduleEtDate.setText("")
             scheduleEtTime.setText("")
             scheduleEtDuration.setText("")
+            typeIndex = 0
             super.dismiss()
         }
     }

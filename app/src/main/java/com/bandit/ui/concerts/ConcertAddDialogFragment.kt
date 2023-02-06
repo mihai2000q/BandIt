@@ -57,6 +57,13 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                 super.requireContext(),
                 resources.getString(R.string.concert_add_toast)
             )
+            concertEtName.setText("")
+            concertEtDate.setText("")
+            concertEtTime.setText("")
+            concertEtCity.setText("")
+            concertEtCountry.setText("")
+            concertEtPlace.setText("")
+            typeIndex = 0
         }
         super.dismiss()
     }
