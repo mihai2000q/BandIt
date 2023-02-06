@@ -25,31 +25,40 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
         with(binding) {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    concertButton
-                )
-                val concert = Concert(
-                    name = concertEtName.text.toString(),
-                    dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
-                        concertEtTime.text.toString()),
-                    duration = Duration.ZERO,
-                    bandId = DILocator.database.currentBand.id,
-                    city = concertEtCity.text.toString(),
-                    country = concertEtCountry.text.toString(),
-                    place = concertEtPlace.text.toString(),
-                    concertType = BandItEnums.Concert.Type.values()[typeIndex],
-                )
-                viewModel.addConcert(concert)
-                scheduleViewModel.addEvent(ConcertMapper.fromConcertToEvent(concert))
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.concert_add_toast)
-                )
-                super.dismiss()
+                if(validateFields())
+                    addConcert()
             }
         }
+    }
+
+    private fun addConcert() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                concertButton
+            )
+            val concert = Concert(
+                name = concertEtName.text.toString(),
+                dateTime = ParserUtils.parseDateTime(
+                    concertEtDate.text.toString(),
+                    concertEtTime.text.toString()
+                ),
+                duration = Duration.ZERO,
+                bandId = DILocator.database.currentBand.id,
+                city = concertEtCity.text.toString(),
+                country = concertEtCountry.text.toString(),
+                place = concertEtPlace.text.toString(),
+                concertType = BandItEnums.Concert.Type.values()[typeIndex],
+            )
+            viewModel.addConcert(concert)
+            scheduleViewModel.addEvent(ConcertMapper.fromConcertToEvent(concert))
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.concert_add_toast)
+            )
+        }
+        super.dismiss()
     }
 
     companion object {

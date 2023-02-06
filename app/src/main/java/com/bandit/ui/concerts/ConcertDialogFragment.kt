@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
@@ -61,6 +62,25 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
             this@ConcertDialogFragment,
             BandItEnums.Concert.Type.values()
         )
+    }
+
+    protected open fun validateFields(): Boolean {
+        with(binding) {
+            if(concertEtName.text.isNullOrEmpty()) {
+                concertEtName.error = resources.getString(R.string.add_name_validation)
+                return false
+            }
+            if(concertEtDate.text.isNullOrEmpty()) {
+                concertEtDate.error = resources.getString(R.string.add_date_validation)
+                return false
+            }
+            if(concertEtTime.text.isNullOrEmpty()) {
+                concertEtTime.error = resources.getString(R.string.add_time_validation)
+                return false
+            }
+            //duration
+        }
+        return true
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
