@@ -68,14 +68,6 @@ class FirebaseAuthenticator : Authenticator {
         return result
     }
 
-    override suspend fun updateDisplayName(displayName: String) {
-        _currentUser?.updateProfile(
-            userProfileChangeRequest {
-                this.displayName = displayName
-            }
-        )?.await()
-    }
-
     override fun signOut() {
         _auth.signOut()
     }
