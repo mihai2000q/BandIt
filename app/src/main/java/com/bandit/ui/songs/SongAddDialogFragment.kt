@@ -17,25 +17,32 @@ class SongAddDialogFragment : SongDialogFragment() {
         with(binding) {
             songButton.setText(R.string.bt_add)
             songButton.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    songButton
-                )
-                viewModel.addSong(
-                    Song(
-                        songEtName.text.toString(),
-                        DILocator.database.currentBand.id,
-                        ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                        ParserUtils.parseDuration(songEtDuration.text.toString())
-                    )
-                )
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.song_add_toast)
-                )
-                super.dismiss()
+                if(validateFields())
+                    addSong()
             }
+        }
+    }
+
+    private fun addSong() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                songButton
+            )
+            viewModel.addSong(
+                Song(
+                    songEtName.text.toString(),
+                    DILocator.database.currentBand.id,
+                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
+                    ParserUtils.parseDuration(songEtDuration.text.toString())
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.song_add_toast)
+            )
+            super.dismiss()
         }
     }
 
