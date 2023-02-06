@@ -45,10 +45,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
             firstLoginBtNext.setOnClickListener { firstLoginBtNext() }
-            // TODO: on last phase it stays disabled
-            /*firstLoginEtString.addTextChangedListener {
-                firstLoginBtNext.isEnabled = it.toString().isNotEmpty()
-            }*/
         }
     }
 
@@ -62,12 +58,20 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             when (phase) {
                 0 -> {
                     viewModel.name.value = firstLoginEtString.text.toString()
+                    if(firstLoginEtString.text.isNullOrEmpty()) {
+                        firstLoginEtString.error = resources.getString(R.string.et_name_validation)
+                        return@with
+                    }
                     phase(resources.getString(R.string.first_login_tv_subject_nickname))
                 }
                 1 -> {
                     viewModel.nickname.value = firstLoginEtString.text.toString()
+                    if(firstLoginEtString.text.isNullOrEmpty()) {
+                        firstLoginEtString.error = resources.getString(R.string.et_nickname_validation)
+                        return@with
+                    }
                     phase(resources.getString(R.string.first_login_tv_subject_role))
-                    firstLoginEtString.visibility = View.INVISIBLE
+                    firstLoginEtString.visibility = View.GONE
                     firstLoginSpinnerRole.visibility = View.VISIBLE
                     AndroidUtils.hideKeyboard(
                         super.requireActivity(),
