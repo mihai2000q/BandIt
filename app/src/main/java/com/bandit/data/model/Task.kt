@@ -7,6 +7,6 @@ data class Task(
     val checked: Boolean,
     val message: String,
     val bandId: Long,
-    val createdOn: LocalDateTime,
+    val createdOn: LocalDateTime = LocalDateTime.now(),
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : BaseModel(id)

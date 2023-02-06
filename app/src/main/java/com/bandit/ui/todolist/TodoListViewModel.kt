@@ -15,6 +15,7 @@ class TodoListViewModel : ViewModel() {
     private val _repository = TaskRepository(_database)
     private val _tasks = MutableLiveData(_repository.list)
     val tasks: LiveData<List<Task>> = _tasks
+    val selectedTask = MutableLiveData<Task>()
     fun addTask(task: Task) {
         viewModelScope.launch {
             launch { _repository.add(task) }.join()
