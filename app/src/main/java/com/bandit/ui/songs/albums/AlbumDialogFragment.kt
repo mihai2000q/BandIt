@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.DialogFragmentAlbumBinding
 import com.bandit.ui.songs.SongsViewModel
@@ -26,6 +27,15 @@ abstract class AlbumDialogFragment : DialogFragment() {
         return binding.root
     }
 
+    protected open fun validateFields(): Boolean {
+        with(binding) {
+            if(albumEtName.text.isNullOrEmpty()) {
+                albumEtName.error = resources.getString(R.string.add_name_validation)
+                return false
+            }
+        }
+        return true
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AndroidComponents.datePickerDialog(super.requireContext(), binding.albumEtReleaseDate, true) {

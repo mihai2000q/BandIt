@@ -26,7 +26,7 @@ abstract class SongDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    protected fun validateFields(): Boolean {
+    protected open fun validateFields(): Boolean {
         with(binding) {
             if (songEtName.text.isNullOrEmpty()) {
                 songEtName.error = resources.getString(R.string.add_name_validation)

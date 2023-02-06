@@ -27,6 +27,22 @@ class SongEditDialogFragment : SongDialogFragment() {
         }
     }
 
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedSong.value!!) {
+                if (songEtName.text.toString() == name &&
+                    songEtReleaseDate.text.toString() == releaseDate.toString() &&
+                    songEtDuration.text.toString() == duration.print()
+                ) {
+                    songEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
     private fun editSong() {
         with(binding) {
             AndroidUtils.hideKeyboard(
