@@ -54,7 +54,7 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:maxLength="5"
-                android:hint="@string/song_field_duration"
+                android:hint="@string/et_duration"
                 android:inputType="time"
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/song_button"
