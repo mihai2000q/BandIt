@@ -6,4 +6,4 @@ data class TaskDto(
     val checked: Boolean? = null,
     val message: String? = null,
     val createdOn: String? = null,
-    ) : BaseDto(id, bandId)
+) : BaseDto(id, bandId)

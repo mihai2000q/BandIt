@@ -7,21 +7,21 @@ import java.time.LocalDateTime
 object TaskMapper : Mapper<Task, TaskDto> {
     override fun fromDtoToItem(dto: TaskDto): Task {
         return Task(
-            dto.checked ?: false,
-            dto.message ?: "",
-            dto.bandId,
-            LocalDateTime.parse(dto.createdOn),
-            dto.id
+            checked = dto.checked ?: false,
+            message = dto.message ?: "",
+            bandId = dto.bandId,
+            createdOn = LocalDateTime.parse(dto.createdOn),
+            id = dto.id
         )
     }
 
     override fun fromItemToDto(item: Task): TaskDto {
         return TaskDto(
-            item.id,
-            item.bandId,
-            item.checked,
-            item.message,
-            item.createdOn.toString()
+            id = item.id,
+            bandId = item.bandId,
+            checked = item.checked,
+            message = item.message,
+            createdOn = item.createdOn.toString()
         )
     }
 }
