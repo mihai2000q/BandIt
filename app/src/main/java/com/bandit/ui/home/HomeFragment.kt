@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
                 viewLifecycleOwner,
                 bandViewModel.band
             )
+            // focused in case the use pressed enter to log in
+            homeHeader.headerSwitchModes.clearFocus()
             homeHeader.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(
                 homeSvTableLayout,
@@ -58,6 +60,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun drawerHeader() {
+        // TODO: Fix needed
         /*super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
             .text = DILocator.database.currentAccount.name
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
