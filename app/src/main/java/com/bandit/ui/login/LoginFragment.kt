@@ -27,7 +27,6 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
-    private val _auth = DILocator.authenticator
     private val _database = DILocator.database
 
     override fun onCreateView(
@@ -59,22 +58,13 @@ class LoginFragment : Fragment() {
                 )
             }
             loginBtLogin.setOnClickListener {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    binding.loginEtPassword
+                )
                 lifecycleScope.launch {
-                    if(validateFields()) {
-                        runBlocking {
-                            viewModel.signInWithEmailAndPassword(
-                                loginEtEmail.text.toString(),
-                                loginEtPassword.text.toString()
-                            )
-                            if (_auth.currentUser!!.isEmailVerified)
-                                login()
-                            else {
-                                loginEtEmail.error =
-                                    resources.getString(R.string.et_email_validation_email_verified)
-                                _auth.signOut()
-                            }
-                        }
-                    }
+                    loginButtonOnClick()
                 }
             }
             loginBtSignup.setOnClickListener {
@@ -86,6 +76,45 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private suspend fun loginButtonOnClick() {
+        with(binding) {
+            if(validateFields()) {
+                if(_database.isEmailInUse(loginEtEmail.text.toString())) {
+                    runBlocking {
+                        viewModel.signInWithEmailAndPassword(
+                            loginEtEmail.text.toString(),
+                            loginEtPassword.text.toString(),
+                            { loginOnSuccess() }
+                        ) { loginOnFailure() }
+                    }
+                }
+                else {
+                    loginEtEmail.error = resources.getString(R.string.et_email_validation_email_not_used)
+                    loginEtPassword.setText("")
+                }
+            }
+        }
+    }
+
+    private fun loginOnSuccess() {
+        // TODO: Remove comment, but for debugging purposes this will be deactivated
+        /*if (_auth.currentUser!!.isEmailVerified)
+            login()
+        else {
+            binding.loginEtEmail.error =
+                resources.getString(R.string.et_email_validation_email_verified)
+            _auth.signOut()
+        }*/
+        login()
+    }
+
+    private fun loginOnFailure() {
+        with(binding) {
+            loginEtPassword.error = resources.getString(R.string.et_pass_validation_incorrect)
+            loginEtPassword.setText("")
+        }
     }
 
     private fun validateFields(): Boolean {
@@ -113,11 +142,6 @@ class LoginFragment : Fragment() {
     private fun login() {
         var result: Boolean? = null
         lifecycleScope.launch {
-            AndroidUtils.hideKeyboard(
-                super.requireActivity(),
-                Context.INPUT_METHOD_SERVICE,
-                binding.loginEtPassword
-            )
             launch { result = _database.isUserAccountSetup() }.join()
 
             if (result == true) {

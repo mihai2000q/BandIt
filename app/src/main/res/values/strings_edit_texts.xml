@@ -2,6 +2,7 @@
 <resources>
     <string name="et_email">Email</string>
     <string name="et_name">Name*</string>
+    <string name="et_name_non_mandatory">Name</string>
     <string name="et_release_date">Release Date</string>
     <string name="et_label">Label</string>
     <string name="et_type">Type</string>

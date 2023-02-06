@@ -66,9 +66,10 @@ class FirebaseDatabase : Database {
 
     override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
         async {
+            val auth = DILocator.authenticator
             _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
                 .document(generateDocumentNameUserUid())
-                .set(AccountSetupDto(isAccountSetup, DILocator.authenticator.currentUser!!.uid))
+                .set(UserAccountDto(isAccountSetup, auth.currentUser!!.uid, auth.currentUser!!.email))
                 .await()
             return@async
         }
@@ -80,7 +81,7 @@ class FirebaseDatabase : Database {
                 .document(generateDocumentNameUserUid())
                 .get()
                 .await()
-                .toObject(AccountSetupDto::class.java)
+                .toObject(UserAccountDto::class.java)
                 ?.accountSetup
         }
     }.await()
@@ -152,6 +153,18 @@ class FirebaseDatabase : Database {
             return@async
         }
     }.await()
+
+    override suspend fun isEmailInUse(email: String): Boolean =
+        coroutineScope {
+            async {
+                return@async _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
+                    .get()
+                    .await()
+                    .toObjects<UserAccountDto>()
+                    .filter { it.email?.lowercase() == email.lowercase() }
+                    .size == 1
+            }
+        }.await()
 
     override fun clearData() {
         _currentAccount = Account.EMPTY

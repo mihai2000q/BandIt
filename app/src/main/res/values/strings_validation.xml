@@ -3,7 +3,10 @@
     <string name="et_email_validation_empty">You must enter an email</string>
     <string name="et_email_validation_email">The entered text is not an email</string>
     <string name="et_email_validation_email_verified">Please verify your email first</string>
+    <string name="et_email_validation_email_already_used">This email is already in use</string>
+    <string name="et_email_validation_email_not_used">There is no account linked to this email</string>
     <string name="et_pass_validation_empty">You must enter your password</string>
+    <string name="et_pass_validation_incorrect">Incorrect Password</string>
     <string name="et_pass_validation_minimum">Your password must have at least 8 characters</string>
     <string name="et_name_validation">You must enter a name</string>
     <string name="et_date_validation">You must enter a date</string>

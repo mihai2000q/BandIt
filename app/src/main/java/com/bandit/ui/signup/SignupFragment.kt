@@ -9,17 +9,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentSignupBinding
+import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
+import kotlinx.coroutines.launch
 
 class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
+    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +43,19 @@ class SignupFragment : Fragment() {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
             signupButton.setOnClickListener {
-                if(validateFields())
-                    signUp()
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    binding.signupTitle
+                )
+                lifecycleScope.launch {
+                    if (validateFields()) {
+                        if (!_database.isEmailInUse(signupEtEmail.text.toString()))
+                            signUp()
+                        else
+                            signupEtEmail.error = resources.getString(R.string.et_email_validation_email_already_used)
+                    }
+                }
             }
         }
     }
@@ -73,11 +88,6 @@ class SignupFragment : Fragment() {
     }
     private fun signUp() {
         with(binding) {
-            AndroidUtils.hideKeyboard(
-                super.requireActivity(),
-                Context.INPUT_METHOD_SERVICE,
-                binding.signupTitle
-            )
             viewModel.email.value = signupEtEmail.text.toString()
             viewModel.createUser(signupEtPassword.text.toString())
             AndroidUtils.toastNotification(
