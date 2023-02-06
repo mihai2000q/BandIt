@@ -12,6 +12,8 @@ import com.bandit.util.ParserUtils
 
 class AlbumAddDialogFragment : AlbumDialogFragment() {
 
+    private val _database = DILocator.database
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -33,7 +35,7 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
             viewModel.addAlbum(
                 Album(
                     albumEtName.text.toString(),
-                    DILocator.database.currentBand.id,
+                    _database.currentBand.id,
                     ParserUtils.parseDate(albumEtReleaseDate.text.toString()),
                     albumEtLabel.text.toString()
                 )

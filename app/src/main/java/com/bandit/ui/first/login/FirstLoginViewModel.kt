@@ -10,20 +10,22 @@ import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
 class FirstLoginViewModel : ViewModel() {
+    private val _auth = DILocator.authenticator
+    private val _database = DILocator.database
     val name = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val role = MutableLiveData<BandItEnums.Account.Role>()
     val rememberMe = MutableLiveData<Boolean>()
     fun createAccount() {
         viewModelScope.launch {
-            DILocator.database.add(
+            _database.add(
                 Account(
                     name.value!!,
                     nickname.value!!,
                     role.value!!,
                     null,
-                    DILocator.authenticator.currentUser?.email ?: "",
-                    userUid = DILocator.authenticator.currentUser?.uid
+                    _auth.currentUser?.email ?: "",
+                    userUid = _auth.currentUser?.uid
                 )
             )
         }

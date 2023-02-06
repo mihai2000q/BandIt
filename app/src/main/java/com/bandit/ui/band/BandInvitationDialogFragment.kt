@@ -18,6 +18,7 @@ class BandInvitationDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentBandInvitationBinding? = null
     private val binding get() = _binding!!
     private val bandViewModel: BandViewModel by activityViewModels()
+    private val _database = DILocator.database
     private var clicked = false
 
     override fun onCreateView(
@@ -31,14 +32,14 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val bandInvitation = DILocator.database.currentBandInvitation
+            val bandInvitation = _database.currentBandInvitation
             bandInvitationTvTitle.text = buildString {
                 append("You have been invited to ")
                 append(bandInvitation.band.name)
             }
             bandInvitationBtAccept.setOnClickListener {
                 lifecycleScope.launch {
-                    launch { DILocator.database.acceptBandInvitation() }.join()
+                    launch { _database.acceptBandInvitation() }.join()
                     bandViewModel.refresh()
                     clicked = true
                     super.dismiss()
@@ -55,7 +56,7 @@ class BandInvitationDialogFragment : DialogFragment() {
         super.onDismiss(dialog)
         if(clicked) return
         lifecycleScope.launch {
-            DILocator.database.rejectBandInvitation()
+            _database.rejectBandInvitation()
         }
     }
 

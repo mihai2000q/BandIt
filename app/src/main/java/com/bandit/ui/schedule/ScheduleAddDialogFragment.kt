@@ -18,6 +18,7 @@ import com.bandit.util.ParserUtils
 class ScheduleAddDialogFragment : ScheduleDialogFragment() {
 
     private val concertViewModel: ConcertsViewModel by activityViewModels()
+    private val _database = DILocator.database
     val date = MutableLiveData("")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
                     scheduleEtTime.text.toString()),
                 duration = ParserUtils.parseDuration(scheduleEtDuration.text.toString()),
                 type = BandItEnums.Event.Type.values()[typeIndex],
-                bandId = DILocator.database.currentBand.id
+                bandId = _database.currentBand.id
             )
             viewModel.addEvent(event)
             if(event.type == BandItEnums.Event.Type.Concert)

@@ -18,6 +18,7 @@ import java.time.Duration
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
+    private val _database = DILocator.database
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +46,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                     concertEtTime.text.toString()
                 ),
                 duration = Duration.ZERO,
-                bandId = DILocator.database.currentBand.id,
+                bandId = _database.currentBand.id,
                 city = concertEtCity.text.toString(),
                 country = concertEtCountry.text.toString(),
                 place = concertEtPlace.text.toString(),

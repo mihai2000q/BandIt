@@ -11,6 +11,7 @@ import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongAddDialogFragment : SongDialogFragment() {
+    private val _database = DILocator.database
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +34,7 @@ class SongAddDialogFragment : SongDialogFragment() {
             viewModel.addSong(
                 Song(
                     songEtName.text.toString(),
-                    DILocator.database.currentBand.id,
+                    _database.currentBand.id,
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
                     ParserUtils.parseDuration(songEtDuration.text.toString())
                 )

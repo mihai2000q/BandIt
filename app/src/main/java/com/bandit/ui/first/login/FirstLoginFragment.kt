@@ -25,6 +25,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var _binding: FragmentFirstLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FirstLoginViewModel by activityViewModels()
+    private val _database = DILocator.database
     private var phase = 0
     private var roleIndex = 0
 
@@ -89,7 +90,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
                 3 -> {
                     lifecycleScope.launch {
-                        DILocator.database.init()
+                        _database.init()
                     }
                     PreferencesUtils.savePreference(
                         super.requireActivity(),
@@ -141,7 +142,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         )
         viewModel.createAccount()
         lifecycleScope.launch {
-            DILocator.database.setUserAccountSetup(true)
+            _database.setUserAccountSetup(true)
         }
     }
 

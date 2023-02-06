@@ -20,6 +20,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
+    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,14 +63,14 @@ class HomeFragment : Fragment() {
     private fun drawerHeader() {
         // TODO: Fix needed
         /*super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
-            .text = DILocator.database.currentAccount.name
+            .text = _database.currentAccount.name
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
-            .text = DILocator.database.currentAccount.email
+            .text = _database.currentAccount.email
     */
     }
 
     private fun bandInvitation() {
-        if(!DILocator.database.currentBandInvitation.isEmpty()) {
+        if(!_database.currentBandInvitation.isEmpty()) {
             val bandInvitationDialogFragment = BandInvitationDialogFragment()
             AndroidUtils.showDialogFragment(bandInvitationDialogFragment, childFragmentManager)
         }
