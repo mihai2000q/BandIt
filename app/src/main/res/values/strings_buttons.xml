@@ -4,6 +4,7 @@
     <string name="bt_save">Save</string>
     <string name="bt_filter">Filter</string>
     <string name="bt_sign_out">Sign Out</string>
+    <string name="bt_sign_up">Sign Up</string>
     <string name="bt_create">Create</string>
     <string name="bt_invite">Invite</string>
     <string name="bt_reject">Reject</string>

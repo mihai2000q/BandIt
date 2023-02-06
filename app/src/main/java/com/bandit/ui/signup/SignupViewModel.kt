@@ -9,13 +9,12 @@ import kotlinx.coroutines.launch
 
 class SignupViewModel : ViewModel() {
     val email = MutableLiveData<String>()
-    val password = MutableLiveData<String>()
-    fun createUser() {
+    fun createUser(password: String) {
         viewModelScope.launch {
             launch {
                 DILocator.authenticator.createUser(
                     email.value!!,
-                    password.value!!
+                    password
                 )
             }.join()
             launch { DILocator.database.setUserAccountSetup(false) }.join()

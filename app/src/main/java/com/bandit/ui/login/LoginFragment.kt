@@ -80,21 +80,21 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        with(binding){
+        with(binding) {
             if(loginEtEmail.text.isNullOrEmpty()) {
-                loginEtEmail.error = resources.getText(R.string.login_et_email_validation_empty)
+                loginEtEmail.error = resources.getText(R.string.et_email_validation_empty)
                 return false
             }
             if(!Patterns.EMAIL_ADDRESS.matcher(loginEtEmail.text).matches()) {
-                loginEtEmail.error = resources.getText(R.string.login_et_email_validation_email)
+                loginEtEmail.error = resources.getText(R.string.et_email_validation_email)
                 return false
             }
             if(loginEtPassword.text.isNullOrEmpty()) {
-                loginEtPassword.error = resources.getText(R.string.login_et_pass_validation_empty)
+                loginEtPassword.error = resources.getText(R.string.et_pass_validation_empty)
                 return false
             }
-            if(loginEtPassword.text.length < 8) {
-                loginEtPassword.error = resources.getText(R.string.login_et_pass_validation_minimum)
+            if(loginEtPassword.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
+                loginEtPassword.error = resources.getText(R.string.et_pass_validation_minimum)
                 return false
             }
         }

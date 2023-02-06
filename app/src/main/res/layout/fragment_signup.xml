@@ -14,20 +14,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ProgressBar
-            android:id="@+id/signup_progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:max="2"
-            android:scaleX="0.75"
-            android:scaleY="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/signup_title"
             android:layout_width="wrap_content"
@@ -35,88 +21,93 @@
             android:layout_marginVertical="16dp"
             android:text="@string/sign_up_title"
             android:textSize="48sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/signup_iv_logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.522"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_progress_bar"
-            app:layout_constraintVertical_bias="0.01999998" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/signup_bt_cancel"
+            android:id="@+id/signup_bt_go_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:backgroundTint="@color/eton_blue"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:text="@string/bt_cancel"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:text="@string/bt_go_back"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/signup_bt_next"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
-            app:layout_constraintVertical_bias="0.75" />
-
-        <Button
-            android:id="@+id/signup_bt_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:text="@string/bt_next"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/signup_bt_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_button" />
+
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.25"
+            android:scaleY="1.25"
+            android:text="@string/bt_sign_up"
+            app:layout_constraintBottom_toTopOf="@+id/signup_bt_go_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_et_password"
+            app:layout_constraintVertical_bias="0.22000003" />
 
         <TextView
-            android:id="@+id/signup_tv_subject"
+            android:id="@+id/signup_tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_margin="16dp"
             android:text="@string/tv_email"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/signup_bt_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintBottom_toTopOf="@+id/signup_tv_password"
+            app:layout_constraintEnd_toEndOf="@+id/signup_tv_password"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/signup_tv_password"
+            app:layout_constraintTop_toBottomOf="@+id/signup_title"
+            app:layout_constraintVertical_bias="0.38"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-        <EditText
-            android:id="@+id/signup_et_string"
+        <TextView
+            android:id="@+id/signup_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/tv_password"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/signup_et_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_tv_email" />
+
+        <EditText
+            android:id="@+id/signup_et_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/signup_bt_cancel"
+            app:layout_constraintBottom_toBottomOf="@+id/signup_tv_email"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
-            app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
-            app:layout_constraintVertical_bias="0.6"
-            android:autofillHints=""
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/signup_tv_email"
             tools:ignore="LabelFor" />
 
         <EditText
             android:id="@+id/signup_et_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/signup_bt_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/signup_tv_subject"
-            app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
-            app:layout_constraintVertical_bias="0.6"
-            android:autofillHints=""
+            app:layout_constraintBottom_toBottomOf="@+id/signup_tv_password"
+            app:layout_constraintEnd_toEndOf="@+id/signup_et_email"
+            app:layout_constraintStart_toStartOf="@+id/signup_et_email"
+            app:layout_constraintTop_toTopOf="@+id/signup_tv_password"
             tools:ignore="LabelFor" />
 
         <ImageView
@@ -124,13 +115,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_iv_logo"
-            android:scaleX="4"
-            android:scaleY="4"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:layout_constraintBottom_toTopOf="@+id/signup_et_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_title"
-            app:layout_constraintVertical_bias="0.25"
             app:srcCompat="@mipmap/ic_logo_foreground" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
