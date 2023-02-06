@@ -27,6 +27,8 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
+    private val _auth = DILocator.authenticator
+    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,14 +60,21 @@ class LoginFragment : Fragment() {
             }
             loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
-                    if(validateFields())
+                    if(validateFields()) {
                         runBlocking {
                             viewModel.signInWithEmailAndPassword(
                                 loginEtEmail.text.toString(),
-                                loginEtPassword.text.toString(),
-                                { login() }
+                                loginEtPassword.text.toString()
                             )
+                            if (_auth.currentUser!!.isEmailVerified)
+                                login()
+                            else {
+                                loginEtEmail.error =
+                                    resources.getString(R.string.et_email_validation_email_verified)
+                                _auth.signOut()
+                            }
                         }
+                    }
                 }
             }
             loginBtSignup.setOnClickListener {
@@ -109,10 +118,10 @@ class LoginFragment : Fragment() {
                 Context.INPUT_METHOD_SERVICE,
                 binding.loginEtPassword
             )
-            launch { result = DILocator.database.isUserAccountSetup() }.join()
+            launch { result = _database.isUserAccountSetup() }.join()
 
             if (result == true) {
-                launch { DILocator.database.init() }.join()
+                launch { _database.init() }.join()
                 PreferencesUtils.savePreference(
                     super.requireActivity(),
                     Constants.Preferences.REMEMBER_ME,

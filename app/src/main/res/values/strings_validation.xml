@@ -2,11 +2,12 @@
 <resources>
     <string name="et_email_validation_empty">You must enter an email</string>
     <string name="et_email_validation_email">The entered text is not an email</string>
+    <string name="et_email_validation_email_verified">Please verify your email first</string>
     <string name="et_pass_validation_empty">You must enter your password</string>
     <string name="et_pass_validation_minimum">Your password must have at least 8 characters</string>
     <string name="et_name_validation">You must enter a name</string>
     <string name="et_date_validation">You must enter a date</string>
     <string name="et_time_validation">You must enter a time</string>
-    <string name="et_nickname_validation">You must enter a time</string>
+    <string name="et_nickname_validation">You must enter a nickname</string>
     <string name="nothing_changed_validation">You must make a change</string>
 </resources>

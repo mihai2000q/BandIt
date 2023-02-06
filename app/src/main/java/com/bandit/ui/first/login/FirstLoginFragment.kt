@@ -100,6 +100,10 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                         super.requireActivity().findViewById(R.id.main_drawer_layout)
                     )
+                    AndroidUtils.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.first_login_toast)
+                    )
                     findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
                 }
                 else -> {}
