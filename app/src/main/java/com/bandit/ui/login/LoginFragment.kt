@@ -2,6 +2,7 @@ package com.bandit.ui.login
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
+            //press enter to login
             loginEtPassword.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     loginBtLogin.callOnClick()
@@ -56,13 +58,14 @@ class LoginFragment : Fragment() {
             }
             loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
-                    runBlocking {
-                        viewModel.signInWithEmailAndPassword(
-                            loginEtEmail.text.toString(),
-                            loginEtPassword.text.toString(),
-                            { login() }
-                        )
-                    }
+                    if(validateFields())
+                        runBlocking {
+                            viewModel.signInWithEmailAndPassword(
+                                loginEtEmail.text.toString(),
+                                loginEtPassword.text.toString(),
+                                { login() }
+                            )
+                        }
                 }
             }
             loginBtSignup.setOnClickListener {
@@ -74,6 +77,28 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun validateFields(): Boolean {
+        with(binding){
+            if(loginEtEmail.text.isNullOrEmpty()) {
+                loginEtEmail.error = resources.getText(R.string.login_et_email_validation_empty)
+                return false
+            }
+            if(!Patterns.EMAIL_ADDRESS.matcher(loginEtEmail.text).matches()) {
+                loginEtEmail.error = resources.getText(R.string.login_et_email_validation_email)
+                return false
+            }
+            if(loginEtPassword.text.isNullOrEmpty()) {
+                loginEtPassword.error = resources.getText(R.string.login_et_pass_validation_empty)
+                return false
+            }
+            if(loginEtPassword.text.length < 8) {
+                loginEtPassword.error = resources.getText(R.string.login_et_pass_validation_minimum)
+                return false
+            }
+        }
+        return true
     }
 
     private fun login() {
@@ -100,6 +125,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else if (result == false) {
                 findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
+                // TODO: use safe args instead
                 val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
                 firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
             }
