@@ -30,7 +30,7 @@ abstract class AlbumDialogFragment : DialogFragment() {
     protected open fun validateFields(): Boolean {
         with(binding) {
             if(albumEtName.text.isNullOrEmpty()) {
-                albumEtName.error = resources.getString(R.string.add_name_validation)
+                albumEtName.error = resources.getString(R.string.et_name_validation)
                 return false
             }
         }

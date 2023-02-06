@@ -29,7 +29,7 @@ abstract class SongDialogFragment : DialogFragment() {
     protected open fun validateFields(): Boolean {
         with(binding) {
             if (songEtName.text.isNullOrEmpty()) {
-                songEtName.error = resources.getString(R.string.add_name_validation)
+                songEtName.error = resources.getString(R.string.et_name_validation)
                 return false
             }
         }

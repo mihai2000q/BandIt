@@ -1,5 +1,6 @@
 package com.bandit.ui.schedule
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
@@ -23,22 +24,52 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 scheduleSpinnerType.setSelection(it.type.ordinal)
             }
             scheduleButton.setOnClickListener {
-                viewModel.editEvent(
-                    Event(
-                        scheduleEtName.text.toString(),
-                        ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
-                        ParserUtils.parseDuration(scheduleEtDuration.text.toString()),
-                        BandItEnums.Event.Type.values()[typeIndex],
-                        viewModel.selectedEvent.value!!.bandId,
-                        viewModel.selectedEvent.value!!.id
-                    )
-                )
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.event_edit_toast)
-                )
-                super.dismiss()
+                if(validateFields())
+                    editEvent()
             }
+        }
+    }
+
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedEvent.value!!) {
+                if (scheduleEtName.text.toString() == name &&
+                    scheduleEtDate.text.toString() == dateTime.toLocalDate().toString() &&
+                    scheduleEtTime.text.toString() == dateTime.toLocalTime().toString() &&
+                    scheduleEtDuration.text.toString() == duration.print() &&
+                    BandItEnums.Event.Type.values()[typeIndex] == type
+                ) {
+                    scheduleEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
+    private fun editEvent() {
+        with(binding) {
+            AndroidUtils.hideKeyboard(
+                super.requireActivity(),
+                Context.INPUT_METHOD_SERVICE,
+                scheduleButton
+            )
+            viewModel.editEvent(
+                Event(
+                    scheduleEtName.text.toString(),
+                    ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
+                    ParserUtils.parseDuration(scheduleEtDuration.text.toString()),
+                    BandItEnums.Event.Type.values()[typeIndex],
+                    viewModel.selectedEvent.value!!.bandId,
+                    viewModel.selectedEvent.value!!.id
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.event_edit_toast)
+            )
+            super.dismiss()
         }
     }
 

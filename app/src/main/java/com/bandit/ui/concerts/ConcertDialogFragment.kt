@@ -67,15 +67,15 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
     protected open fun validateFields(): Boolean {
         with(binding) {
             if(concertEtName.text.isNullOrEmpty()) {
-                concertEtName.error = resources.getString(R.string.add_name_validation)
+                concertEtName.error = resources.getString(R.string.et_name_validation)
                 return false
             }
             if(concertEtDate.text.isNullOrEmpty()) {
-                concertEtDate.error = resources.getString(R.string.add_date_validation)
+                concertEtDate.error = resources.getString(R.string.et_date_validation)
                 return false
             }
             if(concertEtTime.text.isNullOrEmpty()) {
-                concertEtTime.error = resources.getString(R.string.add_time_validation)
+                concertEtTime.error = resources.getString(R.string.et_time_validation)
                 return false
             }
             //duration
