@@ -35,6 +35,10 @@ object AndroidUtils {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.hideSoftInputFromWindow(view.windowToken, 0)
     }
+    fun showKeyboard(activity: Activity, inputMethodService: String, view: View) {
+        val input = activity.getSystemService(inputMethodService) as InputMethodManager
+        input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = activity.windowManager.currentWindowMetrics

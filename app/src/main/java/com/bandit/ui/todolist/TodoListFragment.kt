@@ -32,7 +32,7 @@ class TodoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewModel.tasks.observe(viewLifecycleOwner) {
-                todolistRvTasks.adapter = TaskAdapter(it, viewModel)
+                todolistRvTasks.adapter = TaskAdapter(it, viewModel, super.requireActivity())
             }
             todolistBtAdd.setOnClickListener { addButton() }
         }
@@ -56,4 +56,5 @@ class TodoListFragment : Fragment() {
             resources.getString(R.string.task_add_toast)
         )
     }
+
 }

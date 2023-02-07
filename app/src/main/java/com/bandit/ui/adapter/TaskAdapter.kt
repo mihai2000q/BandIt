@@ -1,9 +1,11 @@
 package com.bandit.ui.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Paint
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
@@ -14,7 +16,8 @@ import com.bandit.util.AndroidUtils
 
 class TaskAdapter(
     private val tasks: List<Task>,
-    private val viewModel: TodoListViewModel
+    private val viewModel: TodoListViewModel,
+    private val activity: Activity
 ) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
@@ -42,7 +45,15 @@ class TaskAdapter(
             itemView.setOnLongClickListener { onLongClick(holder, task) }
             with(binding) {
                 taskCheckBox.isChecked = task.checked
+                taskCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                    if(isChecked)
+                        taskTvMessage.paintFlags = taskTvMessage.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    else
+                        taskTvMessage.paintFlags = taskTvMessage.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                }
                 taskTvMessage.text = task.message
+                taskTvMessage.setOnLongClickListener { onLongClick(holder, task) }
+                taskTvMessage.setOnClickListener { onEdit(holder, task) }
             }
         }
     }
@@ -78,20 +89,41 @@ class TaskAdapter(
     }
 
     private fun onEdit(holder: ViewHolder, task: Task): Boolean {
-        viewModel.selectedTask.value = task
         with(holder.binding) {
-            val message = taskTvMessage.text.toString()
-            taskLayout.removeView(taskTvMessage)
-            taskLayout.addView(editText(root.context, message))
+            taskEtMessage.setText(task.message)
+            taskEtMessage.setOnKeyListener { _, keyCode, event ->
+                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    viewModel.editTask(
+                        Task(
+                            checked = task.checked,
+                            message = taskEtMessage.text.toString(),
+                            bandId = task.bandId,
+                            createdOn = task.createdOn,
+                            id = task.id
+                        )
+                    )
+                    AndroidUtils.toastNotification(
+                        holder.binding.root.context,
+                        holder.binding.root.resources.getString(R.string.task_edit_toast)
+                    )
+                    taskEtMessage.clearFocus()
+                    AndroidUtils.hideKeyboard(activity, Context.INPUT_METHOD_SERVICE, taskEtMessage)
+                    taskViewSwitcher.showNext()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+            taskEtMessage.setOnFocusChangeListener { view, hasFocus ->
+                if(!hasFocus) {
+                    view.clearFocus()
+                    AndroidUtils.hideKeyboard(activity, Context.INPUT_METHOD_SERVICE, taskEtMessage)
+                    taskViewSwitcher.showNext()
+                }
+            }
+            taskViewSwitcher.showNext()
+            taskEtMessage.requestFocus()
+            AndroidUtils.showKeyboard(activity, Context.INPUT_METHOD_SERVICE, taskEtMessage)
         }
         return true
     }
-
-    private fun editText(context: Context, message: String): EditText {
-        val editText = EditText(context)
-        editText.setText(message)
-        editText.requestFocus()
-        return editText
-    }
-
 }
