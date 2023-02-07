@@ -21,6 +21,7 @@ class FirebaseDatabase : Database {
     override val albums: MutableList<Album> = mutableListOf()
     override val events: MutableList<Event> = mutableListOf()
     override val tasks: MutableList<Task> = mutableListOf()
+    override val notes: MutableList<Note> = mutableListOf()
     override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
@@ -175,6 +176,7 @@ class FirebaseDatabase : Database {
         albums.clear()
         events.clear()
         tasks.clear()
+        notes.clear()
         homeNavigationElementsMap.clear()
     }
 
@@ -190,6 +192,7 @@ class FirebaseDatabase : Database {
             is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
             is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
             is Task -> setItem(Constants.Firebase.Database.TASKS, TaskMapper.fromItemToDto(item))
+            is Note -> setItem(Constants.Firebase.Database.TASKS, NoteMapper.fromItemToDto(item))
         }
     }
 
@@ -208,6 +211,7 @@ class FirebaseDatabase : Database {
             is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
             is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
             is Task -> deleteItem(Constants.Firebase.Database.TASKS, item)
+            is Note -> deleteItem(Constants.Firebase.Database.NOTES, item)
         }
     }
 
@@ -320,24 +324,25 @@ class FirebaseDatabase : Database {
             readAlbums()
             readEvents()
             readTasks()
+            readNotes()
         }
     }.await()
 
     private suspend fun readConcerts() = coroutineScope {
         async {
-            concerts += readItem(Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id)
+            concerts += readBandItem(Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readSongs() = coroutineScope {
         async {
-            songs += readItem(Constants.Firebase.Database.SONGS, SongMapper, _currentBand.id)
+            songs += readBandItem(Constants.Firebase.Database.SONGS, SongMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readAlbums() = coroutineScope {
         async {
-            albums += readItem(Constants.Firebase.Database.ALBUMS, AlbumMapper, _currentBand.id)
+            albums += readBandItem(Constants.Firebase.Database.ALBUMS, AlbumMapper, _currentBand.id)
             albums.forEach { a ->
                 songs.forEach { s ->
                     if(s.albumId == a.id)
@@ -349,13 +354,19 @@ class FirebaseDatabase : Database {
 
     private suspend fun readEvents() = coroutineScope {
         async {
-            events += readItem(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
+            events += readBandItem(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readTasks() = coroutineScope {
         async {
-            tasks += readItem(Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id)
+            tasks += readBandItem(Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id)
+        }
+    }.await()
+
+    private suspend fun readNotes() = coroutineScope {
+        async {
+            notes += readAccountItem(Constants.Firebase.Database.TASKS, NoteMapper, _currentBand.id)
         }
     }.await()
 
@@ -401,9 +412,9 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend inline fun <T : BaseModel, reified E : BaseDto> readItem(
+    private suspend inline fun <T : BaseModel, reified E : BaseBandDto> readBandItem(
         table: String,
-        mapper: Mapper<T, E>,
+        mapperB: MapperB<T, E>,
         bandId: Long
     ): List<T> =
     coroutineScope {
@@ -419,9 +430,31 @@ class FirebaseDatabase : Database {
                 .await()
                 .toObjects<E>()
                 .filter { it.bandId == bandId }
-                .map { mapper.fromDtoToItem(it) }
+                .map { mapperB.fromDtoToItem(it) }
         }
     }.await()
+
+    private suspend inline fun <T : BaseModel, reified E : BaseAccountDto> readAccountItem(
+        table: String,
+        mapperA: MapperA<T, E>,
+        bandId: Long
+    ): List<T> =
+        coroutineScope {
+            async {
+                return@async _firestore.collection(table)
+                    .get()
+                    .addOnSuccessListener {
+                        Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
+                    }
+                    .addOnFailureListener {
+                        Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
+                    }
+                    .await()
+                    .toObjects<E>()
+                    .filter { it.accountId == bandId }
+                    .map { mapperA.fromDtoToItem(it) }
+            }
+        }.await()
 
     private fun readHomeNavigationElements() {
         //TODO: temporary, move it to database
