@@ -22,7 +22,7 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
             }
             albumButton.setOnClickListener {
                 if(validateFields())
-                    editAlbum()
+                    AndroidUtils.loadTask(this@AlbumEditDialogFragment) { editAlbum() }
             }
         }
     }

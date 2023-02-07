@@ -27,7 +27,7 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
             date.observe(viewLifecycleOwner) { scheduleEtDate.setText(date.value) }
             scheduleButton.setOnClickListener {
                 if(validateFields())
-                    addEvent()
+                    AndroidUtils.loadTask(this@ScheduleAddDialogFragment) { addEvent() }
             }
         }
     }

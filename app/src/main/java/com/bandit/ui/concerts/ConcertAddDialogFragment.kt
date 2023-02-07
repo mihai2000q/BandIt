@@ -27,7 +27,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 if(validateFields())
-                    addConcert()
+                    AndroidUtils.loadTask(this@ConcertAddDialogFragment) { addConcert() }
             }
         }
     }

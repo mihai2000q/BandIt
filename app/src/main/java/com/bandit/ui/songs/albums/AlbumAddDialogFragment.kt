@@ -20,7 +20,7 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
             albumButton.setText(R.string.bt_add)
             albumButton.setOnClickListener {
                 if (validateFields())
-                    addAlbum()
+                    AndroidUtils.loadTask(this@AlbumAddDialogFragment) { addAlbum() }
             }
         }
     }

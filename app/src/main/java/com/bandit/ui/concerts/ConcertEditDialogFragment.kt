@@ -29,7 +29,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 if(validateFields())
-                    editConcert()
+                    AndroidUtils.loadTask(this@ConcertEditDialogFragment) { editConcert() }
             }
         }
 
