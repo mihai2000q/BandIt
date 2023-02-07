@@ -13,7 +13,6 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 class FirebaseDatabase : Database {
@@ -31,16 +30,16 @@ class FirebaseDatabase : Database {
     private var _currentBandInvitation = BandInvitation.EMPTY
     private val _firestore = Firebase.firestore
 
-    override suspend fun init() {
-        runBlocking {
+    override suspend fun init() = coroutineScope {
+        async {
             readHomeNavigationElements()
             readAccount()
             readBand()
             readBandInvitation()
-            if(_currentBand.isEmpty()) return@runBlocking
+            if (_currentBand.isEmpty()) return@async
             readItems()
         }
-    }
+    }.await()
 
     override suspend fun add(item: Any) {
         set(item)
