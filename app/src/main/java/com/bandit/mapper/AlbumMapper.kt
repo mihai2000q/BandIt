@@ -4,25 +4,25 @@ import com.bandit.data.db.dto.AlbumDto
 import com.bandit.data.model.Album
 import java.time.LocalDate
 
-object AlbumMapper : Mapper<Album, AlbumDto> {
+object AlbumMapper : MapperB<Album, AlbumDto> {
     override fun fromDtoToItem(dto: AlbumDto): Album {
         return Album(
-            dto.name ?: "",
-            dto.bandId,
-            LocalDate.parse(dto.releaseDate),
-            dto.label ?: "",
-            mutableListOf(),
-            dto.id
+            name = dto.name ?: "",
+            bandId = dto.bandId,
+            releaseDate = LocalDate.parse(dto.releaseDate),
+            label = dto.label ?: "",
+            songs = mutableListOf(),
+            id = dto.id
         )
     }
 
     override fun fromItemToDto(item: Album): AlbumDto {
         return AlbumDto(
-            item.name,
-            item.bandId,
-            item.releaseDate.toString(),
-            item.label,
-            item.id
+            name = item.name,
+            bandId = item.bandId,
+            releaseDate = item.releaseDate.toString(),
+            label = item.label,
+            id = item.id
         )
     }
 }
