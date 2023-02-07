@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.di.DILocator
+import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
 class BandInvitationDialogFragment : DialogFragment() {
@@ -38,12 +39,12 @@ class BandInvitationDialogFragment : DialogFragment() {
                 append(bandInvitation.band.name)
             }
             bandInvitationBtAccept.setOnClickListener {
-                lifecycleScope.launch {
-                    launch { _database.acceptBandInvitation() }.join()
-                    bandViewModel.refresh()
-                    clicked = true
-                    super.dismiss()
+                AndroidUtils.loadTask(this@BandInvitationDialogFragment) {
+                    _database.acceptBandInvitation()
                 }
+                bandViewModel.refresh()
+                clicked = true
+                super.dismiss()
             }
             bandInvitationBtReject.setOnClickListener {
                 super.dismiss()
