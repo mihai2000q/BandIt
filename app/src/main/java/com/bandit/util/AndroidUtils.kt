@@ -111,17 +111,20 @@ object AndroidUtils {
             }
         }
     }
-    fun loadTask(
+    suspend fun loadTask(
         activity: AppCompatActivity,
-        task: suspend () -> Unit
-    ) {
-        activity.lifecycleScope.launch {
+        task: suspend () -> Boolean?
+    ) : Boolean?
+    = coroutineScope {
+        async {
+            var result: Boolean? = null
             LoadingActivity.finish.value = false
             activity.startActivity(Intent(activity, LoadingActivity::class.java))
-            launch { task() }.join()
+            launch { result = task() }.join()
             LoadingActivity.finish.value = true
+            return@async result
         }
-    }
+    }.await()
 
     fun loadTask(
         fragment: Fragment,
