@@ -112,7 +112,7 @@ object AndroidUtils {
     // Callable methods when a job is required, so a loading screen can be displayed in the meantime
     fun loadTask(
         activity: AppCompatActivity,
-        task: () -> Unit
+        task: suspend () -> Unit
     ) {
         activity.lifecycleScope.launch {
             LoadingActivity.finish.value = false
