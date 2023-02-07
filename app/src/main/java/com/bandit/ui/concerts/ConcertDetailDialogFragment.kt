@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
-import com.bandit.constant.Constants
-import com.bandit.extension.StringExtensions.get2Characters
-import com.bandit.extension.StringExtensions.normalizeWord
+import com.bandit.extension.normalizeWord
+import com.bandit.extension.print
+import com.bandit.util.AndroidUtils
 
 class ConcertDetailDialogFragment : DialogFragment() {
 
@@ -37,20 +38,18 @@ class ConcertDetailDialogFragment : DialogFragment() {
     }
 
     private fun assignConcertDetails(concert: Concert) {
-        binding.concertDetailTitle.text = concert.name
-        binding.concertDetailDateTime.text = buildString {
-            append(concert.dateTime.toLocalDate().toString())
-            append(" ${concert.dateTime.hour.toString().get2Characters()}:")
-            append(concert.dateTime.minute.toString().get2Characters())
+        with(binding) {
+            concertDetailTitle.text = concert.name
+            concertDetailDateTime.text = concert.dateTime.print()
+            AndroidUtils.ifNullHide(concertDetailCity, concert.city)
+            AndroidUtils.ifNullHide(concertDetailCountry, concert.country)
+            AndroidUtils.ifNullHide(concertDetailPlace, concert.place)
+            AndroidUtils.ifNullHide(concertDetailType, concert.concertType?.name?.normalizeWord())
         }
-        binding.concertDetailCity.text = concert.city
-        binding.concertDetailCountry.text = concert.country
-        binding.concertDetailPlace.text = concert.place
-        binding.concertDetailType.text = concert.type.name.normalizeWord()
     }
 
     companion object {
-        const val TAG = Constants.Concert.DETAIL_CONCERT_TAG
+        const val TAG = Constants.Concert.DETAIL_TAG
     }
 
 }

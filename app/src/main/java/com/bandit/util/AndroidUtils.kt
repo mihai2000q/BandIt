@@ -6,30 +6,24 @@ import android.content.Intent
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
-import com.bandit.data.model.Band
-import com.bandit.ui.band.BandDialogFragment
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
 
 object AndroidUtils {
@@ -45,6 +39,10 @@ object AndroidUtils {
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+    fun showKeyboard(activity: Activity, inputMethodService: String, view: View) {
+        val input = activity.getSystemService(inputMethodService) as InputMethodManager
+        input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -81,34 +79,37 @@ object AndroidUtils {
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
     }
-    fun bandButton(
-        activity: FragmentActivity,
-        button: Button,
-        band: LiveData<Band>,
-        viewLifecycleOwner: LifecycleOwner,
-        createBandDialogFragment: CreateBandDialogFragment,
-        bandDialogFragment: BandDialogFragment
+    fun ifNullHide(
+        textView: TextView,
+        string: String?
     ) {
-        band.observe(viewLifecycleOwner) {
-            if (it.isEmpty())
-                button.setOnClickListener {
-                    showDialogFragment(
-                        createBandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
-            else {
-                button.text = it.name
-                button.setOnClickListener {
-                    showDialogFragment(
-                        bandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
+        if(string.isNullOrEmpty())
+            textView.visibility = View.GONE
+        else
+            textView.text = string
+    }
+    fun durationEditTextSetup(editText: EditText) {
+        var backspace = false
+        editText.setOnKeyListener { _, keyCode, event ->
+            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_DEL)) {
+                backspace = true
+                return@setOnKeyListener false
+            }
+            backspace = false
+            return@setOnKeyListener false
+        }
+        editText.addTextChangedListener {
+            if(backspace) return@addTextChangedListener
+            if(it.toString().length == 2) {
+                editText.setText(buildString {
+                    append(editText.text)
+                    append(":")
+                })
+                editText.setSelection(3)
             }
         }
     }
-
+    // Callable methods when a job is required, so a loading screen can be displayed in the meantime
     fun loadTask(
         activity: AppCompatActivity,
         task: () -> Unit

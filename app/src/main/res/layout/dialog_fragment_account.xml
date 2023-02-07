@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -29,7 +28,7 @@
             android:id="@+id/account_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/et_name"
+            android:text="@string/et_name_non_mandatory"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:ems="10"
-            android:hint="@string/et_name"
+            android:hint="@string/et_name_non_mandatory"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             app:layout_constraintBottom_toTopOf="@+id/account_tv_role"

@@ -1,29 +1,22 @@
 package com.bandit.ui.concerts
 
-import android.app.ActionBar
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
+import com.bandit.builder.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
-import com.bandit.extension.StringExtensions.get2Characters
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.*
+import com.bandit.util.AndroidUtils
 
-open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
+abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
     
     private var _binding: DialogFragmentConcertBinding? = null
-    private lateinit var datePickerDialog: DatePickerDialog
-    private lateinit var timePickerDialog: TimePickerDialog
     protected val binding get() = _binding!!
     protected val viewModel: ConcertsViewModel by activityViewModels()
     protected var typeIndex: Int = 0
@@ -39,14 +32,22 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.dialog?.window?.setLayout(
-            ActionBar.LayoutParams.WRAP_CONTENT,
-            ActionBar.LayoutParams.WRAP_CONTENT
-        )
-        datePickerDialog()
-        timePickerDialog()
-        binding.concertEtDate.setOnClickListener { datePickerDialog.show() }
-        binding.concertEtTime.setOnClickListener { timePickerDialog.show() }
+        with(binding) {
+            AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate) {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    concertEtDate
+                )
+            }
+            AndroidComponents.timePickerDialog(super.requireContext(), concertEtTime) {
+                AndroidUtils.hideKeyboard(
+                    super.requireActivity(),
+                    Context.INPUT_METHOD_SERVICE,
+                    concertEtTime
+                )
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -54,71 +55,32 @@ open class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedLi
         _binding = null
     }
 
-    protected fun parseDateTime(): LocalDateTime {
-        with(binding) {
-            return LocalDateTime.parse(
-                "${
-                    if (concertEtDate.text.isNullOrEmpty())
-                        LocalDate.now().toString()
-                    else concertEtDate.text
-                }T" +
-                        "${
-                            if (concertEtTime.text.isNullOrEmpty())
-                                LocalTime.MIDNIGHT.minusMinutes(1).toString()
-                            else
-                                concertEtTime.text
-                        }"
-            )
-        }
-    }
-
     protected fun spinnerType() {
+        AndroidComponents.spinner(
+            super.requireContext(),
+            binding.concertEtSpinnerType,
+            this@ConcertDialogFragment,
+            BandItEnums.Concert.Type.values()
+        )
+    }
+
+    protected open fun validateFields(): Boolean {
         with(binding) {
-            val adapter = ArrayAdapter(
-                super.requireContext(),
-                android.R.layout.simple_spinner_item,
-                BandItEnums.Concert.Type.values()
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            concertEtSpinnerType.adapter = adapter
-            concertEtSpinnerType.onItemSelectedListener = this@ConcertDialogFragment
+            if(concertEtName.text.isNullOrEmpty()) {
+                concertEtName.error = resources.getString(R.string.et_name_validation)
+                return false
+            }
+            if(concertEtDate.text.isNullOrEmpty()) {
+                concertEtDate.error = resources.getString(R.string.et_date_validation)
+                return false
+            }
+            if(concertEtTime.text.isNullOrEmpty()) {
+                concertEtTime.error = resources.getString(R.string.et_time_validation)
+                return false
+            }
+            //duration
         }
-    }
-
-    private fun datePickerDialog() {
-        val calendar = Calendar.getInstance()
-        datePickerDialog = DatePickerDialog(
-            this.requireContext(),
-            { _, year, month, dayOfMonth ->
-                binding.concertEtDate.setText(buildString {
-                    append("$year-")
-                    append("${(month + 1).toString().get2Characters()}-")
-                    append(dayOfMonth.toString().get2Characters())
-                })
-                datePickerDialog.dismiss()
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.datePicker.minDate = calendar.timeInMillis
-    }
-
-    private fun timePickerDialog() {
-        val calendar = Calendar.getInstance()
-        timePickerDialog = TimePickerDialog(
-            this.requireContext(),
-            { _, hourOfDay, minute ->
-                binding.concertEtTime.setText(buildString {
-                    append("${hourOfDay.toString().get2Characters()}:")
-                    append(minute.toString().get2Characters())
-                })
-                timePickerDialog.dismiss()
-            },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
-            false
-        )
+        return true
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

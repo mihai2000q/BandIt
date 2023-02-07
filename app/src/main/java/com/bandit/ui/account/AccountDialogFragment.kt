@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.findNavController
 import com.bandit.R
-import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.constant.Constants
+import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
@@ -22,6 +22,8 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
+    private val _auth = DILocator.authenticator
+    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +38,11 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         with(binding) {
             accountBtSignOut.setOnClickListener { signOut() }
             with(viewModel) {
-                accountEtName.setText(name.value)
-                accountEtNickname.setText(nickname.value)
-                accountEtRole.setText(role.value)
+                account.observe(viewLifecycleOwner) {
+                    accountEtName.setText(it.name)
+                    accountEtNickname.setText(it.nickname)
+                    accountEtRole.setText(it.role.name)
+                }
 
                 accountBtSave.setOnClickListener {
                     updateAccount(
@@ -55,31 +59,33 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         _binding = null
         accountButton.setImageDrawable(
             ContextCompat.getDrawable(
-                this.requireContext(),
+                super.requireContext(),
                 R.drawable.ic_baseline_account
             )
         )
     }
 
     private fun signOut() {
-        DILocator.authenticator.signOut()
+        _auth.signOut()
         //go back to login fragment
-        for(i in 0 until findNavController().backQueue.size)
-            findNavController().popBackStack()
-        findNavController().navigate(R.id.navigation_login)
+        val navController = super.requireActivity().findNavController(R.id.main_nav_host)
+        for(i in 0 until navController.backQueue.size)
+            navController.popBackStack()
+        navController.navigate(R.id.navigation_login)
 
         AndroidUtils.lockNavigation(
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
             super.requireActivity().findViewById(R.id.main_drawer_layout)
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
-        requireActivity().viewModelStore.clear()
-        DILocator.database.clearData()
+        super.requireActivity().viewModelStore.clear()
+        _database.clearData()
         AndroidUtils.toastNotification(
-            this.requireContext(),
+            super.requireContext(),
             resources.getString(R.string.sign_out_toast),
             Toast.LENGTH_LONG
         )
+        super.dismiss()
     }
 
     companion object {

@@ -1,15 +1,16 @@
 package com.bandit.data.db
 
-import com.bandit.data.model.Concert
 import com.bandit.constant.BandItEnums
 import com.bandit.data.db.dto.BandInvitationDto
-import com.bandit.data.model.Account
-import com.bandit.data.model.Band
-import com.bandit.data.model.BandInvitation
+import com.bandit.data.model.*
 
 interface Database {
     val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType>
     val concerts: List<Concert>
+    val songs: List<Song>
+    val albums: List<Album>
+    val events: List<Event>
+    val tasks: List<Task>
     val currentAccount: Account
     val currentBand: Band
     val currentBandInvitation: BandInvitation
@@ -19,10 +20,11 @@ interface Database {
     suspend fun edit(item: Any)
     suspend fun updateAccount(account: Account)
     suspend fun setUserAccountSetup(isAccountSetup: Boolean)
+    suspend fun isUserAccountSetup(): Boolean?
     suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto)
     suspend fun sendBandInvitation(email: String)
     suspend fun acceptBandInvitation()
     suspend fun rejectBandInvitation()
-    suspend fun isUserAccountSetup(): Boolean?
+    suspend fun isEmailInUse(email: String): Boolean
     fun clearData()
 }

@@ -7,6 +7,8 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
+import java.time.Duration
 
 class ConcertEditDialogFragment : ConcertDialogFragment() {
 
@@ -22,33 +24,63 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtTime.setText(dateTime.toLocalTime().toString())
                 concertEtCountry.setText(country)
                 concertEtPlace.setText(place)
-                concertEtSpinnerType.setSelection(type.ordinal)
+                concertEtSpinnerType.setSelection(concertType?.ordinal ?: 0)
             }
 
             concertButton.setOnClickListener {
-                viewModel.editConcert(
-                    Concert(
-                        concertEtName.text.toString(),
-                        parseDateTime(),
-                        concertEtCity.text.toString(),
-                        concertEtCountry.text.toString(),
-                        concertEtPlace.text.toString(),
-                        BandItEnums.Concert.Type.values()[typeIndex],
-                        viewModel.selectedConcert.value!!.id,
-                        viewModel.selectedConcert.value!!.bandId
-                    )
-                )
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.concert_edit_toast)
-                )
-                super.dismiss()
+                if(validateFields())
+                    editConcert()
             }
         }
 
     }
 
+    override fun validateFields(): Boolean {
+        val result = super.validateFields()
+        with(binding) {
+            with(viewModel.selectedConcert.value!!) {
+                if (concertEtName.text.toString() == name &&
+                    concertEtDate.text.toString() == dateTime.toLocalDate().toString() &&
+                    concertEtTime.text.toString() == dateTime.toLocalTime().toString() &&
+                    concertEtCity.text.toString() == city &&
+                    concertEtCountry.text.toString() == country &&
+                    concertEtPlace.text.toString() == place &&
+                    BandItEnums.Concert.Type.values()[typeIndex] == concertType
+                ) {
+                    concertEtName.error = resources.getString(R.string.nothing_changed_validation)
+                    return false
+                }
+            }
+        }
+        return result
+    }
+
+    private fun editConcert() {
+        with(binding) {
+            viewModel.editConcert(
+                Concert(
+                    name = concertEtName.text.toString(),
+                    dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
+                        concertEtTime.text.toString()),
+                    duration = Duration.ZERO,
+                    bandId = viewModel.selectedConcert.value!!.bandId,
+                    city = concertEtCity.text.toString(),
+                    country = concertEtCountry.text.toString(),
+                    place = concertEtPlace.text.toString(),
+                    concertType = BandItEnums.Concert.Type.values()[typeIndex],
+                    id = viewModel.selectedConcert.value!!.id
+                )
+            )
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.concert_edit_toast)
+            )
+            super.dismiss()
+        }
+
+    }
+
     companion object {
-        const val TAG = Constants.Concert.EDIT_CONCERT_TAG
+        const val TAG = Constants.Concert.EDIT_TAG
     }
 }

@@ -1,22 +1,20 @@
 package com.bandit.ui.concerts
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.ui.adapter.ConcertAdapter
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentConcertsBinding
-import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
+import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.ui.band.BandViewModel
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
-class ConcertsFragment : Fragment() {
+class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +25,7 @@ class ConcertsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentConcertsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,24 +34,21 @@ class ConcertsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val concertAddDialogFragment = ConcertAddDialogFragment()
         val concertFilterDialogFragment = ConcertFilterDialogFragment()
-        val concertDetailDialogFragment = ConcertDetailDialogFragment()
-        val concertEditDialogFragment = ConcertEditDialogFragment()
-        val accountDialogFragment = AccountDialogFragment(binding.concertsBtAccount)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
         with(binding) {
+            AndroidComponents.header(
+                super.requireActivity(),
+                concertsHeader.headerBtAccount,
+                concertsHeader.headerBtBand,
+                viewLifecycleOwner,
+                bandViewModel.band
+            )
+            concertsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
+            concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
+            concertsHeader.headerTvTitle.setText(R.string.title_concerts)
             bandViewModel.band.observe(viewLifecycleOwner) {
                 concertsBtAdd.isEnabled = !it.isEmpty()
                 concertsBtFilter.isEnabled = !it.isEmpty()
             }
-            AndroidUtils.bandButton(
-                super.requireActivity(),
-                concertsBtBand,
-                bandViewModel.band,
-                viewLifecycleOwner,
-                createBandDialogFragment,
-                bandDialogFragment
-            )
             concertsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,
@@ -65,45 +61,13 @@ class ConcertsFragment : Fragment() {
                     childFragmentManager
                 )
             }
-            concertsBtAccount.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    accountDialogFragment,
-                    childFragmentManager
-                )
-                concertsBtAccount.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        super.requireContext(),
-                        R.drawable.ic_baseline_account_clicked
-                    )
-                )
-            }
 
-            with(viewModel) {
-                concerts.observe(viewLifecycleOwner) {
-                    concertsList.adapter = ConcertAdapter(it.sorted(), { concert ->
-                            selectedConcert.value = concert
-                            AndroidUtils.showDialogFragment(
-                                concertDetailDialogFragment,
-                                childFragmentManager
-                            )
-                        },
-                        { concert -> selectedConcert.value = concert; return@ConcertAdapter true },
-                        { concert ->
-                            AndroidUtils.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.concert_remove_toast),
-                            )
-                            return@ConcertAdapter removeConcert(concert)
-                        }
-                    ) { concert ->
-                        selectedConcert.value = concert
-                        AndroidUtils.showDialogFragment(
-                            concertEditDialogFragment,
-                            childFragmentManager
-                        )
-                        return@ConcertAdapter true
-                    }
-                }
+            viewModel.concerts.observe(viewLifecycleOwner) {
+                concertsList.adapter = ConcertAdapter(
+                    it.sorted(),
+                    viewModel,
+                    this@ConcertsFragment.childFragmentManager
+                )
             }
         }
     }
@@ -111,5 +75,19 @@ class ConcertsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.filterConcerts(name = newText)
+        return false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.concert_filter_toast)
+        )
+        binding.concertsSearchView.clearFocus()
+        return false
     }
 }

@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
-import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.BandInvitationDialogFragment
 import com.bandit.ui.band.BandViewModel
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
@@ -23,9 +20,11 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
+    private val _database = DILocator.database
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -34,43 +33,25 @@ class HomeFragment : Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
         with(binding) {
-            AndroidUtils.bandButton(
+            AndroidComponents.header(
                 super.requireActivity(),
-                homeBtBand,
-                bandViewModel.band,
+                homeHeader.headerBtAccount,
+                homeHeader.headerBtBand,
                 viewLifecycleOwner,
-                createBandDialogFragment,
-                bandDialogFragment
+                bandViewModel.band
             )
+            // focused in case the use pressed enter to log in
+            homeHeader.headerSwitchModes.clearFocus()
+            homeHeader.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(
-                viewModel.elements.value ?: mapOf(),
                 homeSvTableLayout,
+                super.requireActivity(),
                 super.requireContext(),
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
-
-            homeBtAccount.setOnClickListener {
-                AccountDialogFragment(homeBtAccount).show(
-                    childFragmentManager,
-                    AccountDialogFragment.TAG
-                )
-                homeBtAccount.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        super.requireContext(),
-                        R.drawable.ic_baseline_account_clicked
-                    )
-                )
-            }
-
-            homeTvWelcome.text = buildString {
-                append("Welcome ")
-                append(DILocator.database.currentAccount.nickname)
-                append(", to")
-            }
         }
+        drawerHeader()
         bandInvitation()
     }
 
@@ -79,12 +60,20 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun drawerHeader() {
+        // TODO: Fix needed
+        /*super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
+            .text = _database.currentAccount.name
+        super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
+            .text = _database.currentAccount.email
+    */
+    }
+
     private fun bandInvitation() {
-        if(!DILocator.database.currentBandInvitation.isEmpty()) {
+        if(!_database.currentBandInvitation.isEmpty()) {
             val bandInvitationDialogFragment = BandInvitationDialogFragment()
             AndroidUtils.showDialogFragment(bandInvitationDialogFragment, childFragmentManager)
         }
-
     }
 
 }

@@ -10,35 +10,22 @@ import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
 class AccountViewModel : ViewModel() {
-    private val _name = MutableLiveData<String>()
-    val name: LiveData<String> = _name
-    private val _nickname = MutableLiveData<String>()
-    val nickname: LiveData<String> = _nickname
-    private val _role = MutableLiveData<String>()
-    val role: LiveData<String> = _role
-
     private val _database = DILocator.database
-    private val _currentAccount = _database.currentAccount
-    init {
-        if(!_currentAccount.isEmpty()) {
-            _name.value = _currentAccount.name
-            _nickname.value = _currentAccount.nickname
-            _role.value = _currentAccount.role.name
-        }
-    }
+    private val _account = MutableLiveData(_database.currentAccount)
+    val account: LiveData<Account> = _account
     fun updateAccount(
         name: String,
         nickname: String
     ) {
-        if(!_currentAccount.isEmpty())
+        if(!_account.value!!.isEmpty())
             viewModelScope.launch {
                 _database.updateAccount(
                     Account(
                         name,
                         nickname,
-                        _currentAccount.role,
+                        _account.value!!.role,
                         null,
-                        _currentAccount.email
+                        _account.value!!.email
                     )
                 )
             }

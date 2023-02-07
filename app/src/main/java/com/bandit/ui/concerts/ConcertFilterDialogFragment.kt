@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.bandit.R
 import com.bandit.constant.Constants
-import com.bandit.ui.concerts.ConcertsViewModel.*
+import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.util.AndroidUtils
 import java.time.LocalDate
 import java.time.LocalTime
@@ -36,20 +36,20 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 viewModel.filterConcerts(
-                    concertEtName.text.toString(),
-                    if(concertEtDate.text.toString().isEmpty())
+                    name = concertEtName.text.toString(),
+                    date = if(concertEtDate.text.toString().isEmpty())
                         null
                     else
                         LocalDate.parse(concertEtDate.text.toString()),
-                    if(concertEtTime.text.toString().isEmpty())
+                    time = if(concertEtTime.text.toString().isEmpty())
                         null
                     else
                         LocalTime.parse(concertEtTime.text.toString()),
-                    concertEtCity.text.toString(),
-                    concertEtCountry.text.toString(),
-                    concertEtPlace.text.toString(),
-                    //BandItEnums.Concert.Type.values()[typeIndex] 
-                    null
+                    //duration = Duration.ZERO,
+                    city = concertEtCity.text.toString(),
+                    country = concertEtCountry.text.toString(),
+                    place = concertEtPlace.text.toString(),
+                    //type = BandItEnums.Concert.Type.values()[typeIndex]
                 )
                 map.forEach { (key, value) ->
                     viewModel.filters.value?.replace(value, key.text.toString())
@@ -65,6 +65,6 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Concert.FILTER_CONCERT_TAG
+        const val TAG = Constants.Concert.FILTER_TAG
     }
 }

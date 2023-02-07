@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="login_toast">You are now logged in</string>
-    <string name="signup_toast">Account created</string>
+    <string name="first_login_toast">Account created successfully</string>
+    <string name="sign_up_toast">A confirmation email has been sent successfully</string>
     <string name="sign_out_toast">Signed out</string>
     <string name="create_band_toast">Band Created</string>
     <string name="invite_band_toast">Band Invitation Sent</string>
@@ -9,4 +10,21 @@
     <string name="concert_edit_toast">Concert Edited</string>
     <string name="concert_remove_toast">Concert Removed</string>
     <string name="concert_filter_toast">Concerts Filtered</string>
+    <string name="song_add_toast">Song Added</string>
+    <string name="song_edit_toast">Song Edited</string>
+    <string name="song_remove_toast">Song Removed</string>
+    <string name="song_filter_toast">Songs Filtered</string>
+    <string name="album_add_toast">Album Added</string>
+    <string name="album_edit_toast">Album Edited</string>
+    <string name="album_remove_toast">Album Removed</string>
+    <string name="album_filter_toast">Albums Filtered</string>
+    <string name="album_add_song_toast">Song Added To Album</string>
+    <string name="album_remove_song_toast">Song Removed From Album</string>
+    <string name="event_add_toast">Event Added</string>
+    <string name="event_edit_toast">Event Edited</string>
+    <string name="event_remove_toast">Event Removed</string>
+    <string name="event_filter_toast">Events Filtered</string>
+    <string name="task_add_toast">Task Added</string>
+    <string name="task_edit_toast">Task Edited</string>
+    <string name="task_remove_toast">Task Removed</string>
 </resources>

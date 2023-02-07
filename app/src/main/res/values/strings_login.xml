@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="login_bt_login">Log In</string>
-    <string name="login_bt_signup">Sign Up</string>
     <string name="login_cb_remember">Remember Me</string>
     <string name="login_tv_registered">Not Registered Yet?</string>
 </resources>

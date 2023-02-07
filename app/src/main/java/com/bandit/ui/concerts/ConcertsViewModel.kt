@@ -10,6 +10,7 @@ import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -48,14 +49,15 @@ class ConcertsViewModel : ViewModel() {
     }
     fun filterConcerts(
         name: String?,
-        date: LocalDate?,
-        time: LocalTime?,
-        city: String?,
-        country: String?,
-        place: String?,
-        type: BandItEnums.Concert.Type?
+        date: LocalDate? = null,
+        time: LocalTime? = null,
+        duration: Duration? = null,
+        city: String? = null,
+        country: String? = null,
+        place: String? = null,
+        type: BandItEnums.Concert.Type? = null
     ) {
-        _concerts.value = _repository.filterConcerts(name, date, time, city, country, place, type)
+        _concerts.value = _repository.filterConcerts(name, date, time, duration, city, country, place, type)
     }
 
     companion object {

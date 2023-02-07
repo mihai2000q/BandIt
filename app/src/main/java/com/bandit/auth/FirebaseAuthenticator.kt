@@ -2,6 +2,7 @@ package com.bandit.auth
 
 import android.util.Log
 import com.bandit.constant.Constants
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
@@ -11,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthenticator : Authenticator {
     private val _auth = Firebase.auth
-    private var _currentUser = Firebase.auth.currentUser
+    private var _currentUser = _auth.currentUser
     override val currentUser get() = _currentUser
 
     init {
@@ -35,18 +36,17 @@ class FirebaseAuthenticator : Authenticator {
                         )
                         result = true
                     }
-                    .addOnFailureListener {
-                        Log.w(
-                            Constants.Firebase.Auth.TAG,
-                            "Sign in with email and password: failed"
-                        )
-                        result = false
-                    }
                     .await()
                     .user
             }
-            // TODO: Add catch exception
-            catch (_: Exception) {}
+            // Incorrect combination throws an exception
+            catch (_: FirebaseAuthInvalidCredentialsException) {
+                Log.w(
+                    Constants.Firebase.Auth.TAG,
+                    "Sign in with email and password: failed"
+                )
+                result = false
+            }
             return@async result
         }
     }.await()
@@ -66,14 +66,6 @@ class FirebaseAuthenticator : Authenticator {
             .await()
             .user
         return result
-    }
-
-    override suspend fun updateDisplayName(displayName: String) {
-        _currentUser?.updateProfile(
-            userProfileChangeRequest {
-                this.displayName = displayName
-            }
-        )?.await()
     }
 
     override fun signOut() {

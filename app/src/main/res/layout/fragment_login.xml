@@ -35,7 +35,7 @@
             android:layout_marginHorizontal="140dp"
             android:layout_marginTop="16dp"
             android:background="@color/dark_spring_green"
-            android:text="@string/login_bt_signup"
+            android:text="@string/bt_sign_up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
