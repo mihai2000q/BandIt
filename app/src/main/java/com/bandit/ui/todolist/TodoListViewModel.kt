@@ -22,13 +22,11 @@ class TodoListViewModel : ViewModel() {
             _tasks.value = _repository.list
         }
     }
-    fun removeTask(task: Task): Boolean {
-        var result = false
+    fun removeTask(task: Task) {
         viewModelScope.launch {
-            launch { result = _repository.remove(task) }.join()
+            launch { _repository.remove(task) }.join()
             _tasks.value = _repository.list
         }
-        return result
     }
     fun editTask(task: Task) {
         viewModelScope.launch {

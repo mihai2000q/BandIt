@@ -107,11 +107,12 @@ data class ConcertAdapter(
     }
 
     private fun onDelete(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
+        viewModel.removeConcert(concert)
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.concert_remove_toast),
         )
-        return viewModel.removeConcert(concert)
+        return true
     }
 
     private fun onEdit(concert: Concert): Boolean {

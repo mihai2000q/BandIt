@@ -26,13 +26,11 @@ class ScheduleViewModel : ViewModel() {
         }
     }
 
-    fun removeEvent(event: Event): Boolean {
-        var result = false
+    fun removeEvent(event: Event) {
         viewModelScope.launch {
-            launch { result = _repository.remove(event) }.join()
+            launch { _repository.remove(event) }.join()
             refresh()
         }
-        return result
     }
 
     fun editEvent(event: Event) {

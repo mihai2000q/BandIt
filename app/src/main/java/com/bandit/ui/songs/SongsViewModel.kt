@@ -32,15 +32,13 @@ class SongsViewModel : ViewModel() {
             _songs.value = _songRepository.list
         }
     }
-    fun removeSong(song: Song): Boolean {
-        var result = false
+    fun removeSong(song: Song) {
         viewModelScope.launch {
-            launch { result = _songRepository.remove(song) }.join()
+            launch { _songRepository.remove(song) }.join()
             _songs.value = _songRepository.list
             if(song.albumId != null)
                 removeSongFromAlbum(_albums.value!!.first{ it.id == song.albumId }, song)
         }
-        return result
     }
     fun editSong(song: Song) {
         viewModelScope.launch {
@@ -66,10 +64,9 @@ class SongsViewModel : ViewModel() {
         }
     }
 
-    fun removeAlbum(album: Album): Boolean {
-        var result = false
+    fun removeAlbum(album: Album) {
         viewModelScope.launch {
-            launch { result = _albumRepository.remove(album) }.join()
+            launch { _albumRepository.remove(album) }.join()
             _albums.value = _albumRepository.list
             _songs.value!!
                 .filter { it.albumId == album.id }
@@ -79,7 +76,6 @@ class SongsViewModel : ViewModel() {
                     editSong(it)
                 }
         }
-        return result
     }
 
     fun editAlbum(album: Album) {

@@ -88,11 +88,12 @@ class TaskAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, task: Task): Boolean {
+        viewModel.removeTask(task)
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.task_remove_toast)
         )
-        return viewModel.removeTask(task)
+        return true
     }
 
     private fun onEdit(holder: ViewHolder, task: Task): Boolean {

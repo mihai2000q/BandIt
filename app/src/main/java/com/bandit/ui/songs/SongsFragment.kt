@@ -114,11 +114,12 @@ class SongsFragment : Fragment() {
                     viewModel,
                     childFragmentManager,
                     { song ->
+                        viewModel.removeSong(song)
                         AndroidUtils.toastNotification(
                             super.requireContext(),
                             resources.getString(R.string.song_remove_toast),
                         )
-                        return@SongAdapter viewModel.removeSong(song)
+                        return@SongAdapter true
                     }
                 )
             }

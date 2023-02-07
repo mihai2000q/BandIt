@@ -33,13 +33,11 @@ class ConcertsViewModel : ViewModel() {
             _concerts.value = _repository.list
         }
     }
-    fun removeConcert(concert: Concert): Boolean {
-        var result = false
+    fun removeConcert(concert: Concert) {
         viewModelScope.launch {
-            launch { result = _repository.remove(concert) }.join()
+            launch { _repository.remove(concert) }.join()
             _concerts.value = _repository.list
         }
-        return result
     }
     fun editConcert(concert: Concert) {
         viewModelScope.launch {

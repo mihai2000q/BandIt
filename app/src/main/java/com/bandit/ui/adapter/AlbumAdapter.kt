@@ -87,11 +87,12 @@ data class AlbumAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, album: Album): Boolean {
+        viewModel.removeAlbum(album)
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.album_remove_toast),
         )
-        return viewModel.removeAlbum(album)
+        return true
     }
 
     private fun onEdit(album: Album): Boolean {

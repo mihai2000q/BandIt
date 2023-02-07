@@ -87,11 +87,12 @@ class EventAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, event: Event): Boolean {
+        viewModel.removeEvent(event)
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.event_remove_toast)
         )
-        return viewModel.removeEvent(event)
+        return true
     }
     private fun onEdit(event: Event): Boolean {
         viewModel.selectedEvent.value = event
