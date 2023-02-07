@@ -43,7 +43,7 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
         return result
     }
 
-    private fun editAlbum() {
+    private suspend fun editAlbum() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

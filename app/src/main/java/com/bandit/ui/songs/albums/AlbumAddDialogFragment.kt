@@ -25,7 +25,7 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
         }
     }
 
-    private fun addAlbum() {
+    private suspend fun addAlbum() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

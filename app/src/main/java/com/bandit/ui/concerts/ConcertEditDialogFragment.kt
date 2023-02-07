@@ -55,7 +55,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
         return result
     }
 
-    private fun editConcert() {
+    private suspend fun editConcert() {
         with(binding) {
             viewModel.editConcert(
                 Concert(

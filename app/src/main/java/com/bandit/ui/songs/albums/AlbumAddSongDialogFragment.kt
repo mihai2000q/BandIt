@@ -38,9 +38,9 @@ class AlbumAddSongDialogFragment : DialogFragment() {
         with(binding) {
             albumSongsWithoutAlbum.adapter =
                 SongAdapter(
+                    this@AlbumAddSongDialogFragment,
                     viewModel.getSongsWithoutAnAlbum().sorted().reversed(),
                     viewModel,
-                    childFragmentManager,
                     { return@SongAdapter true },
                     resources.getString(R.string.album_remove_from_album),
                     false

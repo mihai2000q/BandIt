@@ -32,7 +32,7 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
         }
     }
 
-    private fun addEvent() {
+    private suspend fun addEvent() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

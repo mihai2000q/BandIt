@@ -105,9 +105,9 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
             viewModel.events.observe(viewLifecycleOwner) {
                 if(viewModel.calendarMode.value == false) return@observe
                 scheduleEventsView.adapter = EventAdapter(
+                    this@ScheduleFragment,
                     it.sorted(),
-                    viewModel,
-                    childFragmentManager
+                    viewModel
                 )
             }
             scheduleBtAdd.setOnClickListener {
@@ -130,9 +130,9 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
             viewModel.events.observe(viewLifecycleOwner) {
                 if(viewModel.calendarMode.value == true) return@observe
                 scheduleEventsView.adapter = EventAdapter(
+                    this@ScheduleFragment,
                     it.sorted(),
-                    viewModel,
-                    childFragmentManager
+                    viewModel
                 )
             }
             scheduleBtAdd.setOnClickListener {

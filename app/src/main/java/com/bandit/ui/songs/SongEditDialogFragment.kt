@@ -43,7 +43,7 @@ class SongEditDialogFragment : SongDialogFragment() {
         return result
     }
 
-    private fun editSong() {
+    private suspend fun editSong() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

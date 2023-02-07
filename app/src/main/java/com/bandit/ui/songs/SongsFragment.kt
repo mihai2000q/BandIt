@@ -75,7 +75,7 @@ class SongsFragment : Fragment() {
             )
             viewModel.albums.observe(viewLifecycleOwner) {
                 if(viewModel.albumMode.value == false) return@observe
-                songsList.adapter = AlbumAdapter(super.requireActivity(), it, viewModel, childFragmentManager)
+                songsList.adapter = AlbumAdapter(this@SongsFragment, it, viewModel)
             }
             songsSearchView.setOnQueryTextListener(
                 object : OnQueryTextListener {
@@ -110,11 +110,13 @@ class SongsFragment : Fragment() {
             viewModel.songs.observe(viewLifecycleOwner) {
                 if(viewModel.albumMode.value == true) return@observe
                 songsList.adapter = SongAdapter(
+                    this@SongsFragment,
                     it.sorted().reversed(),
                     viewModel,
-                    childFragmentManager,
                     { song ->
-                        viewModel.removeSong(song)
+                        AndroidUtils.loadTask(this@SongsFragment) {
+                            viewModel.removeSong(song)
+                        }
                         AndroidUtils.toastNotification(
                             super.requireContext(),
                             resources.getString(R.string.song_remove_toast),

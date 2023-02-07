@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.get
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Song
@@ -16,9 +16,9 @@ import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
 data class SongAdapter(
+    private val fragment: Fragment,
     private val songs: List<Song>,
     private val viewModel: SongsViewModel,
-    private val childFragmentManager: FragmentManager,
     private val onDelete: (Song) -> Boolean,
     private val deleteText: String? = null,
     private val isLongClickable: Boolean = true,
@@ -91,7 +91,7 @@ data class SongAdapter(
         viewModel.selectedSong.value = song
         AndroidUtils.showDialogFragment(
             songDetailDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
     }
 
@@ -109,7 +109,7 @@ data class SongAdapter(
         viewModel.selectedSong.value = song
         AndroidUtils.showDialogFragment(
             songEditDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
         return true
     }

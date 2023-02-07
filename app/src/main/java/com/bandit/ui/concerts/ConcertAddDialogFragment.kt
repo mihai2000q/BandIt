@@ -32,7 +32,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
         }
     }
 
-    private fun addConcert() {
+    private suspend fun addConcert() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

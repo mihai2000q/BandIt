@@ -64,9 +64,9 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
             viewModel.concerts.observe(viewLifecycleOwner) {
                 concertsList.adapter = ConcertAdapter(
+                    this@ConcertsFragment,
                     it.sorted(),
-                    viewModel,
-                    this@ConcertsFragment.childFragmentManager
+                    viewModel
                 )
             }
         }

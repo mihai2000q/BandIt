@@ -24,7 +24,7 @@ class SongAddDialogFragment : SongDialogFragment() {
         }
     }
 
-    private fun addSong() {
+    private suspend fun addSong() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

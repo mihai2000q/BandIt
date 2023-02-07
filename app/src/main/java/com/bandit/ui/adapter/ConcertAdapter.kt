@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.constant.BandItEnums
@@ -18,9 +18,9 @@ import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.util.AndroidUtils
 
 data class ConcertAdapter(
+    private val fragment: Fragment,
     private val concerts: List<Concert>,
-    private val viewModel: ConcertsViewModel,
-    private val childFragmentManager: FragmentManager
+    private val viewModel: ConcertsViewModel
 ) : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
     private val concertEditDialogFragment = ConcertEditDialogFragment()
     private val concertDetailDialogFragment = ConcertDetailDialogFragment()
@@ -92,7 +92,7 @@ data class ConcertAdapter(
         viewModel.selectedConcert.value = concert
         AndroidUtils.showDialogFragment(
             concertDetailDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
     }
 
@@ -107,7 +107,7 @@ data class ConcertAdapter(
     }
 
     private fun onDelete(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
-        viewModel.removeConcert(concert)
+        AndroidUtils.loadTask(fragment) { viewModel.removeConcert(concert) }
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.concert_remove_toast),
@@ -119,7 +119,7 @@ data class ConcertAdapter(
         viewModel.selectedConcert.value = concert
         AndroidUtils.showDialogFragment(
             concertEditDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
         return true
     }

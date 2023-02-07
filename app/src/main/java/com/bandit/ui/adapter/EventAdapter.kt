@@ -3,7 +3,7 @@ package com.bandit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Event
@@ -14,9 +14,9 @@ import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 
 class EventAdapter(
+    private val fragment: Fragment,
     private val events: List<Event>,
-    private val viewModel: ScheduleViewModel,
-    private val childFragmentManager: FragmentManager
+    private val viewModel: ScheduleViewModel
 ) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
     private val scheduleDetailDialogFragment = ScheduleDetailDialogFragment()
     private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
@@ -73,7 +73,7 @@ class EventAdapter(
         viewModel.selectedEvent.value = event
         AndroidUtils.showDialogFragment(
             scheduleDetailDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
     }
 
@@ -87,7 +87,7 @@ class EventAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, event: Event): Boolean {
-        viewModel.removeEvent(event)
+        AndroidUtils.loadTask(fragment) { viewModel.removeEvent(event) }
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.event_remove_toast)
@@ -98,7 +98,7 @@ class EventAdapter(
         viewModel.selectedEvent.value = event
         AndroidUtils.showDialogFragment(
             scheduleEditDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
         return true
     }
