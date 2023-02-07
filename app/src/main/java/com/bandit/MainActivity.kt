@@ -1,11 +1,12 @@
 package com.bandit
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -14,24 +15,22 @@ import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO: avoid using another scope
-        //AndroidUtils.loadTask(this) { startApp() }
         lifecycleScope.launch {
-            LoadingActivity.finish.value = false
-            super.startActivity(Intent(this@MainActivity, LoadingActivity::class.java))
-            launch { startApp() }.join()
-            LoadingActivity.finish.value = true
+            val destination = AndroidUtils.loadTask(this@MainActivity) { startApp() }
+            whenStarted {
+                if(destination == true)
+                    findNavController(R.id.main_nav_host).navigate(R.id.action_loginFragment_to_homeFragment)
+            }
         }
     }
 
-    private suspend fun startApp() {
+    private suspend fun startApp(): Boolean {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -50,8 +49,7 @@ class MainActivity : AppCompatActivity() {
         setupNavigationElements(navController)
         supportActionBar?.hide()
 
-        authentication(navController)
-        delay(3000) // testing loading
+        return authentication()
     }
 
     private fun setupNavigationElements(navController: NavController) {
@@ -66,18 +64,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun authentication(navController: NavController) {
-        if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.authenticator.currentUser != null) {
-            lifecycleScope.launch {
-                DILocator.database.init()
-            }
-            navController.navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-        else
+    private suspend fun authentication(): Boolean {
+        return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
+            && DILocator.authenticator.currentUser != null
+        ) {
+            DILocator.database.init()
+            true
+        } else {
             AndroidUtils.lockNavigation(
                 binding.mainBottomNavigationView,
                 binding.mainDrawerLayout
             )
+            false
+        }
     }
 }
