@@ -1,5 +1,6 @@
 package com.bandit.builder
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -103,6 +104,22 @@ object AndroidComponents {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = onItemSelectedListener
+    }
+
+    fun alertDialogDelete(
+        context: Context,
+        title: String,
+        message: String,
+        positive: String,
+        negative: String,
+        deleteAction: () -> Unit
+    ): AlertDialog {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(positive) { _, _ -> deleteAction() }
+        builder.setNegativeButton(negative) { _, _ -> }
+        return builder.create()
     }
 
     fun header(
