@@ -11,7 +11,8 @@ class NoteRepository(database: Database? = null)
             newNote = Note(
                 title = newNote.title,
                 content = newNote.content,
-                createdOn = newNote.createdOn
+                createdOn = newNote.createdOn,
+                accountId = newNote.accountId
             )
         }
         return newNote
