@@ -13,7 +13,7 @@ class AccountViewModel : ViewModel() {
     private val _database = DILocator.database
     private val _account = MutableLiveData(_database.currentAccount)
     val account: LiveData<Account> = _account
-    fun updateAccount(
+    suspend fun updateAccount(
         name: String,
         nickname: String
     ) {
@@ -24,7 +24,7 @@ class AccountViewModel : ViewModel() {
                         name,
                         nickname,
                         _account.value!!.role,
-                        null,
+                        _account.value!!.bandId,
                         _account.value!!.email
                     )
                 )
