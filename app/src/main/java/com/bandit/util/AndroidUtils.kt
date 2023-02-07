@@ -23,6 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -109,7 +111,6 @@ object AndroidUtils {
             }
         }
     }
-    // Callable methods when a job is required, so a loading screen can be displayed in the meantime
     fun loadTask(
         activity: AppCompatActivity,
         task: suspend () -> Unit
@@ -124,7 +125,7 @@ object AndroidUtils {
 
     fun loadTask(
         fragment: Fragment,
-        task: () -> Unit
+        task: suspend () -> Unit
     ) {
         fragment.lifecycleScope.launch {
             LoadingActivity.finish.value = false
@@ -133,4 +134,20 @@ object AndroidUtils {
             LoadingActivity.finish.value = true
         }
     }
+
+    suspend fun loadTaskB(
+        fragment: Fragment,
+        task: suspend () -> Boolean?
+    ) : Boolean?
+       = coroutineScope {
+            async {
+                var result: Boolean? = null
+                LoadingActivity.finish.value = false
+                fragment.startActivity(Intent(fragment.context, LoadingActivity::class.java))
+                launch { result = task() }.join()
+                LoadingActivity.finish.value = true
+                return@async result
+            }
+        }.await()
+
 }

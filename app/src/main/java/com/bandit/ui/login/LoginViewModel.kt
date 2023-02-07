@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class LoginViewModel : ViewModel() {
     private val _email = MutableLiveData<String>()
@@ -20,17 +20,15 @@ class LoginViewModel : ViewModel() {
     suspend fun signInWithEmailAndPassword(
         email: String?,
         password: String?,
-        onSuccess: (() -> Unit)? = null,
+        onSuccess: (suspend () -> Unit)? = null,
         onFailure: (() -> Unit)? = null
-    ) {
-        viewModelScope.launch {
-            var result: Boolean? = null
-            launch { result = _authenticator.signInWithEmailAndPassword(
-                email ?: "",
-                password ?: ""
-                )
-            }.join()
-            if (result == true) {
+    ) = coroutineScope {
+        async {
+            if (_authenticator.signInWithEmailAndPassword(
+                    email ?: "",
+                    password ?: ""
+                ) == true
+            ) {
                 Log.i(TAG, "User logged in")
                 onSuccess?.invoke()
             } else {
@@ -38,7 +36,7 @@ class LoginViewModel : ViewModel() {
                 onFailure?.invoke()
             }
         }
-    }
+    }.await()
 
     companion object {
         const val TAG = Constants.Login.VIEW_MODEL_TAG
