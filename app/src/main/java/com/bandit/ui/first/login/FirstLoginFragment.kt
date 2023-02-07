@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.constant.BandItEnums
@@ -45,7 +46,14 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             firstLoginBtCancel.setOnClickListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
-            firstLoginBtNext.setOnClickListener { firstLoginBtNext() }
+            firstLoginBtNext.setOnClickListener {
+                lifecycleScope.launch {
+                    if(AndroidUtils.loadTaskBoolean(this@FirstLoginFragment) { firstLoginBtNext() } == true)
+                        super.requireActivity().whenStarted {
+                            findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
+                        }
+                }
+            }
         }
     }
 
@@ -54,7 +62,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         _binding = null
     }
 
-    private fun firstLoginBtNext() {
+    private suspend fun firstLoginBtNext(): Boolean? {
         with(binding) {
             when (phase) {
                 0 -> {
@@ -64,6 +72,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         return@with
                     }
                     phase(resources.getString(R.string.first_login_tv_subject_nickname))
+                    return false
                 }
                 1 -> {
                     viewModel.nickname.value = firstLoginEtString.text.toString()
@@ -79,6 +88,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         Context.INPUT_METHOD_SERVICE,
                         binding.firstLoginTitle
                     )
+                    return false
                 }
                 2 -> {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
@@ -88,28 +98,29 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     phase(resources.getString(R.string.first_login_tv_subject_last))
                     createAccount()
                 }
-                3 -> {
-                    lifecycleScope.launch {
-                        _database.init()
-                    }
-                    PreferencesUtils.savePreference(
-                        super.requireActivity(),
-                        Constants.Preferences.REMEMBER_ME,
-                        viewModel.rememberMe.value ?: false
-                    )
-                    AndroidUtils.unlockNavigation(
-                        super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
-                        super.requireActivity().findViewById(R.id.main_drawer_layout)
-                    )
-                    AndroidUtils.toastNotification(
-                        super.requireContext(),
-                        resources.getString(R.string.first_login_toast)
-                    )
-                    findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
-                }
+                3 -> return goToHomePage()
                 else -> {}
             }
         }
+        return null
+    }
+
+    private suspend fun goToHomePage(): Boolean {
+        _database.init()
+        PreferencesUtils.savePreference(
+            super.requireActivity(),
+            Constants.Preferences.REMEMBER_ME,
+            viewModel.rememberMe.value ?: false
+        )
+        AndroidUtils.unlockNavigation(
+            super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
+            super.requireActivity().findViewById(R.id.main_drawer_layout)
+        )
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.first_login_toast)
+        )
+        return true
     }
 
     private fun spinnerRole() {
@@ -134,16 +145,14 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun createAccount() {
+    private suspend fun createAccount() {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
             binding.firstLoginTitle
         )
         viewModel.createAccount()
-        lifecycleScope.launch {
-            _database.setUserAccountSetup(true)
-        }
+        _database.setUserAccountSetup(true)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
