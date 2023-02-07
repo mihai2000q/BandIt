@@ -1,6 +1,7 @@
 package com.bandit.ui.signup
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bandit.LoadingActivity
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentSignupBinding
@@ -43,20 +45,22 @@ class SignupFragment : Fragment() {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
             signupButton.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    binding.signupTitle
-                )
-                lifecycleScope.launch {
-                    if (validateFields()) {
-                        if (!_database.isEmailInUse(signupEtEmail.text.toString()))
-                            signUp()
-                        else
-                            signupEtEmail.error = resources.getString(R.string.et_email_validation_email_already_used)
-                    }
-                }
+                AndroidUtils.loadTask(this@SignupFragment) { signUpButton() }
             }
+        }
+    }
+
+    private suspend fun signUpButton() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.signupTitle
+        )
+        if (validateFields()) {
+            if (!_database.isEmailInUse(binding.signupEtEmail.text.toString()))
+                signUp()
+            else
+                binding.signupEtEmail.error = resources.getString(R.string.et_email_validation_email_already_used)
         }
     }
 
@@ -86,7 +90,7 @@ class SignupFragment : Fragment() {
         }
         return true
     }
-    private fun signUp() {
+    private suspend fun signUp() {
         with(binding) {
             viewModel.email.value = signupEtEmail.text.toString()
             viewModel.createUser(signupEtPassword.text.toString())
