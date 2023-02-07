@@ -34,7 +34,7 @@
         android:id="@+id/drawer_header_tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/et_name" />
+        android:text="@string/et_name_non_mandatory" />
 
     <TextView
         android:id="@+id/drawer_header_tv_email"

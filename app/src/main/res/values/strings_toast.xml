@@ -24,4 +24,7 @@
     <string name="event_edit_toast">Event Edited</string>
     <string name="event_remove_toast">Event Removed</string>
     <string name="event_filter_toast">Events Filtered</string>
+    <string name="task_add_toast">Task Added</string>
+    <string name="task_edit_toast">Task Edited</string>
+    <string name="task_remove_toast">Task Removed</string>
 </resources>
