@@ -138,7 +138,7 @@ object AndroidUtils {
         }
     }
 
-    suspend fun loadTaskB(
+    suspend fun loadTaskBoolean(
         fragment: Fragment,
         task: suspend () -> Boolean?
     ) : Boolean?

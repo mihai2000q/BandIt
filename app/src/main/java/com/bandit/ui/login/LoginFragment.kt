@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
             loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
                     AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginEtPassword)
-                    val destination = AndroidUtils.loadTaskB(this@LoginFragment) { tryToLogin() }
+                    val destination = AndroidUtils.loadTaskBoolean(this@LoginFragment) { tryToLogin() }
                     super.requireActivity().whenStarted { navigation(destination) }
                 }
             }
@@ -81,8 +81,8 @@ class LoginFragment : Fragment() {
                     viewModel.signInWithEmailAndPassword(
                         loginEtEmail.text.toString(),
                         loginEtPassword.text.toString(),
-                        { loginOnSuccess(); result = true }
-                    ) { loginOnFailure(); result = false }
+                        { result = loginOnSuccess() }
+                    ) { loginOnFailure(); result = null } // do nothing on failure
                 }
                 else {
                     loginEtEmail.error = resources.getString(R.string.et_email_validation_email_not_used)
@@ -93,16 +93,17 @@ class LoginFragment : Fragment() {
         return result
     }
 
-    private suspend fun loginOnSuccess() {
+    private suspend fun loginOnSuccess(): Boolean? {
         // TODO: Remove comment, but for debugging purposes this will be deactivated
         /*if (_auth.currentUser!!.isEmailVerified)
-            login()
+            return login()
         else {
             binding.loginEtEmail.error =
                 resources.getString(R.string.et_email_validation_email_verified)
             _auth.signOut()
+            return null
         }*/
-        login()
+        return login()
     }
 
     private fun loginOnFailure() {
@@ -134,9 +135,10 @@ class LoginFragment : Fragment() {
         return true
     }
 
-    private suspend fun login() = coroutineScope {
+    private suspend fun login(): Boolean? = coroutineScope {
         async {
-            if (_database.isUserAccountSetup() == true) {
+            val result = _database.isUserAccountSetup()
+            if (result == true) {
                 _database.init()
                 PreferencesUtils.savePreference(
                     super.requireActivity(),
@@ -153,6 +155,7 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_LONG
                 )
             }
+            return@async result
         }
     }.await()
 
