@@ -45,11 +45,18 @@ class TaskAdapter(
             itemView.setOnLongClickListener { onLongClick(holder, task) }
             with(binding) {
                 taskCheckBox.isChecked = task.checked
+                if(taskCheckBox.isChecked)
+                    taskTvMessage.paintFlags = taskTvMessage.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                else
+                    taskTvMessage.paintFlags = taskTvMessage.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 taskCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    if(isChecked)
-                        taskTvMessage.paintFlags = taskTvMessage.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    else
-                        taskTvMessage.paintFlags = taskTvMessage.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    viewModel.editTask(Task(
+                        isChecked,
+                        task.message,
+                        task.bandId,
+                        task.createdOn,
+                        task.id
+                    ))
                 }
                 taskTvMessage.text = task.message
                 taskTvMessage.setOnLongClickListener { onLongClick(holder, task) }
