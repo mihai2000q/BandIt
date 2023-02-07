@@ -27,12 +27,12 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 if(validateFields())
-                    addConcert()
+                    AndroidUtils.loadTask(this@ConcertAddDialogFragment) { addConcert() }
             }
         }
     }
 
-    private fun addConcert() {
+    private suspend fun addConcert() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

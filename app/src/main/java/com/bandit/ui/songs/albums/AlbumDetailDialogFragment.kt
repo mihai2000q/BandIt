@@ -48,15 +48,18 @@ class AlbumDetailDialogFragment : DialogFragment() {
             viewModel.albums.observe(viewLifecycleOwner) {
                 albumDetailSongList.adapter =
                     SongAdapter(
+                        this@AlbumDetailDialogFragment,
                         album.songs.sorted().reversed(),
                         viewModel,
-                        childFragmentManager,
                         { song ->
+                            AndroidUtils.loadTask(this@AlbumDetailDialogFragment) {
+                                viewModel.removeSongFromAlbum(album, song)
+                            }
                             AndroidUtils.toastNotification(
                                 super.requireContext(),
                                 resources.getString(R.string.album_remove_song_toast),
                             )
-                            return@SongAdapter viewModel.removeSongFromAlbum(album, song)
+                            return@SongAdapter true
                         },
                         resources.getString(R.string.album_remove_from_album)
                     )

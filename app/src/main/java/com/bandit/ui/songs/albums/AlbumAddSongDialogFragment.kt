@@ -36,23 +36,25 @@ class AlbumAddSongDialogFragment : DialogFragment() {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-                    albumSongsWithoutAlbum.adapter =
-                        SongAdapter(
-                            viewModel.getSongsWithoutAnAlbum().sorted().reversed(),
-                            viewModel,
-                            childFragmentManager,
-                            { return@SongAdapter true },
-                            resources.getString(R.string.album_remove_from_album),
-                            false
-                        ) {
-                            viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
-                            AndroidUtils.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.album_add_song_toast)
-                            )
-                            super.dismiss()
-                            return@SongAdapter
-                        }
+            albumSongsWithoutAlbum.adapter =
+                SongAdapter(
+                    this@AlbumAddSongDialogFragment,
+                    viewModel.getSongsWithoutAnAlbum().sorted().reversed(),
+                    viewModel,
+                    { return@SongAdapter true },
+                    resources.getString(R.string.album_remove_from_album),
+                    false
+                ) {
+                    AndroidUtils.loadTask(this@AlbumAddSongDialogFragment) {
+                        viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
+                    }
+                    AndroidUtils.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.album_add_song_toast)
+                    )
+                    super.dismiss()
+                    return@SongAdapter
+                }
         }
     }
 

@@ -20,12 +20,12 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
             albumButton.setText(R.string.bt_add)
             albumButton.setOnClickListener {
                 if (validateFields())
-                    addAlbum()
+                    AndroidUtils.loadTask(this@AlbumAddDialogFragment) { addAlbum() }
             }
         }
     }
 
-    private fun addAlbum() {
+    private suspend fun addAlbum() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

@@ -25,7 +25,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             }
             scheduleButton.setOnClickListener {
                 if(validateFields())
-                    editEvent()
+                    AndroidUtils.loadTask(this@ScheduleEditDialogFragment) { editEvent() }
             }
         }
     }
@@ -48,7 +48,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
         return result
     }
 
-    private fun editEvent() {
+    private suspend fun editEvent() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.constant.Constants
@@ -19,8 +20,9 @@ import com.bandit.di.DILocator
 import com.bandit.ui.first.login.FirstLoginViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class LoginFragment : Fragment() {
 
@@ -51,20 +53,13 @@ class LoginFragment : Fragment() {
                 return@setOnKeyListener false
             }
             loginCbRemember.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    loginCbRemember
-                )
+                AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginCbRemember)
             }
             loginBtLogin.setOnClickListener {
-                AndroidUtils.hideKeyboard(
-                    super.requireActivity(),
-                    Context.INPUT_METHOD_SERVICE,
-                    binding.loginEtPassword
-                )
                 lifecycleScope.launch {
-                    loginButtonOnClick()
+                    AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginEtPassword)
+                    val destination = AndroidUtils.loadTaskBoolean(this@LoginFragment) { tryToLogin() }
+                    super.requireActivity().whenStarted { navigation(destination) }
                 }
             }
             loginBtSignup.setOnClickListener {
@@ -78,17 +73,16 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    private suspend fun loginButtonOnClick() {
+    private suspend fun tryToLogin(): Boolean? {
+        var result: Boolean? = null
         with(binding) {
             if(validateFields()) {
                 if(_database.isEmailInUse(loginEtEmail.text.toString())) {
-                    runBlocking {
-                        viewModel.signInWithEmailAndPassword(
-                            loginEtEmail.text.toString(),
-                            loginEtPassword.text.toString(),
-                            { loginOnSuccess() }
-                        ) { loginOnFailure() }
-                    }
+                    viewModel.signInWithEmailAndPassword(
+                        loginEtEmail.text.toString(),
+                        loginEtPassword.text.toString(),
+                        { result = loginOnSuccess() }
+                    ) { loginOnFailure(); result = null } // do nothing on failure
                 }
                 else {
                     loginEtEmail.error = resources.getString(R.string.et_email_validation_email_not_used)
@@ -96,18 +90,20 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+        return result
     }
 
-    private fun loginOnSuccess() {
+    private suspend fun loginOnSuccess(): Boolean? {
         // TODO: Remove comment, but for debugging purposes this will be deactivated
         /*if (_auth.currentUser!!.isEmailVerified)
-            login()
+            return login()
         else {
             binding.loginEtEmail.error =
                 resources.getString(R.string.et_email_validation_email_verified)
             _auth.signOut()
+            return null
         }*/
-        login()
+        return login()
     }
 
     private fun loginOnFailure() {
@@ -139,13 +135,11 @@ class LoginFragment : Fragment() {
         return true
     }
 
-    private fun login() {
-        var result: Boolean? = null
-        lifecycleScope.launch {
-            launch { result = _database.isUserAccountSetup() }.join()
-
+    private suspend fun login(): Boolean? = coroutineScope {
+        async {
+            val result = _database.isUserAccountSetup()
             if (result == true) {
-                launch { _database.init() }.join()
+                _database.init()
                 PreferencesUtils.savePreference(
                     super.requireActivity(),
                     Constants.Preferences.REMEMBER_ME,
@@ -155,18 +149,24 @@ class LoginFragment : Fragment() {
                     super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                     super.requireActivity().findViewById(R.id.main_drawer_layout)
                 )
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            } else if (result == false) {
-                findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
-                // TODO: use safe args instead
-                val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
-                firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.login_toast),
+                    Toast.LENGTH_LONG
+                )
             }
-            AndroidUtils.toastNotification(
-                super.requireContext(),
-                resources.getString(R.string.login_toast),
-                Toast.LENGTH_LONG
-            )
+            return@async result
+        }
+    }.await()
+
+    private fun navigation(boolean: Boolean?) {
+        if (boolean == true)
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        else if (boolean == false) {
+            findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
+            // TODO: use safe args instead
+            val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
+            firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
         }
     }
 }

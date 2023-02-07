@@ -17,11 +17,9 @@ where T : BaseModel
         _database?.add(newItem)
         _list.add(newItem)
     }
-    suspend fun remove(item: T): Boolean {
+    suspend fun remove(item: T) {
         _database?.remove(item)
-        if(!_list.contains(item)) return false
         _list.remove(item)
-        return true
     }
     suspend fun edit(item: T) {
         _database?.edit(item)

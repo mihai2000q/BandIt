@@ -9,6 +9,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
 import com.bandit.data.repository.ConcertRepository
 import com.bandit.di.DILocator
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDate
@@ -27,25 +28,17 @@ class ConcertsViewModel : ViewModel() {
         _filters.value = mutableMapOf()
         Filter.values().forEach { _filters.value?.put(it, "") }
     }
-    fun addConcert(concert: Concert) {
-        viewModelScope.launch {
-            launch { _repository.add(concert) }.join()
-            _concerts.value = _repository.list
-        }
+    suspend fun addConcert(concert: Concert) = coroutineScope {
+        launch { _repository.add(concert) }.join()
+        _concerts.value = _repository.list
     }
-    fun removeConcert(concert: Concert): Boolean {
-        var result = false
-        viewModelScope.launch {
-            launch { result = _repository.remove(concert) }.join()
-            _concerts.value = _repository.list
-        }
-        return result
+    suspend fun removeConcert(concert: Concert) = coroutineScope {
+        launch { _repository.remove(concert) }.join()
+        _concerts.value = _repository.list
     }
-    fun editConcert(concert: Concert) {
-        viewModelScope.launch {
-            launch { _repository.edit(concert) }.join()
-            _concerts.value = _repository.list
-        }
+    suspend fun editConcert(concert: Concert) = coroutineScope {
+        launch { _repository.edit(concert) }.join()
+        _concerts.value = _repository.list
     }
     fun filterConcerts(
         name: String?,

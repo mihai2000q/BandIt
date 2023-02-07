@@ -1,5 +1,6 @@
 package com.bandit.ui.account
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,20 +38,29 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             accountBtSignOut.setOnClickListener { signOut() }
-            with(viewModel) {
-                account.observe(viewLifecycleOwner) {
-                    accountEtName.setText(it.name)
-                    accountEtNickname.setText(it.nickname)
-                    accountEtRole.setText(it.role.name)
-                }
-
-                accountBtSave.setOnClickListener {
-                    updateAccount(
-                        accountEtName.text.toString(),
-                        accountEtNickname.text.toString()
-                    )
-                }
+            viewModel.account.observe(viewLifecycleOwner) {
+                accountEtName.setText(it.name)
+                accountEtNickname.setText(it.nickname)
+                accountEtRole.setText(it.role.name)
             }
+
+            accountBtSave.setOnClickListener {
+                AndroidUtils.loadTask(this@AccountDialogFragment) { updateAccount() }
+            }
+        }
+    }
+
+    private suspend fun updateAccount() {
+        with(binding) {
+            viewModel.updateAccount(
+                accountEtName.text.toString(),
+                accountEtNickname.text.toString()
+            )
+            AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, accountBtSave)
+            AndroidUtils.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.account_updated_toast)
+            )
         }
     }
 

@@ -3,6 +3,7 @@ package com.bandit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,9 @@ import com.bandit.ui.songs.albums.AlbumEditDialogFragment
 import com.bandit.util.AndroidUtils
 
 data class AlbumAdapter(
-    private val activity: FragmentActivity,
+    private val fragment: Fragment,
     private val albums: List<Album>,
-    private val viewModel: SongsViewModel,
-    private val childFragmentManager: FragmentManager
+    private val viewModel: SongsViewModel
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
     private val albumEditDialogFragment = AlbumEditDialogFragment()
     private val albumDetailDialogFragment = AlbumDetailDialogFragment()
@@ -45,8 +45,10 @@ data class AlbumAdapter(
         val album = albums[position]
 
         with(holder) {
-            itemView.layoutParams.width = AndroidUtils.getScreenWidth(activity) * 7 / 16
-            itemView.layoutParams.height = AndroidUtils.getScreenHeight(activity) / 4
+            itemView.layoutParams.width =
+                AndroidUtils.getScreenWidth(fragment.requireActivity()) * 7 / 16
+            itemView.layoutParams.height =
+                AndroidUtils.getScreenHeight(fragment.requireActivity()) / 4
             itemView.setOnClickListener { onClick(album) }
             itemView.setOnLongClickListener { onLongClick(holder, album) }
             with(binding) {
@@ -72,7 +74,7 @@ data class AlbumAdapter(
         viewModel.selectedAlbum.value = album
         AndroidUtils.showDialogFragment(
             albumDetailDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
     }
 
@@ -87,18 +89,19 @@ data class AlbumAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, album: Album): Boolean {
+        AndroidUtils.loadTask(fragment) { viewModel.removeAlbum(album) }
         AndroidUtils.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.album_remove_toast),
         )
-        return viewModel.removeAlbum(album)
+        return true
     }
 
     private fun onEdit(album: Album): Boolean {
         viewModel.selectedAlbum.value = album
         AndroidUtils.showDialogFragment(
             albumEditDialogFragment,
-            childFragmentManager
+            fragment.childFragmentManager
         )
         return true
     }

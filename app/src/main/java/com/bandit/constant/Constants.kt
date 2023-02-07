@@ -2,6 +2,7 @@ package com.bandit.constant
 
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
+    const val SPLASH_SCREEN_DELAY = 3000L //ms
     const val PASSWORD_MIN_CHARACTERS = 8
     object Firebase {
         object Database {

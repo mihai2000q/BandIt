@@ -29,7 +29,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 if(validateFields())
-                    editConcert()
+                    AndroidUtils.loadTask(this@ConcertEditDialogFragment) { editConcert() }
             }
         }
 
@@ -55,7 +55,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
         return result
     }
 
-    private fun editConcert() {
+    private suspend fun editConcert() {
         with(binding) {
             viewModel.editConcert(
                 Concert(

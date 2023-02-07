@@ -2,6 +2,7 @@ package com.bandit.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
@@ -12,14 +13,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.random.Random
-
 
 object AndroidUtils {
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
@@ -104,4 +111,46 @@ object AndroidUtils {
             }
         }
     }
+    suspend fun loadTask(
+        activity: AppCompatActivity,
+        task: suspend () -> Boolean?
+    ) : Boolean?
+    = coroutineScope {
+        async {
+            var result: Boolean? = null
+            LoadingActivity.finish.value = false
+            activity.startActivity(Intent(activity, LoadingActivity::class.java))
+            launch { result = task() }.join()
+            LoadingActivity.finish.value = true
+            return@async result
+        }
+    }.await()
+
+    fun loadTask(
+        fragment: Fragment,
+        task: suspend () -> Unit
+    ) {
+        fragment.lifecycleScope.launch {
+            LoadingActivity.finish.value = false
+            fragment.startActivity(Intent(fragment.context, LoadingActivity::class.java))
+            launch { task() }.join()
+            LoadingActivity.finish.value = true
+        }
+    }
+
+    suspend fun loadTaskBoolean(
+        fragment: Fragment,
+        task: suspend () -> Boolean?
+    ) : Boolean?
+       = coroutineScope {
+            async {
+                var result: Boolean? = null
+                LoadingActivity.finish.value = false
+                fragment.startActivity(Intent(fragment.context, LoadingActivity::class.java))
+                launch { result = task() }.join()
+                LoadingActivity.finish.value = true
+                return@async result
+            }
+        }.await()
+
 }

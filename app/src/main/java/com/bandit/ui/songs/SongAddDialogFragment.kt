@@ -19,12 +19,12 @@ class SongAddDialogFragment : SongDialogFragment() {
             songButton.setText(R.string.bt_add)
             songButton.setOnClickListener {
                 if(validateFields())
-                    addSong()
+                    AndroidUtils.loadTask(this@SongAddDialogFragment) { addSong() }
             }
         }
     }
 
-    private fun addSong() {
+    private suspend fun addSong() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),

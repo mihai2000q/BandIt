@@ -4,7 +4,6 @@ import android.util.Log
 import com.bandit.constant.Constants
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -29,15 +28,15 @@ class FirebaseAuthenticator : Authenticator {
             var result: Boolean? = null
             try {
                 _currentUser = _auth.signInWithEmailAndPassword(email, password)
-                    .addOnSuccessListener {
-                        Log.d(
-                            Constants.Firebase.Auth.TAG,
-                            "sign in with email and password: success"
-                        )
-                        result = true
-                    }
                     .await()
                     .user
+                if(_currentUser != null) {
+                    Log.d(
+                        Constants.Firebase.Auth.TAG,
+                        "sign in with email and password: success"
+                    )
+                    result = true
+                }
             }
             // Incorrect combination throws an exception
             catch (_: FirebaseAuthInvalidCredentialsException) {

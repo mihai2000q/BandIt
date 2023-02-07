@@ -8,6 +8,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Event
 import com.bandit.data.repository.EventRepository
 import com.bandit.di.DILocator
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -19,27 +20,19 @@ class ScheduleViewModel : ViewModel() {
     val calendarMode = MutableLiveData(false)
     val currentDate = MutableLiveData<LocalDate>()
 
-    fun addEvent(event: Event) {
-        viewModelScope.launch {
-            launch { _repository.add(event) }.join()
-            refresh()
-        }
+    suspend fun addEvent(event: Event) = coroutineScope {
+        launch { _repository.add(event) }.join()
+        refresh()
     }
 
-    fun removeEvent(event: Event): Boolean {
-        var result = false
-        viewModelScope.launch {
-            launch { result = _repository.remove(event) }.join()
-            refresh()
-        }
-        return result
+     suspend fun removeEvent(event: Event) = coroutineScope {
+         launch { _repository.remove(event) }.join()
+         refresh()
     }
 
-    fun editEvent(event: Event) {
-        viewModelScope.launch {
-            launch { _repository.edit(event) }.join()
-            refresh()
-        }
+    suspend fun editEvent(event: Event) = coroutineScope {
+        launch { _repository.edit(event) }.join()
+        refresh()
     }
 
     fun filterEvents(

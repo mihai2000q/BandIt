@@ -22,7 +22,7 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
             }
             albumButton.setOnClickListener {
                 if(validateFields())
-                    editAlbum()
+                    AndroidUtils.loadTask(this@AlbumEditDialogFragment) { editAlbum() }
             }
         }
     }
@@ -43,7 +43,7 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
         return result
     }
 
-    private fun editAlbum() {
+    private suspend fun editAlbum() {
         with(binding) {
             AndroidUtils.hideKeyboard(
                 super.requireActivity(),
