@@ -13,7 +13,6 @@ class FirstLoginViewModel : ViewModel() {
     val name = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val role = MutableLiveData<BandItEnums.Account.Role>()
-    val rememberMe = MutableLiveData<Boolean>()
     suspend fun createAccount() {
         _database.add(
             Account(
