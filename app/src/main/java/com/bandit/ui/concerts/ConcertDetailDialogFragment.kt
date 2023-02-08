@@ -44,6 +44,7 @@ class ConcertDetailDialogFragment : DialogFragment() {
             AndroidUtils.ifNullHide(concertDetailCity, concert.city)
             AndroidUtils.ifNullHide(concertDetailCountry, concert.country)
             AndroidUtils.ifNullHide(concertDetailPlace, concert.place)
+            AndroidUtils.ifNullHide(concertDetailDuration, concert.duration.print())
             AndroidUtils.ifNullHide(concertDetailType, concert.concertType?.name?.normalizeWord())
         }
     }

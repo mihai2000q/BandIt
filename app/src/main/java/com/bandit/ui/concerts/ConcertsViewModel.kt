@@ -3,7 +3,6 @@ package com.bandit.ui.concerts
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
@@ -21,7 +20,7 @@ class ConcertsViewModel : ViewModel() {
     val concerts: LiveData<List<Concert>> = _concerts
     val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
 
-    enum class Filter { Name, Date, Time, City, Country, Place, Type }
+    enum class Filter { Name, Date, Time, City, Country, Place, Duration, Type }
     private val _filters = MutableLiveData<MutableMap<Filter, String>>(mutableMapOf())
     val filters: LiveData<MutableMap<Filter, String>> get() = _filters
     init {

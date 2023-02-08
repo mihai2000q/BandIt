@@ -45,7 +45,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                     concertEtDate.text.toString(),
                     concertEtTime.text.toString()
                 ),
-                duration = Duration.ZERO,
+                duration = ParserUtils.parseDuration(concertEtDuration.text.toString()),
                 bandId = _database.currentBand.id,
                 city = concertEtCity.text.toString(),
                 country = concertEtCountry.text.toString(),
@@ -64,6 +64,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertEtCity.setText("")
             concertEtCountry.setText("")
             concertEtPlace.setText("")
+            concertEtDuration.setText("")
             typeIndex = 0
         }
         super.dismiss()

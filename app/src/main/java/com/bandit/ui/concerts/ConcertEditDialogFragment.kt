@@ -6,6 +6,7 @@ import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
+import com.bandit.extension.print
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 import java.time.Duration
@@ -24,6 +25,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtTime.setText(dateTime.toLocalTime().toString())
                 concertEtCountry.setText(country)
                 concertEtPlace.setText(place)
+                concertEtDuration.setText(duration.print())
                 concertEtSpinnerType.setSelection(concertType?.ordinal ?: 0)
             }
 
@@ -45,6 +47,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                     concertEtCity.text.toString() == city &&
                     concertEtCountry.text.toString() == country &&
                     concertEtPlace.text.toString() == place &&
+                    concertEtDuration.text.toString() == duration.print() &&
                     BandItEnums.Concert.Type.values()[typeIndex] == concertType
                 ) {
                     concertEtName.error = resources.getString(R.string.nothing_changed_validation)
@@ -62,7 +65,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                     name = concertEtName.text.toString(),
                     dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
                         concertEtTime.text.toString()),
-                    duration = Duration.ZERO,
+                    duration = ParserUtils.parseDuration(concertEtDuration.text.toString()),
                     bandId = viewModel.selectedConcert.value!!.bandId,
                     city = concertEtCity.text.toString(),
                     country = concertEtCountry.text.toString(),

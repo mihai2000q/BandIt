@@ -47,6 +47,7 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
                     concertEtTime
                 )
             }
+            AndroidUtils.durationEditTextSetup(concertEtDuration)
         }
     }
 
