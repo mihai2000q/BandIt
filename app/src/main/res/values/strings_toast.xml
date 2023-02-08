@@ -28,4 +28,7 @@
     <string name="task_edit_toast">Task Edited</string>
     <string name="task_remove_toast">Task Removed</string>
     <string name="account_updated_toast">Account Updated</string>
+    <string name="note_add_toast">Note Added</string>
+    <string name="note_edit_toast">Note Edited</string>
+    <string name="note_remove_toast">Note Removed</string>
 </resources>

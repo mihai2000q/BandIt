@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="et_title">Title</string>
     <string name="et_email">Email</string>
     <string name="et_name">Name*</string>
     <string name="et_name_non_mandatory">Name</string>
