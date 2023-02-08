@@ -6,7 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
+import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
+import com.bandit.di.DILocator
+import com.bandit.ui.adapter.NoteAdapter
+import com.bandit.util.AndroidUtils
 
 class PersonalNotesFragment : Fragment() {
 
@@ -25,8 +30,25 @@ class PersonalNotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-
+            personalNotesBtAdd.setOnClickListener { addNote() }
+            viewModel.notes.observe(viewLifecycleOwner) {
+                personalNotesList.adapter = NoteAdapter(this@PersonalNotesFragment, it, viewModel)
+            }
         }
+    }
+
+    private fun addNote() {
+        viewModel.addNote(
+            Note(
+                resources.getString(R.string.et_title),
+                resources.getString(R.string.default_note_message),
+                DILocator.database.currentAccount.id
+            )
+        )
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.note_add_toast)
+        )
     }
 
     override fun onDestroy() {
