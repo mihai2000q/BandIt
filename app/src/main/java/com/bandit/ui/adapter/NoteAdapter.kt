@@ -63,13 +63,17 @@ class NoteAdapter(
             popupMenu.dismiss()
             when (it.itemId) {
                 R.id.popup_menu_delete -> onDelete(holder, note)
-                else -> { return@setOnMenuItemClickListener true }
+                else -> { onEdit(note) }
             }
         }
     }
 
     private fun onLongClick(holder: NoteAdapter.ViewHolder, note: Note): Boolean {
         popupMenu(holder, note)
+        if(!isPopupShown) {
+            isPopupShown = true
+            popupMenu.show()
+        }
         return true
     }
 
@@ -82,12 +86,13 @@ class NoteAdapter(
         return true
     }
 
-    private fun onEdit(note: Note) {
+    private fun onEdit(note: Note): Boolean {
         viewModel.selectedNote.value = note
         AndroidUtils.showDialogFragment(
             personalNotesEditDialogFragment,
             fragment.childFragmentManager
         )
+        return true
     }
 
 }
