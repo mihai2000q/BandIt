@@ -15,6 +15,7 @@ object Constants {
             const val ALBUMS = "Albums"
             const val EVENTS = "Events"
             const val TASKS = "Tasks"
+            const val NOTES = "Notes"
             const val TAG = "FirebaseDB"
         }
         object Auth {
@@ -76,5 +77,9 @@ object Constants {
     }
     object ToDoList {
         const val VIEW_MODEL_TAG = "ToDoListViewModel"
+    }
+    object PersonalNotes {
+        const val EDIT_TAG = "EDIT PERSONAL NOTE DIALOG FRAGMENT"
+        const val VIEW_MODEL_TAG = "PersonalNotesViewModel"
     }
 }

@@ -3,4 +3,5 @@
     <string name="default_value">Default</string>
     <string name="search_view">Search</string>
     <string name="default_task_message">Type in Your Task</string>
+    <string name="default_note_message">Click Here to Modify</string>
 </resources>

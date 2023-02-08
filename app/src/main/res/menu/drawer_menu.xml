@@ -10,4 +10,9 @@
         android:id="@+id/navigation_todolist"
         android:icon="@drawable/ic_baseline_todolist"
         android:title="@string/title_todolist" />
+
+    <item
+        android:id="@+id/navigation_personal_notes"
+        android:icon="@drawable/ic_baseline_personal_notes"
+        android:title="@string/title_personal_notes" />
 </menu>

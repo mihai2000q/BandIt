@@ -4,7 +4,7 @@ import com.bandit.data.db.dto.TaskDto
 import com.bandit.data.model.Task
 import java.time.LocalDateTime
 
-object TaskMapper : Mapper<Task, TaskDto> {
+object TaskMapper : MapperB<Task, TaskDto> {
     override fun fromDtoToItem(dto: TaskDto): Task {
         return Task(
             checked = dto.checked ?: false,

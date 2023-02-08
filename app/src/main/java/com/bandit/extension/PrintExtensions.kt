@@ -23,7 +23,7 @@ fun LocalDate.print() = this.dayOfMonth.toString().get2Characters() +
         "-" +
         this.year.toString()
 
-fun LocalDate.printName() = this.dayOfMonth.toString().get2Characters() +
+fun LocalDate.printName() = this.dayOfMonth.toString() +
         " " +
         this.month.name.normalizeWord() +
         " " +

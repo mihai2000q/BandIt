@@ -55,11 +55,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavigationElements(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_todolist,
-                R.id.navigation_login,
-                R.id.navigation_signup,
-                R.id.navigation_first_login -> binding.mainBottomNavigationView.visibility = View.GONE
-                else -> binding.mainBottomNavigationView.visibility = View.VISIBLE
+                R.id.navigation_home,
+                R.id.navigation_concerts,
+                R.id.navigation_songs,
+                R.id.navigation_chats, 
+                R.id.navigation_schedule -> binding.mainBottomNavigationView.visibility = View.VISIBLE
+                else -> binding.mainBottomNavigationView.visibility = View.GONE
             }
         }
     }

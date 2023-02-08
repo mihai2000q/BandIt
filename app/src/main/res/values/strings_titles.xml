@@ -8,4 +8,5 @@
     <string name="title_chats">Chats</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_todolist">To Do List</string>
+    <string name="title_personal_notes">Personal Notes</string>
 </resources>

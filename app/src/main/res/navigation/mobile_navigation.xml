@@ -64,4 +64,9 @@
             android:id="@+id/action_firstLoginFragment_to_navigation_login"
             app:destination="@id/navigation_login" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_personal_notes"
+        android:name="com.bandit.ui.notes.PersonalNotesFragment"
+        android:label="PersonalNotesFragment"
+        tools:layout="@layout/fragment_personal_notes" />
 </navigation>

@@ -7,7 +7,7 @@ import com.bandit.data.model.Event
 import java.time.Duration
 import java.time.LocalDateTime
 
-object EventMapper : Mapper<Event, EventDto> {
+object EventMapper : MapperB<Event, EventDto> {
     override fun fromDtoToItem(dto: EventDto): Event {
         return Event(
             name = dto.name ?: "Null",
