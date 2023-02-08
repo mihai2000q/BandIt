@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
                 viewLifecycleOwner,
                 bandViewModel.band
             )
-            // focused in case the use pressed enter to log in
+            // it's focused in case the user pressed enter to log in
             homeHeader.headerSwitchModes.clearFocus()
             homeHeader.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(

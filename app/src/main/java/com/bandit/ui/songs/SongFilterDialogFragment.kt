@@ -12,6 +12,12 @@ class SongFilterDialogFragment : SongDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            val map = mapOf(
+                songEtName to SongsViewModel.SongFilter.Name,
+                songEtReleaseDate to SongsViewModel.SongFilter.ReleaseDate,
+                songEtDuration to SongsViewModel.SongFilter.Duration,
+            )
+            map.forEach { (key, value) -> key.setText(viewModel.songFilters.value?.get(value)) }
             songButton.setText(R.string.bt_filter)
             songButton.setOnClickListener {
                 viewModel.filterSongs(
@@ -26,6 +32,9 @@ class SongFilterDialogFragment : SongDialogFragment() {
                     else
                         ParserUtils.parseDuration(songEtDuration.text.toString())
                 )
+                map.forEach { (key, value) ->
+                    viewModel.songFilters.value?.replace(value, key.text.toString())
+                }
                 AndroidUtils.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.song_filter_toast)
