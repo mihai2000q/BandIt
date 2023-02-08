@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -61,12 +62,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun drawerHeader() {
-        // TODO: Fix needed
-        /*super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
-            .text = _database.currentAccount.name
+        super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
+            ?.text = _database.currentAccount.name
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
-            .text = _database.currentAccount.email
-    */
+            ?.text = _database.currentAccount.email
     }
 
     private fun bandInvitation() {
