@@ -192,7 +192,7 @@ class FirebaseDatabase : Database {
             is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
             is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
             is Task -> setItem(Constants.Firebase.Database.TASKS, TaskMapper.fromItemToDto(item))
-            is Note -> setItem(Constants.Firebase.Database.TASKS, NoteMapper.fromItemToDto(item))
+            is Note -> setItem(Constants.Firebase.Database.NOTES, NoteMapper.fromItemToDto(item))
         }
     }
 
@@ -366,7 +366,7 @@ class FirebaseDatabase : Database {
 
     private suspend fun readNotes() = coroutineScope {
         async {
-            notes += readAccountItem(Constants.Firebase.Database.TASKS, NoteMapper, _currentBand.id)
+            notes += readAccountItem(Constants.Firebase.Database.NOTES, NoteMapper, _currentAccount.id)
         }
     }.await()
 
@@ -437,7 +437,7 @@ class FirebaseDatabase : Database {
     private suspend inline fun <T : BaseModel, reified E : BaseAccountDto> readAccountItem(
         table: String,
         mapperA: MapperA<T, E>,
-        bandId: Long
+        accountId: Long
     ): List<T> =
         coroutineScope {
             async {
@@ -451,7 +451,7 @@ class FirebaseDatabase : Database {
                     }
                     .await()
                     .toObjects<E>()
-                    .filter { it.accountId == bandId }
+                    .filter { it.accountId == accountId }
                     .map { mapperA.fromDtoToItem(it) }
             }
         }.await()
