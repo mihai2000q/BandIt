@@ -26,7 +26,7 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_filter)
             with(viewModel.filters.value) {
                 map.forEach { (key, value) -> key.setText(this?.get(value)) }
-                /* TODO: fix the filtering for concert type
+                /*TODO: fix the filtering for concert type
                     it should not force the user to always use it */
                 /*val type = this?.get(Filter.Type)
                 concertEtSpinnerType.setSelection(
