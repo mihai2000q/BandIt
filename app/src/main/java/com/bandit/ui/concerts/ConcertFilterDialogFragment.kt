@@ -6,6 +6,7 @@ import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.util.AndroidUtils
+import com.bandit.util.ParserUtils
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -26,7 +27,7 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_filter)
             with(viewModel.filters.value) {
                 map.forEach { (key, value) -> key.setText(this?.get(value)) }
-                /* TODO: fix the filtering for concert type
+                /*TODO: fix the filtering for concert type
                     it should not force the user to always use it */
                 /*val type = this?.get(Filter.Type)
                 concertEtSpinnerType.setSelection(
@@ -45,7 +46,11 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
                         null
                     else
                         LocalTime.parse(concertEtTime.text.toString()),
-                    //duration = Duration.ZERO,
+                    duration =
+                    if(concertEtDuration.text.isNullOrEmpty())
+                        null
+                    else
+                        ParserUtils.parseDuration(concertEtDuration.text.toString()),
                     city = concertEtCity.text.toString(),
                     country = concertEtCountry.text.toString(),
                     place = concertEtPlace.text.toString(),
