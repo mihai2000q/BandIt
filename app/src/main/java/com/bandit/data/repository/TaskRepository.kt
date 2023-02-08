@@ -3,8 +3,8 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Task
 
-class TaskRepository(database: Database)
-    : BaseRepository<Task>(database, database.tasks) {
+class TaskRepository(database: Database? = null)
+    : BaseRepository<Task>(database, database?.tasks) {
     override fun reassignId(item: Task): Task {
         var newTask = item
         while (isIdUsed(newTask.id)) {
