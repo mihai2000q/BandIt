@@ -31,7 +31,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var roleIndex = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFirstLoginBinding.inflate(inflater, container, false)
@@ -92,11 +93,11 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
                 2 -> {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
+                    createAccount()
                     firstLoginSpinnerRole.visibility = View.GONE
                     firstLoginBtCancel.visibility = View.GONE
                     firstLoginBtNext.setText(R.string.first_login_bt_next_last)
                     phase(resources.getString(R.string.first_login_tv_subject_last))
-                    createAccount()
                 }
                 3 -> return goToHomePage()
                 else -> {}
@@ -110,7 +111,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         PreferencesUtils.savePreference(
             super.requireActivity(),
             Constants.Preferences.REMEMBER_ME,
-            viewModel.rememberMe.value ?: false
+            this.arguments?.getBoolean(Constants.Preferences.REMEMBER_ME) ?: false
         )
         AndroidUtils.unlockNavigation(
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -94,7 +95,7 @@ class LoginFragment : Fragment() {
     }
 
     private suspend fun loginOnSuccess(): Boolean? {
-        // TODO: Remove comment, but for debugging purposes this will be deactivated
+        //TODO: Remove comment, but for debugging purposes this will be deactivated
         /*if (_auth.currentUser!!.isEmailVerified)
             return login()
         else {
@@ -163,10 +164,8 @@ class LoginFragment : Fragment() {
         if (boolean == true)
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         else if (boolean == false) {
-            findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment)
-            // TODO: use safe args instead
-            val firstLoginViewModel: FirstLoginViewModel by activityViewModels()
-            firstLoginViewModel.rememberMe.value = binding.loginCbRemember.isChecked
+            val bundle = bundleOf(Constants.Preferences.REMEMBER_ME to binding.loginCbRemember.isChecked)
+            findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment, bundle)
         }
     }
 }

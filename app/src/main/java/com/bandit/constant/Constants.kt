@@ -24,7 +24,7 @@ object Constants {
     }
     object Preferences {
         const val APP_PREFERENCES = "App Preferences"
-        const val REMEMBER_ME = "Remember Me "
+        const val REMEMBER_ME = "Remember Me"
     }
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"
