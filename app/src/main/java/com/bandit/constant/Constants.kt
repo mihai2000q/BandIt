@@ -76,6 +76,7 @@ object Constants {
         const val VIEW_MODEL_TAG = "ScheduleViewModel"
     }
     object ToDoList {
+        const val ADD_TAG = "ADD TO DO LIST BOTTOM SHEET DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ToDoListViewModel"
     }
     object PersonalNotes {
