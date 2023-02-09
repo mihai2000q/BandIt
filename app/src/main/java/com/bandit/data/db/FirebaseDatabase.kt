@@ -14,6 +14,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 
 class FirebaseDatabase : Database {
     override val concerts: MutableList<Concert> = mutableListOf()
@@ -166,6 +168,33 @@ class FirebaseDatabase : Database {
                     .size == 1
             }
         }.await()
+
+    override suspend fun isConnected(): Boolean = coroutineScope {
+        return@coroutineScope withTimeoutOrNull(Constants.TIMEOUT_INTERNET_CONNECTION_TEST) {
+                // write a dummy object to database
+                _firestore.collection(Constants.Firebase.Database.INTERNET_CONNECTION_COLLECTION)
+                    .document(Constants.Firebase.Database.INTERNET_CONNECTION_DOCUMENT)
+                    .set(InternetConnectionTestDto(true))
+                    .await()
+                // retrieve it
+                val result =
+                    _firestore.collection(Constants.Firebase.Database.INTERNET_CONNECTION_COLLECTION)
+                        .document(Constants.Firebase.Database.INTERNET_CONNECTION_DOCUMENT)
+                        .get()
+                        .await()
+                        .toObject(InternetConnectionTestDto::class.java)
+                        ?.test
+                        ?: false
+                // then delete it
+                _firestore.collection(Constants.Firebase.Database.INTERNET_CONNECTION_COLLECTION)
+                    .document(Constants.Firebase.Database.INTERNET_CONNECTION_DOCUMENT)
+                    .delete()
+                    .await()
+                // return its value, that is true by default
+                // otherwise, if something went wrong, it's false
+                return@withTimeoutOrNull result
+        } ?: false // if it times out then it will return false instead of null
+    }
 
     override fun clearData() {
         _currentAccount = Account.EMPTY

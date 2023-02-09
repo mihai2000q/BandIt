@@ -18,7 +18,6 @@ import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
-import com.bandit.ui.first.login.FirstLoginViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.async
@@ -58,7 +57,11 @@ class LoginFragment : Fragment() {
             }
             loginBtLogin.setOnClickListener {
                 lifecycleScope.launch {
-                    AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginEtPassword)
+                    AndroidUtils.hideKeyboard(
+                        super.requireActivity(),
+                        Context.INPUT_METHOD_SERVICE,
+                        loginEtPassword
+                    )
                     val destination = AndroidUtils.loadTaskBoolean(this@LoginFragment) { tryToLogin() }
                     super.requireActivity().whenStarted { navigation(destination) }
                 }
@@ -67,6 +70,8 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             }
         }
+        if(this.arguments?.getBoolean(Constants.SafeArgs.FAIL_LOGIN_NETWORK) == true)
+            onNetworkFailure()
     }
 
     override fun onDestroyView() {
@@ -78,17 +83,21 @@ class LoginFragment : Fragment() {
         var result: Boolean? = null
         with(binding) {
             if(validateFields()) {
-                if(_database.isEmailInUse(loginEtEmail.text.toString())) {
-                    viewModel.signInWithEmailAndPassword(
-                        loginEtEmail.text.toString(),
-                        loginEtPassword.text.toString(),
-                        { result = loginOnSuccess() }
-                    ) { loginOnFailure(); result = null } // do nothing on failure
+                if(AndroidUtils.isNetworkAvailable()) {
+                    if (_database.isEmailInUse(loginEtEmail.text.toString())) {
+                        viewModel.signInWithEmailAndPassword(
+                            loginEtEmail.text.toString(),
+                            loginEtPassword.text.toString(),
+                            { result = loginOnSuccess() }
+                        ) { onLoginFailure() }
+                    } else {
+                        loginEtEmail.error =
+                            resources.getString(R.string.et_email_validation_email_not_used)
+                        loginEtPassword.setText("")
+                    }
                 }
-                else {
-                    loginEtEmail.error = resources.getString(R.string.et_email_validation_email_not_used)
-                    loginEtPassword.setText("")
-                }
+                else
+                    onNetworkFailure()
             }
         }
         return result
@@ -107,11 +116,23 @@ class LoginFragment : Fragment() {
         return login()
     }
 
-    private fun loginOnFailure() {
+    private fun onLoginFailure() {
         with(binding) {
             loginEtPassword.error = resources.getString(R.string.et_pass_validation_incorrect)
             loginEtPassword.setText("")
         }
+    }
+
+    private fun onNetworkFailure() {
+        with(binding) {
+            loginBtLogin.error = resources.getString(R.string.no_internet_connection)
+            loginEtPassword.setText("")
+        }
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.no_internet_connection),
+            Toast.LENGTH_LONG
+        )
     }
 
     private fun validateFields(): Boolean {

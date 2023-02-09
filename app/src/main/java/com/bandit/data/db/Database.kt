@@ -27,5 +27,6 @@ interface Database {
     suspend fun acceptBandInvitation()
     suspend fun rejectBandInvitation()
     suspend fun isEmailInUse(email: String): Boolean
+    suspend fun isConnected(): Boolean
     fun clearData()
 }
