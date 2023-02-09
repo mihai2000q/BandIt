@@ -185,7 +185,7 @@ class LoginFragment : Fragment() {
         if (boolean == true)
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         else if (boolean == false) {
-            val bundle = bundleOf(Constants.Preferences.REMEMBER_ME to binding.loginCbRemember.isChecked)
+            val bundle = bundleOf(Constants.SafeArgs.REMEMBER_ME to binding.loginCbRemember.isChecked)
             findNavController().navigate(R.id.action_navigation_login_to_firstLoginFragment, bundle)
         }
     }
