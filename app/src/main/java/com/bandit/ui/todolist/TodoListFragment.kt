@@ -36,6 +36,7 @@ class TodoListFragment : Fragment() {
             }
             todolistBtAdd.setOnClickListener {
                 AndroidUtils.loadTask(this@TodoListFragment) { addButton() }
+                todolistRvTasks.adapter = TaskAdapter(this@TodoListFragment, it.sorted(), viewModel)
             }
         }
     }

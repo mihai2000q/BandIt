@@ -32,7 +32,7 @@ class PersonalNotesFragment : Fragment() {
         with(binding) {
             personalNotesBtAdd.setOnClickListener { addNote() }
             viewModel.notes.observe(viewLifecycleOwner) {
-                personalNotesList.adapter = NoteAdapter(this@PersonalNotesFragment, it, viewModel)
+                personalNotesList.adapter = NoteAdapter(this@PersonalNotesFragment, it.sorted(), viewModel)
             }
         }
     }
