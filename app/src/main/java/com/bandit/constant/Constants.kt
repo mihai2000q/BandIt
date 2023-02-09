@@ -2,11 +2,17 @@ package com.bandit.constant
 
 object Constants {
     const val MAX_NR_ITEMS = 100_000L
-    const val SPLASH_SCREEN_DELAY = 3000L //ms
+    const val SPLASH_SCREEN_DELAY = 3_000L //ms
     const val PASSWORD_MIN_CHARACTERS = 8
+    const val TIMEOUT_INTERNET_CONNECTION_TEST = 10_000L //ms
+    object SafeArgs {
+        const val FAIL_LOGIN_NETWORK = "Fail Login Due To Network Connection Missing"
+    }
     object Firebase {
         object Database {
             const val USER_ACCOUNT_SETUPS = "UserAccountSetups"
+            const val INTERNET_CONNECTION_COLLECTION = "InternetConnection"
+            const val INTERNET_CONNECTION_DOCUMENT = "ICTest"
             const val ACCOUNTS = "Accounts"
             const val BANDS = "Bands"
             const val BAND_INVITATIONS = "BandInvitations"

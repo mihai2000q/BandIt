@@ -22,11 +22,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
+import com.bandit.di.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.random.Random
+
 
 object AndroidUtils {
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
@@ -46,6 +48,7 @@ object AndroidUtils {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
+    @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = activity.windowManager.currentWindowMetrics
@@ -58,6 +61,7 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
+    @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = activity.windowManager.currentWindowMetrics
@@ -153,4 +157,5 @@ object AndroidUtils {
             }
         }.await()
 
+    suspend fun isNetworkAvailable() = DILocator.database.isConnected()
 }

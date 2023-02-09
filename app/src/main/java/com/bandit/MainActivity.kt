@@ -3,9 +3,11 @@ package com.bandit
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.NavController
+import androidx.navigation.createGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -26,6 +28,16 @@ class MainActivity : AppCompatActivity() {
             whenStarted {
                 if(destination == true)
                     findNavController(R.id.main_nav_host).navigate(R.id.action_loginFragment_to_homeFragment)
+                else {
+                    val navHostFragment = supportFragmentManager
+                        .findFragmentById(R.id.main_nav_host) as NavHostFragment
+                    navHostFragment.navController.setGraph(
+                        R.navigation.mobile_navigation,
+                        bundleOf(
+                        Constants.SafeArgs.FAIL_LOGIN_NETWORK to true
+                        )
+                    )
+                }
             }
         }
     }
@@ -67,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun authentication(): Boolean {
         return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.authenticator.currentUser != null
+            && DILocator.authenticator.currentUser != null && AndroidUtils.isNetworkAvailable()
         ) {
             DILocator.database.init()
             true
