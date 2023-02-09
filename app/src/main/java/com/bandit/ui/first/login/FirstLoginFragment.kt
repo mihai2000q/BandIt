@@ -111,7 +111,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         PreferencesUtils.savePreference(
             super.requireActivity(),
             Constants.Preferences.REMEMBER_ME,
-            this.arguments?.getBoolean(Constants.Preferences.REMEMBER_ME) ?: false
+            this.arguments?.getBoolean(Constants.SafeArgs.REMEMBER_ME) ?: false
         )
         AndroidUtils.unlockNavigation(
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
