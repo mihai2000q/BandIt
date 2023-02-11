@@ -7,7 +7,6 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.NavController
-import androidx.navigation.createGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             whenStarted {
                 if(destination == true)
                     findNavController(R.id.main_nav_host).navigate(R.id.action_loginFragment_to_homeFragment)
-                else {
+                else if(destination == null) {
                     val navHostFragment = supportFragmentManager
                         .findFragmentById(R.id.main_nav_host) as NavHostFragment
                     navHostFragment.navController.setGraph(
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun startApp(): Boolean {
+    private suspend fun startApp(): Boolean? {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -77,10 +76,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun authentication(): Boolean {
+    private suspend fun authentication(): Boolean? {
         return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.authenticator.currentUser != null && AndroidUtils.isNetworkAvailable()
+            && DILocator.authenticator.currentUser != null
         ) {
+            if(!AndroidUtils.isNetworkAvailable()) {
+                AndroidUtils.lockNavigation(
+                    binding.mainBottomNavigationView,
+                    binding.mainDrawerLayout
+                )
+                return null
+            }
             DILocator.database.init()
             true
         } else {
