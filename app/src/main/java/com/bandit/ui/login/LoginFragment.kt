@@ -124,14 +124,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun onNetworkFailure() {
-        with(binding) {
-            loginBtLogin.error = resources.getString(R.string.no_internet_connection)
-            loginEtPassword.setText("")
-        }
-        AndroidUtils.toastNotification(
-            super.requireContext(),
+        binding.loginEtPassword.setText("")
+        AndroidUtils.snackbar(
+            binding.loginLayout,
             resources.getString(R.string.no_internet_connection),
-            Toast.LENGTH_LONG
+            resources.getString(R.string.bt_retry)
         )
     }
 

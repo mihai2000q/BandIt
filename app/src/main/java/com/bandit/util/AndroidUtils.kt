@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import com.bandit.LoadingActivity
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -158,4 +160,19 @@ object AndroidUtils {
         }.await()
 
     suspend fun isNetworkAvailable() = DILocator.database.isConnected()
+
+    fun snackbar(
+        view: View,
+        message: String,
+        text: String,
+    ) {
+        val snack = Snackbar
+            .make(
+                view,
+                message,
+                Snackbar.LENGTH_INDEFINITE
+            )
+            .setAction(text) {}
+        snack.show()
+    }
 }
