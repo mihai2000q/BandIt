@@ -76,6 +76,14 @@ object Constants {
         const val FILTER_TAG = "FILTER SONG DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "SongsViewModel"
     }
+    object Social {
+        object Chats {
+            const val VIEW_MODEL_TAG = "ChatsViewModel"
+        }
+        object Friends {
+            const val VIEW_MODEL_TAG = "FriendsViewModel"
+        }
+    }
     object Schedule {
         const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"
         const val DETAIL_TAG = "DETAIL SCHEDULE DIALOG FRAGMENT"
