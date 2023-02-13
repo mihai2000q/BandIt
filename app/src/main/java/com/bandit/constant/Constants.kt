@@ -77,6 +77,7 @@ object Constants {
         const val VIEW_MODEL_TAG = "SongsViewModel"
     }
     object Social {
+        const val NUMBER_OF_TABS = 2
         object Chats {
             const val VIEW_MODEL_TAG = "ChatsViewModel"
         }

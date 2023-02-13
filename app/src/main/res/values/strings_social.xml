@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="social_chats_tab">Chats</string>
+    <string name="social_friends_tab">Friends</string>
+</resources>

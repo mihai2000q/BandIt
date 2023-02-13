@@ -492,7 +492,7 @@ class FirebaseDatabase : Database {
                 mapOf(
                     "Concerts" to BandItEnums.Home.NavigationType.Bottom,
                     "Songs" to BandItEnums.Home.NavigationType.Bottom,
-                    "Chats" to BandItEnums.Home.NavigationType.Bottom,
+                    "Chats And Friends" to BandItEnums.Home.NavigationType.Bottom,
                     "Schedule" to BandItEnums.Home.NavigationType.Bottom,
                 )
             )
