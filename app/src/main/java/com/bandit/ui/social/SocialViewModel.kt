@@ -1,7 +1,7 @@
-package com.bandit.ui.chats
+package com.bandit.ui.social
 
 import androidx.lifecycle.ViewModel
 
-class ChatsViewModel : ViewModel() {
+class SocialViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

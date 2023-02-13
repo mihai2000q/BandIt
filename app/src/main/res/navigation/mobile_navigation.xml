@@ -42,8 +42,8 @@
         tools:layout="@layout/fragment_songs"/>
     <fragment
         android:id="@+id/navigation_chats"
-        android:name="com.bandit.ui.chats.ChatsFragment"
-        tools:layout="@layout/fragment_chats"/>
+        android:name="com.bandit.ui.social.SocialFragment"
+        tools:layout="@layout/fragment_social"/>
     <fragment
         android:id="@+id/navigation_schedule"
         android:name="com.bandit.ui.schedule.ScheduleFragment"
