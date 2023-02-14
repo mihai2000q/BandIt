@@ -21,11 +21,11 @@ class AccountViewModel : ViewModel() {
             viewModelScope.launch {
                 _database.updateAccount(
                     Account(
-                        name,
-                        nickname,
-                        _account.value!!.role,
-                        _account.value!!.bandId,
-                        _account.value!!.email
+                        name = name,
+                        nickname = nickname,
+                        role = _account.value!!.role,
+                        email = _account.value!!.email,
+                        bandId = _account.value!!.bandId
                     )
                 )
             }
