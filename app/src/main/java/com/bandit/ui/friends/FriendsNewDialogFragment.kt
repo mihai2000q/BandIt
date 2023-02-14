@@ -57,10 +57,16 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.people_filtered_toast)
+        )
+        binding.friendsDialogSearchView.clearFocus()
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
+        viewModel.filterPeople(newText)
+        return false
     }
 }

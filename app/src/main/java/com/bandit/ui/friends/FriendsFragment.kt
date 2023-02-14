@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bandit.R
 import com.bandit.databinding.FragmentFriendsBinding
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.util.AndroidUtils
@@ -69,10 +70,16 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.friend_filtered_toast)
+        )
+        binding.friendsSearchView.clearFocus()
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
+        viewModel.filterFriends(newText)
+        return false
     }
 }

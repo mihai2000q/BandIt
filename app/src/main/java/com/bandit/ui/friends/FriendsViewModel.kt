@@ -30,6 +30,15 @@ class FriendsViewModel : ViewModel() {
         _repository.rejectFriendRequest(account)
         refresh()
     }
+    fun filterFriendRequests(name: String? = null) {
+        _friendRequests.value = _repository.filterFriendRequests(name)
+    }
+    fun filterFriends(name: String? = null) {
+        _friends.value = _repository.filterFriends(name)
+    }
+    fun filterPeople(name: String? = null) {
+        _people.value = _repository.filterPeople(name)
+    }
     private fun refresh() {
         _people.value = _repository.people
         _friends.value = _repository.friends
