@@ -62,6 +62,6 @@ class BandViewModel : ViewModel() {
     }
 
     companion object {
-        const val TAG = Constants.Band.VIEW_MODEL_TAG
+        const val TAG = Constants.Social.Band.VIEW_MODEL_TAG
     }
 }

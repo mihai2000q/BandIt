@@ -35,6 +35,9 @@ object Constants {
         const val APP_PREFERENCES = "App Preferences"
         const val REMEMBER_ME = "Remember Me"
     }
+    object Component {
+        const val BOTTOM_SHEET_DIALOG_FRAGMENT_TAG = "BOTTOM SHEET DIALOG FRAGMENT TAG"
+    }
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"
     }
@@ -47,11 +50,6 @@ object Constants {
     object Account {
         const val TAG = "ACCOUNT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "AccountViewModel"
-    }
-    object Band {
-        const val CREATE_BAND_TAG = "CREATE BAND DIALOG FRAGMENT"
-        const val BAND_TAG = "BAND DIALOG FRAGMENT"
-        const val VIEW_MODEL_TAG = "BandViewModel"
     }
     object Home {
         const val BAND_INVITATION_TAG = "BAND INVITATION DIALOG FRAGMENT"
@@ -79,7 +77,7 @@ object Constants {
         const val VIEW_MODEL_TAG = "SongsViewModel"
     }
     object Social {
-        const val NUMBER_OF_TABS = 2
+        const val NUMBER_OF_TABS = 3
         object Chats {
             const val VIEW_MODEL_TAG = "ChatsViewModel"
         }
@@ -87,6 +85,11 @@ object Constants {
             const val ADD_TAG = "ADD FRIEND DIALOG FRAGMENT"
             const val NEW_FRIEND_TAG = "NEW FRIEND DIALOG FRAGMENT"
             const val VIEW_MODEL_TAG = "FriendsViewModel"
+        }
+        object Band {
+            const val CREATE_BAND_TAG = "CREATE BAND DIALOG FRAGMENT"
+            const val ADD_MEMBER_TAG = "BAND ADD MEMBER DIALOG FRAGMENT"
+            const val VIEW_MODEL_TAG = "BandViewModel"
         }
     }
     object Schedule {
@@ -96,7 +99,6 @@ object Constants {
         const val VIEW_MODEL_TAG = "ScheduleViewModel"
     }
     object ToDoList {
-        const val ADD_TAG = "ADD TO DO LIST BOTTOM SHEET DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "ToDoListViewModel"
     }
     object PersonalNotes {

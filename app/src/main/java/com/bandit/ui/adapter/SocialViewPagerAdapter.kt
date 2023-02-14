@@ -4,10 +4,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bandit.constant.Constants
+import com.bandit.ui.band.BandFragment
 import com.bandit.ui.chats.ChatsFragment
 import com.bandit.ui.friends.FriendsFragment
+import com.google.android.material.badge.ExperimentalBadgeUtils
 
-class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
+@ExperimentalBadgeUtils class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
     : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
         return Constants.Social.NUMBER_OF_TABS
@@ -16,7 +18,8 @@ class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> ChatsFragment()
-            else -> FriendsFragment()
+            1 -> FriendsFragment()
+            else -> BandFragment()
         }
     }
 }

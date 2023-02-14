@@ -51,7 +51,7 @@ class CreateBandDialogFragment : DialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Band.CREATE_BAND_TAG
+        const val TAG = Constants.Social.Band.CREATE_BAND_TAG
     }
 
 }
