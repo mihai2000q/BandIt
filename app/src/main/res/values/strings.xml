@@ -6,4 +6,5 @@
     <string name="default_note_message">Click Here to Modify</string>
     <string name="no_internet_connection">Check your internet connection</string>
     <string name="content_description_bt_reject">Reject Request</string>
+    <string name="bottom_sheet_df_edit_text">Type</string>
 </resources>

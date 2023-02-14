@@ -10,13 +10,13 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/todolist_add_et_task"
+            android:id="@+id/bottom_sheet_df_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
-            android:minHeight="48dp"
-            android:hint="@string/default_task_message"
+            android:hint="@string/bottom_sheet_df_edit_text"
             android:inputType="textPersonName"
-            android:autofillHints="" />
+            android:minHeight="48dp" />
     </LinearLayout>
 </layout>
