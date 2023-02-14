@@ -10,7 +10,7 @@ import com.bandit.data.repository.FriendRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
-class FriendsViewModel : ViewModel() {
+class   FriendsViewModel : ViewModel() {
     private val _repository = FriendRepository(DILocator.database)
     private val _people = MutableLiveData(_repository.people)
     val people: LiveData<List<Account>> = _people
@@ -19,15 +19,15 @@ class FriendsViewModel : ViewModel() {
     private val _friendRequests = MutableLiveData(_repository.friendRequests)
     val friendRequests: LiveData<List<Account>> = _friendRequests
     fun sendFriendRequest(account: Account) = viewModelScope.launch {
-        _repository.sendFriendRequest(account)
+        launch { _repository.sendFriendRequest(account) }.join()
         refresh()
     }
     fun acceptFriendRequest(account: Account) = viewModelScope.launch {
-        _repository.acceptFriendRequest(account)
+        launch { _repository.acceptFriendRequest(account) }.join()
         refresh()
     }
     fun rejectFriendRequest(account: Account) = viewModelScope.launch {
-        _repository.rejectFriendRequest(account)
+        launch { _repository.rejectFriendRequest(account) }.join()
         refresh()
     }
     fun filterFriendRequests(name: String? = null) {
