@@ -39,6 +39,7 @@
                 android:id="@+id/band_search_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:iconifiedByDefault="false"
                 android:layout_weight="1"
                 android:queryHint="@string/search_view">
 
@@ -60,7 +61,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="1"
-            tools:listitem="@layout/model_friend" />
+            tools:listitem="@layout/model_member" />
 
     </LinearLayout>
 </layout>
