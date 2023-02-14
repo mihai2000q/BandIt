@@ -23,6 +23,8 @@ object Constants {
             const val EVENTS = "Events"
             const val TASKS = "Tasks"
             const val NOTES = "Notes"
+            const val FRIENDS = "Friends"
+            const val FRIEND_REQUESTS = "FriendRequests"
             const val TAG = "FirebaseDB"
         }
         object Auth {
@@ -75,6 +77,17 @@ object Constants {
         const val EDIT_TAG = "EDIT SONG DIALOG FRAGMENT"
         const val FILTER_TAG = "FILTER SONG DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "SongsViewModel"
+    }
+    object Social {
+        const val NUMBER_OF_TABS = 2
+        object Chats {
+            const val VIEW_MODEL_TAG = "ChatsViewModel"
+        }
+        object Friends {
+            const val ADD_TAG = "ADD FRIEND DIALOG FRAGMENT"
+            const val NEW_FRIEND_TAG = "NEW FRIEND DIALOG FRAGMENT"
+            const val VIEW_MODEL_TAG = "FriendsViewModel"
+        }
     }
     object Schedule {
         const val ADD_TAG = "ADD SCHEDULE DIALOG FRAGMENT"

@@ -2,7 +2,6 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.BaseModel
-import java.util.*
 
 abstract class BaseRepository<T>(
     private val _database: Database? = null,
@@ -32,29 +31,4 @@ where T : BaseModel
     protected fun isIdUsed(id: Long): Boolean {
         return !_list.none { it.id == id }
     }
-    protected fun <E> filter(obj: E, other: E) =
-        when(obj) {
-            is String -> filterString(obj, other as String?)
-            else -> filterObjects(obj, other)
-        }
-    private fun filterString(string: String, other: String?) =
-        if(!other.isNullOrEmpty()) {
-            if(other.split(" ").size > 1)
-                filterOneString(string, other)
-            else
-                filterMultipleStrings(string, other)
-        } else true
-    private fun <E> filterObjects(obj: E, other: E) =
-        if(other == null || obj == null)
-            true
-        else Objects.equals(obj, other)
-    private fun filterMultipleStrings(string: String, other: String?): Boolean {
-        string.split(" ").forEach {
-            if(filterOneString(it, other))
-                return true
-        }
-        return false
-    }
-    private fun filterOneString(string: String, other: String?) =
-        string.lowercase().startsWith(other?.lowercase() ?: "")
 }

@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_concerts,
                 R.id.navigation_songs,
-                R.id.navigation_chats, 
+                R.id.navigation_social,
                 R.id.navigation_schedule -> binding.mainBottomNavigationView.visibility = View.VISIBLE
                 else -> binding.mainBottomNavigationView.visibility = View.GONE
             }

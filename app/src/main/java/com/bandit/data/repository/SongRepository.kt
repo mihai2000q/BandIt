@@ -4,6 +4,7 @@ import com.bandit.data.db.Database
 import com.bandit.data.model.Song
 import java.time.Duration
 import java.time.LocalDate
+import com.bandit.util.FilterUtils.filter
 
 class   SongRepository(database: Database? = null)
     : BaseRepository<Song>(database, database?.songs) {

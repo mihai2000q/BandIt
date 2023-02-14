@@ -17,9 +17,9 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_chats"
+        android:id="@+id/navigation_social"
         android:icon="@drawable/ic_baseline_chats"
-        android:title="@string/title_chats" />
+        android:title="@string/title_social" />
 
     <item
         android:id="@+id/navigation_schedule"

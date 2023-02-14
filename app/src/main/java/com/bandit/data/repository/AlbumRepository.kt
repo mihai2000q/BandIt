@@ -6,6 +6,7 @@ import com.bandit.data.model.Song
 import com.bandit.extension.normalizeWord
 import java.time.Duration
 import java.time.LocalDate
+import com.bandit.util.FilterUtils.filter
 
 class AlbumRepository(database: Database? = null)
     : BaseRepository<Album>(database, database?.albums) {
@@ -58,13 +59,4 @@ class AlbumRepository(database: Database? = null)
         album.songs[album.songs.indexOf(oldSong)] = newSong
         edit(album)
     }
-
-    fun isThereAnAlbum(name: String) : Long? {
-        val filteredList = list.filter { it.name == name.normalizeWord() }
-        return if(filteredList.size == 1)
-             filteredList.first().id
-        else null
-    }
-
-
 }

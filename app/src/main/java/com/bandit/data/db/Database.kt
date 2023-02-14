@@ -12,6 +12,9 @@ interface Database {
     val events: List<Event>
     val tasks: List<Task>
     val notes: List<Note>
+    val people: List<Account>
+    val friends: List<Account>
+    val friendRequests: List<Account>
     val currentAccount: Account
     val currentBand: Band
     val currentBandInvitation: BandInvitation
@@ -26,6 +29,9 @@ interface Database {
     suspend fun sendBandInvitation(email: String)
     suspend fun acceptBandInvitation()
     suspend fun rejectBandInvitation()
+    suspend fun sendFriendRequest(account: Account)
+    suspend fun acceptFriendRequest(account: Account)
+    suspend fun rejectFriendRequest(account: Account)
     suspend fun isEmailInUse(email: String): Boolean
     suspend fun isConnected(): Boolean
     fun clearData()

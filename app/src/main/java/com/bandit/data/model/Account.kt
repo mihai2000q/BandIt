@@ -11,7 +11,10 @@ data class Account(
     val email: String,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : BaseModel(id) {
+) : BaseModel(id), Comparable<Account> {
+    override fun compareTo(other: Account): Int {
+        return name.compareTo(other.name)
+    }
     fun isEmpty(): Boolean {
         return this == EMPTY
     }
