@@ -11,7 +11,6 @@ import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.adapter.ConcertAdapter
-import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 
 class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
@@ -19,7 +18,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
-    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,17 +35,10 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                concertsHeader.headerBtAccount,
-                concertsHeader.headerBtBand,
-                viewLifecycleOwner,
-                bandViewModel.band
+                concertsHeader.headerBtAccount
             )
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             concertsHeader.headerTvTitle.setText(R.string.title_concerts)
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                concertsBtAdd.isEnabled = !it.isEmpty()
-                concertsBtFilter.isEnabled = !it.isEmpty()
-            }
             concertsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,
@@ -60,7 +51,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     childFragmentManager
                 )
             }
-
             viewModel.concerts.observe(viewLifecycleOwner) {
                 concertsList.adapter = ConcertAdapter(
                     this@ConcertsFragment,

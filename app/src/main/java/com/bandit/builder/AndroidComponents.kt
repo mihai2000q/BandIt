@@ -125,25 +125,12 @@ object AndroidComponents {
     fun header(
         activity: FragmentActivity,
         accountButton: ImageButton,
-        bandButton: Button,
-        viewLifecycleOwner: LifecycleOwner,
-        band: LiveData<Band>
     ) {
         val accountDialogFragment = AccountDialogFragment(accountButton)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
         accountButton(
             activity,
             accountButton,
             accountDialogFragment
-        )
-        bandButton(
-            activity,
-            bandButton,
-            band,
-            viewLifecycleOwner,
-            createBandDialogFragment,
-            bandDialogFragment
         )
     }
 

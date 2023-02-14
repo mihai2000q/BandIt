@@ -12,18 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/header_switch_modes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/header_tv_title"
             android:layout_width="wrap_content"
@@ -48,17 +36,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_account"
             tools:ignore="SpeakableTextPresentCheck" />
-
-        <Button
-            android:id="@+id/header_bt_band"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/band_button_empty"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_tv_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

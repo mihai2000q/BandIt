@@ -15,7 +15,6 @@ import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentSongsBinding
 import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
-import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
 import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
@@ -25,7 +24,6 @@ class SongsFragment : Fragment() {
     private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
-    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,10 +39,7 @@ class SongsFragment : Fragment() {
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                songsHeader.headerBtAccount,
-                songsHeader.headerBtBand,
-                viewLifecycleOwner,
-                bandViewModel.band
+                songsHeader.headerBtAccount
             )
             songsHeader.headerTvTitle.setText(R.string.title_songs)
             songsBtAlbumMode.setOnClickListener {

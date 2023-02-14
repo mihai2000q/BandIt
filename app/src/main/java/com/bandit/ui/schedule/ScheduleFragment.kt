@@ -16,7 +16,6 @@ import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.extension.get2Characters
 import com.bandit.ui.adapter.EventAdapter
-import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 import java.time.Instant
@@ -27,7 +26,6 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleViewModel by activityViewModels()
-    private val bandViewModel: BandViewModel by activityViewModels()
     private var viewTypeIndex = MutableLiveData(0)
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
 
@@ -44,10 +42,7 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                scheduleHeader.headerBtAccount,
-                scheduleHeader.headerBtBand,
-                viewLifecycleOwner,
-                bandViewModel.band
+                scheduleHeader.headerBtAccount
             )
             scheduleHeader.headerTvTitle.setText(R.string.title_schedule)
             scheduleEventsView.layoutManager = GridLayoutManager(context, 1)

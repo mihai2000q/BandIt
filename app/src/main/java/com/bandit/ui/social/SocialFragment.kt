@@ -19,7 +19,6 @@ class SocialFragment : Fragment() {
     private var _binding: FragmentSocialBinding? = null
     private val binding get() = _binding!!
     private val friendsViewModel: FriendsViewModel by activityViewModels()
-    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +34,7 @@ class SocialFragment : Fragment() {
             socialHeader.headerTvTitle.text = resources.getString(R.string.title_social)
             AndroidComponents.header(
                 super.requireActivity(),
-                socialHeader.headerBtAccount,
-                socialHeader.headerBtBand,
-                viewLifecycleOwner,
-                bandViewModel.band
+                socialHeader.headerBtAccount
             )
             socialViewPager.adapter = SocialViewPagerAdapter(super.requireActivity())
             TabLayoutMediator(socialTabLayout, socialViewPager) { tab, pos ->
