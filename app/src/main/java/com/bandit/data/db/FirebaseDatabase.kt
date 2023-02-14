@@ -34,7 +34,6 @@ class FirebaseDatabase : Database {
     private var _currentBand = Band.EMPTY
     private var _currentBandInvitation = BandInvitation.EMPTY
     private val _firestore = Firebase.firestore
-    private val friendRequestDtos = mutableListOf<FriendRequestDto>()
 
     override suspend fun init() = coroutineScope {
         async {
@@ -166,8 +165,8 @@ class FirebaseDatabase : Database {
             add(
                 FriendRequestDto(
                     id = AndroidUtils.generateRandomLong(),
-                    accountId = _currentAccount.id,
-                    friendId = account.id
+                    accountId = account.id,
+                    friendId = _currentAccount.id
                 )
             )
         }
@@ -175,7 +174,9 @@ class FirebaseDatabase : Database {
 
     override suspend fun acceptFriendRequest(account: Account) = coroutineScope {
         async {
-            val dto = friendRequestDtos.first { it.accountId == _currentAccount.id && it.friendId == account.id }
+            val dto = readFriendRequestDtos {
+                it.accountId == _currentAccount.id && it.friendId == account.id
+            }.first()
             this@FirebaseDatabase.remove(dto)
             this@FirebaseDatabase.add(
                 FriendDto(
@@ -184,12 +185,21 @@ class FirebaseDatabase : Database {
                     friendId = dto.friendId
                 )
             )
+            this@FirebaseDatabase.add(
+                FriendDto(
+                    id = dto.id + 1,
+                    accountId = dto.friendId,
+                    friendId = dto.accountId
+                )
+            )
         }
     }.await()
 
     override suspend fun rejectFriendRequest(account: Account) = coroutineScope {
         async {
-            val dto = friendRequestDtos.first { it.accountId == _currentAccount.id && it.friendId == account.id }
+            val dto = readFriendRequestDtos {
+                it.accountId == _currentAccount.id && it.friendId == account.id
+            }.first()
             this@FirebaseDatabase.remove(dto)
         }
     }.await()
@@ -246,7 +256,6 @@ class FirebaseDatabase : Database {
         people.clear()
         friends.clear()
         friendRequests.clear()
-        friendRequestDtos.clear()
         homeNavigationElementsMap.clear()
     }
 
@@ -405,7 +414,6 @@ class FirebaseDatabase : Database {
         async {
             readNotes()
             readFriends()
-            readFriendRequestDtos()
             readFriendRequests()
             readPeople()
         }
@@ -466,17 +474,22 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readFriendRequestDtos() = coroutineScope {
+    private suspend fun readFriendRequestDtos(
+        predicate: (friendRequestDto: FriendRequestDto) -> Boolean
+    ): List<FriendRequestDto> =
+    coroutineScope {
         async {
-            friendRequestDtos += _firestore.collection(Constants.Firebase.Database.FRIEND_REQUESTS)
+            return@async _firestore.collection(Constants.Firebase.Database.FRIEND_REQUESTS)
                 .get()
                 .await()
-                .toObjects()
+                .toObjects<FriendRequestDto>()
+                .filter(predicate)
         }
     }.await()
 
     private suspend fun readFriendRequests() = coroutineScope {
         async {
+            val friendRequestDtos = readFriendRequestDtos { it.accountId == _currentAccount.id }
             friendRequests +=
                 readAccountDtos { acc -> friendRequestDtos.any { dto -> dto.friendId == acc.id } }
                 .map { AccountMapper.fromDtoToItem(it) }
