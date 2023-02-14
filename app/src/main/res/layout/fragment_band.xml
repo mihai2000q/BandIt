@@ -21,34 +21,28 @@
             android:text="@string/default_value"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/band_tv_members"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
-            android:text="@string/band_members"
-            android:textSize="16sp" />
-
         <LinearLayout
+            android:id="@+id/band_horizontal_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
             android:orientation="horizontal">
 
-            <SearchView
-                android:id="@+id/band_search_view"
+            <TextView
+                android:id="@+id/band_tv_members"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:queryHint="@string/search_view">
-
-            </SearchView>
+                android:text="@string/band_members"
+                android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/band_bt_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/content_description_bt_add"
                 app:srcCompat="@drawable/ic_baseline_add_circle" />
@@ -61,7 +55,17 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="1"
-            tools:listitem="@layout/model_member" />
+            tools:listitem="@layout/model_member">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/band_bt_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:text="@string/band_button_create" />
 
     </LinearLayout>
 </layout>

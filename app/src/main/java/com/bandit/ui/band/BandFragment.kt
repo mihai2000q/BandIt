@@ -28,13 +28,30 @@ class BandFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             val bandAddMemberDialogFragment = BandAddMemberDialogFragment()
-            AndroidUtils.ifNullHide(bandTvName, viewModel.band.value?.name)
+            val bandCreateBandDialogFragment = BandCreateDialogFragment()
             viewModel.members.observe(viewLifecycleOwner) {
-                bandRvMemberList.adapter = BandAdapter(it)
+                bandTvName.text = viewModel.band.value?.name
+                if(it.isEmpty()) {
+                    bandRvMemberList.visibility = View.GONE
+                    bandBtCreate.visibility = View.VISIBLE
+                    bandHorizontalLayout.visibility = View.INVISIBLE
+                }
+                else {
+                    bandBtCreate.visibility = View.GONE
+                    bandRvMemberList.visibility = View.VISIBLE
+                    bandHorizontalLayout.visibility = View.VISIBLE
+                    bandRvMemberList.adapter = BandAdapter(it)
+                }
             }
             bandBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     bandAddMemberDialogFragment,
+                    childFragmentManager
+                )
+            }
+            bandBtCreate.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    bandCreateBandDialogFragment,
                     childFragmentManager
                 )
             }

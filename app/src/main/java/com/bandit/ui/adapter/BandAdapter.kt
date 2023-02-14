@@ -33,17 +33,17 @@ data class BandAdapter(
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
         with(holder.binding) {
-            memberTvName.text = account.name
-            bandTvRole.text = account.role.name
+            memberNickname.text = account.nickname
+            memberRole.text = account.role.name
             if(DILocator.database.currentBand.creator == account.id)
-                bandTvAccepted.setText(R.string.band_member_creator)
+                memberStatus.setText(R.string.band_member_creator)
             else if(hasAccepted) {
-                bandTvAccepted.setText(R.string.band_member_accepted_true)
-                bandTvAccepted.setTextColor(Color.GREEN)
+                memberStatus.setText(R.string.band_member_accepted_true)
+                memberStatus.setTextColor(Color.GREEN)
             }
             else {
-                bandTvAccepted.setText(R.string.band_member_accepted_false)
-                bandTvAccepted.setTextColor(Color.RED)
+                memberStatus.setText(R.string.band_member_accepted_false)
+                memberStatus.setTextColor(Color.RED)
             }
         }
     }

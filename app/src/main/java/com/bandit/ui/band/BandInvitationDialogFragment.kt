@@ -7,19 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
-import kotlinx.coroutines.launch
 
 class BandInvitationDialogFragment : DialogFragment() {
 
     private var _binding: DialogFragmentBandInvitationBinding? = null
     private val binding get() = _binding!!
-    private val bandViewModel: BandViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val viewModel: BandViewModel by activityViewModels()
     private var clicked = false
 
     override fun onCreateView(
@@ -33,16 +31,17 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val bandInvitation = _database.currentBandInvitation
+            val bandInvitation = DILocator.database.currentBandInvitation
             bandInvitationTvTitle.text = buildString {
                 append("You have been invited to ")
                 append(bandInvitation.band.name)
             }
             bandInvitationBtAccept.setOnClickListener {
-                AndroidUtils.loadTask(this@BandInvitationDialogFragment) {
-                    _database.acceptBandInvitation()
-                }
-                bandViewModel.refresh()
+                viewModel.acceptBandInvitation()
+                AndroidUtils.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.band_invite_accepted_toast)
+                )
                 clicked = true
                 super.dismiss()
             }
@@ -56,9 +55,11 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if(clicked) return
-        lifecycleScope.launch {
-            _database.rejectBandInvitation()
-        }
+        viewModel.rejectBandInvitation()
+        AndroidUtils.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.band_invite_rejected_toast)
+        )
     }
 
     override fun onDestroyView() {

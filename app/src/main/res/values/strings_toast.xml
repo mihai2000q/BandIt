@@ -4,8 +4,10 @@
     <string name="first_login_toast">Account created successfully</string>
     <string name="sign_up_toast">A confirmation email has been sent successfully</string>
     <string name="sign_out_toast">Signed out</string>
-    <string name="create_band_toast">Band Created</string>
-    <string name="invite_band_toast">Band Invitation Sent</string>
+    <string name="band_create_toast">Band Created</string>
+    <string name="band_invite_toast">Band Invitation Sent</string>
+    <string name="band_invite_accepted_toast">Band Invitation Accepted</string>
+    <string name="band_invite_rejected_toast">Band Invitation Rejected</string>
     <string name="concert_add_toast">Concert Added</string>
     <string name="concert_edit_toast">Concert Edited</string>
     <string name="concert_remove_toast">Concert Removed</string>

@@ -26,7 +26,7 @@ interface Database {
     suspend fun setUserAccountSetup(isAccountSetup: Boolean)
     suspend fun isUserAccountSetup(): Boolean?
     suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto)
-    suspend fun sendBandInvitation(email: String)
+    suspend fun sendBandInvitation(account: Account)
     suspend fun acceptBandInvitation()
     suspend fun rejectBandInvitation()
     suspend fun sendFriendRequest(account: Account)
