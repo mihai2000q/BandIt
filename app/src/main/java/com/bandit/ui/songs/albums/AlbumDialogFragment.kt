@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.builder.AndroidComponents
+import com.bandit.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentAlbumBinding
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils

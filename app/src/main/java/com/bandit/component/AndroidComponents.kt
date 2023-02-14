@@ -1,4 +1,4 @@
-package com.bandit.builder
+package com.bandit.component
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -8,14 +8,9 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import com.bandit.R
-import com.bandit.data.model.Band
 import com.bandit.extension.get2Characters
 import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
-import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 import java.util.*
 
@@ -112,12 +107,12 @@ object AndroidComponents {
         message: String,
         positive: String,
         negative: String,
-        deleteAction: () -> Unit
+        onPositiveAction: () -> Unit
     ): AlertDialog {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setPositiveButton(positive) { _, _ -> deleteAction() }
+        builder.setPositiveButton(positive) { _, _ -> onPositiveAction() }
         builder.setNegativeButton(negative) { _, _ -> }
         return builder.create()
     }
@@ -125,25 +120,12 @@ object AndroidComponents {
     fun header(
         activity: FragmentActivity,
         accountButton: ImageButton,
-        bandButton: Button,
-        viewLifecycleOwner: LifecycleOwner,
-        band: LiveData<Band>
     ) {
         val accountDialogFragment = AccountDialogFragment(accountButton)
-        val createBandDialogFragment = CreateBandDialogFragment()
-        val bandDialogFragment = BandDialogFragment()
         accountButton(
             activity,
             accountButton,
             accountDialogFragment
-        )
-        bandButton(
-            activity,
-            bandButton,
-            band,
-            viewLifecycleOwner,
-            createBandDialogFragment,
-            bandDialogFragment
         )
     }
 
@@ -163,33 +145,6 @@ object AndroidComponents {
                     R.drawable.ic_baseline_account_clicked
                 )
             )
-        }
-    }
-    private fun bandButton(
-        activity: FragmentActivity,
-        button: Button,
-        band: LiveData<Band>,
-        viewLifecycleOwner: LifecycleOwner,
-        createBandDialogFragment: CreateBandDialogFragment,
-        bandDialogFragment: BandDialogFragment
-    ) {
-        band.observe(viewLifecycleOwner) {
-            if (it.isEmpty())
-                button.setOnClickListener {
-                    AndroidUtils.showDialogFragment(
-                        createBandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
-            else {
-                button.text = it.name
-                button.setOnClickListener {
-                    AndroidUtils.showDialogFragment(
-                        bandDialogFragment,
-                        activity.supportFragmentManager
-                    )
-                }
-            }
         }
     }
 }

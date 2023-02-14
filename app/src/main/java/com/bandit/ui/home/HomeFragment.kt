@@ -8,11 +8,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.builder.AndroidComponents
+import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.band.BandInvitationDialogFragment
-import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
@@ -20,7 +19,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
-    private val bandViewModel: BandViewModel by activityViewModels()
     private val _database = DILocator.database
 
     override fun onCreateView(
@@ -37,13 +35,8 @@ class HomeFragment : Fragment() {
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
-                homeHeader.headerBtAccount,
-                homeHeader.headerBtBand,
-                viewLifecycleOwner,
-                bandViewModel.band
+                homeHeader.headerBtAccount
             )
-            // it's focused in case the user pressed enter to log in
-            homeHeader.headerSwitchModes.clearFocus()
             homeHeader.headerTvTitle.setText(R.string.title_home)
             viewModel.generateHomeElements(
                 homeSvTableLayout,

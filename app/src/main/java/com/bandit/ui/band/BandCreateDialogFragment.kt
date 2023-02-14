@@ -11,7 +11,7 @@ import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
 import com.bandit.util.AndroidUtils
 
-class CreateBandDialogFragment : DialogFragment() {
+class BandCreateDialogFragment : DialogFragment() {
 
     private var _binding: DialogFragmentCreateBandBinding? = null
     private val binding get() = _binding!!
@@ -34,10 +34,10 @@ class CreateBandDialogFragment : DialogFragment() {
             createBandBtCreate.setOnClickListener {
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
-                    AndroidUtils.loadTask(this@CreateBandDialogFragment) { this.createBand() }
+                    AndroidUtils.loadTask(this@BandCreateDialogFragment) { this.createBand() }
                     AndroidUtils.toastNotification(
                         super.requireContext(),
-                        resources.getString(R.string.create_band_toast)
+                        resources.getString(R.string.band_create_toast)
                     )
                 }
                 super.dismiss()
@@ -51,7 +51,7 @@ class CreateBandDialogFragment : DialogFragment() {
     }
 
     companion object {
-        const val TAG = Constants.Band.CREATE_BAND_TAG
+        const val TAG = Constants.Social.Band.CREATE_BAND_TAG
     }
 
 }

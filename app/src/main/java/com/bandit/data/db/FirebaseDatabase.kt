@@ -107,17 +107,14 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    override suspend fun sendBandInvitation(email: String) = coroutineScope {
+    override suspend fun sendBandInvitation(account: Account) = coroutineScope {
         async {
-            val accountDtos = readAccountDtos { it.email == email }
-            if (accountDtos.isEmpty()) return@async
-            val accountDto = accountDtos.first()
-            _currentBand.members[AccountMapper.fromDtoToItem(accountDto)] = false
+            _currentBand.members[account] = false
             setBandInvitation(
                 BandInvitationDto(
                     AndroidUtils.generateRandomLong(),
                     currentBand.id,
-                    accountDto.id,
+                    account.id,
                     false
                 )
             )
@@ -129,9 +126,6 @@ class FirebaseDatabase : Database {
             val bandInvitationDtos = readBandInvitationDtos {
                 it.accountId == _currentAccount.id
             }
-
-            if (bandInvitationDtos.size != 1)
-                throw RuntimeException("there can't be more invitations with the same account Id")
 
             val bandInvitationDto = bandInvitationDtos.first()
             bandInvitationDto.accepted = true
@@ -156,7 +150,7 @@ class FirebaseDatabase : Database {
                     Log.e(Constants.Firebase.Database.TAG, "Band Invitations ERROR $it")
                 }
                 .await()
-            return@async
+            _currentBandInvitation = BandInvitation.EMPTY
         }
     }.await()
 
