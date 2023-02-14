@@ -10,8 +10,11 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.databinding.FragmentFriendsBinding
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.util.AndroidUtils
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
 
-class FriendsFragment : Fragment(), OnQueryTextListener {
+@ExperimentalBadgeUtils class FriendsFragment : Fragment(), OnQueryTextListener {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
@@ -30,6 +33,17 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            var badgeDrawable: BadgeDrawable? = null
+            viewModel.friendRequests.observe(viewLifecycleOwner) {
+                if(it.isEmpty() && badgeDrawable != null) {
+                    BadgeUtils.detachBadgeDrawable(badgeDrawable, friendsBtAdd)
+                    return@observe
+                }
+                badgeDrawable = BadgeDrawable.create(super.requireContext())
+                badgeDrawable!!.number = it.size
+                badgeDrawable!!.isVisible = true
+                BadgeUtils.attachBadgeDrawable(badgeDrawable!!, friendsBtAdd)
+            }
             friendsBtAddNewFriends.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     friendsNewDialogFragment,
