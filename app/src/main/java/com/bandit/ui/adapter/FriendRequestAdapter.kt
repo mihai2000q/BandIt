@@ -35,6 +35,8 @@ class FriendRequestAdapter(
         val friendRequest = friendRequests[position]
 
         with(holder.binding) {
+            friendRqName.text = friendRequest.name
+            friendRqNickname.text = friendRequest.nickname
             friendRqBtAccept.setOnClickListener { accept(holder, friendRequest) }
             friendRqBtReject.setOnClickListener { reject(holder, friendRequest) }
         }
