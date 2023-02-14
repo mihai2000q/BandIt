@@ -44,7 +44,7 @@ class SocialFragment : Fragment() {
             TabLayoutMediator(socialTabLayout, socialViewPager) { tab, pos ->
                 when(pos) {
                     0 -> tab.text = resources.getString(R.string.social_chats_tab)
-                    else -> {
+                    1 -> {
                         tab.text = resources.getString(R.string.social_friends_tab)
                         friendsViewModel.friendRequests.observe(viewLifecycleOwner) {
                             val badge = tab.orCreateBadge
@@ -52,6 +52,7 @@ class SocialFragment : Fragment() {
                             badge.number = it.size
                         }
                     }
+                    else -> tab.text = resources.getString(R.string.social_band_tab)
                 }
             }.attach()
         }
