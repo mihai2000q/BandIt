@@ -14,7 +14,6 @@ import com.bandit.R
 import com.bandit.data.model.Band
 import com.bandit.extension.get2Characters
 import com.bandit.ui.account.AccountDialogFragment
-import com.bandit.ui.band.BandDialogFragment
 import com.bandit.ui.band.CreateBandDialogFragment
 import com.bandit.util.AndroidUtils
 import java.util.*

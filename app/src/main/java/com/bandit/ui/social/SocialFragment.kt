@@ -10,11 +10,11 @@ import com.bandit.R
 import com.bandit.builder.AndroidComponents
 import com.bandit.databinding.FragmentSocialBinding
 import com.bandit.ui.adapter.SocialViewPagerAdapter
-import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.friends.FriendsViewModel
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.tabs.TabLayoutMediator
 
-class SocialFragment : Fragment() {
+@ExperimentalBadgeUtils class SocialFragment : Fragment() {
 
     private var _binding: FragmentSocialBinding? = null
     private val binding get() = _binding!!

@@ -33,7 +33,7 @@ data class BandAdapter(
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
         with(holder.binding) {
-            bandTvName.text = account.name
+            memberTvName.text = account.name
             bandTvRole.text = account.role.name
             if(DILocator.database.currentBand.creator == account.id)
                 bandTvAccepted.setText(R.string.band_member_creator)
