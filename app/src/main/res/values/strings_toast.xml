@@ -31,4 +31,6 @@
     <string name="note_add_toast">Note Added</string>
     <string name="note_edit_toast">Note Edited</string>
     <string name="note_remove_toast">Note Removed</string>
+    <string name="friend_request_sent_toast">Friend Request Sent</string>
+    <string name="friend_request_accepted_toast">Friend Request Accepted</string>
 </resources>
