@@ -58,7 +58,7 @@ class HomeFragmentInstrumentedTest {
         beforeEach()
         onView(withText("Your Chats")).perform(click())
         onView(withText("This is the Chats Fragment")).check(matches(isDisplayed()))
-        onView(withId(R.id.navigation_chats)).check(matches(isSelected()))
+        onView(withId(R.id.navigation_social)).check(matches(isSelected()))
     }
     @Test
     fun home_elements_navigation_schedule() {
