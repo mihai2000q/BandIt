@@ -1,4 +1,4 @@
-package com.bandit.builder
+package com.bandit.component
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog

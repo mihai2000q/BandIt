@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.builder.AndroidComponents
+import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.band.BandInvitationDialogFragment

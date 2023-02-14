@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bandit.R
-import com.bandit.builder.AndroidComponents
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.extension.get2Characters
