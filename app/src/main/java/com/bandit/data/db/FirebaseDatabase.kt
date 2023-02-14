@@ -463,14 +463,22 @@ class FirebaseDatabase : Database {
 
     private suspend fun readFriends() = coroutineScope {
         async {
-            val dtos = _firestore.collection(Constants.Firebase.Database.FRIENDS)
+            val table = Constants.Firebase.Database.FRIENDS
+            val dtos = _firestore.collection(table)
                 .get()
+                .addOnSuccessListener {
+                    Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
+                }
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
+                }
                 .await()
                 .toObjects<FriendDto>()
                 .filter { it.accountId == _currentAccount.id }
 
-            val accountDtos = readAccountDtos { acc -> dtos.any { dto -> dto.friendId == acc.id } }
-            accountDtos.forEach { friends.add(AccountMapper.fromDtoToItem(it)) }
+            friends +=
+                readAccountDtos { acc -> dtos.any { dto -> dto.friendId == acc.id } }
+                .map { AccountMapper.fromDtoToItem(it) }
         }
     }.await()
 
@@ -479,8 +487,15 @@ class FirebaseDatabase : Database {
     ): List<FriendRequestDto> =
     coroutineScope {
         async {
-            return@async _firestore.collection(Constants.Firebase.Database.FRIEND_REQUESTS)
+            val table = Constants.Firebase.Database.FRIEND_REQUESTS
+            return@async _firestore.collection(table)
                 .get()
+                .addOnSuccessListener {
+                    Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
+                }
+                .addOnFailureListener {
+                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
+                }
                 .await()
                 .toObjects<FriendRequestDto>()
                 .filter(predicate)
@@ -489,9 +504,9 @@ class FirebaseDatabase : Database {
 
     private suspend fun readFriendRequests() = coroutineScope {
         async {
-            val friendRequestDtos = readFriendRequestDtos { it.accountId == _currentAccount.id }
+            val dtos = readFriendRequestDtos { it.accountId == _currentAccount.id }
             friendRequests +=
-                readAccountDtos { acc -> friendRequestDtos.any { dto -> dto.friendId == acc.id } }
+                readAccountDtos { acc -> dtos.any { dto -> dto.friendId == acc.id } }
                 .map { AccountMapper.fromDtoToItem(it) }
         }
     }.await()
@@ -511,6 +526,7 @@ class FirebaseDatabase : Database {
                 .toObjects<AccountDto>()
                 .map { AccountMapper.fromDtoToItem(it) }
             people -= _currentAccount
+            people -= friendRequests.toSet()
             people -= friends.toSet()
         }
     }.await()

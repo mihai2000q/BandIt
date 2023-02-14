@@ -35,11 +35,7 @@ class SocialFragment : Fragment() {
                     0 -> tab.text = resources.getString(R.string.social_chats_tab)
                     else -> {
                         tab.text = resources.getString(R.string.social_friends_tab)
-                        friendsViewModel.friendRequests.observe(viewLifecycleOwner) {
-                            val badge = tab.orCreateBadge
-                            badge.isVisible = it.isNotEmpty()
-                            badge.number = it.size
-                        }
+
                     }
                 }
             }.attach()

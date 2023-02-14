@@ -10,7 +10,7 @@ import com.bandit.data.repository.FriendRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
-class   FriendsViewModel : ViewModel() {
+class FriendsViewModel : ViewModel() {
     private val _repository = FriendRepository(DILocator.database)
     private val _people = MutableLiveData(_repository.people)
     val people: LiveData<List<Account>> = _people
@@ -43,6 +43,10 @@ class   FriendsViewModel : ViewModel() {
         _people.value = _repository.people
         _friends.value = _repository.friends
         _friendRequests.value = _repository.friendRequests
+    }
+
+    override fun onCleared() {
+        super.onCleared()
     }
     companion object {
         const val TAG = Constants.Social.Friends.VIEW_MODEL_TAG

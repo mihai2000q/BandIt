@@ -20,7 +20,6 @@ class FriendRepository(val database: Database? = null) {
     suspend fun acceptFriendRequest(account: Account) {
         database?.acceptFriendRequest(account)
         _friendRequests.remove(account)
-        _people.remove(account)
         _friends.add(account)
     }
 
