@@ -9,6 +9,8 @@ import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class BandViewModel : ViewModel() {
@@ -18,7 +20,7 @@ class BandViewModel : ViewModel() {
     private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())
     val members: LiveData<MutableMap<Account, Boolean>> = _members
     val name = MutableLiveData<String>()
-    suspend fun createBand() {
+    suspend fun createBand() = coroutineScope {
         with(_database) {
             val band = Band(
                 name.value!!,
@@ -49,8 +51,8 @@ class BandViewModel : ViewModel() {
         }
     }
 
-    suspend fun sendBandInvitation(email: String) {
-        runBlocking { _database.sendBandInvitation(email) }
+    suspend fun sendBandInvitation(email: String) = coroutineScope {
+        launch { _database.sendBandInvitation(email) }.join()
         refresh()
     }
 
