@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentFriendsBinding
-import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.ui.adapter.FriendRequestAdapter
 import com.bandit.util.AndroidUtils
 
-class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
+class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
     private var _binding: DialogFragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
@@ -34,17 +33,16 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        viewModel.people.observe(viewLifecycleOwner) {
-            binding.friendsDialogList.adapter = PeopleAdapter(it.sorted()) { acc ->
-                viewModel.sendFriendRequest(acc)
-                AndroidUtils.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.friend_request_sent_toast)
+        with(binding) {
+            friendsDialogSearchView.setOnQueryTextListener(this@FriendsAddDialogFragment)
+            viewModel.friendRequests.observe(viewLifecycleOwner) {
+                friendsDialogList.adapter = FriendRequestAdapter(
+                    this@FriendsAddDialogFragment,
+                    it.sorted(),
+                    viewModel
                 )
-                super.dismiss()
             }
         }
-        binding.friendsDialogSearchView.setOnQueryTextListener(this)
     }
 
     override fun onDestroy() {
@@ -53,7 +51,7 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
     }
 
     companion object {
-        const val TAG = Constants.Social.Friends.NEW_FRIEND_TAG
+        const val TAG = Constants.Social.Friends.ADD_TAG
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

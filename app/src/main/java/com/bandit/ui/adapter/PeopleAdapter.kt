@@ -36,7 +36,6 @@ class PeopleAdapter(
                 friendName.text = account.name
                 friendNickname.text = account.nickname
                 friendRole.text = account.role.name.normalizeWord()
-                friendBand.text = ""
             }
         }
     }

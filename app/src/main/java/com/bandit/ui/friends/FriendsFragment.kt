@@ -16,6 +16,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
     private val friendsNewDialogFragment = FriendsNewDialogFragment()
+    private val friendsAddDialogFragment = FriendsAddDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +37,10 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 )
             }
             friendsBtAdd.setOnClickListener {
-
+                AndroidUtils.showDialogFragment(
+                    friendsAddDialogFragment,
+                    childFragmentManager
+                )
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             viewModel.friends.observe(viewLifecycleOwner) {

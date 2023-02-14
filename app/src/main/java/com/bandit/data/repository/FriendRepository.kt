@@ -18,13 +18,13 @@ class FriendRepository(val database: Database? = null) {
     }
 
     suspend fun acceptFriendRequest(account: Account) {
-        //database?.sendFriendRequest(account)
+        database?.sendFriendRequest(account)
         _friendRequests.remove(account)
         _friends.add(account)
     }
 
     suspend fun rejectFriendRequest(account: Account) {
-        //database?.sendFriendRequest(account)
+        database?.sendFriendRequest(account)
         _friendRequests.remove(account)
         _people.add(account)
     }
