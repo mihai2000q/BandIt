@@ -47,7 +47,6 @@ class SongsFragment : Fragment() {
                 bandViewModel.band
             )
             songsHeader.headerTvTitle.setText(R.string.title_songs)
-            songsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 5 / 8
             songsBtAlbumMode.setOnClickListener {
                 songsSearchView.setQuery("", false)
                 viewModel.albumMode.value = !viewModel.albumMode.value!!

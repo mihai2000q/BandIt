@@ -25,12 +25,11 @@
 
             <SearchView
                 android:id="@+id/concerts_search_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:iconifiedByDefault="false"
                 android:inputType="textPersonName"
-                android:maxWidth="300dp"
                 android:queryHint="@string/search_view" />
 
             <ImageButton

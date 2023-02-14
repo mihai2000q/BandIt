@@ -42,7 +42,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 viewLifecycleOwner,
                 bandViewModel.band
             )
-            concertsSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 11 / 15
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             concertsHeader.headerTvTitle.setText(R.string.title_concerts)
             bandViewModel.band.observe(viewLifecycleOwner) {
