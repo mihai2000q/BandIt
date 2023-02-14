@@ -6,6 +6,7 @@ import com.bandit.data.model.Concert
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
+import com.bandit.util.FilterUtils.filter
 
 class ConcertRepository(database: Database? = null)
     : BaseRepository<Concert>(database, database?.concerts) {

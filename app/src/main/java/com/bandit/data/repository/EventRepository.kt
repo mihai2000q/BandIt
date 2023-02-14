@@ -6,6 +6,7 @@ import com.bandit.data.model.Event
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
+import com.bandit.util.FilterUtils.filter
 
 class EventRepository(database: Database? = null)
     : BaseRepository<Event>(database, database?.events) {

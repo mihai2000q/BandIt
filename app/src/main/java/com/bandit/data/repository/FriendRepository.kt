@@ -2,6 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Account
+import com.bandit.util.FilterUtils
 
 class FriendRepository(val database: Database? = null) {
     private val _people: MutableList<Account> = database?.people?.toMutableList() ?: mutableListOf()
@@ -28,4 +29,14 @@ class FriendRepository(val database: Database? = null) {
         _friendRequests.remove(account)
         _people.add(account)
     }
+
+    fun filterFriendRequests(name: String? = null): List<Account> =
+        _friendRequests.filter { FilterUtils.filter(it.name, name) }
+
+    fun filterFriends(name: String? = null): List<Account> =
+        _friends.filter { FilterUtils.filter(it.name, name) }
+
+    fun filterPeople(name: String? = null): List<Account> =
+        _people.filter { FilterUtils.filter(it.name, name) }
+
 }
