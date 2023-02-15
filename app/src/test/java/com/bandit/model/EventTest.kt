@@ -70,6 +70,7 @@ class EventTest {
             bandId = -1
         )
         assertEquals(event1, event3)
+        assertNotEquals(event1.id, event3.id)
         assertNotEquals(event1, event2)
     }
     @Test

@@ -37,13 +37,13 @@ class BandViewModel : ViewModel() {
             )
             this.updateAccount(
                 Account(
-                    currentAccount.name,
-                    currentAccount.nickname,
-                    currentAccount.role,
-                    band.id,
-                    currentAccount.email,
-                    currentAccount.id,
-                    currentAccount.userUid
+                    name = currentAccount.name,
+                    nickname = currentAccount.nickname,
+                    role = currentAccount.role,
+                    email = currentAccount.email,
+                    bandId = band.id,
+                    id = currentAccount.id,
+                    userUid = currentAccount.userUid
                 )
             )
             refresh()

@@ -55,6 +55,7 @@ class AlbumTest {
             "The Label"
         )
         assertEquals(album1, album3)
+        assertNotEquals(album1.id, album2.id)
         assertNotEquals(album1, album2)
     }
 

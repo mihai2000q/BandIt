@@ -52,6 +52,7 @@ class TaskTest {
         )
         Assert.assertEquals(task, task3)
         Assert.assertNotEquals(task, task2)
+        Assert.assertNotEquals(task.id, task3.id)
     }
     @Test
     fun task_sort() {

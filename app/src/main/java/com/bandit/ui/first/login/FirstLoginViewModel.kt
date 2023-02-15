@@ -16,11 +16,11 @@ class FirstLoginViewModel : ViewModel() {
     suspend fun createAccount() {
         _database.add(
             Account(
-                name.value!!,
-                nickname.value!!,
-                role.value!!,
-                null,
-                _auth.currentUser?.email ?: "",
+                name = name.value!!,
+                nickname = nickname.value!!,
+                role = role.value!!,
+                bandId = null,
+                email = _auth.currentUser?.email ?: "",
                 userUid = _auth.currentUser?.uid
             )
         )
