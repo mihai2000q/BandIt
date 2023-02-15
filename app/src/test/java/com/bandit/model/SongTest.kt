@@ -64,6 +64,7 @@ class SongTest {
         )
         assertEquals(song, song3)
         assertNotEquals(song, song2)
+        assertNotEquals(song.id, song3.id)
     }
     @Test
     fun song_sort_by_release_date() {

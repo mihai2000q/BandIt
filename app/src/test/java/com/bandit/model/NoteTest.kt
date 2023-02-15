@@ -52,6 +52,7 @@ class NoteTest {
         )
         Assert.assertEquals(note, note3)
         Assert.assertNotEquals(note, note2)
+        Assert.assertNotEquals(note.id, note3.id)
     }
     @Test
     fun note_sort() {
