@@ -19,7 +19,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="16dp"
             android:max="3"
             android:scaleX="0.75"
             android:scaleY="3"
@@ -42,28 +42,81 @@
             app:layout_constraintTop_toBottomOf="@+id/first_login_progress_bar"
             app:layout_constraintVertical_bias="0.00999999" />
 
-        <ImageView
-            android:id="@+id/first_login_iv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_iv_logo"
-            android:scaleX="3"
-            android:scaleY="3"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ViewFlipper
+            android:id="@+id/first_login_image_flipper"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:autoStart="true"
+            android:flipInterval="4000"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            app:layout_constraintBottom_toTopOf="@id/first_login_vf_form"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_title"
-            app:layout_constraintVertical_bias="0.25"
-            app:srcCompat="@mipmap/ic_logo_foreground" />
+            app:layout_constraintTop_toBottomOf="@+id/first_login_title">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_1" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_2" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_3" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_4" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_5" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_6" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_description_first_login_image"
+                app:srcCompat="@drawable/first_login_7" />
+
+        </ViewFlipper>
 
         <ViewFlipper
             android:id="@+id/first_login_vf_form"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out"
             app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo">
+            app:layout_constraintTop_toBottomOf="@+id/first_login_title"
+            app:layout_constraintVertical_bias="0.84000003">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="@string/tv_name"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/first_login_et_name"
                     app:layout_constraintEnd_toStartOf="@+id/first_login_et_name"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -93,6 +146,7 @@
                     android:hint="@string/et_name_non_mandatory"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -110,8 +164,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/tv_name"
-                    android:textSize="16sp"
+                    android:text="@string/tv_nickname"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/first_login_et_nickname"
                     app:layout_constraintEnd_toStartOf="@+id/first_login_et_nickname"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -125,9 +179,10 @@
                     android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:ems="10"
-                    android:hint="@string/et_name_non_mandatory"
+                    android:hint="@string/et_nickname"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -146,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="@string/tv_name"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/first_login_spinner_role"
                     app:layout_constraintEnd_toStartOf="@+id/first_login_spinner_role"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -159,6 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -175,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/first_login_tv_subject_last"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -196,8 +252,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/first_login_bt_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintTop_toBottomOf="@+id/first_login_image_flipper"
+            app:layout_constraintVertical_bias="0.51" />
 
         <Button
             android:id="@+id/first_login_bt_cancel"

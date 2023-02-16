@@ -22,7 +22,6 @@ import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.launch
 
 class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
-
     private var _binding: FragmentFirstLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FirstLoginViewModel by activityViewModels()
@@ -54,7 +53,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         }
                 }
             }
-
         }
     }
 

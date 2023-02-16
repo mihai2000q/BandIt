@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="first_login_tv_title">Welcome on</string>
-    <string name="first_login_tv_subject_nickname">Nickname:</string>
-    <string name="first_login_tv_subject_role">Role:</string>
+    <string name="first_login_tv_title">Setup Account</string>
     <string name="first_login_tv_subject_last">Congratulations on setting up your account</string>
     <string name="first_login_bt_next_last">Go To Home</string>
 </resources>
