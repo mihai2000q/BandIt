@@ -164,6 +164,7 @@ object AndroidUtils {
         view: View,
         message: String,
         text: String,
+        action: (() -> Unit)? = null
     ) {
         val snack = Snackbar
             .make(
@@ -171,7 +172,9 @@ object AndroidUtils {
                 message,
                 Snackbar.LENGTH_INDEFINITE
             )
-            .setAction(text) {}
+            .setAction(text) {
+                action?.invoke()
+            }
         snack.show()
     }
 }
