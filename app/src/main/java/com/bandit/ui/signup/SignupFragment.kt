@@ -1,24 +1,21 @@
 package com.bandit.ui.signup
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bandit.LoadingActivity
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
-import kotlinx.coroutines.launch
 
 class SignupFragment : Fragment() {
 
@@ -38,6 +35,17 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            signupEtPassword.setOnKeyListener { _, keyCode, event ->
+                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    signupButton.callOnClick()
+                    signupButton.requestFocus()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+            signupCbTerms.setOnClickListener {
+                AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, signupCbTerms)
+            }
             viewModel.email.observe(viewLifecycleOwner) {
                 signupEtEmail.setText(it)
             }
@@ -85,6 +93,18 @@ class SignupFragment : Fragment() {
             }
             if(signupEtPassword.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
                 signupEtPassword.error = resources.getText(R.string.et_pass_validation_minimum)
+                return false
+            }
+            if(!signupCbTerms.isChecked) {
+                signupCbTerms.error = resources.getString(R.string.cb_terms_validation)
+                AndroidUtils.snackbar(
+                    binding.signupLayout,
+                    resources.getString(R.string.cb_terms_validation),
+                    resources.getString(R.string.bt_accept)
+                ) {
+                    signupCbTerms.isChecked = true
+                    signupCbTerms.error = null
+                }
                 return false
             }
         }
