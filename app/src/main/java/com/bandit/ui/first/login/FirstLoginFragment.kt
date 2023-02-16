@@ -67,43 +67,46 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         with(binding) {
             when (phase) {
                 0 -> {
-                    viewModel.name.value = firstLoginEtString.text.toString()
-                    if(firstLoginEtString.text.isNullOrEmpty()) {
-                        firstLoginEtString.error = resources.getString(R.string.et_name_validation)
-                        return@with
+                    if (firstLoginEtName.text.isNullOrEmpty()) {
+                        firstLoginEtName.error = resources.getString(R.string.et_name_validation)
+                        return false
                     }
-                    phase(resources.getString(R.string.first_login_tv_subject_nickname))
+                    viewModel.name.value = firstLoginEtName.text.toString()
+                    flip()
                     return false
                 }
                 1 -> {
-                    viewModel.nickname.value = firstLoginEtString.text.toString()
-                    if(firstLoginEtString.text.isNullOrEmpty()) {
-                        firstLoginEtString.error = resources.getString(R.string.et_nickname_validation)
-                        return@with
+                    if (firstLoginEtNickname.text.isNullOrEmpty()) {
+                        firstLoginEtNickname.error = resources.getString(R.string.et_nickname_validation)
+                        return false
                     }
-                    phase(resources.getString(R.string.first_login_tv_subject_role))
-                    firstLoginEtString.visibility = View.GONE
-                    firstLoginSpinnerRole.visibility = View.VISIBLE
-                    AndroidUtils.hideKeyboard(
-                        super.requireActivity(),
-                        Context.INPUT_METHOD_SERVICE,
-                        binding.firstLoginTitle
-                    )
+                    viewModel.nickname.value = firstLoginEtNickname.text.toString()
+                    flip()
                     return false
                 }
                 2 -> {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
                     createAccount()
-                    firstLoginSpinnerRole.visibility = View.GONE
                     firstLoginBtCancel.visibility = View.GONE
                     firstLoginBtNext.setText(R.string.first_login_bt_next_last)
-                    phase(resources.getString(R.string.first_login_tv_subject_last))
+                    flip()
                 }
                 3 -> return goToHomePage()
                 else -> {}
             }
         }
         return null
+    }
+
+    private fun flip() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.firstLoginTitle
+        )
+        binding.firstLoginVfForm.showNext()
+        binding.firstLoginProgressBar.progress++
+        phase++
     }
 
     private suspend fun goToHomePage(): Boolean {
@@ -134,15 +137,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             firstLoginSpinnerRole.adapter = adapter
             firstLoginSpinnerRole.onItemSelectedListener = this@FirstLoginFragment
-        }
-    }
-
-    private fun phase(tvSubjectText: String) {
-        with(binding) {
-            firstLoginEtString.setText("")
-            firstLoginTvSubject.text = tvSubjectText
-            firstLoginProgressBar.progress++
-            phase++
         }
     }
 

@@ -42,22 +42,147 @@
             app:layout_constraintTop_toBottomOf="@+id/first_login_progress_bar"
             app:layout_constraintVertical_bias="0.00999999" />
 
-        <Button
-            android:id="@+id/first_login_bt_cancel"
+        <ImageView
+            android:id="@+id/first_login_iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/eton_blue"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:text="@string/bt_cancel"
-            android:textColor="@color/white"
+            android:contentDescription="@string/content_description_iv_logo"
+            android:scaleX="3"
+            android:scaleY="3"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/first_login_bt_next"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintTop_toBottomOf="@+id/first_login_title"
+            app:layout_constraintVertical_bias="0.25"
+            app:srcCompat="@mipmap/ic_logo_foreground" />
+
+        <ViewFlipper
+            android:id="@+id/first_login_vf_form"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/first_login_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/tv_name"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/first_login_et_name"
+                    app:layout_constraintEnd_toStartOf="@+id/first_login_et_name"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/first_login_et_name" />
+
+                <EditText
+                    android:id="@+id/first_login_et_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/et_name_non_mandatory"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_name"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/first_login_tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/tv_name"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/first_login_et_nickname"
+                    app:layout_constraintEnd_toStartOf="@+id/first_login_et_nickname"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/first_login_et_nickname" />
+
+                <EditText
+                    android:id="@+id/first_login_et_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints=""
+                    android:ems="10"
+                    android:hint="@string/et_name_non_mandatory"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_nickname"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/first_login_tv_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/tv_name"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/first_login_spinner_role"
+                    app:layout_constraintEnd_toStartOf="@+id/first_login_spinner_role"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/first_login_spinner_role" />
+
+                <Spinner
+                    android:id="@+id/first_login_spinner_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_role"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/first_login_tv_congrats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/first_login_tv_subject_last"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ViewFlipper>
 
         <Button
             android:id="@+id/first_login_bt_next"
@@ -74,61 +199,21 @@
             app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
             app:layout_constraintVertical_bias="0.75" />
 
-        <TextView
-            android:id="@+id/first_login_tv_subject"
+        <Button
+            android:id="@+id/first_login_bt_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:text="@string/tv_name"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.17"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/eton_blue"
+            android:scaleX="1.25"
+            android:scaleY="1.25"
+            android:text="@string/bt_cancel"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/first_login_bt_next"
+            app:layout_constraintEnd_toStartOf="@+id/first_login_bt_next"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
-            app:layout_constraintVertical_bias="0.6" />
-
-        <EditText
-            android:id="@+id/first_login_et_string"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/first_login_tv_subject"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
-            app:layout_constraintVertical_bias="0.6"
-            android:autofillHints=""
-            tools:ignore="LabelFor" />
-
-        <ImageView
-            android:id="@+id/first_login_iv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_iv_logo"
-            android:scaleX="3"
-            android:scaleY="3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_title"
-            app:layout_constraintVertical_bias="0.25"
-            app:srcCompat="@mipmap/ic_logo_foreground" />
-
-        <Spinner
-            android:id="@+id/first_login_spinner_role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/first_login_bt_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.3"
-            app:layout_constraintStart_toEndOf="@+id/first_login_tv_subject"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_iv_logo"
-            app:layout_constraintVertical_bias="0.62" />
+            app:layout_constraintTop_toTopOf="@+id/first_login_bt_next" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
