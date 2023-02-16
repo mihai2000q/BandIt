@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
                         Context.INPUT_METHOD_SERVICE,
                         loginEtPassword
                     )
-                    val destination = AndroidUtils.loadTaskBoolean(this@LoginFragment) { tryToLogin() }
+                    val destination = AndroidUtils.loadTaskWithDestination(this@LoginFragment) { tryToLogin() }
                     super.requireActivity().whenStarted { navigation(destination) }
                 }
             }

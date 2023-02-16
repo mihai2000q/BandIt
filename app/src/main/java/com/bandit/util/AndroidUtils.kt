@@ -143,7 +143,7 @@ object AndroidUtils {
         }
     }
 
-    suspend fun loadTaskBoolean(
+    suspend fun loadTaskWithDestination(
         fragment: Fragment,
         task: suspend () -> Boolean?
     ) : Boolean?

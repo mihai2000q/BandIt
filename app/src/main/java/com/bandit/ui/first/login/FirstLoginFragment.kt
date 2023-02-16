@@ -43,18 +43,18 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         spinnerRole()
         with(binding) {
-            firstLoginSpinnerRole.visibility = View.GONE
             firstLoginBtCancel.setOnClickListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
             firstLoginBtNext.setOnClickListener {
                 lifecycleScope.launch {
-                    if(AndroidUtils.loadTaskBoolean(this@FirstLoginFragment) { firstLoginBtNext() } == true)
+                    if(AndroidUtils.loadTaskWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
                         super.requireActivity().whenStarted {
                             findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
                         }
                 }
             }
+
         }
     }
 
