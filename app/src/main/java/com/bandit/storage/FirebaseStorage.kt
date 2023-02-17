@@ -12,13 +12,13 @@ import kotlinx.coroutines.tasks.await
 class FirebaseStorage : Storage {
     private val _storage = Firebase.storage
 
-    override suspend fun setProfilePicture(userUid: String?, imageUri: Uri?) : Uri =
+    override suspend fun setProfilePicture(userUid: String?, imageUri: Uri) =
     coroutineScope {
         async {
             val profilePicRef = _storage.reference
                 .child(userUid + "/" + Constants.Firebase.Storage.PROFILE_PIC_REFERENCE)
-            return@async profilePicRef
-                .putFile(imageUri!!)
+            profilePicRef
+                .putFile(imageUri)
                 .addOnFailureListener {
                     Log.i(
                         Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
@@ -31,15 +31,31 @@ class FirebaseStorage : Storage {
                                 "had problems while uploading"
                     )
                 }
-                .continueWithTask { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
-                    }
-                    profilePicRef.downloadUrl
-                }
                 .await()
+            return@async
         }
     }.await()
+
+    override suspend fun getProfilePicture(userUid: String?): ByteArray =
+        coroutineScope {
+            async {
+                val profilePicRef = _storage.reference
+                    .child(userUid + "/" + Constants.Firebase.Storage.PROFILE_PIC_REFERENCE)
+                return@async profilePicRef
+                    .getBytes(Constants.ONE_GIGABYTE)
+                    .addOnFailureListener {
+                        Log.i(
+                            Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
+                                    "was uploaded successfully"
+                        )
+                    }
+                    .addOnSuccessListener {
+                        Log.w(
+                            Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
+                                    "had problems while uploading"
+                        )
+                    }
+                    .await()
+            }
+        }.await()
 }
