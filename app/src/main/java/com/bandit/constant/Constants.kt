@@ -30,6 +30,10 @@ object Constants {
         object Auth {
             const val TAG = "FirebaseAuth"
         }
+        object Storage {
+            const val PROFILE_PIC_REFERENCE = "profile_picture.jpg"
+            const val TAG = "FirebaseStorage"
+        }
     }
     object Preferences {
         const val APP_PREFERENCES = "App Preferences"
