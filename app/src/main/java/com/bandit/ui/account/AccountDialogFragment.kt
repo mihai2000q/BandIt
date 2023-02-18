@@ -10,21 +10,21 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
-import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 
 class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment() {
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
-    private val _auth = DILocator.authenticator
-    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +43,12 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 accountEtNickname.setText(it.nickname)
                 accountEtRole.setText(it.role.name)
             }
-
+            lifecycleScope.launch {
+                Glide.with(this@AccountDialogFragment)
+                    .load(viewModel.getProfilePicture())
+                    .placeholder(R.drawable.placeholder_profile_pic)
+                    .into(accountIvProfilePicture)
+            }
             accountBtSave.setOnClickListener {
                 AndroidUtils.loadTask(this@AccountDialogFragment) { updateAccount() }
             }
@@ -76,7 +81,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     }
 
     private fun signOut() {
-        _auth.signOut()
+        viewModel.signOut()
         //go back to login fragment
         val navController = super.requireActivity().findNavController(R.id.main_nav_host)
         for(i in 0 until navController.backQueue.size)
@@ -89,7 +94,6 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
         super.requireActivity().viewModelStore.clear()
-        _database.clearData()
         AndroidUtils.toastNotification(
             super.requireContext(),
             resources.getString(R.string.sign_out_toast),
