@@ -1,12 +1,17 @@
 package com.bandit.ui.first.login
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +24,8 @@ import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -28,6 +35,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val _database = DILocator.database
     private var phase = 0
     private var roleIndex = 0
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +43,18 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFirstLoginBinding.inflate(inflater, container, false)
+        launcher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+        ) {
+            if(it.resultCode == Activity.RESULT_OK)
+                AndroidUtils.loadTask(this@FirstLoginFragment) {
+                    viewModel.saveProfilePicture(it.data?.data!!)
+                    Glide.with(this@FirstLoginFragment)
+                        .load(it.data?.data)
+                        .centerCrop()
+                        .into(binding.firstLoginProfilePicture)
+                }
+        }
         return binding.root
     }
 
@@ -45,6 +65,22 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             firstLoginBtCancel.setOnClickListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
+            firstLoginEtName.setOnKeyListener { _, keyCode, event ->
+                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    firstLoginBtNext.callOnClick()
+                    firstLoginBtNext.requestFocus()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+            firstLoginEtNickname.setOnKeyListener { _, keyCode, event ->
+                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    firstLoginBtNext.callOnClick()
+                    firstLoginBtNext.requestFocus()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
             firstLoginBtNext.setOnClickListener {
                 lifecycleScope.launch {
                     if(AndroidUtils.loadTaskWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
@@ -53,6 +89,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         }
                 }
             }
+            firstLoginProfilePicture.setOnClickListener { imagePicker() }
         }
     }
 
@@ -61,39 +98,63 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         _binding = null
     }
 
-    private suspend fun firstLoginBtNext(): Boolean? {
+    private fun spinnerRole() {
+        with(binding) {
+            val adapter = ArrayAdapter(
+                super.requireContext(),
+                android.R.layout.simple_spinner_item,
+                BandItEnums.Account.Role.values()
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            firstLoginSpinnerRole.adapter = adapter
+            firstLoginSpinnerRole.onItemSelectedListener = this@FirstLoginFragment
+        }
+    }
+
+    private fun imagePicker() {
+        val gallery = Intent()
+        gallery.type = "image/+"
+        gallery.action = Intent.ACTION_GET_CONTENT
+
+        launcher.launch(gallery)
+    }
+
+    private suspend fun firstLoginBtNext(): Boolean? = coroutineScope {
         with(binding) {
             when (phase) {
                 0 -> {
                     if (firstLoginEtName.text.isNullOrEmpty()) {
                         firstLoginEtName.error = resources.getString(R.string.et_name_validation)
-                        return false
+                        return@coroutineScope false
                     }
                     viewModel.name.value = firstLoginEtName.text.toString()
                     flip()
-                    return false
+                    return@coroutineScope false
                 }
                 1 -> {
                     if (firstLoginEtNickname.text.isNullOrEmpty()) {
                         firstLoginEtNickname.error = resources.getString(R.string.et_nickname_validation)
-                        return false
+                        return@coroutineScope false
                     }
                     viewModel.nickname.value = firstLoginEtNickname.text.toString()
                     flip()
-                    return false
+                    return@coroutineScope false
                 }
                 2 -> {
                     viewModel.role.value = BandItEnums.Account.Role.values()[roleIndex]
-                    createAccount()
-                    firstLoginBtCancel.visibility = View.GONE
-                    firstLoginBtNext.setText(R.string.first_login_bt_next_last)
                     flip()
                 }
-                3 -> return goToHomePage()
+                3 -> {
+                    firstLoginBtNext.setText(R.string.first_login_bt_next_last)
+                    firstLoginBtCancel.visibility = View.GONE
+                    launch { createAccount() }.join()
+                    flip()
+                }
+                4 -> return@coroutineScope goToHomePage()
                 else -> {}
             }
         }
-        return null
+        return@coroutineScope null
     }
 
     private fun flip() {
@@ -123,19 +184,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             resources.getString(R.string.first_login_toast)
         )
         return true
-    }
-
-    private fun spinnerRole() {
-        with(binding) {
-            val adapter = ArrayAdapter(
-                super.requireContext(),
-                android.R.layout.simple_spinner_item,
-                BandItEnums.Account.Role.values()
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            firstLoginSpinnerRole.adapter = adapter
-            firstLoginSpinnerRole.onItemSelectedListener = this@FirstLoginFragment
-        }
     }
 
     private suspend fun createAccount() {
