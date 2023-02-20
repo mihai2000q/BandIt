@@ -53,13 +53,21 @@ class AlbumDetailDialogFragment : DialogFragment() {
                         album.songs.sorted().reversed(),
                         viewModel,
                         { song ->
-                            AndroidUtils.loadTask(this@AlbumDetailDialogFragment) {
-                                viewModel.removeSongFromAlbum(album, song)
-                            }
-                            AndroidComponents.toastNotification(
+                            AndroidComponents.alertDialog(
                                 super.requireContext(),
-                                resources.getString(R.string.album_remove_song_toast),
-                            )
+                                resources.getString(R.string.song_from_album_alert_dialog_title),
+                                resources.getString(R.string.song_from_album_alert_dialog_message),
+                                resources.getString(R.string.alert_dialog_positive),
+                                resources.getString(R.string.alert_dialog_negative)
+                            ) {
+                                AndroidUtils.loadTask(this@AlbumDetailDialogFragment) {
+                                    viewModel.removeSongFromAlbum(album, song)
+                                }
+                                AndroidComponents.toastNotification(
+                                    super.requireContext(),
+                                    resources.getString(R.string.album_remove_song_toast),
+                                )
+                            }
                             return@SongAdapter true
                         },
                         resources.getString(R.string.album_remove_from_album)

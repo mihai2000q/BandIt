@@ -108,13 +108,21 @@ class SongsFragment : Fragment() {
                     it.sorted().reversed(),
                     viewModel,
                     { song ->
-                        AndroidUtils.loadTask(this@SongsFragment) {
-                            viewModel.removeSong(song)
-                        }
-                        AndroidComponents.toastNotification(
+                        AndroidComponents.alertDialog(
                             super.requireContext(),
-                            resources.getString(R.string.song_remove_toast),
-                        )
+                            resources.getString(R.string.song_alert_dialog_title),
+                            resources.getString(R.string.song_alert_dialog_message),
+                            resources.getString(R.string.alert_dialog_positive),
+                            resources.getString(R.string.alert_dialog_negative)
+                        ) {
+                            AndroidUtils.loadTask(this@SongsFragment) {
+                                viewModel.removeSong(song)
+                            }
+                            AndroidComponents.toastNotification(
+                                super.requireContext(),
+                                resources.getString(R.string.song_remove_toast),
+                            )
+                        }
                         return@SongAdapter true
                     }
                 )

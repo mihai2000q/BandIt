@@ -103,20 +103,20 @@ object AndroidComponents {
         spinner.onItemSelectedListener = onItemSelectedListener
     }
 
-    fun alertDialogDelete(
+    fun alertDialog(
         context: Context,
         title: String,
         message: String,
         positive: String,
         negative: String,
         onPositiveAction: () -> Unit
-    ): AlertDialog {
+    ) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setPositiveButton(positive) { _, _ -> onPositiveAction() }
         builder.setNegativeButton(negative) { _, _ -> }
-        return builder.create()
+        builder.create().show()
     }
 
     fun header(

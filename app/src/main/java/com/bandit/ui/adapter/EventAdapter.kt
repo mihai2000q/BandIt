@@ -88,11 +88,19 @@ class EventAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, event: Event): Boolean {
-        AndroidUtils.loadTask(fragment) { viewModel.removeEvent(event) }
-        AndroidComponents.toastNotification(
+        AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.event_remove_toast)
-        )
+            holder.binding.root.resources.getString(R.string.event_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.event_alert_dialog_message),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadTask(fragment) { viewModel.removeEvent(event) }
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.event_remove_toast)
+            )
+        }
         return true
     }
     private fun onEdit(event: Event): Boolean {

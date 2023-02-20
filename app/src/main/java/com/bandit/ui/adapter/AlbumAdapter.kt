@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.component.AndroidComponents
@@ -90,11 +88,19 @@ data class AlbumAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, album: Album): Boolean {
-        AndroidUtils.loadTask(fragment) { viewModel.removeAlbum(album) }
-        AndroidComponents.toastNotification(
+        AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.album_remove_toast),
-        )
+            holder.binding.root.resources.getString(R.string.album_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.album_alert_dialog_message),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadTask(fragment) { viewModel.removeAlbum(album) }
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.album_remove_toast),
+            )
+        }
         return true
     }
 

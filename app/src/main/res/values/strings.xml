@@ -10,4 +10,6 @@
     <string name="image_picker_header">Add Photo</string>
     <string name="image_picker_camera">Use Camera</string>
     <string name="image_picker_gallery">Upload From Gallery</string>
+    <string name="alert_dialog_negative">No</string>
+    <string name="alert_dialog_positive">Yes</string>
 </resources>
