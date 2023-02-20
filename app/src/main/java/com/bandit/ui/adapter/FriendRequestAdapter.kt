@@ -3,6 +3,7 @@ package com.bandit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.component.AndroidComponents
@@ -10,6 +11,8 @@ import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendRequestBinding
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 
 class FriendRequestAdapter(
     private val fragment: DialogFragment,
@@ -40,6 +43,7 @@ class FriendRequestAdapter(
             friendRqNickname.text = friendRequest.nickname
             friendRqBtAccept.setOnClickListener { accept(holder, friendRequest) }
             friendRqBtReject.setOnClickListener { reject(holder, friendRequest) }
+            AndroidUtils.setProfilePicture(fragment, viewModel, friendRqProfilePicture, friendRequest.userUid)
         }
     }
 

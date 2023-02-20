@@ -13,17 +13,19 @@
         android:background="#F3EEEE"
         android:padding="16dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/member_profile_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/friend_pic_dimension_width"
+            android:layout_height="@dimen/friend_pic_dimension_height"
             android:contentDescription="@string/content_description_account_iv_picture"
+            android:src="@drawable/placeholder_profile_pic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_logo_white" />
+            app:civ_border_width="@dimen/friend_pic_border_width"
+            app:civ_border_color="@color/friend_pic_border_color" />
 
         <TextView
             android:id="@+id/member_nickname"

@@ -13,15 +13,17 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/account_iv_profile_picture"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/profile_pic_dimension_height"
+            android:layout_height="@dimen/profile_pic_dimension_width"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/content_description_account_iv_picture"
             android:src="@drawable/placeholder_profile_pic"
             app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.100000024" />
+            app:layout_constraintVertical_bias="0.100000024"
+            app:civ_border_width="@dimen/profile_pic_border_width"
+            app:civ_border_color="@color/profile_pic_border_color"/>
 
         <TextView
             android:id="@+id/account_tv_name"

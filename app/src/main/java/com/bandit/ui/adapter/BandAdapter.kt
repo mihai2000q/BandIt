@@ -3,14 +3,19 @@ package com.bandit.ui.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelMemberBinding
 import com.bandit.di.DILocator
+import com.bandit.ui.friends.FriendsViewModel
+import com.bandit.util.AndroidUtils
 
 data class BandAdapter(
-    private val members: MutableMap<Account, Boolean>
+    private val fragment: Fragment,
+    private val members: MutableMap<Account, Boolean>,
+    private val viewModel: FriendsViewModel
 ) : RecyclerView.Adapter<BandAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ModelMemberBinding) : RecyclerView.ViewHolder(binding.root)
@@ -45,6 +50,7 @@ data class BandAdapter(
                 memberStatus.setText(R.string.band_member_accepted_false)
                 memberStatus.setTextColor(Color.RED)
             }
+            AndroidUtils.setProfilePicture(fragment, viewModel, memberProfilePicture, account.userUid)
         }
     }
 

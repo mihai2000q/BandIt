@@ -14,6 +14,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +25,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
+import com.bandit.ui.friends.FriendsViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.async
@@ -166,5 +170,20 @@ object AndroidUtils {
         val path =
             MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
+    }
+
+    fun setProfilePicture(
+        fragment: Fragment,
+        viewModel: FriendsViewModel,
+        profilePicView: ImageView,
+        userUid: String?
+    ) {
+        fragment.lifecycleScope.launch {
+            val pic = viewModel.getProfilePicture(userUid)
+            Glide.with(fragment)
+                .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
+                .placeholder(R.drawable.placeholder_profile_pic)
+                .into(profilePicView)
+        }
     }
 }
