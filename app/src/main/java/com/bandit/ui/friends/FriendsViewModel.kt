@@ -8,9 +8,12 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.data.repository.FriendRepository
 import com.bandit.di.DILocator
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class FriendsViewModel : ViewModel() {
+    private val _storage = DILocator.storage
+    private val _auth = DILocator.authenticator
     private val _repository = FriendRepository(DILocator.database)
     private val _people = MutableLiveData(_repository.people)
     val people: LiveData<List<Account>> = _people
@@ -44,10 +47,10 @@ class FriendsViewModel : ViewModel() {
         _friends.value = _repository.friends
         _friendRequests.value = _repository.friendRequests
     }
-
-    override fun onCleared() {
-        super.onCleared()
+    suspend fun getProfilePicture(userUid: String?): ByteArray = coroutineScope {
+        return@coroutineScope _storage.getProfilePicture(userUid)
     }
+
     companion object {
         const val TAG = Constants.Social.Friends.VIEW_MODEL_TAG
     }

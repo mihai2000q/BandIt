@@ -60,7 +60,7 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             viewModel.friends.observe(viewLifecycleOwner) {
-                friendsList.adapter = PeopleAdapter(it.sorted())
+                friendsList.adapter = PeopleAdapter(this@FriendsFragment, it.sorted(), viewModel)
             }
         }
     }

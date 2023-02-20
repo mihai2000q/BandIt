@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.databinding.FragmentBandBinding
 import com.bandit.ui.adapter.BandAdapter
+import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
 class BandFragment : Fragment() {
     private var _binding: FragmentBandBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
+    private val friendsViewModel: FriendsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +42,7 @@ class BandFragment : Fragment() {
                     bandBtCreate.visibility = View.GONE
                     bandRvMemberList.visibility = View.VISIBLE
                     bandHorizontalLayout.visibility = View.VISIBLE
-                    bandRvMemberList.adapter = BandAdapter(it)
+                    bandRvMemberList.adapter = BandAdapter(this@BandFragment, it, friendsViewModel)
                 }
             }
             bandBtAdd.setOnClickListener {

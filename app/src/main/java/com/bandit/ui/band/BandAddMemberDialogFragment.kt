@@ -40,7 +40,9 @@ class BandAddMemberDialogFragment : DialogFragment() {
         with(binding) {
             friendsViewModel.friends.observe(viewLifecycleOwner) {
                 val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
-                bandAddMemberFriends.adapter = PeopleAdapter(accounts) { acc ->
+                bandAddMemberFriends.adapter = PeopleAdapter(
+                    this@BandAddMemberDialogFragment, accounts, friendsViewModel
+                ) { acc ->
                     viewModel.sendBandInvitation(acc)
                     AndroidComponents.toastNotification(
                         super.requireContext(),
