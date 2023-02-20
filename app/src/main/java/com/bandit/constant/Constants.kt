@@ -59,10 +59,6 @@ object Constants {
         const val TAG = "ACCOUNT DIALOG FRAGMENT"
         const val VIEW_MODEL_TAG = "AccountViewModel"
     }
-    object Home {
-        const val BAND_INVITATION_TAG = "BAND INVITATION DIALOG FRAGMENT"
-        const val VIEW_MODEL_TAG = "HomeViewModel"
-    }
     object Concert {
         const val ADD_TAG = "ADD CONCERT DIALOG FRAGMENT"
         const val DETAIL_TAG = "DETAIL CONCERT DIALOG FRAGMENT"
