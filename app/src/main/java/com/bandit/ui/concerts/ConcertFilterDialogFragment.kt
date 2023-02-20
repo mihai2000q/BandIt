@@ -3,6 +3,7 @@ package com.bandit.ui.concerts
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.util.AndroidUtils
@@ -60,7 +61,7 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
                     viewModel.filters.value?.replace(value, key.text.toString())
                 }
                 viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
-                AndroidUtils.toastNotification(
+                AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.concert_filter_toast)
                 )

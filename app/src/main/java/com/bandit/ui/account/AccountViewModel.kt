@@ -1,5 +1,6 @@
 package com.bandit.ui.account
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,16 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class AccountViewModel : ViewModel() {
+    private val _auth = DILocator.authenticator
     private val _database = DILocator.database
+    private val _storage = DILocator.storage
     private val _account = MutableLiveData(_database.currentAccount)
     val account: LiveData<Account> = _account
     suspend fun updateAccount(
         name: String,
         nickname: String
-    ) {
+    ) = coroutineScope {
         if(!_account.value!!.isEmpty())
             viewModelScope.launch {
                 _database.updateAccount(
@@ -29,6 +33,19 @@ class AccountViewModel : ViewModel() {
                     )
                 )
             }
+    }
+
+    suspend fun updateProfilePicture(imageUri: Uri) = coroutineScope {
+        _storage.setProfilePicture(_auth.currentUser?.uid, imageUri)
+    }
+
+    suspend fun getProfilePicture(): ByteArray = coroutineScope {
+        return@coroutineScope _storage.getProfilePicture(_auth.currentUser?.uid)
+    }
+
+    fun signOut() {
+        _auth.signOut()
+        _database.clearData()
     }
 
     companion object {

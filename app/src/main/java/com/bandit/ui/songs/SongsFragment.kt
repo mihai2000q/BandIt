@@ -63,7 +63,7 @@ class SongsFragment : Fragment() {
         with(binding) {
             songsList.layoutManager = GridLayoutManager(context, 2)
             mode(
-                R.drawable.ic_baseline_list,
+                R.drawable.ic_list,
                 albumAddDialogFragment,
                 albumFilterDialogFragment
             )
@@ -74,7 +74,7 @@ class SongsFragment : Fragment() {
             songsSearchView.setOnQueryTextListener(
                 object : OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        AndroidUtils.toastNotification(
+                        AndroidComponents.toastNotification(
                             this@SongsFragment.requireContext(),
                             resources.getString(R.string.album_filter_toast)
                         )
@@ -97,7 +97,7 @@ class SongsFragment : Fragment() {
         with(binding) {
             songsList.layoutManager = GridLayoutManager(context, 1)
             mode(
-                R.drawable.ic_baseline_album_view,
+                R.drawable.ic_album_view,
                 songAddDialogFragment,
                 songFilterDialogFragment
             )
@@ -111,7 +111,7 @@ class SongsFragment : Fragment() {
                         AndroidUtils.loadTask(this@SongsFragment) {
                             viewModel.removeSong(song)
                         }
-                        AndroidUtils.toastNotification(
+                        AndroidComponents.toastNotification(
                             super.requireContext(),
                             resources.getString(R.string.song_remove_toast),
                         )
@@ -122,7 +122,7 @@ class SongsFragment : Fragment() {
             songsSearchView.setOnQueryTextListener(
                 object : OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        AndroidUtils.toastNotification(
+                        AndroidComponents.toastNotification(
                             this@SongsFragment.requireContext(),
                             resources.getString(R.string.song_filter_toast)
                         )

@@ -5,6 +5,7 @@ object Constants {
     const val SPLASH_SCREEN_DELAY = 3_000L //ms
     const val PASSWORD_MIN_CHARACTERS = 8
     const val TIMEOUT_INTERNET_CONNECTION_TEST = 10_000L //ms
+    const val ONE_GIGABYTE = 1024 * 1024 * 1024L
     object SafeArgs {
         const val FAIL_LOGIN_NETWORK = "Fail Login Due To Network Connection Missing"
         const val REMEMBER_ME = "Remember Me"
@@ -30,6 +31,10 @@ object Constants {
         object Auth {
             const val TAG = "FirebaseAuth"
         }
+        object Storage {
+            const val PROFILE_PIC_REFERENCE = "profile_picture.jpg"
+            const val TAG = "FirebaseStorage"
+        }
     }
     object Preferences {
         const val APP_PREFERENCES = "App Preferences"
@@ -37,6 +42,7 @@ object Constants {
     }
     object Component {
         const val BOTTOM_SHEET_DIALOG_FRAGMENT_TAG = "BOTTOM SHEET DIALOG FRAGMENT TAG"
+        const val IMAGE_PICKER_DIALOG_TAG = "IMAGE PICKER DIALOG TAG"
     }
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"

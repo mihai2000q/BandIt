@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.di.DILocator
@@ -39,7 +40,7 @@ class SongAddDialogFragment : SongDialogFragment() {
                     ParserUtils.parseDuration(songEtDuration.text.toString())
                 )
             )
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.song_add_toast)
             )

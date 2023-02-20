@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
@@ -54,7 +55,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             )
             viewModel.addConcert(concert)
             scheduleViewModel.addEvent(ConcertMapper.fromConcertToEvent(concert))
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.concert_add_toast)
             )

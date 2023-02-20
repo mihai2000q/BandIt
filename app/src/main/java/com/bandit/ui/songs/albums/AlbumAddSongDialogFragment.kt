@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAlbumAddSongBinding
 import com.bandit.ui.adapter.SongAdapter
@@ -48,7 +49,7 @@ class AlbumAddSongDialogFragment : DialogFragment() {
                     AndroidUtils.loadTask(this@AlbumAddSongDialogFragment) {
                         viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
                     }
-                    AndroidUtils.toastNotification(
+                    AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.album_add_song_toast)
                     )

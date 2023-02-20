@@ -6,12 +6,16 @@ import com.bandit.builder.AndroidBuilder
 import com.bandit.builder.HomeBuilder
 import com.bandit.data.db.Database
 import com.bandit.data.db.FirebaseDatabase
+import com.bandit.storage.FirebaseStorage
+import com.bandit.storage.Storage
 
 object DILocator {
     private val androidBuilder = AndroidBuilder()
     private val db = FirebaseDatabase()
     private val auth = FirebaseAuthenticator()
+    private val sage = FirebaseStorage()
     val homeBuilder: HomeBuilder get() = androidBuilder
     val database: Database get() = db
     val authenticator: Authenticator get() = auth
+    val storage: Storage get() = sage
 }

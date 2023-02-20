@@ -10,21 +10,23 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bandit.R
+import com.bandit.component.AndroidComponents
+import com.bandit.component.ImagePickerDialog
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
-import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 
 class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment() {
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
-    private val _auth = DILocator.authenticator
-    private val _database = DILocator.database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +45,24 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 accountEtNickname.setText(it.nickname)
                 accountEtRole.setText(it.role.name)
             }
-
+            lifecycleScope.launch {
+                Glide.with(this@AccountDialogFragment)
+                    .load(viewModel.getProfilePicture())
+                    .placeholder(R.drawable.placeholder_profile_pic)
+                    .into(accountIvProfilePicture)
+            }
             accountBtSave.setOnClickListener {
                 AndroidUtils.loadTask(this@AccountDialogFragment) { updateAccount() }
+            }
+            val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
+                viewModel.updateProfilePicture(it)
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.account_profile_pic_updated_toast)
+                )
+            }
+            accountIvProfilePicture.setOnClickListener {
+                AndroidUtils.showDialogFragment(imagePickerDialog, childFragmentManager)
             }
         }
     }
@@ -57,7 +74,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 accountEtNickname.text.toString()
             )
             AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, accountBtSave)
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.account_updated_toast)
             )
@@ -70,13 +87,13 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         accountButton.setImageDrawable(
             ContextCompat.getDrawable(
                 super.requireContext(),
-                R.drawable.ic_baseline_account
+                R.drawable.ic_account
             )
         )
     }
 
     private fun signOut() {
-        _auth.signOut()
+        viewModel.signOut()
         //go back to login fragment
         val navController = super.requireActivity().findNavController(R.id.main_nav_host)
         for(i in 0 until navController.backQueue.size)
@@ -89,8 +106,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
         super.requireActivity().viewModelStore.clear()
-        _database.clearData()
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.sign_out_toast),
             Toast.LENGTH_LONG

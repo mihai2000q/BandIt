@@ -147,7 +147,7 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             this@ScheduleFragment.requireContext(),
             resources.getString(R.string.event_filter_toast)
         )

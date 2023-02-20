@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.ui.adapter.SongAdapter
@@ -55,7 +56,7 @@ class AlbumDetailDialogFragment : DialogFragment() {
                             AndroidUtils.loadTask(this@AlbumDetailDialogFragment) {
                                 viewModel.removeSongFromAlbum(album, song)
                             }
-                            AndroidUtils.toastNotification(
+                            AndroidComponents.toastNotification(
                                 super.requireContext(),
                                 resources.getString(R.string.album_remove_song_toast),
                             )

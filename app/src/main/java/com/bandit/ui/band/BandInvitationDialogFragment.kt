@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.di.DILocator
@@ -38,7 +39,7 @@ class BandInvitationDialogFragment : DialogFragment() {
             }
             bandInvitationBtAccept.setOnClickListener {
                 viewModel.acceptBandInvitation()
-                AndroidUtils.toastNotification(
+                AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.band_invite_accepted_toast)
                 )
@@ -56,7 +57,7 @@ class BandInvitationDialogFragment : DialogFragment() {
         super.onDismiss(dialog)
         if(clicked) return
         viewModel.rejectBandInvitation()
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.band_invite_rejected_toast)
         )

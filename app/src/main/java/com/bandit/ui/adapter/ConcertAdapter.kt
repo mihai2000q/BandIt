@@ -8,6 +8,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
@@ -108,7 +109,7 @@ data class ConcertAdapter(
 
     private fun onDelete(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
         AndroidUtils.loadTask(fragment) { viewModel.removeConcert(concert) }
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.concert_remove_toast),
         )

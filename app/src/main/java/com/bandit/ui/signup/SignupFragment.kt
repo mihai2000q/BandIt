@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
@@ -97,7 +98,7 @@ class SignupFragment : Fragment() {
             }
             if(!signupCbTerms.isChecked) {
                 signupCbTerms.error = resources.getString(R.string.cb_terms_validation)
-                AndroidUtils.snackbar(
+                AndroidComponents.snackbarNotification(
                     binding.signupLayout,
                     resources.getString(R.string.cb_terms_validation),
                     resources.getString(R.string.bt_accept)
@@ -114,7 +115,7 @@ class SignupFragment : Fragment() {
         with(binding) {
             viewModel.email.value = signupEtEmail.text.toString()
             viewModel.createUser(signupEtPassword.text.toString())
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.sign_up_toast),
                 Toast.LENGTH_LONG

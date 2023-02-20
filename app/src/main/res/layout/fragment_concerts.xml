@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_filter"
-                app:srcCompat="@drawable/ic_baseline_filter"
+                app:srcCompat="@drawable/ic_filter"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <ImageButton
@@ -48,7 +48,7 @@
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add"
                 android:minWidth="48dp"
-                app:srcCompat="@drawable/ic_baseline_add_circle"
+                app:srcCompat="@drawable/ic_add_circle"
                 tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
 

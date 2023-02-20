@@ -6,6 +6,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.ModelNoteBinding
 import com.bandit.extension.printName
@@ -79,7 +80,7 @@ class NoteAdapter(
 
     private fun onDelete(holder: NoteAdapter.ViewHolder, note: Note): Boolean {
         viewModel.removeNote(note)
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.note_remove_toast)
         )

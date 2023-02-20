@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Task
 import com.bandit.databinding.ModelTaskBinding
 import com.bandit.ui.todolist.TodoListViewModel
@@ -91,7 +92,7 @@ class TaskAdapter(
 
     private fun onDelete(holder: ViewHolder, task: Task): Boolean {
         viewModel.removeTask(task)
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.task_remove_toast)
         )
@@ -112,7 +113,7 @@ class TaskAdapter(
                             id = task.id
                         )
                     )
-                    AndroidUtils.toastNotification(
+                    AndroidComponents.toastNotification(
                         holder.binding.root.context,
                         holder.binding.root.resources.getString(R.string.task_edit_toast)
                     )

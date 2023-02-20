@@ -9,6 +9,7 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentFriendsBinding
 import com.bandit.ui.adapter.FriendRequestAdapter
@@ -56,7 +57,7 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.friend_request_filtered_toast)
         )

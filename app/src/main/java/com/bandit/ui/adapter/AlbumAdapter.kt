@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Album
 import com.bandit.databinding.ModelAlbumBinding
 import com.bandit.ui.songs.SongsViewModel
@@ -90,7 +91,7 @@ data class AlbumAdapter(
 
     private fun onDelete(holder: ViewHolder, album: Album): Boolean {
         AndroidUtils.loadTask(fragment) { viewModel.removeAlbum(album) }
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.album_remove_toast),
         )

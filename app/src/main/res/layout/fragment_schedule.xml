@@ -50,7 +50,7 @@
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add"
                 android:minWidth="48dp"
-                app:srcCompat="@drawable/ic_baseline_add_circle" />
+                app:srcCompat="@drawable/ic_add_circle" />
         </LinearLayout>
 
         <CalendarView
