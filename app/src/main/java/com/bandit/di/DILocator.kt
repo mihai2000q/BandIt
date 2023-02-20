@@ -9,8 +9,8 @@ import com.bandit.data.db.Database
 import com.bandit.data.db.FirebaseDatabase
 import com.bandit.storage.FirebaseStorage
 import com.bandit.storage.Storage
-import com.bandit.util.IPermissionChecker
-import com.bandit.util.PermissionChecker
+import com.bandit.misc.IPermissionChecker
+import com.bandit.misc.PermissionChecker
 
 object DILocator {
     private val androidBuilder = AndroidBuilder()

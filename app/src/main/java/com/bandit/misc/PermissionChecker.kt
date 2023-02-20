@@ -1,4 +1,4 @@
-package com.bandit.util
+package com.bandit.misc
 
 import android.Manifest
 import android.app.Activity
