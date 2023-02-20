@@ -1,8 +1,6 @@
 package com.bandit.ui.first.login
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -10,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +22,6 @@ import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -66,7 +61,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             firstLoginEtNickname.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     firstLoginBtNext.callOnClick()
-                    firstLoginBtNext.requestFocus()
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false

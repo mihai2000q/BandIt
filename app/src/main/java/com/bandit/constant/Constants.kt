@@ -6,6 +6,7 @@ object Constants {
     const val PASSWORD_MIN_CHARACTERS = 8
     const val TIMEOUT_INTERNET_CONNECTION_TEST = 10_000L //ms
     const val ONE_GIGABYTE = 1024 * 1024 * 1024L
+    const val REQUEST_PERMISSION_STATE = 1
     object SafeArgs {
         const val FAIL_LOGIN_NETWORK = "Fail Login Due To Network Connection Missing"
         const val REMEMBER_ME = "Remember Me"
