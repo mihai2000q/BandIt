@@ -160,7 +160,7 @@ object AndroidUtils {
             }
         }.await()
 
-    suspend fun isNetworkAvailable() = DILocator.database.isConnected()
+    suspend fun isNetworkAvailable() = DILocator.getDatabase().isConnected()
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         //TODO: Replace deprecated method for .insertImage()
         val bytes = ByteArrayOutputStream()

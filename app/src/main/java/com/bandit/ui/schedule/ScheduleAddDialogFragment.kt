@@ -19,7 +19,7 @@ import com.bandit.util.ParserUtils
 class ScheduleAddDialogFragment : ScheduleDialogFragment() {
 
     private val concertViewModel: ConcertsViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
     val date = MutableLiveData("")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

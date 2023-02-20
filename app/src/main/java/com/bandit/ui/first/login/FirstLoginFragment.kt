@@ -29,7 +29,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var _binding: FragmentFirstLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FirstLoginViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
     private var phase = 0
     private var roleIndex = 0
 

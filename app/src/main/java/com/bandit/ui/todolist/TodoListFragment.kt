@@ -37,7 +37,7 @@ class TodoListFragment : Fragment() {
                 Task(
                     checked = false,
                     message = it.text.toString(),
-                    bandId = DILocator.database.currentBand.id
+                    bandId = DILocator.getDatabase().currentBand.id
                 )
             )
             AndroidComponents.toastNotification(

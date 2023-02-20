@@ -13,7 +13,7 @@ import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
 class BandViewModel : ViewModel() {
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
     private val _band = MutableLiveData(_database.currentBand)
     val band: LiveData<Band> = _band
     private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())

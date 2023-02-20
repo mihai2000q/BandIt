@@ -15,8 +15,8 @@ import java.time.Duration
 import java.time.LocalDate
 
 class SongsViewModel : ViewModel() {
-    private val _songRepository = SongRepository(DILocator.database)
-    private val _albumRepository = AlbumRepository(DILocator.database)
+    private val _songRepository = SongRepository(DILocator.getDatabase())
+    private val _albumRepository = AlbumRepository(DILocator.getDatabase())
     private val _songs = MutableLiveData(_songRepository.list)
     private val _albums = MutableLiveData(_albumRepository.list)
     val songs: LiveData<List<Song>> = _songs

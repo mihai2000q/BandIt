@@ -19,7 +19,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onCreateView(
         inflater: LayoutInflater,

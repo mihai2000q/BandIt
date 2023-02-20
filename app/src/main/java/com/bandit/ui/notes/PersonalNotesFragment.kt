@@ -12,7 +12,6 @@ import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.adapter.NoteAdapter
-import com.bandit.util.AndroidUtils
 
 class PersonalNotesFragment : Fragment() {
 
@@ -43,7 +42,7 @@ class PersonalNotesFragment : Fragment() {
             Note(
                 resources.getString(R.string.et_title),
                 resources.getString(R.string.default_note_message),
-                DILocator.database.currentAccount.id
+                DILocator.getDatabase().currentAccount.id
             )
         )
         AndroidComponents.toastNotification(

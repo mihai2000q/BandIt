@@ -32,7 +32,7 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val bandInvitation = DILocator.database.currentBandInvitation
+            val bandInvitation = DILocator.getDatabase().currentBandInvitation
             bandInvitationTvTitle.text = buildString {
                 append("You have been invited to ")
                 append(bandInvitation.band.name)

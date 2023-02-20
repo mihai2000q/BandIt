@@ -18,7 +18,7 @@ import com.bandit.util.ParserUtils
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

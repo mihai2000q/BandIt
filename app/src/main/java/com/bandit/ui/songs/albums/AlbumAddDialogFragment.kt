@@ -13,7 +13,7 @@ import com.bandit.util.ParserUtils
 
 class AlbumAddDialogFragment : AlbumDialogFragment() {
 
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

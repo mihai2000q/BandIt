@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun authentication(): Boolean? {
         return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.authenticator.currentUser != null
+            && DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {
                 AndroidUtils.lockNavigation(
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 return null
             }
-            DILocator.database.init()
+            DILocator.getDatabase().init()
             true
         } else {
             AndroidUtils.lockNavigation(

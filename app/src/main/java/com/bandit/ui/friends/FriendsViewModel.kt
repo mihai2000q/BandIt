@@ -12,9 +12,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class FriendsViewModel : ViewModel() {
-    private val _storage = DILocator.storage
-    private val _auth = DILocator.authenticator
-    private val _repository = FriendRepository(DILocator.database)
+    private val _storage = DILocator.getStorage()
+    private val _auth = DILocator.getAuthenticator()
+    private val _repository = FriendRepository(DILocator.getDatabase())
     private val _people = MutableLiveData(_repository.people)
     val people: LiveData<List<Account>> = _people
     private val _friends = MutableLiveData(_repository.friends)

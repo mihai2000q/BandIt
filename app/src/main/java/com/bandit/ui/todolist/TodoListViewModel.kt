@@ -11,7 +11,7 @@ import com.bandit.di.DILocator
 import kotlinx.coroutines.launch
 
 class TodoListViewModel : ViewModel() {
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
     private val _repository = TaskRepository(_database)
     private val _tasks = MutableLiveData(_repository.list)
     val tasks: LiveData<List<Task>> = _tasks

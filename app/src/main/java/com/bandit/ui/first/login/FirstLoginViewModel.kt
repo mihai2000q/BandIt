@@ -10,9 +10,9 @@ import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
 
 class FirstLoginViewModel : ViewModel() {
-    private val _auth = DILocator.authenticator
-    private val _database = DILocator.database
-    private val _storage = DILocator.storage
+    private val _auth = DILocator.getAuthenticator()
+    private val _database = DILocator.getDatabase()
+    private val _storage = DILocator.getStorage()
     val name = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val role = MutableLiveData<BandItEnums.Account.Role>()

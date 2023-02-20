@@ -40,7 +40,7 @@ data class BandAdapter(
         with(holder.binding) {
             memberNickname.text = account.nickname
             memberRole.text = account.role.name
-            if(DILocator.database.currentBand.creator == account.id)
+            if(DILocator.getDatabase().currentBand.creator == account.id)
                 memberStatus.setText(R.string.band_member_creator)
             else if(hasAccepted) {
                 memberStatus.setText(R.string.band_member_accepted_true)

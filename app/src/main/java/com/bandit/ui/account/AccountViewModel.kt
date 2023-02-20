@@ -12,9 +12,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class AccountViewModel : ViewModel() {
-    private val _auth = DILocator.authenticator
-    private val _database = DILocator.database
-    private val _storage = DILocator.storage
+    private val _auth = DILocator.getAuthenticator()
+    private val _database = DILocator.getDatabase()
+    private val _storage = DILocator.getStorage()
     private val _account = MutableLiveData(_database.currentAccount)
     val account: LiveData<Account> = _account
     suspend fun updateAccount(

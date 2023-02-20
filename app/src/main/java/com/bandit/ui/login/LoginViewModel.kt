@@ -12,7 +12,7 @@ import kotlinx.coroutines.coroutineScope
 class LoginViewModel : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> get() = _email
-    private val _authenticator = DILocator.authenticator
+    private val _authenticator = DILocator.getAuthenticator()
     init {
         if(_authenticator.currentUser != null)
             _email.value = _authenticator.currentUser?.email

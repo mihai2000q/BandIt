@@ -23,7 +23,7 @@ class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

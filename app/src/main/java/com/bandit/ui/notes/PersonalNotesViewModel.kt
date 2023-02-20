@@ -8,11 +8,10 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Note
 import com.bandit.data.repository.NoteRepository
 import com.bandit.di.DILocator
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class PersonalNotesViewModel : ViewModel() {
-    private val _repository = NoteRepository(DILocator.database)
+    private val _repository = NoteRepository(DILocator.getDatabase())
     private val _notes = MutableLiveData(_repository.list)
     val notes: LiveData<List<Note>> = _notes
     val selectedNote = MutableLiveData<Note>()
