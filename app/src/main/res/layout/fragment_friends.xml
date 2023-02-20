@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add_new_friends"
-                app:srcCompat="@drawable/ic_baseline_people" />
+                app:srcCompat="@drawable/ic_people" />
 
             <ImageButton
                 android:id="@+id/friends_bt_add"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add"
-                app:srcCompat="@drawable/ic_baseline_add_circle" />
+                app:srcCompat="@drawable/ic_add_circle" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

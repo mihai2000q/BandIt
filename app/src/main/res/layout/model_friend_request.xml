@@ -59,7 +59,7 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/friend_rq_nickname"
             app:layout_constraintTop_toTopOf="@+id/friend_rq_profile_picture"
-            app:srcCompat="@drawable/ic_baseline_check_circle_green" />
+            app:srcCompat="@drawable/ic_check_circle_green" />
 
         <ImageButton
             android:id="@+id/friend_rq_bt_reject"
@@ -72,7 +72,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/friend_rq_bt_accept"
             app:layout_constraintTop_toTopOf="@+id/friend_rq_bt_accept"
-            app:srcCompat="@drawable/ic_baseline_remove_circle_red" />
+            app:srcCompat="@drawable/ic_remove_circle_red" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
