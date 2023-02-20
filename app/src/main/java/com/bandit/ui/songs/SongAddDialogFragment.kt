@@ -20,7 +20,7 @@ class SongAddDialogFragment : SongDialogFragment() {
             songButton.setText(R.string.bt_add)
             songButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@SongAddDialogFragment) { addSong() }
+                    AndroidUtils.loadIntent(this@SongAddDialogFragment) { addSong() }
             }
         }
     }

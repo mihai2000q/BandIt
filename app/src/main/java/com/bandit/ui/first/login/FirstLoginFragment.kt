@@ -67,7 +67,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
             firstLoginBtNext.setOnClickListener {
                 lifecycleScope.launch {
-                    if(AndroidUtils.loadTaskWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
+                    if(AndroidUtils.loadIntentWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
                         super.requireActivity().whenStarted {
                             findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
                         }

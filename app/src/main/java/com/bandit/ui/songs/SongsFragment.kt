@@ -115,7 +115,7 @@ class SongsFragment : Fragment() {
                             resources.getString(R.string.alert_dialog_positive),
                             resources.getString(R.string.alert_dialog_negative)
                         ) {
-                            AndroidUtils.loadTask(this@SongsFragment) {
+                            AndroidUtils.loadIntent(this@SongsFragment) {
                                 viewModel.removeSong(song)
                             }
                             AndroidComponents.toastNotification(

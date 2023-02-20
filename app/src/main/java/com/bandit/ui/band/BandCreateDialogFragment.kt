@@ -35,7 +35,7 @@ class BandCreateDialogFragment : DialogFragment() {
             createBandBtCreate.setOnClickListener {
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
-                    AndroidUtils.loadTask(this@BandCreateDialogFragment) { this.createBand() }
+                    AndroidUtils.loadIntent(this@BandCreateDialogFragment) { this.createBand() }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_create_toast)

@@ -26,7 +26,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             }
             scheduleButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@ScheduleEditDialogFragment) { editEvent() }
+                    AndroidUtils.loadIntent(this@ScheduleEditDialogFragment) { editEvent() }
             }
         }
     }

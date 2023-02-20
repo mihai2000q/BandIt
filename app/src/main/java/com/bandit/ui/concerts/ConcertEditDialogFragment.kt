@@ -10,7 +10,6 @@ import com.bandit.data.model.Concert
 import com.bandit.extension.print
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
-import java.time.Duration
 
 class ConcertEditDialogFragment : ConcertDialogFragment() {
 
@@ -32,7 +31,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@ConcertEditDialogFragment) { editConcert() }
+                    AndroidUtils.loadIntent(this@ConcertEditDialogFragment) { editConcert() }
             }
         }
 

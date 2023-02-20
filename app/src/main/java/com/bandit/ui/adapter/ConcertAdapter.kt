@@ -115,7 +115,7 @@ data class ConcertAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadTask(fragment) { viewModel.removeConcert(concert) }
+            AndroidUtils.loadIntent(fragment) { viewModel.removeConcert(concert) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.concert_remove_toast),

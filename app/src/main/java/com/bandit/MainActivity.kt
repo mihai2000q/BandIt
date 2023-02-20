@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            val destination = AndroidUtils.loadTask(this@MainActivity) { startApp() }
+            val destination = AndroidUtils.loadIntent(this@MainActivity) { startApp() }
             whenStarted {
                 if(destination == true)
                     findNavController(R.id.main_nav_host).navigate(R.id.action_loginFragment_to_homeFragment)

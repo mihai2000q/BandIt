@@ -54,7 +54,7 @@ class SignupFragment : Fragment() {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
             signupButton.setOnClickListener {
-                AndroidUtils.loadTask(this@SignupFragment) { signUpButton() }
+                AndroidUtils.loadIntent(this@SignupFragment) { signUpButton() }
             }
         }
     }

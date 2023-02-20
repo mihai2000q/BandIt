@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
@@ -31,7 +30,6 @@ import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -120,7 +118,7 @@ object AndroidUtils {
             }
         }
     }
-    suspend fun loadTask(
+    suspend fun loadIntent(
         activity: AppCompatActivity,
         task: suspend () -> Boolean?
     ) : Boolean?
@@ -135,7 +133,7 @@ object AndroidUtils {
         }
     }.await()
 
-    fun loadTask(
+    fun loadIntent(
         fragment: Fragment,
         task: suspend () -> Unit
     ) {
@@ -147,7 +145,7 @@ object AndroidUtils {
         }
     }
 
-    suspend fun loadTaskWithDestination(
+    suspend fun loadIntentWithDestination(
         fragment: Fragment,
         task: suspend () -> Boolean?
     ) : Boolean?

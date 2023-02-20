@@ -14,7 +14,6 @@ import com.bandit.mapper.ConcertMapper
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
-import java.time.Duration
 
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
@@ -28,7 +27,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@ConcertAddDialogFragment) { addConcert() }
+                    AndroidUtils.loadIntent(this@ConcertAddDialogFragment) { addConcert() }
             }
         }
     }
