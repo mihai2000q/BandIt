@@ -45,20 +45,24 @@ class FriendRequestAdapter(
     }
 
     private fun accept(holder: ViewHolder, friendRequest: Account) {
-        viewModel.acceptFriendRequest(friendRequest)
-        AndroidComponents.toastNotification(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.friend_request_accepted_toast)
-        )
-        fragment.dismiss()
+        AndroidUtils.loadDialogFragment(fragment) {
+            viewModel.acceptFriendRequest(friendRequest)
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.friend_request_accepted_toast)
+            )
+            fragment.dismiss()
+        }
     }
 
     private fun reject(holder: ViewHolder, friendRequest: Account) {
-        viewModel.rejectFriendRequest(friendRequest)
-        AndroidComponents.toastNotification(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.friend_request_rejected_toast)
-        )
-        fragment.dismiss()
+        AndroidUtils.loadDialogFragment(fragment) {
+            viewModel.rejectFriendRequest(friendRequest)
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.friend_request_rejected_toast)
+            )
+            fragment.dismiss()
+        }
     }
 }

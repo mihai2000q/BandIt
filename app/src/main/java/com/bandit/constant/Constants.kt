@@ -44,6 +44,7 @@ object Constants {
     object Component {
         const val BOTTOM_SHEET_DIALOG_FRAGMENT_TAG = "BOTTOM SHEET DIALOG FRAGMENT TAG"
         const val IMAGE_PICKER_DIALOG_TAG = "IMAGE PICKER DIALOG TAG"
+        const val LOADING_DIALOG_FRAGMENT = "LOADING DIALOG FRAGMENT TAG"
     }
     object Login {
         const val VIEW_MODEL_TAG = "LoginViewModel"

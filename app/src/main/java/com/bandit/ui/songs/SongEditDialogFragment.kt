@@ -23,7 +23,7 @@ class SongEditDialogFragment : SongDialogFragment() {
             }
             songButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadIntent(this@SongEditDialogFragment) { editSong() }
+                    AndroidUtils.loadDialogFragment(this@SongEditDialogFragment) { editSong() }
             }
         }
     }

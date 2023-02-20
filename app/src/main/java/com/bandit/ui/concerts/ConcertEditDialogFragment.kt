@@ -31,7 +31,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadIntent(this@ConcertEditDialogFragment) { editConcert() }
+                    AndroidUtils.loadDialogFragment(this@ConcertEditDialogFragment) { editConcert() }
             }
         }
 

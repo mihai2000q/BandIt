@@ -5,7 +5,6 @@ import android.view.View
 import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
-import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongFilterDialogFragment : SongDialogFragment() {

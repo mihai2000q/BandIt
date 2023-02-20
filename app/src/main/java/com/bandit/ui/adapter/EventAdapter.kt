@@ -95,7 +95,7 @@ class EventAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadIntent(fragment) { viewModel.removeEvent(event) }
+            AndroidUtils.loadDialogFragment(fragment) { viewModel.removeEvent(event) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.event_remove_toast)

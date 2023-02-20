@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SignupViewModel : ViewModel() {
@@ -12,7 +13,7 @@ class SignupViewModel : ViewModel() {
     private val _database = DILocator.getDatabase()
     val email = MutableLiveData<String>()
     suspend fun createUser(password: String) {
-        viewModelScope.launch {
+        coroutineScope {
             launch { _auth.createUser(email.value!!, password) }.join()
             launch { _database.setUserAccountSetup(false) }.join()
         }

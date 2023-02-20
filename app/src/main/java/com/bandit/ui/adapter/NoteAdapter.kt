@@ -86,7 +86,7 @@ class NoteAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            viewModel.removeNote(note)
+            AndroidUtils.loadDialogFragment(fragment) { viewModel.removeNote(note) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.note_remove_toast)

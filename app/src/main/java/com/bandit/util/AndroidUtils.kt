@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
 import com.bandit.R
+import com.bandit.component.LoadingDialogFragment
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
@@ -159,6 +160,19 @@ object AndroidUtils {
                 return@async result
             }
         }.await()
+
+    fun loadDialogFragment(
+        fragment: Fragment,
+        task: suspend () -> Unit
+    ) {
+        fragment.lifecycleScope.launch {
+            LoadingDialogFragment.finish.value = false
+            val loadingDialogFragment = LoadingDialogFragment()
+            showDialogFragment(loadingDialogFragment, fragment.childFragmentManager)
+            launch { task() }.join()
+            LoadingDialogFragment.finish.value = true
+        }
+    }
 
     suspend fun isNetworkAvailable() = DILocator.getDatabase().isConnected()
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
