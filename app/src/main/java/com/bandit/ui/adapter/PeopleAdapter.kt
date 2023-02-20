@@ -3,16 +3,12 @@ package com.bandit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.launch
 
 class PeopleAdapter(
     private val fragment: Fragment,

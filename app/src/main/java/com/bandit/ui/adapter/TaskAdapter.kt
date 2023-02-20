@@ -91,11 +91,19 @@ class TaskAdapter(
     }
 
     private fun onDelete(holder: ViewHolder, task: Task): Boolean {
-        viewModel.removeTask(task)
-        AndroidComponents.toastNotification(
+        AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.task_remove_toast)
-        )
+            holder.binding.root.resources.getString(R.string.task_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.task_alert_dialog_message),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            viewModel.removeTask(task)
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.task_remove_toast)
+            )
+        }
         return true
     }
 

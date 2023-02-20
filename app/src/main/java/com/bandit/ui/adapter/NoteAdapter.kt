@@ -79,11 +79,19 @@ class NoteAdapter(
     }
 
     private fun onDelete(holder: NoteAdapter.ViewHolder, note: Note): Boolean {
-        viewModel.removeNote(note)
-        AndroidComponents.toastNotification(
+        AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.note_remove_toast)
-        )
+            holder.binding.root.resources.getString(R.string.note_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.note_alert_dialog_message),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            viewModel.removeNote(note)
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.note_remove_toast)
+            )
+        }
         return true
     }
 

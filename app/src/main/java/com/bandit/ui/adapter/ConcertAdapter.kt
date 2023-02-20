@@ -108,11 +108,19 @@ data class ConcertAdapter(
     }
 
     private fun onDelete(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
-        AndroidUtils.loadTask(fragment) { viewModel.removeConcert(concert) }
-        AndroidComponents.toastNotification(
+        AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.concert_remove_toast),
-        )
+            holder.binding.root.resources.getString(R.string.concert_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.concert_alert_dialog_message),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadTask(fragment) { viewModel.removeConcert(concert) }
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.concert_remove_toast),
+            )
+        }
         return true
     }
 
