@@ -8,6 +8,7 @@ import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentBandAddMemberBinding
@@ -41,7 +42,7 @@ class BandAddMemberDialogFragment : DialogFragment() {
                 val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
                 bandAddMemberFriends.adapter = PeopleAdapter(accounts) { acc ->
                     viewModel.sendBandInvitation(acc)
-                    AndroidUtils.toastNotification(
+                    AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_invite_toast)
                     )

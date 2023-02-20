@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
 import com.bandit.di.DILocator
@@ -45,7 +46,7 @@ class PersonalNotesFragment : Fragment() {
                 DILocator.database.currentAccount.id
             )
         )
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.note_add_toast)
         )

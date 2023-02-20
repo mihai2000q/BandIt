@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
 import com.bandit.util.AndroidUtils
@@ -35,7 +36,7 @@ class BandCreateDialogFragment : DialogFragment() {
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
                     AndroidUtils.loadTask(this@BandCreateDialogFragment) { this.createBand() }
-                    AndroidUtils.toastNotification(
+                    AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_create_toast)
                     )

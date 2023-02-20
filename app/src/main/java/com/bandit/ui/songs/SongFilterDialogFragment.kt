@@ -3,6 +3,7 @@ package com.bandit.ui.songs
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
@@ -35,7 +36,7 @@ class SongFilterDialogFragment : SongDialogFragment() {
                 map.forEach { (key, value) ->
                     viewModel.songFilters.value?.replace(value, key.text.toString())
                 }
-                AndroidUtils.toastNotification(
+                AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.song_filter_toast)
                 )

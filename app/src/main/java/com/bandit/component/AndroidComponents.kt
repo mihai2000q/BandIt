@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import com.bandit.R
 import com.bandit.extension.get2Characters
 import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.util.AndroidUtils
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 object AndroidComponents {
@@ -129,6 +131,29 @@ object AndroidComponents {
         )
     }
 
+    fun snackbarNotification(
+        view: View,
+        message: String,
+        text: String,
+        action: (() -> Unit)? = null
+    ) {
+        val snack = Snackbar
+            .make(
+                view,
+                message,
+                Snackbar.LENGTH_INDEFINITE
+            )
+            .setAction(text) {
+                action?.invoke()
+            }
+        snack.show()
+    }
+
+    fun toastNotification(context: Context, message: String,
+                          length: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(context, message, length).show()
+    }
+
     private fun accountButton(
         activity: FragmentActivity,
         button: ImageButton,
@@ -142,7 +167,7 @@ object AndroidComponents {
             button.setImageDrawable(
                 ContextCompat.getDrawable(
                     activity.applicationContext,
-                    R.drawable.ic_baseline_account_clicked
+                    R.drawable.ic_account_clicked
                 )
             )
         }

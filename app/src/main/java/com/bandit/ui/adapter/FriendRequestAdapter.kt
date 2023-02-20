@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendRequestBinding
 import com.bandit.ui.friends.FriendsViewModel
@@ -44,7 +45,7 @@ class FriendRequestAdapter(
 
     private fun accept(holder: ViewHolder, friendRequest: Account) {
         viewModel.acceptFriendRequest(friendRequest)
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.friend_request_accepted_toast)
         )
@@ -53,7 +54,7 @@ class FriendRequestAdapter(
 
     private fun reject(holder: ViewHolder, friendRequest: Account) {
         viewModel.rejectFriendRequest(friendRequest)
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.friend_request_rejected_toast)
         )

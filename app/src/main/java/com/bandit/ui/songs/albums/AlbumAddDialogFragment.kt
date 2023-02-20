@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
 import com.bandit.di.DILocator
@@ -40,7 +41,7 @@ class AlbumAddDialogFragment : AlbumDialogFragment() {
                     albumEtLabel.text.toString()
                 )
             )
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.album_add_toast)
             )

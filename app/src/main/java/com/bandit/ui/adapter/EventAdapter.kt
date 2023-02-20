@@ -6,6 +6,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
 import com.bandit.ui.schedule.ScheduleDetailDialogFragment
@@ -88,7 +89,7 @@ class EventAdapter(
 
     private fun onDelete(holder: ViewHolder, event: Event): Boolean {
         AndroidUtils.loadTask(fragment) { viewModel.removeEvent(event) }
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.event_remove_toast)
         )

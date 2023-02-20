@@ -3,8 +3,11 @@ package com.bandit.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Insets
+import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.KeyEvent
 import android.view.View
@@ -28,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import kotlin.random.Random
 
 
@@ -74,10 +78,6 @@ object AndroidUtils {
             activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
             displayMetrics.heightPixels
         }
-    }
-    fun toastNotification(context: Context, message: String,
-                          length: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(context, message, length).show()
     }
     fun showDialogFragment(dialogFragment: DialogFragment, childFragmentManager: FragmentManager) {
         if(!dialogFragment.isVisible)
@@ -159,22 +159,5 @@ object AndroidUtils {
         }.await()
 
     suspend fun isNetworkAvailable() = DILocator.database.isConnected()
-
-    fun snackbar(
-        view: View,
-        message: String,
-        text: String,
-        action: (() -> Unit)? = null
-    ) {
-        val snack = Snackbar
-            .make(
-                view,
-                message,
-                Snackbar.LENGTH_INDEFINITE
-            )
-            .setAction(text) {
-                action?.invoke()
-            }
-        snack.show()
     }
 }

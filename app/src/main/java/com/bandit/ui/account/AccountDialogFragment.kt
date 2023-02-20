@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.util.AndroidUtils
@@ -62,7 +63,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 accountEtNickname.text.toString()
             )
             AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, accountBtSave)
-            AndroidUtils.toastNotification(
+            AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.account_updated_toast)
             )
@@ -75,7 +76,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         accountButton.setImageDrawable(
             ContextCompat.getDrawable(
                 super.requireContext(),
-                R.drawable.ic_baseline_account
+                R.drawable.ic_account
             )
         )
     }
@@ -94,7 +95,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         )
         PreferencesUtils.resetPreferences(this.requireActivity())
         super.requireActivity().viewModelStore.clear()
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.sign_out_toast),
             Toast.LENGTH_LONG

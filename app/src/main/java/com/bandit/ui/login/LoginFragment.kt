@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
@@ -125,7 +126,7 @@ class LoginFragment : Fragment() {
 
     private fun onNetworkFailure() {
         binding.loginEtPassword.setText("")
-        AndroidUtils.snackbar(
+        AndroidComponents.snackbarNotification(
             binding.loginLayout,
             resources.getString(R.string.no_internet_connection),
             resources.getString(R.string.bt_retry)
@@ -168,7 +169,7 @@ class LoginFragment : Fragment() {
                     super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
                     super.requireActivity().findViewById(R.id.main_drawer_layout)
                 )
-                AndroidUtils.toastNotification(
+                AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.login_toast),
                     Toast.LENGTH_LONG

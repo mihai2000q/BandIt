@@ -3,6 +3,7 @@ package com.bandit.ui.songs.albums
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
@@ -32,7 +33,7 @@ class AlbumFilterDialogFragment : AlbumDialogFragment() {
                 map.forEach { (key, value) ->
                     viewModel.albumFilters.value?.replace(value, key.text.toString())
                 }
-                AndroidUtils.toastNotification(
+                AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.album_filter_toast)
                 )
