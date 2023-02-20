@@ -46,8 +46,9 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 accountEtRole.setText(it.role.name)
             }
             lifecycleScope.launch {
+                val pic = viewModel.getProfilePicture()
                 Glide.with(this@AccountDialogFragment)
-                    .load(viewModel.getProfilePicture())
+                    .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
                     .placeholder(R.drawable.placeholder_profile_pic)
                     .into(accountIvProfilePicture)
             }
