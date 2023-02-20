@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogImagePickerBinding
+import com.bandit.di.DILocator
 import com.bandit.util.AndroidUtils
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -59,9 +60,20 @@ class ImagePickerDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val permissionChecker = DILocator.getPermissionChecker(super.requireActivity())
         with(binding) {
-            imagePickerTvCamera.setOnClickListener { camera() }
-            imagePickerTvGallery.setOnClickListener { gallery() }
+            imagePickerTvCamera.setOnClickListener {
+                if(permissionChecker.checkCameraPermission())
+                    camera()
+                else
+                    permissionChecker.requestCameraPermission()
+            }
+            imagePickerTvGallery.setOnClickListener {
+                if(permissionChecker.checkReadStoragePermission())
+                    gallery()
+                else
+                    permissionChecker.requestReadStoragePermission()
+            }
         }
     }
 

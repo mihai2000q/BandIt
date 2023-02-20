@@ -1,5 +1,6 @@
 package com.bandit.di
 
+import android.app.Activity
 import com.bandit.auth.Authenticator
 import com.bandit.auth.FirebaseAuthenticator
 import com.bandit.builder.AndroidBuilder
@@ -8,6 +9,8 @@ import com.bandit.data.db.Database
 import com.bandit.data.db.FirebaseDatabase
 import com.bandit.storage.FirebaseStorage
 import com.bandit.storage.Storage
+import com.bandit.util.IPermissionChecker
+import com.bandit.util.PermissionChecker
 
 object DILocator {
     private val androidBuilder = AndroidBuilder()
@@ -18,4 +21,5 @@ object DILocator {
     val database: Database get() = db
     val authenticator: Authenticator get() = auth
     val storage: Storage get() = sage
+    fun getPermissionChecker(activity: Activity): IPermissionChecker = PermissionChecker(activity)
 }
