@@ -18,6 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
+import com.bandit.component.AndroidComponents
+import com.bandit.component.ImagePickerDialog
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentFirstLoginBinding
@@ -35,7 +37,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val _database = DILocator.database
     private var phase = 0
     private var roleIndex = 0
-    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,18 +44,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFirstLoginBinding.inflate(inflater, container, false)
-        launcher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-        ) {
-            if(it.resultCode == Activity.RESULT_OK)
-                AndroidUtils.loadTask(this@FirstLoginFragment) {
-                    viewModel.saveProfilePicture(it.data?.data!!)
-                    Glide.with(this@FirstLoginFragment)
-                        .load(it.data?.data)
-                        .centerCrop()
-                        .into(binding.firstLoginProfilePicture)
-                }
-        }
         return binding.root
     }
 
@@ -62,13 +51,14 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         spinnerRole()
         with(binding) {
+            firstLoginEtName.requestFocus()
             firstLoginBtCancel.setOnClickListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
             }
             firstLoginEtName.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     firstLoginBtNext.callOnClick()
-                    firstLoginBtNext.requestFocus()
+                    firstLoginEtNickname.requestFocus()
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false
@@ -89,7 +79,12 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         }
                 }
             }
-            firstLoginProfilePicture.setOnClickListener { imagePicker() }
+            val imagePickerDialog = ImagePickerDialog(firstLoginProfilePicture) {
+                viewModel.saveProfilePicture(it)
+            }
+            firstLoginProfilePicture.setOnClickListener {
+                AndroidUtils.showDialogFragment(imagePickerDialog, childFragmentManager)
+            }
         }
     }
 
@@ -109,14 +104,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             firstLoginSpinnerRole.adapter = adapter
             firstLoginSpinnerRole.onItemSelectedListener = this@FirstLoginFragment
         }
-    }
-
-    private fun imagePicker() {
-        val gallery = Intent()
-        gallery.type = "image/+"
-        gallery.action = Intent.ACTION_GET_CONTENT
-
-        launcher.launch(gallery)
     }
 
     private suspend fun firstLoginBtNext(): Boolean? = coroutineScope {
@@ -179,7 +166,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
             super.requireActivity().findViewById(R.id.main_drawer_layout)
         )
-        AndroidUtils.toastNotification(
+        AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.first_login_toast)
         )
