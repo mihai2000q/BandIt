@@ -20,7 +20,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by activityViewModels()
     private val _database = DILocator.getDatabase()
     private val _buttons = mapOf(
         "Concerts" to BandItEnums.Home.NavigationType.Bottom,
