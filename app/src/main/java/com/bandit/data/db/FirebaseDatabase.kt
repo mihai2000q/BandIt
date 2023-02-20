@@ -1,7 +1,6 @@
 package com.bandit.data.db
 
 import android.util.Log
-import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.db.dto.*
 import com.bandit.data.model.*
@@ -26,7 +25,6 @@ class FirebaseDatabase : Database {
     override val people: MutableList<Account> = mutableListOf()
     override val friends: MutableList<Account> = mutableListOf()
     override val friendRequests: MutableList<Account> = mutableListOf()
-    override val homeNavigationElementsMap: MutableMap<String, BandItEnums.Home.NavigationType> = mutableMapOf()
     override val currentAccount: Account get() = _currentAccount
     override val currentBand: Band get() = _currentBand
     override val currentBandInvitation: BandInvitation get() = _currentBandInvitation
@@ -37,7 +35,6 @@ class FirebaseDatabase : Database {
 
     override suspend fun init() = coroutineScope {
         async {
-            readHomeNavigationElements()
             readAccount()
             readBand()
             readBandInvitation()
@@ -250,7 +247,6 @@ class FirebaseDatabase : Database {
         people.clear()
         friends.clear()
         friendRequests.clear()
-        homeNavigationElementsMap.clear()
     }
 
     private suspend fun set(item: Any) {
@@ -610,19 +606,6 @@ class FirebaseDatabase : Database {
                     .map { mapperA.fromDtoToItem(it) }
             }
         }.await()
-
-    private fun readHomeNavigationElements() {
-        //TODO: temporary, move it to database
-        if(homeNavigationElementsMap.isEmpty())
-            homeNavigationElementsMap.putAll(
-                mapOf(
-                    "Concerts" to BandItEnums.Home.NavigationType.Bottom,
-                    "Songs" to BandItEnums.Home.NavigationType.Bottom,
-                    "Social" to BandItEnums.Home.NavigationType.Bottom,
-                    "Schedule" to BandItEnums.Home.NavigationType.Bottom,
-                )
-            )
-    }
 
     private fun generateDocumentNameUserUid() =
         Constants.Firebase.Database.USER_ACCOUNT_SETUPS.dropLast(1) + "-" +

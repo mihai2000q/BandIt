@@ -1,11 +1,9 @@
 package com.bandit.data.db
 
-import com.bandit.constant.BandItEnums
 import com.bandit.data.db.dto.BandInvitationDto
 import com.bandit.data.model.*
 
 interface Database {
-    val homeNavigationElementsMap: Map<String, BandItEnums.Home.NavigationType>
     val concerts: List<Concert>
     val songs: List<Song>
     val albums: List<Album>

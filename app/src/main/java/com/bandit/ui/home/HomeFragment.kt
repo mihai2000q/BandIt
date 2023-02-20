@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.component.AndroidComponents
+import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.di.DILocator
+import com.bandit.ui.adapter.HomeButtonAdapter
 import com.bandit.ui.band.BandInvitationDialogFragment
 import com.bandit.util.AndroidUtils
 
@@ -20,6 +22,12 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by activityViewModels()
     private val _database = DILocator.getDatabase()
+    private val _buttons = mapOf(
+        "Concerts" to BandItEnums.Home.NavigationType.Bottom,
+        "Songs" to BandItEnums.Home.NavigationType.Bottom,
+        "Social" to BandItEnums.Home.NavigationType.Bottom,
+        "Schedule" to BandItEnums.Home.NavigationType.Bottom,
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +46,9 @@ class HomeFragment : Fragment() {
                 homeHeader.headerBtAccount
             )
             homeHeader.headerTvTitle.setText(R.string.title_home)
-            viewModel.generateHomeElements(
-                homeSvTableLayout,
-                super.requireActivity(),
-                super.requireContext(),
+            homeRvButtons.adapter = HomeButtonAdapter(
+                this@HomeFragment,
+                _buttons,
                 super.requireActivity().findViewById(R.id.main_bottom_navigation_view)
             )
         }
