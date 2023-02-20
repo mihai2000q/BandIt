@@ -19,13 +19,13 @@ class FirebaseStorage : Storage {
                 .child(userUid + "/" + Constants.Firebase.Storage.PROFILE_PIC_REFERENCE)
             profilePicRef
                 .putFile(imageUri)
-                .addOnFailureListener {
+                .addOnSuccessListener {
                     Log.i(
                         Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
                                 "was uploaded successfully"
                     )
                 }
-                .addOnSuccessListener {
+                .addOnFailureListener {
                     Log.w(
                         Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
                                 "had problems while uploading"
@@ -43,13 +43,13 @@ class FirebaseStorage : Storage {
                     .child(userUid + "/" + Constants.Firebase.Storage.PROFILE_PIC_REFERENCE)
                 return@async profilePicRef
                     .getBytes(Constants.ONE_GIGABYTE)
-                    .addOnFailureListener {
+                    .addOnSuccessListener {
                         Log.i(
                             Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
                                     "was uploaded successfully"
                         )
                     }
-                    .addOnSuccessListener {
+                    .addOnFailureListener {
                         Log.w(
                             Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
                                     "had problems while uploading"
