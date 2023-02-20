@@ -1,5 +1,6 @@
 package com.bandit.ui.account
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,10 @@ class AccountViewModel : ViewModel() {
                     )
                 )
             }
+    }
+
+    suspend fun updateProfilePicture(imageUri: Uri) = coroutineScope {
+        _storage.setProfilePicture(_auth.currentUser?.uid, imageUri)
     }
 
     suspend fun getProfilePicture(): ByteArray = coroutineScope {

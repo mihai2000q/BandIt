@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bandit.R
 import com.bandit.component.AndroidComponents
+import com.bandit.component.ImagePickerDialog
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.util.AndroidUtils
@@ -52,6 +53,16 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
             }
             accountBtSave.setOnClickListener {
                 AndroidUtils.loadTask(this@AccountDialogFragment) { updateAccount() }
+            }
+            val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
+                viewModel.updateProfilePicture(it)
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.account_profile_pic_updated_toast)
+                )
+            }
+            accountIvProfilePicture.setOnClickListener {
+                AndroidUtils.showDialogFragment(imagePickerDialog, childFragmentManager)
             }
         }
     }
