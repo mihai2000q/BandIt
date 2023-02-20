@@ -72,7 +72,7 @@ class FirebaseDatabase : Database {
 
     override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
         async {
-            val auth = DILocator.authenticator
+            val auth = DILocator.getAuthenticator()
             _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
                 .document(generateDocumentNameUserUid())
                 .set(UserAccountDto(isAccountSetup, auth.currentUser!!.uid, auth.currentUser!!.email))
@@ -321,7 +321,7 @@ class FirebaseDatabase : Database {
     private suspend fun readAccount() = coroutineScope {
         async {
             val accountDBEntries = readAccountDtos {
-                return@readAccountDtos it.userUid == DILocator.authenticator.currentUser?.uid
+                return@readAccountDtos it.userUid == DILocator.getAuthenticator().currentUser?.uid
             }
             if (accountDBEntries.isEmpty()) return@async
             _currentAccount = AccountMapper.fromDtoToItem(accountDBEntries.first())
@@ -626,7 +626,7 @@ class FirebaseDatabase : Database {
 
     private fun generateDocumentNameUserUid() =
         Constants.Firebase.Database.USER_ACCOUNT_SETUPS.dropLast(1) + "-" +
-                DILocator.authenticator.currentUser!!.uid
+                DILocator.getAuthenticator().currentUser!!.uid
 
     private fun generateDocumentNameId(table: String, id: Long) =
         "${table.lowercase().dropLast(1)}$id"

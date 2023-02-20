@@ -39,7 +39,7 @@ class ImagePickerDialog(
             ActivityResultContracts.StartActivityForResult(),
         ) {
             if(it.resultCode == Activity.RESULT_OK) {
-                AndroidUtils.loadTask(this@ImagePickerDialog) {
+                AndroidUtils.loadIntent(this@ImagePickerDialog) {
                     loadProfilePic(it.data?.data)
                 }
             }
@@ -48,7 +48,7 @@ class ImagePickerDialog(
             ActivityResultContracts.StartActivityForResult(),
         ) {
             if(it.resultCode == Activity.RESULT_OK) {
-                AndroidUtils.loadTask(this@ImagePickerDialog) {
+                AndroidUtils.loadIntent(this@ImagePickerDialog) {
                     //TODO: Replace deprecated method for .get() as Bitmap
                     loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
                         it.data?.extras?.get("data") as Bitmap))

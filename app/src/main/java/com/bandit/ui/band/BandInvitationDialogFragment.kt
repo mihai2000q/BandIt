@@ -32,13 +32,15 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            val bandInvitation = DILocator.database.currentBandInvitation
+            val bandInvitation = DILocator.getDatabase().currentBandInvitation
             bandInvitationTvTitle.text = buildString {
                 append("You have been invited to ")
                 append(bandInvitation.band.name)
             }
             bandInvitationBtAccept.setOnClickListener {
-                viewModel.acceptBandInvitation()
+                AndroidUtils.loadDialogFragment(this@BandInvitationDialogFragment) {
+                    viewModel.acceptBandInvitation()
+                }
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.band_invite_accepted_toast)
@@ -56,7 +58,7 @@ class BandInvitationDialogFragment : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if(clicked) return
-        viewModel.rejectBandInvitation()
+        AndroidUtils.loadDialogFragment(this) { viewModel.rejectBandInvitation() }
         AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.band_invite_rejected_toast)

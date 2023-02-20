@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +63,7 @@ class LoginFragment : Fragment() {
                         Context.INPUT_METHOD_SERVICE,
                         loginEtPassword
                     )
-                    val destination = AndroidUtils.loadTaskWithDestination(this@LoginFragment) { tryToLogin() }
+                    val destination = AndroidUtils.loadIntentWithDestination(this@LoginFragment) { tryToLogin() }
                     super.requireActivity().whenStarted { navigation(destination) }
                 }
             }

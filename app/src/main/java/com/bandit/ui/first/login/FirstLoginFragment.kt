@@ -29,7 +29,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var _binding: FragmentFirstLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FirstLoginViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
     private var phase = 0
     private var roleIndex = 0
 
@@ -67,7 +67,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
             firstLoginBtNext.setOnClickListener {
                 lifecycleScope.launch {
-                    if(AndroidUtils.loadTaskWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
+                    if(AndroidUtils.loadIntentWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
                         super.requireActivity().whenStarted {
                             findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_home)
                         }

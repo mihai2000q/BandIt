@@ -55,15 +55,17 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        viewModel.editNote(
-            Note(
-                title = binding.personalNotesEditTitle.text.toString(),
-                content = binding.personalNotesEditContent.text.toString(),
-                accountId = viewModel.selectedNote.value!!.accountId,
-                createdOn = viewModel.selectedNote.value!!.createdOn,
-                id = viewModel.selectedNote.value!!.id
+        AndroidUtils.loadDialogFragment(this) {
+            viewModel.editNote(
+                Note(
+                    title = binding.personalNotesEditTitle.text.toString(),
+                    content = binding.personalNotesEditContent.text.toString(),
+                    accountId = viewModel.selectedNote.value!!.accountId,
+                    createdOn = viewModel.selectedNote.value!!.createdOn,
+                    id = viewModel.selectedNote.value!!.id
+                )
             )
-        )
+        }
     }
 
     companion object {

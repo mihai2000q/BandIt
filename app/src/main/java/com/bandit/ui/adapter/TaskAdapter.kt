@@ -51,15 +51,17 @@ class TaskAdapter(
                 else
                     taskTvMessage.paintFlags = taskTvMessage.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 taskCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.editTask(
-                        Task(
-                            isChecked,
-                            task.message,
-                            task.bandId,
-                            task.createdOn,
-                            task.id
+                    AndroidUtils.loadDialogFragment(fragment) {
+                        viewModel.editTask(
+                            Task(
+                                isChecked,
+                                task.message,
+                                task.bandId,
+                                task.createdOn,
+                                task.id
+                            )
                         )
-                    )
+                    }
                 }
                 taskTvMessage.text = task.message
                 taskTvMessage.setOnLongClickListener { onLongClick(holder, task) }
@@ -98,7 +100,7 @@ class TaskAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            viewModel.removeTask(task)
+            AndroidUtils.loadDialogFragment(fragment) { viewModel.removeTask(task) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.task_remove_toast)
@@ -112,22 +114,28 @@ class TaskAdapter(
             taskEtMessage.setText(task.message)
             taskEtMessage.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    viewModel.editTask(
-                        Task(
-                            checked = task.checked,
-                            message = taskEtMessage.text.toString(),
-                            bandId = task.bandId,
-                            createdOn = task.createdOn,
-                            id = task.id
+                    AndroidUtils.loadDialogFragment(fragment) {
+                        viewModel.editTask(
+                            Task(
+                                checked = task.checked,
+                                message = taskEtMessage.text.toString(),
+                                bandId = task.bandId,
+                                createdOn = task.createdOn,
+                                id = task.id
+                            )
                         )
-                    )
-                    AndroidComponents.toastNotification(
-                        holder.binding.root.context,
-                        holder.binding.root.resources.getString(R.string.task_edit_toast)
-                    )
-                    taskEtMessage.clearFocus()
-                    AndroidUtils.hideKeyboard(fragment.requireActivity(), Context.INPUT_METHOD_SERVICE, taskEtMessage)
-                    taskViewSwitcher.showNext()
+                        AndroidComponents.toastNotification(
+                            holder.binding.root.context,
+                            holder.binding.root.resources.getString(R.string.task_edit_toast)
+                        )
+                        taskEtMessage.clearFocus()
+                        AndroidUtils.hideKeyboard(
+                            fragment.requireActivity(),
+                            Context.INPUT_METHOD_SERVICE,
+                            taskEtMessage
+                        )
+                        taskViewSwitcher.showNext()
+                    }
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false

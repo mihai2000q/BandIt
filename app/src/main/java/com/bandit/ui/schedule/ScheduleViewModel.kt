@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleViewModel : ViewModel() {
-    private val _repository = EventRepository(DILocator.database)
+    private val _repository = EventRepository(DILocator.getDatabase())
     private val _events = MutableLiveData(_repository.list)
     val events: LiveData<List<Event>> = _events
     val selectedEvent = MutableLiveData<Event>()

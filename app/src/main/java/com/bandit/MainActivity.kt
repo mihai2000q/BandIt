@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            val destination = AndroidUtils.loadTask(this@MainActivity) { startApp() }
+            val destination = AndroidUtils.loadIntent(this@MainActivity) { startApp() }
             whenStarted {
                 if(destination == true)
                     findNavController(R.id.main_nav_host).navigate(R.id.action_loginFragment_to_homeFragment)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun authentication(): Boolean? {
         return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
-            && DILocator.authenticator.currentUser != null
+            && DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {
                 AndroidUtils.lockNavigation(
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 return null
             }
-            DILocator.database.init()
+            DILocator.getDatabase().init()
             true
         } else {
             AndroidUtils.lockNavigation(

@@ -39,13 +39,15 @@ class PersonalNotesFragment : Fragment() {
     }
 
     private fun addNote() {
-        viewModel.addNote(
-            Note(
-                resources.getString(R.string.et_title),
-                resources.getString(R.string.default_note_message),
-                DILocator.database.currentAccount.id
+        AndroidUtils.loadDialogFragment(this) {
+            viewModel.addNote(
+                Note(
+                    resources.getString(R.string.et_title),
+                    resources.getString(R.string.default_note_message),
+                    DILocator.getDatabase().currentAccount.id
+                )
             )
-        )
+        }
         AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.note_add_toast)

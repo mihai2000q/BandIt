@@ -95,7 +95,7 @@ data class AlbumAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadTask(fragment) { viewModel.removeAlbum(album) }
+            AndroidUtils.loadDialogFragment(fragment) { viewModel.removeAlbum(album) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.album_remove_toast),

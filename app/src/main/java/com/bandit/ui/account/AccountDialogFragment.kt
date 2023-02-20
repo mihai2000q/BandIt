@@ -53,7 +53,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                     .into(accountIvProfilePicture)
             }
             accountBtSave.setOnClickListener {
-                AndroidUtils.loadTask(this@AccountDialogFragment) { updateAccount() }
+                AndroidUtils.loadDialogFragment(this@AccountDialogFragment) { updateAccount() }
             }
             val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
                 viewModel.updateProfilePicture(it)

@@ -12,7 +12,7 @@ import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongAddDialogFragment : SongDialogFragment() {
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -20,7 +20,7 @@ class SongAddDialogFragment : SongDialogFragment() {
             songButton.setText(R.string.bt_add)
             songButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@SongAddDialogFragment) { addSong() }
+                    AndroidUtils.loadDialogFragment(this@SongAddDialogFragment) { addSong() }
             }
         }
     }

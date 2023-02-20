@@ -33,17 +33,19 @@ class TodoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val customBottomSheetDialogFragment = CustomBottomSheetDialogFragment {
             if(it.text.isNullOrEmpty()) return@CustomBottomSheetDialogFragment
-            viewModel.addTask(
-                Task(
-                    checked = false,
-                    message = it.text.toString(),
-                    bandId = DILocator.database.currentBand.id
+            AndroidUtils.loadDialogFragment(this) {
+                viewModel.addTask(
+                    Task(
+                        checked = false,
+                        message = it.text.toString(),
+                        bandId = DILocator.getDatabase().currentBand.id
+                    )
                 )
-            )
-            AndroidComponents.toastNotification(
-                super.requireContext(),
-                resources.getString(R.string.task_add_toast)
-            )
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.task_add_toast)
+                )
+            }
         }
         with(binding) {
             viewModel.tasks.observe(viewLifecycleOwner) {

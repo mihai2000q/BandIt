@@ -3,7 +3,6 @@ package com.bandit.ui.friends
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.data.repository.FriendRepository
@@ -12,24 +11,23 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class FriendsViewModel : ViewModel() {
-    private val _storage = DILocator.storage
-    private val _auth = DILocator.authenticator
-    private val _repository = FriendRepository(DILocator.database)
+    private val _storage = DILocator.getStorage()
+    private val _repository = FriendRepository(DILocator.getDatabase())
     private val _people = MutableLiveData(_repository.people)
     val people: LiveData<List<Account>> = _people
     private val _friends = MutableLiveData(_repository.friends)
     val friends: LiveData<List<Account>> = _friends
     private val _friendRequests = MutableLiveData(_repository.friendRequests)
     val friendRequests: LiveData<List<Account>> = _friendRequests
-    fun sendFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun sendFriendRequest(account: Account) = coroutineScope {
         launch { _repository.sendFriendRequest(account) }.join()
         refresh()
     }
-    fun acceptFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun acceptFriendRequest(account: Account) = coroutineScope {
         launch { _repository.acceptFriendRequest(account) }.join()
         refresh()
     }
-    fun rejectFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun rejectFriendRequest(account: Account) = coroutineScope {
         launch { _repository.rejectFriendRequest(account) }.join()
         refresh()
     }

@@ -43,7 +43,9 @@ class BandAddMemberDialogFragment : DialogFragment() {
                 bandAddMemberFriends.adapter = PeopleAdapter(
                     this@BandAddMemberDialogFragment, accounts, friendsViewModel
                 ) { acc ->
-                    viewModel.sendBandInvitation(acc)
+                    AndroidUtils.loadDialogFragment(this@BandAddMemberDialogFragment) {
+                        viewModel.sendBandInvitation(acc)
+                    }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_invite_toast)

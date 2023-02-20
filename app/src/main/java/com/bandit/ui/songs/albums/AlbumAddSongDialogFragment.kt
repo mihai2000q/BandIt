@@ -46,7 +46,7 @@ class AlbumAddSongDialogFragment : DialogFragment() {
                     resources.getString(R.string.album_remove_from_album),
                     false
                 ) {
-                    AndroidUtils.loadTask(this@AlbumAddSongDialogFragment) {
+                    AndroidUtils.loadDialogFragment(this@AlbumAddSongDialogFragment) {
                         viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
                     }
                     AndroidComponents.toastNotification(

@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeViewModel : ViewModel() {
     private val _builder: HomeBuilder = DILocator.homeBuilder
-    private val _elements = MutableLiveData(DILocator.database.homeNavigationElementsMap)
+    private val _elements = MutableLiveData(DILocator.getDatabase().homeNavigationElementsMap)
     fun generateHomeElements(
         layout: TableLayout,
         activity: Activity,

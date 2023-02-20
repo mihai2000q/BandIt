@@ -14,12 +14,11 @@ import com.bandit.mapper.ConcertMapper
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
-import java.time.Duration
 
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val _database = DILocator.database
+    private val _database = DILocator.getDatabase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,7 +27,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadTask(this@ConcertAddDialogFragment) { addConcert() }
+                    AndroidUtils.loadDialogFragment(this@ConcertAddDialogFragment) { addConcert() }
             }
         }
     }

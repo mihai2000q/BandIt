@@ -38,7 +38,7 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
         viewModel.people.observe(viewLifecycleOwner) {
             binding.friendsDialogList.adapter = PeopleAdapter(this, it.sorted(), viewModel)
             { acc ->
-                viewModel.sendFriendRequest(acc)
+                AndroidUtils.loadDialogFragment(this) { viewModel.sendFriendRequest(acc) }
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.friend_request_sent_toast)
