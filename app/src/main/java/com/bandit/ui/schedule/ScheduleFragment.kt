@@ -1,6 +1,7 @@
 package com.bandit.ui.schedule
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
+import com.applandeo.materialcalendarview.EventDay
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
@@ -21,7 +24,8 @@ import com.bandit.util.ParserUtils
 import java.time.Instant
 import java.time.ZoneId
 
-class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener {
+class ScheduleFragment : Fragment(),
+    AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener, OnDayClickListener {
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
@@ -75,7 +79,7 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
             scheduleSpinnerMode.visibility = View.VISIBLE
             scheduleSearchView.layoutParams.width = AndroidUtils.getScreenWidth(super.requireActivity()) * 15 / 32
 
-            if(viewModel.currentDate.value == null)
+            /*if(viewModel.currentDate.value == null)
                 viewModel.currentDate.value =
                     Instant.ofEpochMilli(scheduleCalendarView.date)
                         .atZone(ZoneId.systemDefault())
@@ -85,14 +89,8 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
                     .atStartOfDay(ZoneId.systemDefault())
                     .toInstant()
                     .toEpochMilli()
-
-            scheduleCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                viewModel.currentDate.value = ParserUtils.parseDate(year.toString() +
-                        "-" +
-                        month.plus(1).toString().get2Characters() +
-                        "-" +
-                        dayOfMonth.toString().get2Characters())
-            }
+*/
+            scheduleCalendarView.setOnDayClickListener(this@ScheduleFragment)
             viewModel.currentDate.observe(viewLifecycleOwner) {
                 viewModel.filterEvents(date = it)
                 scheduleAddDialogFragment.date.value = it.toString()
@@ -158,5 +156,16 @@ class ScheduleFragment : Fragment(), AdapterView.OnItemSelectedListener, SearchV
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterEvents(newText)
         return true
+    }
+
+    override fun onDayClick(eventDay: EventDay) {
+        Log.i("Test", eventDay.calendar.weekYear.toString())
+        Log.i("Test", eventDay.calendar.firstDayOfWeek.toString())
+        Log.i("Test", eventDay.calendar.weeksInWeekYear.toString())
+/*        viewModel.currentDate.value = ParserUtils.parseDate(year.toString() +
+                "-" +
+                month.plus(1).toString().get2Characters() +
+                "-" +
+                dayOfMonth.toString().get2Characters())*/
     }
 }

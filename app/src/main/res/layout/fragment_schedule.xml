@@ -53,11 +53,12 @@
                 app:srcCompat="@drawable/ic_add_circle" />
         </LinearLayout>
 
-        <CalendarView
+        <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/schedule_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:visibility="gone" />
+            app:headerColor="@color/dark_spring_green"
+            app:todayLabelColor="@color/turquoise_green" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/schedule_events_view"
