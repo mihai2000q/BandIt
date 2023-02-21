@@ -39,8 +39,5 @@ class EventRepository(database: Database? = null)
         .filter { filter(it.duration, duration) }
         .toList()
 
-    fun getEventDatesByMonth(month: Int) =
-        list.map { e -> e.dateTime }
-            .filter { d -> d.monthValue == month }
-            .map { d -> d.toLocalDate() }
+    fun getAllEventDates() = list.map { e -> e.dateTime.toLocalDate() }
 }
