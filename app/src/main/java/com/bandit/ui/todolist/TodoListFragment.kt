@@ -51,7 +51,11 @@ class TodoListFragment : Fragment() {
             viewModel.tasks.observe(viewLifecycleOwner) {
                 todolistRvTasks.adapter = TaskAdapter(this@TodoListFragment, it.sorted(), viewModel)
             }
-            todolistBtAdd.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                todolistBtAdd
+            ) {
                 AndroidUtils.showDialogFragment(
                     customBottomSheetDialogFragment,
                     childFragmentManager

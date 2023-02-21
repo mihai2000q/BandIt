@@ -15,5 +15,6 @@
     <string name="bt_next">Next</string>
     <string name="bt_cancel">Cancel</string>
     <string name="bt_retry">Retry</string>
+    <string name="bt_okay">Okay</string>
     <string name="album_bt_add_song">Add Song</string>
 </resources>
