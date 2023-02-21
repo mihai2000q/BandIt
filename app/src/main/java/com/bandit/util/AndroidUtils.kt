@@ -3,6 +3,7 @@ package com.bandit.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Insets
 import android.net.Uri
@@ -25,8 +26,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.bandit.LoadingActivity
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.component.LoadingDialogFragment
 import com.bandit.constant.Constants
+import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
@@ -204,6 +207,24 @@ object AndroidUtils {
                 .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
                 .placeholder(R.drawable.placeholder_profile_pic)
                 .into(profilePicView)
+        }
+    }
+
+    fun disableIfBandNull(
+        resources: Resources,
+        band: Band,
+        view: View,
+        normalAction: () -> Unit
+    ) {
+        view.setOnClickListener {
+            if(band.isEmpty())
+                AndroidComponents.snackbarNotification(
+                    view,
+                    resources.getString(R.string.empty_band_snackbar),
+                    resources.getString(R.string.bt_okay)
+                )
+            else
+                normalAction()
         }
     }
 }

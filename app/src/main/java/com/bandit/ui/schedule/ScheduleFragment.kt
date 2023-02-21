@@ -17,6 +17,7 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentScheduleBinding
+import com.bandit.di.DILocator
 import com.bandit.ui.adapter.EventAdapter
 import com.bandit.util.AndroidUtils
 import java.util.*
@@ -96,7 +97,11 @@ class ScheduleFragment : Fragment(),
                     viewModel
                 )
             }
-            scheduleBtAdd.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                scheduleBtAdd
+            ) {
                 AndroidUtils.showDialogFragment(
                     scheduleAddDialogFragment,
                     childFragmentManager
@@ -120,7 +125,11 @@ class ScheduleFragment : Fragment(),
                     viewModel
                 )
             }
-            scheduleBtAdd.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                scheduleBtAdd
+            ) {
                 scheduleAddDialogFragment.date.value = null
                 AndroidUtils.showDialogFragment(
                     scheduleAddDialogFragment,

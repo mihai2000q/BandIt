@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentConcertsBinding
+import com.bandit.di.DILocator
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.util.AndroidUtils
 
@@ -39,13 +40,21 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
             )
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             concertsHeader.headerTvTitle.setText(R.string.title_concerts)
-            concertsBtAdd.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                concertsBtAdd
+            ) {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,
                     childFragmentManager
                 )
             }
-            concertsBtFilter.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                concertsBtFilter
+            ) {
                 AndroidUtils.showDialogFragment(
                     concertFilterDialogFragment,
                     childFragmentManager

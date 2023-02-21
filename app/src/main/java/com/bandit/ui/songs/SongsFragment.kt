@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentSongsBinding
+import com.bandit.di.DILocator
 import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
@@ -42,7 +43,11 @@ class SongsFragment : Fragment() {
                 songsHeader.headerBtAccount
             )
             songsHeader.headerTvTitle.setText(R.string.title_songs)
-            songsBtAlbumMode.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                songsBtAlbumMode
+            ) {
                 songsSearchView.setQuery("", false)
                 viewModel.albumMode.value = !viewModel.albumMode.value!!
             }
@@ -159,13 +164,21 @@ class SongsFragment : Fragment() {
                     drawableIcon
                 )
             )
-            songsBtAdd.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                songsBtAdd
+            ) {
                 AndroidUtils.showDialogFragment(
                     addDialogFragment,
                     childFragmentManager
                 )
             }
-            songsBtFilter.setOnClickListener {
+            AndroidUtils.disableIfBandNull(
+                resources,
+                DILocator.getDatabase().currentBand,
+                songsBtFilter
+            ) {
                 AndroidUtils.showDialogFragment(
                     filterDialogFragment,
                     childFragmentManager

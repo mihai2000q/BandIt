@@ -128,7 +128,7 @@ class LoginFragment : Fragment() {
         binding.loginEtPassword.setText("")
         AndroidComponents.snackbarNotification(
             binding.loginLayout,
-            resources.getString(R.string.no_internet_connection),
+            resources.getString(R.string.no_internet_connection_snackbar),
             resources.getString(R.string.bt_retry)
         )
     }
