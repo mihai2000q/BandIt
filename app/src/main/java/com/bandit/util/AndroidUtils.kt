@@ -35,10 +35,18 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 import kotlin.random.Random
 
 
 object AndroidUtils {
+    fun fromCalendarToLocalDate(calendar: Calendar): LocalDate =
+        LocalDateTime.ofInstant(
+            calendar.toInstant(),
+            calendar.timeZone.toZoneId()
+        ).toLocalDate()
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
     fun unlockNavigation(bottomNavigationView: BottomNavigationView?, drawerLayout: DrawerLayout?) {
         bottomNavigationView?.visibility = View.VISIBLE
