@@ -186,6 +186,63 @@ class EventRepositoryTest : BaseRepositoryTest<Event>() {
         assertEquals(outcome.size, 2)
         assertEquals(outcome, expected)
     }
+    @Test
+    fun event_repository_get_days_by_month() {
+        runBlocking {
+            eventRepository.add(
+                Event(
+                    name = "",
+                    dateTime = LocalDateTime.parse("2023-10-13T08:30"),
+                    duration = Duration.ZERO,
+                    type = BandItEnums.Event.Type.Simple,
+                    bandId = -1
+                ),
+            )
+            eventRepository.add(
+                Event(
+                    name = "",
+                    dateTime = LocalDateTime.parse("2023-10-20T08:30"),
+                    duration = Duration.ZERO,
+                    type = BandItEnums.Event.Type.Simple,
+                    bandId = -1
+                ),
+            )
+            eventRepository.add(
+                Event(
+                    name = "",
+                    dateTime = LocalDateTime.parse("2023-10-01T08:30"),
+                    duration = Duration.ZERO,
+                    type = BandItEnums.Event.Type.Simple,
+                    bandId = -1
+                ),
+            )
+            eventRepository.add(
+                Event(
+                    name = "",
+                    dateTime = LocalDateTime.parse("2023-11-09T08:30"),
+                    duration = Duration.ZERO,
+                    type = BandItEnums.Event.Type.Simple,
+                    bandId = -1
+                ),
+            )
+            eventRepository.add(
+                Event(
+                    name = "",
+                    dateTime = LocalDateTime.parse("2023-11-08T08:30"),
+                    duration = Duration.ZERO,
+                    type = BandItEnums.Event.Type.Simple,
+                    bandId = -1
+                )
+            )
+        }
+        val outcome = eventRepository.getEventDatesByMonth(10).sorted()
+        val expected = listOf(
+            LocalDate.parse("2023-10-01"),
+            LocalDate.parse("2023-10-13"),
+            LocalDate.parse("2023-10-20")
+        )
+        assertEquals(expected, outcome)
+    }
     private fun assert_event(
         repository: EventRepository,
         name: String,
