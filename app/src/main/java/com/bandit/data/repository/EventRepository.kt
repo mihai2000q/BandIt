@@ -30,14 +30,14 @@ class EventRepository(database: Database? = null)
         time: LocalTime? = null,
         type: BandItEnums.Event.Type? = null,
         duration: Duration? = null
-    ): List<Event> =
-        list
-            .asSequence()
-            .filter { filter(it.name, name) }
-            .filter { filter(it.dateTime.toLocalDate(), date) }
-            .filter { filter(it.dateTime.toLocalTime(), time) }
-            .filter { filter(it.type, type) }
-            .filter { filter(it.duration, duration) }
-            .toList()
+    ) = list
+        .asSequence()
+        .filter { filter(it.name, name) }
+        .filter { filter(it.dateTime.toLocalDate(), date) }
+        .filter { filter(it.dateTime.toLocalTime(), time) }
+        .filter { filter(it.type, type) }
+        .filter { filter(it.duration, duration) }
+        .toList()
 
+    fun getAllEventDates() = list.map { e -> e.dateTime.toLocalDate() }
 }

@@ -3,7 +3,6 @@ package com.bandit.ui.schedule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Event
 import com.bandit.data.repository.EventRepository
@@ -18,7 +17,7 @@ class ScheduleViewModel : ViewModel() {
     val events: LiveData<List<Event>> = _events
     val selectedEvent = MutableLiveData<Event>()
     val calendarMode = MutableLiveData(false)
-    val currentDate = MutableLiveData<LocalDate>()
+    val currentDate = MutableLiveData(LocalDate.now())
 
     suspend fun addEvent(event: Event) = coroutineScope {
         launch { _repository.add(event) }.join()
@@ -45,6 +44,8 @@ class ScheduleViewModel : ViewModel() {
     fun removeFilters() {
         filterEvents()
     }
+
+    fun getDates() = _repository.getAllEventDates()
 
     private fun refresh() {
         _events.value = _repository.list
