@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -38,6 +39,9 @@ import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -279,5 +283,24 @@ object AndroidUtils {
                 rvEmpty.visibility = View.GONE
             }
         }
+    }
+
+    fun setBadgeDrawableOnView(
+        badgeDrawable: BadgeDrawable,
+        view: View
+    )  {
+        view.viewTreeObserver
+            .addOnGlobalLayoutListener(@ExperimentalBadgeUtils object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    badgeDrawable.number = 0
+                    badgeDrawable.horizontalOffset = 35
+                    badgeDrawable.verticalOffset = 24
+                    badgeDrawable.isVisible = true
+                    badgeDrawable.badgeGravity = BadgeDrawable.TOP_END
+                    BadgeUtils.attachBadgeDrawable(badgeDrawable, view)
+                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                }
+            })
     }
 }
