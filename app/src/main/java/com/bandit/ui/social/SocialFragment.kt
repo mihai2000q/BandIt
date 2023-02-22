@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -43,8 +44,13 @@ class SocialFragment : Fragment() {
                         tab.text = resources.getString(R.string.social_friends_tab)
                         viewModel.friendRequests.observe(viewLifecycleOwner) {
                             val badge = tab.orCreateBadge
+                            viewModel.friendsTabOpen.observe(viewLifecycleOwner) { value ->
+                                badge.isVisible = !value
+                            }
                             badge.isVisible = it.isNotEmpty()
                             badge.number = it.size
+                            badge.maxCharacterCount = 99
+                            badge.backgroundColor = ContextCompat.getColor(super.requireContext(), R.color.red)
                         }
                     }
                     else -> tab.text = resources.getString(R.string.social_band_tab)
