@@ -287,16 +287,19 @@ object AndroidUtils {
 
     fun setBadgeDrawableOnView(
         badgeDrawable: BadgeDrawable,
-        view: View
+        view: View,
+        size: Int,
+        isVisible: Boolean
     )  {
         view.viewTreeObserver
             .addOnGlobalLayoutListener(@ExperimentalBadgeUtils object :
                 ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    badgeDrawable.number = 0
+                    badgeDrawable.number = size
+                    badgeDrawable.maxCharacterCount = 99
                     badgeDrawable.horizontalOffset = 35
                     badgeDrawable.verticalOffset = 24
-                    badgeDrawable.isVisible = true
+                    badgeDrawable.isVisible = isVisible
                     badgeDrawable.badgeGravity = BadgeDrawable.TOP_END
                     BadgeUtils.attachBadgeDrawable(badgeDrawable, view)
                     view.viewTreeObserver.removeOnGlobalLayoutListener(this)
