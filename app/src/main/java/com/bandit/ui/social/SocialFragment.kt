@@ -14,7 +14,7 @@ import com.bandit.ui.friends.FriendsViewModel
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.tabs.TabLayoutMediator
 
-@ExperimentalBadgeUtils class SocialFragment : Fragment() {
+class SocialFragment : Fragment() {
 
     private var _binding: FragmentSocialBinding? = null
     private val binding get() = _binding!!

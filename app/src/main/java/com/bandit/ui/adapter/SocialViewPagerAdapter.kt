@@ -9,7 +9,7 @@ import com.bandit.ui.chats.ChatsFragment
 import com.bandit.ui.friends.FriendsFragment
 import com.google.android.material.badge.ExperimentalBadgeUtils
 
-@ExperimentalBadgeUtils class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
+class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
     : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
         return Constants.Social.NUMBER_OF_TABS
