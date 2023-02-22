@@ -34,7 +34,12 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
-            AndroidUtils.setBadgeDrawableOnView(badgeDrawable, friendsBtAdd)
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable,
+                friendsBtAdd,
+                viewModel.friendRequests.value?.size ?: 0,
+                viewModel.friendRequests.value?.isNotEmpty() ?: false
+            )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
                 if(it.isEmpty()) {
                     badgeDrawable.isVisible = false
