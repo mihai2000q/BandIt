@@ -32,8 +32,17 @@ class PersonalNotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             personalNotesBtAdd.setOnClickListener { addNote() }
-            viewModel.notes.observe(viewLifecycleOwner) {
-                personalNotesList.adapter = NoteAdapter(this@PersonalNotesFragment, it.sorted(), viewModel)
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.notes,
+                personalNotesList,
+                personalNotesRvEmpty
+            ) {
+                return@setRecyclerViewEmpty NoteAdapter(
+                    this@PersonalNotesFragment,
+                    it.sorted(),
+                    viewModel
+                )
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bandit.R
 import com.bandit.component.AndroidComponents
+import com.bandit.data.model.Song
 import com.bandit.databinding.FragmentSongsBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.adapter.AlbumAdapter
@@ -66,15 +67,25 @@ class SongsFragment : Fragment() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
         val albumFilterDialogFragment = AlbumFilterDialogFragment()
         with(binding) {
+            songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
             songsList.layoutManager = GridLayoutManager(context, 2)
             mode(
                 R.drawable.ic_list,
                 albumAddDialogFragment,
                 albumFilterDialogFragment
             )
-            viewModel.albums.observe(viewLifecycleOwner) {
-                if(viewModel.albumMode.value == false) return@observe
-                songsList.adapter = AlbumAdapter(this@SongsFragment, it, viewModel)
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.albums,
+                songsList,
+                songsRvEmpty,
+                songsRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty AlbumAdapter(
+                        this@SongsFragment, it, viewModel)
+                }
+            ) {
+                if(viewModel.albumMode.value == false) return@setRecyclerViewEmpty
             }
             songsSearchView.setOnQueryTextListener(
                 object : OnQueryTextListener {
@@ -100,37 +111,29 @@ class SongsFragment : Fragment() {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment()
         with(binding) {
+            songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
             songsList.layoutManager = GridLayoutManager(context, 1)
             mode(
                 R.drawable.ic_album_view,
                 songAddDialogFragment,
                 songFilterDialogFragment
             )
-            viewModel.songs.observe(viewLifecycleOwner) {
-                if(viewModel.albumMode.value == true) return@observe
-                songsList.adapter = SongAdapter(
-                    this@SongsFragment,
-                    it.sorted().reversed(),
-                    viewModel,
-                    { song ->
-                        AndroidComponents.alertDialog(
-                            super.requireContext(),
-                            resources.getString(R.string.song_alert_dialog_title),
-                            resources.getString(R.string.song_alert_dialog_message),
-                            resources.getString(R.string.alert_dialog_positive),
-                            resources.getString(R.string.alert_dialog_negative)
-                        ) {
-                            AndroidUtils.loadIntent(this@SongsFragment) {
-                                viewModel.removeSong(song)
-                            }
-                            AndroidComponents.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.song_remove_toast),
-                            )
-                        }
-                        return@SongAdapter true
-                    }
-                )
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.songs,
+                songsList,
+                songsRvEmpty,
+                songsRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty SongAdapter(
+                        this@SongsFragment,
+                        it.sorted().reversed(),
+                        viewModel,
+                        { song -> onDeleteSong(song) }
+                    )
+                }
+            ) {
+                if(viewModel.albumMode.value == true) return@setRecyclerViewEmpty
             }
             songsSearchView.setOnQueryTextListener(
                 object : OnQueryTextListener {
@@ -185,5 +188,24 @@ class SongsFragment : Fragment() {
                 )
             }
         }
+    }
+
+    private fun onDeleteSong(song: Song): Boolean {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.song_alert_dialog_title),
+            resources.getString(R.string.song_alert_dialog_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(this@SongsFragment) {
+                viewModel.removeSong(song)
+            }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.song_remove_toast),
+            )
+        }
+        return true
     }
 }
