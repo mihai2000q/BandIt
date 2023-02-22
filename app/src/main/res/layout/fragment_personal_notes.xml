@@ -35,6 +35,22 @@
             app:spanCount="2"
             tools:listitem="@layout/model_note"/>
 
+        <LinearLayout
+            android:id="@+id/personal_notes_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_note_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/personal_notes_bt_add"
             android:layout_width="wrap_content"

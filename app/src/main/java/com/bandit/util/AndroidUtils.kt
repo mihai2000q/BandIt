@@ -16,6 +16,7 @@ import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -23,7 +24,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bandit.LoadingActivity
 import com.bandit.R
 import com.bandit.component.AndroidComponents
@@ -225,6 +230,54 @@ object AndroidUtils {
                 )
             else
                 normalAction()
+        }
+    }
+
+    fun <T : Comparable<T>> setRecyclerViewEmpty(
+        viewLifecycleOwner: LifecycleOwner,
+        list: LiveData<List<T>>,
+        rvList: RecyclerView,
+        rvEmpty: LinearLayout,
+        rvBandEmpty: LinearLayout,
+        adapter: (list: List<T>) -> Adapter<*>,
+        additional: (() -> Unit)? = null
+    ) {
+        list.observe(viewLifecycleOwner) {
+            additional?.invoke()
+            if(DILocator.getDatabase().currentBand.isEmpty()) {
+                rvList.visibility = View.GONE
+                rvEmpty.visibility = View.GONE
+                rvBandEmpty.visibility = View.VISIBLE
+            }
+            else if(it.isEmpty()) {
+                rvList.visibility = View.GONE
+                rvBandEmpty.visibility = View.GONE
+                rvEmpty.visibility = View.VISIBLE
+            } else {
+                rvList.adapter = adapter(it)
+                rvList.visibility = View.VISIBLE
+                rvEmpty.visibility = View.GONE
+                rvBandEmpty.visibility = View.GONE
+            }
+        }
+    }
+
+    fun <T : Comparable<T>> setRecyclerViewEmpty(
+        viewLifecycleOwner: LifecycleOwner,
+        list: LiveData<List<T>>,
+        rvList: RecyclerView,
+        rvEmpty: LinearLayout,
+        adapter: (list: List<T>) -> Adapter<*>
+    ) {
+        list.observe(viewLifecycleOwner) {
+            if(it.isEmpty()) {
+                rvList.visibility = View.GONE
+                rvEmpty.visibility = View.GONE
+            } else {
+                rvList.adapter = adapter(it)
+                rvList.visibility = View.VISIBLE
+                rvEmpty.visibility = View.GONE
+            }
         }
     }
 }

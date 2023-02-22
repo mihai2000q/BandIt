@@ -20,6 +20,7 @@ import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.adapter.EventAdapter
 import com.bandit.util.AndroidUtils
+import kotlinx.coroutines.delay
 import java.util.*
 
 
@@ -60,9 +61,10 @@ class ScheduleFragment : Fragment(),
                 viewModel.calendarMode.value = isChecked
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
-                if(it) calendarMode() else listMode()
+                AndroidUtils.loadDialogFragment(this@ScheduleFragment) {
+                    if(it) calendarMode() else listMode()
+                }
             }
-            scheduleCalendarView.visibility = View.GONE
         }
     }
 
@@ -71,8 +73,10 @@ class ScheduleFragment : Fragment(),
         _binding = null
     }
 
-    private fun calendarMode() {
+    private suspend fun calendarMode() {
+        delay(700) // the Calendar Widget takes some time to load, so I delay here
         with(binding) {
+            scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleHeader.root.visibility = View.GONE
             scheduleCalendarView.visibility = View.VISIBLE
             scheduleSearchView.visibility = View.INVISIBLE
@@ -89,13 +93,22 @@ class ScheduleFragment : Fragment(),
                 viewModel.filterEvents(date = it)
                 scheduleAddDialogFragment.date.value = it.toString()
             }
-            viewModel.events.observe(viewLifecycleOwner) {
-                if(viewModel.calendarMode.value == false) return@observe
-                scheduleEventsView.adapter = EventAdapter(
-                    this@ScheduleFragment,
-                    it.sorted(),
-                    viewModel
-                )
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.events,
+                scheduleEventsView,
+                scheduleRvEmpty,
+                scheduleRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty EventAdapter(
+                        this@ScheduleFragment,
+                        it.sorted(),
+                        viewModel
+                    )
+                }
+            ) {
+                if(viewModel.calendarMode.value == false) return@setRecyclerViewEmpty
+                highlightDays()
             }
             AndroidUtils.disableIfBandNull(
                 resources,
@@ -112,18 +125,27 @@ class ScheduleFragment : Fragment(),
 
     private fun listMode() {
         with(binding) {
+            scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
             scheduleHeader.root.visibility = View.VISIBLE
             scheduleCalendarView.visibility = View.GONE
             scheduleSpinnerMode.visibility = View.GONE
             scheduleSearchView.visibility = View.VISIBLE
             viewModel.removeFilters()
-            viewModel.events.observe(viewLifecycleOwner) {
-                if(viewModel.calendarMode.value == true) return@observe
-                scheduleEventsView.adapter = EventAdapter(
-                    this@ScheduleFragment,
-                    it.sorted(),
-                    viewModel
-                )
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.events,
+                scheduleEventsView,
+                scheduleRvEmpty,
+                scheduleRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty EventAdapter(
+                        this@ScheduleFragment,
+                        it.sorted(),
+                        viewModel
+                    )
+                }
+            ) {
+                if(viewModel.calendarMode.value == true) return@setRecyclerViewEmpty
             }
             AndroidUtils.disableIfBandNull(
                 resources,

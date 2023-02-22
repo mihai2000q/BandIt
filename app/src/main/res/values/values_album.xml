@@ -2,7 +2,7 @@
 <resources>
     <string name="album_remove_from_album">Remove From Album</string>
     <string name="album_detail_tv_actual_songs">Playlist Songs: </string>
-
+    <string name="recycler_view_album_empty">There is no album yet, maybe you should add one</string>
     <string name="album_alert_dialog_title">Delete Album</string>
     <string name="album_alert_dialog_message">Are you sure you want to delete this album?</string>
 </resources>

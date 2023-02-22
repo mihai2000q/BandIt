@@ -3,6 +3,7 @@
     <string name="song_field_album_name">Album Name</string>
     <string name="song_alert_dialog_title">Delete Song</string>
     <string name="song_alert_dialog_message">Are you sure you want to delete this song?</string>
+    <string name="recycler_view_songs_empty">There is no song yet, maybe you should add one</string>
     <string name="song_from_album_alert_dialog_title">Delete Song From Album</string>
     <string name="song_from_album_alert_dialog_message">Are you sure you want to delete this song from album?</string>
 </resources>

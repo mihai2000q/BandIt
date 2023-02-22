@@ -70,5 +70,38 @@
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             tools:listitem="@layout/model_song"/>
+
+        <LinearLayout
+            android:id="@+id/songs_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/songs_tv_rv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_songs_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/songs_rv_band_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_empty_band"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

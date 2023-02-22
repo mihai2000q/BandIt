@@ -48,8 +48,32 @@ class TodoListFragment : Fragment() {
             }
         }
         with(binding) {
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.tasks,
+                todolistRvTasks,
+                todolistRvEmpty,
+                todolistRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty TaskAdapter(
+                        this@TodoListFragment, it.sorted(), viewModel)
+                }
+            )
             viewModel.tasks.observe(viewLifecycleOwner) {
-                todolistRvTasks.adapter = TaskAdapter(this@TodoListFragment, it.sorted(), viewModel)
+                if(DILocator.getDatabase().currentBand.isEmpty()) {
+                    todolistRvTasks.visibility = View.GONE
+                    todolistRvBandEmpty.visibility = View.VISIBLE
+                }
+                else if(it.isEmpty()) {
+                    todolistRvTasks.visibility = View.GONE
+                    todolistRvEmpty.visibility = View.VISIBLE
+                } else {
+                    todolistRvTasks.adapter =
+                        TaskAdapter(this@TodoListFragment, it.sorted(), viewModel)
+                    todolistRvTasks.visibility = View.VISIBLE
+                    todolistRvEmpty.visibility = View.GONE
+                    todolistRvBandEmpty.visibility = View.GONE
+                }
             }
             AndroidUtils.disableIfBandNull(
                 resources,

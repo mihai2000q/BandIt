@@ -18,7 +18,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ConcertsViewModel by activityViewModels()
+    val viewModel: ConcertsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,13 +60,20 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     childFragmentManager
                 )
             }
-            viewModel.concerts.observe(viewLifecycleOwner) {
-                concertsList.adapter = ConcertAdapter(
-                    this@ConcertsFragment,
-                    it.sorted(),
-                    viewModel
-                )
-            }
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.concerts,
+                concertsList,
+                concertsRvEmpty,
+                concertsRvBandEmpty,
+                {
+                    return@setRecyclerViewEmpty ConcertAdapter(
+                        this@ConcertsFragment,
+                        it.sorted(),
+                        viewModel
+                    )
+                }
+            )
         }
     }
 
