@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -13,6 +14,7 @@ import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.util.AndroidUtils
+import com.google.android.material.badge.BadgeDrawable
 
 class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
@@ -24,7 +26,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentConcertsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -32,7 +33,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val concertAddDialogFragment = ConcertAddDialogFragment()
-        val concertFilterDialogFragment = ConcertFilterDialogFragment()
+        val badgeDrawable = BadgeDrawable.create(super.requireContext())
+        val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
@@ -74,6 +76,17 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     )
                 }
             )
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable,
+                concertsBtFilter,
+                viewModel.getFiltersOn(),
+                viewModel.getFiltersOn() > 0,
+                ContextCompat.getColor(super.requireContext(), R.color.blue)
+            )
+            viewModel.filters.observe(viewLifecycleOwner) {
+                badgeDrawable.number = viewModel.getFiltersOn()
+                badgeDrawable.isVisible = viewModel.getFiltersOn() > 0
+            }
         }
     }
 

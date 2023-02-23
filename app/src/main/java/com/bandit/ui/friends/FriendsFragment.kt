@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -33,21 +34,18 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            viewModel.friendsTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 friendsBtAdd,
                 viewModel.friendRequests.value?.size ?: 0,
-                viewModel.friendRequests.value?.isNotEmpty() ?: false
+                viewModel.friendRequests.value?.isNotEmpty() ?: false,
+                ContextCompat.getColor(super.requireContext(), R.color.red)
             )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
-                if(it.isEmpty()) {
-                    badgeDrawable.isVisible = false
-                }
-                else {
-                    badgeDrawable.number = it.size
-                    badgeDrawable.isVisible = true
-                }
+                badgeDrawable.isVisible = it.isNotEmpty()
+                badgeDrawable.number = it.size
             }
             friendsBtAddNewFriends.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -60,6 +58,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     friendsAddDialogFragment,
                     childFragmentManager
                 )
+                badgeDrawable.isVisible = false
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             viewModel.friends.observe(viewLifecycleOwner) {

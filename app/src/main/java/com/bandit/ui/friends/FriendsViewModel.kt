@@ -19,6 +19,7 @@ class FriendsViewModel : ViewModel() {
     val friends: LiveData<List<Account>> = _friends
     private val _friendRequests = MutableLiveData(_repository.friendRequests)
     val friendRequests: LiveData<List<Account>> = _friendRequests
+    val friendsTabOpen = MutableLiveData(false)
     suspend fun sendFriendRequest(account: Account) = coroutineScope {
         launch { _repository.sendFriendRequest(account) }.join()
         refresh()
