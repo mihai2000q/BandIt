@@ -21,10 +21,9 @@ class ConcertsViewModel : ViewModel() {
     val selectedConcert: MutableLiveData<Concert> = MutableLiveData()
 
     enum class Filter { Name, Date, Time, City, Country, Place, Duration, Type }
-    private val _filters = MutableLiveData<MutableMap<Filter, String>>(mutableMapOf())
-    val filters: LiveData<MutableMap<Filter, String>> get() = _filters
+    val filters = MutableLiveData<MutableMap<Filter, String>>(mutableMapOf())
     init {
-        Filter.values().forEach { _filters.value?.put(it, "") }
+        Filter.values().forEach { filters.value?.put(it, "") }
     }
     suspend fun addConcert(concert: Concert) = coroutineScope {
         launch { _repository.add(concert) }.join()
@@ -50,6 +49,8 @@ class ConcertsViewModel : ViewModel() {
     ) {
         _concerts.value = _repository.filterConcerts(name, date, time, duration, city, country, place, type)
     }
+
+    fun getFiltersOn() = filters.value?.filter { it.value != "" }!!.size
 
     companion object {
         const val TAG = Constants.Concert.VIEW_MODEL_TAG

@@ -44,13 +44,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
-                if(it.isEmpty()) {
-                    badgeDrawable.isVisible = false
-                }
-                else {
-                    badgeDrawable.number = it.size
-                    badgeDrawable.isVisible = true
-                }
+                badgeDrawable.isVisible = it.isNotEmpty()
+                badgeDrawable.number = it.size
             }
             friendsBtAddNewFriends.setOnClickListener {
                 AndroidUtils.showDialogFragment(
