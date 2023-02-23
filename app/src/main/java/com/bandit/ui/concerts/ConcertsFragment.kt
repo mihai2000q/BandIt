@@ -26,7 +26,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentConcertsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +33,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val concertAddDialogFragment = ConcertAddDialogFragment()
-        val concertFilterDialogFragment = ConcertFilterDialogFragment()
+        val badgeDrawable = BadgeDrawable.create(super.requireContext())
+        val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
         with(binding) {
             AndroidComponents.header(
                 super.requireActivity(),
@@ -76,7 +76,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     )
                 }
             )
-            val badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 concertsBtFilter,

@@ -50,7 +50,7 @@ class ConcertsViewModel : ViewModel() {
         _concerts.value = _repository.filterConcerts(name, date, time, duration, city, country, place, type)
     }
 
-    fun getFiltersOn() = filters.value?.filter { it.value != "" }!!.size
+    fun getFiltersOn() = filters.value?.filter { it.value.isNotBlank() }!!.size
 
     companion object {
         const val TAG = Constants.Concert.VIEW_MODEL_TAG

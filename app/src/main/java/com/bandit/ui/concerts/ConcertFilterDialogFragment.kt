@@ -6,12 +6,12 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.ui.concerts.ConcertsViewModel.Filter
-import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
+import com.google.android.material.badge.BadgeDrawable
 import java.time.LocalDate
 import java.time.LocalTime
 
-class ConcertFilterDialogFragment : ConcertDialogFragment() {
+class ConcertFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : ConcertDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +60,9 @@ class ConcertFilterDialogFragment : ConcertDialogFragment() {
                 map.forEach { (key, value) ->
                     viewModel.filters.value?.replace(value, key.text.toString())
                 }
-                viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
+                //viewModel.filters.value?.replace(Filter.Type, typeIndex.toString())
+                badgeDrawable.number = viewModel.getFiltersOn()
+                badgeDrawable.isVisible = viewModel.getFiltersOn() > 0
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.concert_filter_toast)
