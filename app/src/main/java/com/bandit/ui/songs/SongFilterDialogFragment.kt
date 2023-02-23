@@ -6,8 +6,9 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.util.ParserUtils
+import com.google.android.material.badge.BadgeDrawable
 
-class SongFilterDialogFragment : SongDialogFragment() {
+class SongFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : SongDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +36,8 @@ class SongFilterDialogFragment : SongDialogFragment() {
                 map.forEach { (key, value) ->
                     viewModel.songFilters.value?.replace(value, key.text.toString())
                 }
+                badgeDrawable.number = viewModel.getSongFiltersOn()
+                badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.song_filter_toast)

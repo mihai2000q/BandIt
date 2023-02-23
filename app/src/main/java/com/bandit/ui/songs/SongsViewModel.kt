@@ -27,13 +27,12 @@ class SongsViewModel : ViewModel() {
 
     enum class SongFilter { Name, ReleaseDate, Duration}
     enum class AlbumFilter { Name, ReleaseDate, Label}
-    private val _songFilters = MutableLiveData<MutableMap<SongFilter, String>>(mutableMapOf())
-    val songFilters: LiveData<MutableMap<SongFilter, String>> get() = _songFilters
+    val songFilters = MutableLiveData<MutableMap<SongFilter, String>>(mutableMapOf())
 
     private val _albumFilters = MutableLiveData<MutableMap<AlbumFilter, String>>(mutableMapOf())
     val albumFilters: LiveData<MutableMap<AlbumFilter, String>> get() = _albumFilters
     init {
-        SongFilter.values().forEach { _songFilters.value?.put(it, "") }
+        SongFilter.values().forEach { songFilters.value?.put(it, "") }
         AlbumFilter.values().forEach { _albumFilters.value?.put(it, "") }
     }
     suspend fun addSong(song: Song) = coroutineScope {
@@ -109,6 +108,10 @@ class SongsViewModel : ViewModel() {
     ) {
         _albums.value = _albumRepository.filterAlbums(name, releaseDate, label, duration)
     }
+
+    fun getSongFiltersOn() = songFilters.value?.filter { it.value.isNotBlank() }!!.size
+
+    fun getAlbumFiltersOn() = albumFilters.value?.filter { it.value.isNotBlank() }!!.size
 
     private suspend fun editSongFromAlbum(album: Album, song: Song) = coroutineScope {
         launch { _albumRepository.editSong(album, song) }.join()

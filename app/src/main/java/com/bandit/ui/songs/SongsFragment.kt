@@ -20,12 +20,14 @@ import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
 import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
+import com.google.android.material.badge.BadgeDrawable
 
 class SongsFragment : Fragment() {
 
     private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
+    private lateinit var badgeDrawable: BadgeDrawable
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +41,7 @@ class SongsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidComponents.header(
                 super.requireActivity(),
                 songsHeader.headerBtAccount
@@ -65,7 +68,7 @@ class SongsFragment : Fragment() {
 
     private fun albumMode() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
-        val albumFilterDialogFragment = AlbumFilterDialogFragment()
+        val albumFilterDialogFragment = AlbumFilterDialogFragment(badgeDrawable)
         with(binding) {
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
             songsList.layoutManager = GridLayoutManager(context, 2)
@@ -104,12 +107,28 @@ class SongsFragment : Fragment() {
                     }
                 }
             )
+            badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable,
+                songsBtFilter,
+                viewModel.getAlbumFiltersOn(),
+                viewModel.getAlbumFiltersOn() > 0,
+                ContextCompat.getColor(super.requireContext(), R.color.blue)
+            )
+            // for when I change modes between album and song
+            badgeDrawable.number = viewModel.getAlbumFiltersOn()
+            badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
+            // for when I filter
+            viewModel.albumFilters.observe(viewLifecycleOwner) {
+                badgeDrawable.number = viewModel.getAlbumFiltersOn()
+                badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
+            }
         }
     }
 
     private fun songMode() {
         val songAddDialogFragment = SongAddDialogFragment()
-        val songFilterDialogFragment = SongFilterDialogFragment()
+        val songFilterDialogFragment = SongFilterDialogFragment(badgeDrawable)
         with(binding) {
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
             songsList.layoutManager = GridLayoutManager(context, 1)
@@ -152,6 +171,19 @@ class SongsFragment : Fragment() {
                     }
                 }
             )
+            badgeDrawable.number = viewModel.getSongFiltersOn()
+            badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable,
+                songsBtFilter,
+                viewModel.getSongFiltersOn(),
+                viewModel.getSongFiltersOn() > 0,
+                ContextCompat.getColor(super.requireContext(), R.color.blue)
+            )
+            viewModel.songFilters.observe(viewLifecycleOwner) {
+                badgeDrawable.number = viewModel.getSongFiltersOn()
+                badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
+            }
         }
     }
 
