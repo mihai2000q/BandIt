@@ -8,8 +8,10 @@ import com.bandit.data.db.FirebaseDatabase
 import com.bandit.storage.FirebaseStorage
 import com.bandit.storage.Storage
 import com.bandit.service.IPermissionService
+import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
 import com.bandit.service.impl.PermissionService
+import com.bandit.service.impl.PreferencesService
 import com.bandit.service.impl.ValidatorService
 
 object DILocator {
@@ -21,4 +23,5 @@ object DILocator {
     fun getStorage(): Storage = storage
     fun getPermissionService(activity: Activity): IPermissionService = PermissionService(activity)
     fun getValidatorService(activity: Activity): IValidatorService = ValidatorService(activity)
+    fun getPreferencesService(activity: Activity): IPreferencesService = PreferencesService(activity)
 }

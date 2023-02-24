@@ -18,9 +18,9 @@ import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
-import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -32,6 +32,7 @@ class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by activityViewModels()
     private val _database = DILocator.getDatabase()
     private lateinit var validatorService: IValidatorService
+    private lateinit var preferencesService: IPreferencesService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         validatorService = DILocator.getValidatorService(super.requireActivity())
+        preferencesService = DILocator.getPreferencesService(super.requireActivity())
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
             //press enter to login
@@ -142,8 +144,7 @@ class LoginFragment : Fragment() {
             val result = _database.isUserAccountSetup()
             if (result == true) {
                 _database.init()
-                PreferencesUtils.savePreference(
-                    super.requireActivity(),
+                preferencesService.savePreference(
                     Constants.Preferences.REMEMBER_ME,
                     binding.loginCbRemember.isChecked
                 )

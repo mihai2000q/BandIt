@@ -21,9 +21,9 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
-import com.bandit.util.PreferencesUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 
@@ -34,6 +34,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     private val viewModel: AccountViewModel by activityViewModels()
     private var roleIndex = 0
     private lateinit var validatorService: IValidatorService
+    private lateinit var preferencesService: IPreferencesService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +47,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         validatorService = DILocator.getValidatorService(super.requireActivity())
+        preferencesService = DILocator.getPreferencesService(super.requireActivity())
         with(binding) {
             accountBtSignOut.setOnClickListener { signOut() }
             viewModel.account.observe(viewLifecycleOwner) {
@@ -126,7 +128,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
             super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
             super.requireActivity().findViewById(R.id.main_drawer_layout)
         )
-        PreferencesUtils.resetPreferences(this.requireActivity())
+        preferencesService.resetAllPreferences()
         super.requireActivity().viewModelStore.clear()
         AndroidComponents.toastNotification(
             super.requireContext(),

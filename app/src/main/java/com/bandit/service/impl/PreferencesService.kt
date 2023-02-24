@@ -1,24 +1,27 @@
-package com.bandit.util
+package com.bandit.service.impl
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences.Editor
+import android.content.SharedPreferences
 import com.bandit.constant.Constants
+import com.bandit.service.IPreferencesService
 
-object PreferencesUtils {
-    fun resetPreferences(activity: Activity) {
-        val editor: Editor = activity
+class PreferencesService(
+    private val activity: Activity
+) : IPreferencesService {
+    override fun resetAllPreferences() {
+        val editor: SharedPreferences.Editor = activity
             .getSharedPreferences(Constants.Preferences.APP_PREFERENCES, Context.MODE_PRIVATE).edit()
         editor.putBoolean(Constants.Preferences.REMEMBER_ME, false)
         editor.apply()
     }
-    fun savePreference(activity: Activity, key: String, value: Any) {
-        val editor: Editor = activity
+    override fun savePreference(key: String, value: Any) {
+        val editor: SharedPreferences.Editor = activity
             .getSharedPreferences(Constants.Preferences.APP_PREFERENCES, Context.MODE_PRIVATE).edit()
         editor.putBoolean(key, value as Boolean)
         editor.apply()
     }
-    fun getBooleanPreference(activity: Activity, key: String): Boolean {
+    override fun getBooleanPreference(key: String): Boolean {
         return activity
             .getSharedPreferences(Constants.Preferences.APP_PREFERENCES, Context.MODE_PRIVATE)
             .getBoolean(key, false)

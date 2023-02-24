@@ -20,9 +20,9 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
-import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -34,6 +34,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var phase = 0
     private var roleIndex = 0
     private lateinit var validatorService: IValidatorService
+    private lateinit var preferencesService: IPreferencesService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +48,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         validatorService = DILocator.getValidatorService(super.requireActivity())
+        preferencesService = DILocator.getPreferencesService(super.requireActivity())
         spinnerRole()
         with(binding) {
             firstLoginEtName.requestFocus()
@@ -156,8 +158,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private suspend fun goToHomePage(): Boolean {
         _database.init()
-        PreferencesUtils.savePreference(
-            super.requireActivity(),
+        preferencesService.savePreference(
             Constants.Preferences.REMEMBER_ME,
             this.arguments?.getBoolean(Constants.SafeArgs.REMEMBER_ME) ?: false
         )
