@@ -124,6 +124,12 @@ class FirebaseDatabase : Database {
                                 true
                             )
                         )
+                    }.invokeOnCompletion {
+                        launch {
+                            bandInvitations.forEach {
+                                this@FirebaseDatabase.rejectBandInvitation(it)
+                            }
+                        }
                     }
                 }
             }
@@ -164,19 +170,32 @@ class FirebaseDatabase : Database {
         async {
             lateinit var dto: BandInvitationDto
             launch {
+                // get the Dto of this band invitation
                 dto = BandInvitationMapper.fromItemToDto(bandInvitations.first { it.id == bandInvitation.id })
             }.invokeOnCompletion {
                 launch {
+                    // accept the invitation and update the database
                     dto.accepted = true
                     this@FirebaseDatabase.setBandInvitation(dto)
+                    bandInvitations.remove(bandInvitation)
                 }.invokeOnCompletion {
                     launch {
+                        // update the account by adding the band
                         _currentAccount.bandId = dto.bandId
                         this@FirebaseDatabase.updateAccount(_currentAccount)
                     }.invokeOnCompletion {
+                        // then read the new band and its items
                         launch { this@FirebaseDatabase.readBand() }
                             .invokeOnCompletion {
                                 launch { this@FirebaseDatabase.readBandItems() }
+                                    .invokeOnCompletion {
+                                        launch {
+                                            // remove all the other invitations
+                                            bandInvitations.forEach {
+                                                this@FirebaseDatabase.rejectBandInvitation(it)
+                                            }
+                                        }
+                                    }
                             }
                     }
                 }
@@ -595,7 +614,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readBandInvitationDtos(action: (BandInvitationDto) -> Boolean)
+    private suspend fun readBandInvitationDtos(filterPredicate: (BandInvitationDto) -> Boolean)
             : List<BandInvitationDto> = coroutineScope {
         async {
             return@async _firestore
@@ -606,7 +625,7 @@ class FirebaseDatabase : Database {
                 }
                 .await()
                 .toObjects<BandInvitationDto>()
-                .filter(action)
+                .filter(filterPredicate)
         }
     }.await()
 

@@ -10,6 +10,7 @@ class BandRepository(val database: Database? = null) {
 
     suspend fun createBand(name: String) {
         database?.createBand(name)
+        _bandInvitations.clear()
     }
 
     suspend fun sendBandInvitation(account: Account) {
