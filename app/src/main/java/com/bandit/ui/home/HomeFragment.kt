@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
             )
         }
         drawerHeader()
-        bandInvitation()
     }
 
     override fun onDestroyView() {
@@ -65,13 +64,6 @@ class HomeFragment : Fragment() {
             ?.text = _database.currentAccount.name
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
             ?.text = _database.currentAccount.email
-    }
-
-    private fun bandInvitation() {
-        if(!_database.currentBandInvitation.isEmpty()) {
-            val bandInvitationDialogFragment = BandInvitationDialogFragment()
-            AndroidUtils.showDialogFragment(bandInvitationDialogFragment, childFragmentManager)
-        }
     }
 
 }

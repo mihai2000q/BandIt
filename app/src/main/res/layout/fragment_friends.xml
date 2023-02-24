@@ -28,20 +28,20 @@
             </SearchView>
 
             <ImageButton
-                android:id="@+id/friends_bt_add_new_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:contentDescription="@string/content_description_bt_add_new_friends"
-                app:srcCompat="@drawable/ic_people" />
-
-            <ImageButton
                 android:id="@+id/friends_bt_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
+                android:contentDescription="@string/content_description_bt_add_new_friends"
+                app:srcCompat="@drawable/ic_person_add" />
+
+            <ImageButton
+                android:id="@+id/friends_bt_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add"
-                app:srcCompat="@drawable/ic_add_circle" />
+                app:srcCompat="@drawable/ic_mail_outline" />
 
         </LinearLayout>
 

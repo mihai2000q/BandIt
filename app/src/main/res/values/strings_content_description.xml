@@ -5,6 +5,7 @@
     <string name="content_description_account_button">My Profile Account</string>
     <string name="content_description_bt_filter">Filter items</string>
     <string name="content_description_bt_add">Add Item</string>
+    <string name="content_description_bt_request">Requests</string>
     <string name="content_description_bt_album_view">Album View</string>
     <string name="content_description_bt_calendar_view">Calendar View</string>
     <string name="content_description_bt_floating_add">Floating Add</string>

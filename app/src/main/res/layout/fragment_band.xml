@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/band_tv_members"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
@@ -45,7 +45,16 @@
                 android:layout_gravity="end"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/content_description_bt_add"
-                app:srcCompat="@drawable/ic_add_circle" />
+                app:srcCompat="@drawable/ic_group_add" />
+
+            <ImageButton
+                android:id="@+id/band_bt_invitations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/content_description_bt_request"
+                app:srcCompat="@drawable/ic_mail_outline" />
 
         </LinearLayout>
 

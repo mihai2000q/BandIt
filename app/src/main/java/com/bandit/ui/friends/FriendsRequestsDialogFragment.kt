@@ -12,10 +12,10 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentFriendsBinding
-import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.ui.adapter.FriendRequestAdapter
 import com.bandit.util.AndroidUtils
 
-class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
+class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
     private var _binding: DialogFragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
@@ -35,18 +35,17 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        viewModel.people.observe(viewLifecycleOwner) {
-            binding.friendsDialogList.adapter = PeopleAdapter(this, it.sorted(), viewModel)
-            { acc ->
-                AndroidUtils.loadDialogFragment(this) { viewModel.sendFriendRequest(acc) }
-                AndroidComponents.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.friend_request_sent_toast)
+        with(binding) {
+            friendsDialogTitle.setText(R.string.friends_requests_dialog_title)
+            friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
+            viewModel.friendRequests.observe(viewLifecycleOwner) {
+                friendsDialogList.adapter = FriendRequestAdapter(
+                    this@FriendsRequestsDialogFragment,
+                    it.sorted(),
+                    viewModel
                 )
-                super.dismiss()
             }
         }
-        binding.friendsDialogSearchView.setOnQueryTextListener(this)
     }
 
     override fun onDestroy() {
@@ -55,20 +54,20 @@ class FriendsNewDialogFragment : DialogFragment(), OnQueryTextListener {
     }
 
     companion object {
-        const val TAG = Constants.Social.Friends.NEW_FRIEND_TAG
+        const val TAG = Constants.Social.Friends.ADD_TAG
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         AndroidComponents.toastNotification(
             super.requireContext(),
-            resources.getString(R.string.people_filtered_toast)
+            resources.getString(R.string.friend_request_filtered_toast)
         )
         binding.friendsDialogSearchView.clearFocus()
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.filterPeople(newText)
+        viewModel.filterFriendRequests(newText)
         return false
     }
 }
