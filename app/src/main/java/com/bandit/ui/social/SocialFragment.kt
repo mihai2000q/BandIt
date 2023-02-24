@@ -11,14 +11,17 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentSocialBinding
 import com.bandit.ui.adapter.SocialViewPagerAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.friends.FriendsViewModel
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SocialFragment : Fragment() {
 
     private var _binding: FragmentSocialBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FriendsViewModel by activityViewModels()
+    private val friendsViewModel: FriendsViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,18 +45,24 @@ class SocialFragment : Fragment() {
                     0 -> tab.text = resources.getString(R.string.social_chats_tab)
                     1 -> {
                         tab.text = resources.getString(R.string.social_friends_tab)
-                        viewModel.friendRequests.observe(viewLifecycleOwner) {
+                        friendsViewModel.friendRequests.observe(viewLifecycleOwner) {
                             val badge = tab.orCreateBadge
-                            viewModel.friendsTabOpen.observe(viewLifecycleOwner) { value ->
+                            friendsViewModel.friendsTabOpen.observe(viewLifecycleOwner) { value ->
                                 badge.isVisible = !value
                             }
-                            badge.isVisible = it.isNotEmpty()
-                            badge.number = it.size
-                            badge.maxCharacterCount = 99
-                            badge.backgroundColor = ContextCompat.getColor(super.requireContext(), R.color.red)
+                            this@SocialFragment.setTabBadge(badge, it)
                         }
                     }
-                    else -> tab.text = resources.getString(R.string.social_band_tab)
+                    else -> {
+                        tab.text = resources.getString(R.string.social_band_tab)
+                        bandViewModel.bandInvitations.observe(viewLifecycleOwner) {
+                            val badge = tab.orCreateBadge
+                            bandViewModel.bandTabOpen.observe(viewLifecycleOwner) { value ->
+                                badge.isVisible = !value
+                            }
+                            this@SocialFragment.setTabBadge(badge, it)
+                        }
+                    }
                 }
             }.attach()
         }
@@ -62,6 +71,16 @@ class SocialFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setTabBadge(
+        badge: BadgeDrawable,
+        list: List<*>
+    ) {
+        badge.isVisible = list.isNotEmpty()
+        badge.number = list.size
+        badge.maxCharacterCount = 99
+        badge.backgroundColor = ContextCompat.getColor(super.requireContext(), R.color.red)
     }
 
 }

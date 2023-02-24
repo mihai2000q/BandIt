@@ -13,9 +13,9 @@ interface Database {
     val people: List<Account>
     val friends: List<Account>
     val friendRequests: List<Account>
+    val bandInvitations: List<BandInvitation>
     val currentAccount: Account
     val currentBand: Band
-    val currentBandInvitation: BandInvitation
     suspend fun init()
     suspend fun add(item: Any)
     suspend fun remove(item: Any)
@@ -25,8 +25,8 @@ interface Database {
     suspend fun isUserAccountSetup(): Boolean?
     suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto)
     suspend fun sendBandInvitation(account: Account)
-    suspend fun acceptBandInvitation()
-    suspend fun rejectBandInvitation()
+    suspend fun acceptBandInvitation(bandInvitation: BandInvitation)
+    suspend fun rejectBandInvitation(bandInvitation: BandInvitation)
     suspend fun sendFriendRequest(account: Account)
     suspend fun acceptFriendRequest(account: Account)
     suspend fun rejectFriendRequest(account: Account)

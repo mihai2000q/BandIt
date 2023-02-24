@@ -1,16 +1,14 @@
 package com.bandit.ui.band
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
-import com.bandit.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
-import com.bandit.di.DILocator
+import com.bandit.ui.adapter.BandInvitationAdapter
 import com.bandit.util.AndroidUtils
 
 class BandInvitationDialogFragment : DialogFragment() {
@@ -18,7 +16,6 @@ class BandInvitationDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentBandInvitationBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
-    private var clicked = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,38 +27,17 @@ class BandInvitationDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            val bandInvitation = DILocator.getDatabase().currentBandInvitation
-            bandInvitationTvTitle.text = buildString {
-                append("You have been invited to ")
-                append(bandInvitation.band.name)
-            }
-            bandInvitationBtAccept.setOnClickListener {
-                AndroidUtils.loadDialogFragment(this@BandInvitationDialogFragment) {
-                    viewModel.acceptBandInvitation()
-                }
-                AndroidComponents.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.band_invite_accepted_toast)
-                )
-                clicked = true
-                super.dismiss()
-            }
-            bandInvitationBtReject.setOnClickListener {
-                super.dismiss()
-            }
-        }
-
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        if(clicked) return
-        AndroidUtils.loadDialogFragment(this) { viewModel.rejectBandInvitation() }
-        AndroidComponents.toastNotification(
-            super.requireContext(),
-            resources.getString(R.string.band_invite_rejected_toast)
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
         )
+        viewModel.bandInvitations.observe(viewLifecycleOwner) {
+            binding.bandInvitationRvList.adapter = BandInvitationAdapter(
+                this,
+                it.sorted(),
+                viewModel
+            )
+        }
     }
 
     override fun onDestroyView() {
