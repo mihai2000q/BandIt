@@ -59,13 +59,8 @@ class FirebaseDatabase : Database {
     override suspend fun updateAccount(account: Account) = coroutineScope {
         async {
             if(_currentAccount.isEmpty()) return@async
-            with(_currentAccount) {
-                name = account.name
-                nickname = account.nickname
-                role = account.role
-                bandId = account.bandId
-                this@FirebaseDatabase.set(this)
-            }
+            _currentAccount = account
+            this@FirebaseDatabase.set(account)
         }
     }.await()
 
@@ -106,8 +101,9 @@ class FirebaseDatabase : Database {
                         role = _currentAccount.role,
                         email = _currentAccount.email,
                         bandId = band.id,
+                        bandName = band.name,
                         id = _currentAccount.id,
-                        userUid = _currentAccount.userUid
+                        userUid = _currentAccount.userUid,
                     )
                 )
             }.invokeOnCompletion {

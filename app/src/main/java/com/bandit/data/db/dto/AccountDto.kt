@@ -9,5 +9,6 @@ data class AccountDto(
     val role: Long? = null,
     val email: String? = null,
     val bandId: Long? = null,
+    val bandName: String? = null,
     val userUid: String? = null
 ) : BaseModel(id)

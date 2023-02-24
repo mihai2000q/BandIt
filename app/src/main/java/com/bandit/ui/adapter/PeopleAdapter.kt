@@ -41,6 +41,7 @@ class PeopleAdapter(
                 friendName.text = account.name
                 friendNickname.text = account.nickname
                 friendRole.text = account.role.name.normalizeWord()
+                AndroidUtils.ifNullHide(friendBandName, account.bandName)
                 AndroidUtils.setProfilePicture(fragment, viewModel, friendProfilePicture, account.userUid)
             }
         }

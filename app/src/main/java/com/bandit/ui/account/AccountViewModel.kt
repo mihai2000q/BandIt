@@ -4,12 +4,10 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 class AccountViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()
@@ -17,22 +15,23 @@ class AccountViewModel : ViewModel() {
     private val _storage = DILocator.getStorage()
     private val _account = MutableLiveData(_database.currentAccount)
     val account: LiveData<Account> = _account
-    suspend fun updateAccount(
-        name: String,
-        nickname: String
-    ) = coroutineScope {
-        if(!_account.value!!.isEmpty())
-            viewModelScope.launch {
-                _database.updateAccount(
-                    Account(
-                        name = name,
-                        nickname = nickname,
-                        role = _account.value!!.role,
-                        email = _account.value!!.email,
-                        bandId = _account.value!!.bandId
-                    )
+    suspend fun updateAccount(name: String, nickname: String) = coroutineScope {
+        with(_account.value!!) {
+            if (!this.isEmpty()) {
+                val newAccount = Account(
+                    name = name,
+                    nickname = nickname,
+                    role = this.role,
+                    email = this.email,
+                    bandId = this.bandId,
+                    bandName = this.bandName,
+                    id = this.id,
+                    userUid = this.userUid
                 )
+                _database.updateAccount(newAccount)
+                _account.value = newAccount
             }
+        }
     }
 
     suspend fun updateProfilePicture(imageUri: Uri) = coroutineScope {

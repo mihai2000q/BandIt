@@ -12,6 +12,7 @@ object AccountMapper {
             role = this.mapIntToAccountRole(dto.role?.toInt() ?: 0),
             email = dto.email ?: "",
             bandId = dto.bandId,
+            bandName = dto.bandName,
             id = dto.id,
             userUid = dto.userUid
         )
@@ -25,7 +26,8 @@ object AccountMapper {
             role = this.mapAccountRoleToInt(item.role).toLong(),
             email = item.email,
             bandId = item.bandId,
-            userUid = item.userUid ?: ""
+            userUid = item.userUid ?: "",
+            bandName = item.bandName
         )
     }
 
