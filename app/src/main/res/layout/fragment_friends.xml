@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
                 android:contentDescription="@string/content_description_bt_add"
-                app:srcCompat="@drawable/ic_people" />
+                app:srcCompat="@drawable/ic_mail_outline" />
 
         </LinearLayout>
 
