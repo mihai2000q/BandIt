@@ -1,6 +1,6 @@
-package com.bandit.misc
+package com.bandit.service
 
-interface IPermissionChecker {
+interface IPermissionService {
     fun checkReadStoragePermission(): Boolean
     fun checkCameraPermission(): Boolean
     fun requestReadStoragePermission()

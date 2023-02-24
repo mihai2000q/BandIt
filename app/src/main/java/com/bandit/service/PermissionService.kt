@@ -1,4 +1,4 @@
-package com.bandit.misc
+package com.bandit.service
 
 import android.Manifest
 import android.app.Activity
@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.bandit.constant.Constants
 
-data class PermissionChecker(
+data class PermissionService(
     private val activity: Activity
-) : IPermissionChecker {
+) : IPermissionService {
     override fun checkReadStoragePermission() =
         ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
