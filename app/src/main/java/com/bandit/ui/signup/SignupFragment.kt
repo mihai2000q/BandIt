@@ -122,6 +122,7 @@ class SignupFragment : Fragment() {
             )
             signupEtEmail.setText("")
             signupEtPassword.setText("")
+            signupCbTerms.isChecked = false
         }
     }
 }
