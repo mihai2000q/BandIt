@@ -78,6 +78,17 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        accountButton.setImageDrawable(
+            ContextCompat.getDrawable(
+                super.requireContext(),
+                R.drawable.ic_account
+            )
+        )
+    }
+
     private suspend fun updateAccount() {
         with(binding) {
             viewModel.updateAccount(
@@ -91,17 +102,6 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 resources.getString(R.string.account_updated_toast)
             )
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        accountButton.setImageDrawable(
-            ContextCompat.getDrawable(
-                super.requireContext(),
-                R.drawable.ic_account
-            )
-        )
     }
 
     private fun signOut() {
@@ -126,14 +126,13 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         super.dismiss()
     }
 
-    companion object {
-        const val TAG = Constants.Account.TAG
-    }
-
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         roleIndex = position
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
+    companion object {
+        const val TAG = Constants.Account.TAG
+    }
 }
