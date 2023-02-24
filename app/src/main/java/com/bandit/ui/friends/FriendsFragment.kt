@@ -19,8 +19,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
-    private val friendsNewDialogFragment = FriendsNewDialogFragment()
     private val friendsAddDialogFragment = FriendsAddDialogFragment()
+    private val friendsRequestsDialogFragment = FriendsRequestsDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,15 +47,15 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
             }
-            friendsBtAddNewFriends.setOnClickListener {
-                AndroidUtils.showDialogFragment(
-                    friendsNewDialogFragment,
-                    childFragmentManager
-                )
-            }
             friendsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     friendsAddDialogFragment,
+                    childFragmentManager
+                )
+            }
+            friendsBtRequests.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    friendsRequestsDialogFragment,
                     childFragmentManager
                 )
                 badgeDrawable.isVisible = false

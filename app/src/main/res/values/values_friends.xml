@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="friends_add_dialog_title">Search For A New Friend</string>
+    <string name="friends_requests_dialog_title">Friend Requests</string>
+</resources>
