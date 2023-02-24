@@ -4,10 +4,6 @@
     <string name="first_login_toast">Account created successfully</string>
     <string name="sign_up_toast">A confirmation email has been sent successfully</string>
     <string name="sign_out_toast">Signed out</string>
-    <string name="band_create_toast">Band Created</string>
-    <string name="band_invite_toast">Band Invitation Sent</string>
-    <string name="band_invite_accepted_toast">Band Invitation Accepted</string>
-    <string name="band_invite_rejected_toast">Band Invitation Rejected</string>
     <string name="concert_add_toast">Concert Added</string>
     <string name="concert_edit_toast">Concert Edited</string>
     <string name="concert_remove_toast">Concert Removed</string>
@@ -39,6 +35,11 @@
     <string name="friend_request_accepted_toast">Friend Request Accepted</string>
     <string name="friend_request_rejected_toast">Friend Request Rejected</string>
     <string name="friend_request_filtered_toast">Friend Requests Filtered</string>
+    <string name="band_create_toast">Band Created</string>
+    <string name="band_invitation_sent_toast">Band Invitation Sent</string>
+    <string name="band_invitation_accepted_toast">Band Invitation Accepted</string>
+    <string name="band_invitation_rejected_toast">Band Invitation Rejected</string>
+    <string name="band_invitation_filtered_toast">Band Invitations Filtered</string>
     <string name="friend_filtered_toast">Friends Filtered</string>
     <string name="people_filtered_toast">People Filtered</string>
 </resources>

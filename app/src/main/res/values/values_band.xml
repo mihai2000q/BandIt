@@ -5,4 +5,5 @@
     <string name="band_member_accepted_true">accepted</string>
     <string name="band_member_accepted_false">pending</string>
     <string name="band_add_member_tv">Add New Member</string>
+    <string name="band_invitation_title">Band Invitations</string>
 </resources>
