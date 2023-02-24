@@ -2,7 +2,6 @@ package com.bandit.ui.login
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +18,7 @@ import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.async
@@ -31,6 +31,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
     private val _database = DILocator.getDatabase()
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
             //press enter to login
@@ -106,15 +108,11 @@ class LoginFragment : Fragment() {
 
     private suspend fun loginOnSuccess(): Boolean? {
         //TODO: Remove comment, but for debugging purposes this will be deactivated
-        /*if (_auth.currentUser!!.isEmailVerified)
-            return login()
-        else {
-            binding.loginEtEmail.error =
-                resources.getString(R.string.et_email_validation_email_verified)
-            _auth.signOut()
-            return null
-        }*/
-        return login()
+        return validatorService.validateEmailVerified(
+            binding.loginEtEmail,
+            { login() },
+            DILocator.getAuthenticator()
+        )
     }
 
     private fun onLoginFailure() {
@@ -134,25 +132,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        with(binding) {
-            if(loginEtEmail.text.isNullOrEmpty()) {
-                loginEtEmail.error = resources.getText(R.string.et_email_validation_empty)
-                return false
-            }
-            if(!Patterns.EMAIL_ADDRESS.matcher(loginEtEmail.text).matches()) {
-                loginEtEmail.error = resources.getText(R.string.et_email_validation_email)
-                return false
-            }
-            if(loginEtPassword.text.isNullOrEmpty()) {
-                loginEtPassword.error = resources.getText(R.string.et_pass_validation_empty)
-                return false
-            }
-            if(loginEtPassword.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
-                loginEtPassword.error = resources.getText(R.string.et_pass_validation_minimum)
-                return false
-            }
-        }
-        return true
+        return  validatorService.validateEmail(binding.loginEtEmail) &&
+                validatorService.validatePassword(binding.loginEtPassword)
     }
 
     private suspend fun login(): Boolean? = coroutineScope {

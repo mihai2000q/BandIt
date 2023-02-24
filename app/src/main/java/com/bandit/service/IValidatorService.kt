@@ -1,0 +1,14 @@
+package com.bandit.service
+
+import android.widget.EditText
+import com.bandit.auth.Authenticator
+
+interface IValidatorService {
+    fun validateEmail(editText: EditText): Boolean
+    fun validatePassword(editText: EditText): Boolean
+    suspend fun validateEmailVerified(
+        editText: EditText,
+        login: suspend () -> Boolean?,
+        authenticator: Authenticator
+    ): Boolean?
+}

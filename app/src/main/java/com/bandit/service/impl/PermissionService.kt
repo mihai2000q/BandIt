@@ -1,10 +1,11 @@
-package com.bandit.service
+package com.bandit.service.impl
 
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.bandit.constant.Constants
+import com.bandit.service.IPermissionService
 
 data class PermissionService(
     private val activity: Activity

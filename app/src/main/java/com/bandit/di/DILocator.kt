@@ -8,7 +8,9 @@ import com.bandit.data.db.FirebaseDatabase
 import com.bandit.storage.FirebaseStorage
 import com.bandit.storage.Storage
 import com.bandit.service.IPermissionService
-import com.bandit.service.PermissionService
+import com.bandit.service.IValidatorService
+import com.bandit.service.impl.PermissionService
+import com.bandit.service.impl.ValidatorService
 
 object DILocator {
     private val database = FirebaseDatabase()
@@ -17,5 +19,6 @@ object DILocator {
     fun getDatabase(): Database = database
     fun getAuthenticator(): Authenticator = authenticator
     fun getStorage(): Storage = storage
-    fun getPermissionChecker(activity: Activity): IPermissionService = PermissionService(activity)
+    fun getPermissionService(activity: Activity): IPermissionService = PermissionService(activity)
+    fun getValidatorService(activity: Activity): IValidatorService = ValidatorService(activity)
 }
