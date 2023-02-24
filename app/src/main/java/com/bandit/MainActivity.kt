@@ -14,14 +14,16 @@ import androidx.navigation.ui.setupWithNavController
 import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPreferencesService
 import com.bandit.util.AndroidUtils
-import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var preferencesService: IPreferencesService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferencesService = DILocator.getPreferencesService(this)
         lifecycleScope.launch {
             val destination = AndroidUtils.loadIntent(this@MainActivity) { startApp() }
             whenStarted {
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun authentication(): Boolean? {
-        return if(PreferencesUtils.getBooleanPreference(this, Constants.Preferences.REMEMBER_ME)
+        return if(preferencesService.getBooleanPreference(Constants.Preferences.REMEMBER_ME)
             && DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {

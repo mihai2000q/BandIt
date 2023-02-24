@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
+import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 
 abstract class SongDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentSongBinding? = null
     protected val binding get() = _binding!!
     protected val viewModel: SongsViewModel by activityViewModels()
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +28,9 @@ abstract class SongDialogFragment : DialogFragment() {
         return binding.root
     }
 
-    protected open fun validateFields(): Boolean {
-        with(binding) {
-            if (songEtName.text.isNullOrEmpty()) {
-                songEtName.error = resources.getString(R.string.et_name_validation)
-                return false
-            }
-        }
-        return true
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate, true) {
                 AndroidUtils.hideKeyboard(
@@ -53,5 +46,9 @@ abstract class SongDialogFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    protected open fun validateFields(): Boolean {
+        return validatorService.validateName(binding.songEtName)
     }
 }

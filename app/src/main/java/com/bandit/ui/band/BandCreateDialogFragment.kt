@@ -11,6 +11,8 @@ import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
+import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 
 class BandCreateDialogFragment : DialogFragment() {
@@ -18,6 +20,7 @@ class BandCreateDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentCreateBandBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +32,7 @@ class BandCreateDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             viewModel.name.observe(viewLifecycleOwner) {
                 createBandEtName.setText(it)
@@ -42,6 +46,7 @@ class BandCreateDialogFragment : DialogFragment() {
                 return@setOnKeyListener false
             }
             createBandBtCreate.setOnClickListener {
+                if(!validateFields()) return@setOnClickListener
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
                     AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) { this.createBand() }
@@ -58,6 +63,10 @@ class BandCreateDialogFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun validateFields(): Boolean {
+        return validatorService.validateName(binding.createBandEtName)
     }
 
     companion object {

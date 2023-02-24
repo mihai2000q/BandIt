@@ -20,8 +20,9 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPreferencesService
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
-import com.bandit.util.PreferencesUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -32,6 +33,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val _database = DILocator.getDatabase()
     private var phase = 0
     private var roleIndex = 0
+    private lateinit var validatorService: IValidatorService
+    private lateinit var preferencesService: IPreferencesService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +47,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
+        preferencesService = DILocator.getPreferencesService(super.requireActivity())
         spinnerRole()
         with(binding) {
             firstLoginEtName.requestFocus()
@@ -108,19 +113,15 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         with(binding) {
             when (phase) {
                 0 -> {
-                    if (firstLoginEtName.text.isNullOrEmpty()) {
-                        firstLoginEtName.error = resources.getString(R.string.et_name_validation)
+                    if(!validatorService.validateName(firstLoginEtName))
                         return@coroutineScope false
-                    }
                     viewModel.name.value = firstLoginEtName.text.toString()
                     flip()
                     return@coroutineScope false
                 }
                 1 -> {
-                    if (firstLoginEtNickname.text.isNullOrEmpty()) {
-                        firstLoginEtNickname.error = resources.getString(R.string.et_nickname_validation)
+                    if(!validatorService.validateNickname(firstLoginEtNickname))
                         return@coroutineScope false
-                    }
                     viewModel.nickname.value = firstLoginEtNickname.text.toString()
                     flip()
                     return@coroutineScope false
@@ -130,10 +131,12 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     flip()
                 }
                 3 -> {
-                    firstLoginBtNext.setText(R.string.first_login_bt_next_last)
-                    firstLoginBtCancel.visibility = View.GONE
-                    launch { createAccount() }.join()
-                    flip()
+                    launch { createAccount() }.invokeOnCompletion {
+                        firstLoginBtNext.setText(R.string.first_login_bt_next_last)
+                        firstLoginBtCancel.visibility = View.GONE
+                        flip()
+                    }
+
                 }
                 4 -> return@coroutineScope goToHomePage()
                 else -> {}
@@ -155,8 +158,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private suspend fun goToHomePage(): Boolean {
         _database.init()
-        PreferencesUtils.savePreference(
-            super.requireActivity(),
+        preferencesService.savePreference(
             Constants.Preferences.REMEMBER_ME,
             this.arguments?.getBoolean(Constants.SafeArgs.REMEMBER_ME) ?: false
         )
@@ -178,7 +180,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.firstLoginTitle
         )
         viewModel.createAccount()
-        _database.setUserAccountSetup(true)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

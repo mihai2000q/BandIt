@@ -60,19 +60,19 @@ class ImagePickerDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val permissionChecker = DILocator.getPermissionChecker(super.requireActivity())
+        val permissionService = DILocator.getPermissionService(super.requireActivity())
         with(binding) {
             imagePickerTvCamera.setOnClickListener {
-                if(permissionChecker.checkCameraPermission())
+                if(permissionService.checkCameraPermission())
                     camera()
                 else
-                    permissionChecker.requestCameraPermission()
+                    permissionService.requestCameraPermission()
             }
             imagePickerTvGallery.setOnClickListener {
-                if(permissionChecker.checkReadStoragePermission())
+                if(permissionService.checkReadStoragePermission())
                     gallery()
                 else
-                    permissionChecker.requestReadStoragePermission()
+                    permissionService.requestReadStoragePermission()
             }
         }
     }
