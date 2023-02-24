@@ -38,7 +38,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
-                friendsBtAdd,
+                friendsBtRequests,
                 viewModel.friendRequests.value?.size ?: 0,
                 viewModel.friendRequests.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)

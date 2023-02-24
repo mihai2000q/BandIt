@@ -29,17 +29,17 @@ class BandViewModel : ViewModel() {
         refresh()
     }
 
-    suspend fun sendBandInvitation(account: Account) = coroutineScope {
+    suspend fun sendBandInvitation(account: Account) = viewModelScope.launch {
         launch { _repository.sendBandInvitation(account) }.join()
         refresh()
     }
 
-    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
+    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
         launch { _repository.acceptBandInvitation(bandInvitation) }.join()
         refresh()
     }
 
-    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
+    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
         launch { _repository.rejectBandInvitation(bandInvitation) }.join()
         refresh()
     }

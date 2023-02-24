@@ -48,13 +48,13 @@ class FirebaseDatabase : Database {
         async { set(item) }
     }.await()
 
-    override suspend fun remove(item: Any) {
-        reset(item)
-    }
+    override suspend fun remove(item: Any) = coroutineScope {
+        async { reset(item) }
+    }.await()
 
-    override suspend fun edit(item: Any) {
-        set(item)
-    }
+    override suspend fun edit(item: Any) = coroutineScope {
+        async { set(item) }
+    }.await()
 
     override suspend fun updateAccount(account: Account) = coroutineScope {
         async {
@@ -162,14 +162,26 @@ class FirebaseDatabase : Database {
 
     override suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         async {
-            val bandInvitationDto = BandInvitationMapper.fromItemToDto(bandInvitations.first { it.id == bandInvitation.id })
-            bandInvitationDto.accepted = true
-            this@FirebaseDatabase.setBandInvitation(bandInvitationDto)
-
-            _currentAccount.bandId = bandInvitationDto.bandId
-            this@FirebaseDatabase.updateAccount(_currentAccount)
-            this@FirebaseDatabase.readBand()
-            this@FirebaseDatabase.readBandItems()
+            lateinit var dto: BandInvitationDto
+            launch {
+                dto = BandInvitationMapper.fromItemToDto(bandInvitations.first { it.id == bandInvitation.id })
+            }.invokeOnCompletion {
+                launch {
+                    dto.accepted = true
+                    this@FirebaseDatabase.setBandInvitation(dto)
+                }.invokeOnCompletion {
+                    launch {
+                        _currentAccount.bandId = dto.bandId
+                        this@FirebaseDatabase.updateAccount(_currentAccount)
+                    }.invokeOnCompletion {
+                        launch { this@FirebaseDatabase.readBand() }
+                            .invokeOnCompletion {
+                                launch { this@FirebaseDatabase.readBandItems() }
+                            }
+                    }
+                }
+            }
+            return@async
         }
     }.await()
 
@@ -306,26 +318,28 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun reset(item: Any) {
-        when (item) {
-            is Account -> {
-                deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
-                _currentAccount = Account.EMPTY
+    private suspend fun reset(item: Any) = coroutineScope {
+        async {
+            when (item) {
+                is Account -> {
+                    deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
+                    _currentAccount = Account.EMPTY
+                }
+                is Band -> {
+                    deleteItem(Constants.Firebase.Database.BANDS, item)
+                    _currentBand = Band.EMPTY
+                }
+                is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
+                is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
+                is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
+                is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
+                is Task -> deleteItem(Constants.Firebase.Database.TASKS, item)
+                is Note -> deleteItem(Constants.Firebase.Database.NOTES, item)
+                is FriendRequestDto -> deleteItem(Constants.Firebase.Database.FRIEND_REQUESTS, item)
+                is FriendDto -> deleteItem(Constants.Firebase.Database.FRIENDS, item)
             }
-            is Band -> {
-                deleteItem(Constants.Firebase.Database.BANDS, item)
-                _currentBand = Band.EMPTY
-            }
-            is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
-            is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
-            is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
-            is Event -> deleteItem(Constants.Firebase.Database.EVENTS, item)
-            is Task -> deleteItem(Constants.Firebase.Database.TASKS, item)
-            is Note -> deleteItem(Constants.Firebase.Database.NOTES, item)
-            is FriendRequestDto -> deleteItem(Constants.Firebase.Database.FRIEND_REQUESTS, item)
-            is FriendDto -> deleteItem(Constants.Firebase.Database.FRIENDS, item)
         }
-    }
+    }.await()
 
     private suspend fun setItem(table: String, item: BaseModel) = coroutineScope {
         async {
@@ -351,6 +365,7 @@ class FirebaseDatabase : Database {
                     )
                 }
                 .await()
+            return@async
         }
     }.await()
 
@@ -415,7 +430,7 @@ class FirebaseDatabase : Database {
                 lateinit var account: Account
                 launch {
                     band = BandMapper.fromDtoToItem(readBandDtos(dto.bandId!!).first(), mutableMapOf())
-                    account = AccountMapper.fromDtoToItem(readAccountDtos { it.id == dto.id }.first())
+                    account = AccountMapper.fromDtoToItem(readAccountDtos { it.id == dto.accountId }.first())
                 }.join()
                 bandInvitations.add(BandInvitationMapper.fromDtoToItem(dto, band, account))
             }
