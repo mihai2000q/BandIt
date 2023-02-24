@@ -48,7 +48,7 @@ class BandAddMemberDialogFragment : DialogFragment() {
                     }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
-                        resources.getString(R.string.band_invite_toast)
+                        resources.getString(R.string.band_invitation_sent_toast)
                     )
                     super.dismiss()
                 }
