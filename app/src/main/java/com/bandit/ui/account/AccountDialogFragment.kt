@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -15,6 +17,7 @@ import androidx.navigation.findNavController
 import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.component.ImagePickerDialog
+import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
 import com.bandit.util.AndroidUtils
@@ -22,11 +25,12 @@ import com.bandit.util.PreferencesUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 
-class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment() {
+class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment(), OnItemSelectedListener {
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
+    private var roleIndex = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +47,14 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
             viewModel.account.observe(viewLifecycleOwner) {
                 accountEtName.setText(it.name)
                 accountEtNickname.setText(it.nickname)
-                accountEtRole.setText(it.role.name)
+                roleIndex = it.role.ordinal
             }
+            AndroidComponents.spinner(
+                super.requireContext(),
+                accountSpinnerRole,
+                this@AccountDialogFragment,
+                BandItEnums.Account.Role.values()
+            )
             lifecycleScope.launch {
                 val pic = viewModel.getProfilePicture()
                 Glide.with(this@AccountDialogFragment)
@@ -72,7 +82,8 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         with(binding) {
             viewModel.updateAccount(
                 accountEtName.text.toString(),
-                accountEtNickname.text.toString()
+                accountEtNickname.text.toString(),
+                BandItEnums.Account.Role.values()[roleIndex]
             )
             AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, accountBtSave)
             AndroidComponents.toastNotification(
@@ -118,5 +129,11 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     companion object {
         const val TAG = Constants.Account.TAG
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        roleIndex = position
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
@@ -15,13 +16,17 @@ class AccountViewModel : ViewModel() {
     private val _storage = DILocator.getStorage()
     private val _account = MutableLiveData(_database.currentAccount)
     val account: LiveData<Account> = _account
-    suspend fun updateAccount(name: String, nickname: String) = coroutineScope {
+    suspend fun updateAccount(
+        name: String,
+        nickname: String,
+        role: BandItEnums.Account.Role
+    ) = coroutineScope {
         with(_account.value!!) {
             if (!this.isEmpty()) {
                 val newAccount = Account(
                     name = name,
                     nickname = nickname,
-                    role = this.role,
+                    role = role,
                     email = this.email,
                     bandId = this.bandId,
                     bandName = this.bandName,
