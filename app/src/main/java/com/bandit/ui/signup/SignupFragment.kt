@@ -2,7 +2,6 @@ package com.bandit.ui.signup
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Patterns
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.component.AndroidComponents
-import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 
 class SignupFragment : Fragment() {
@@ -24,6 +23,7 @@ class SignupFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
     private val _database = DILocator.getDatabase()
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +35,7 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             signupEtPassword.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -80,22 +81,6 @@ class SignupFragment : Fragment() {
 
     private fun validateFields(): Boolean {
         with(binding) {
-            if(signupEtEmail.text.isNullOrEmpty()) {
-                signupEtEmail.error = resources.getText(R.string.et_email_validation_empty)
-                return false
-            }
-            if(!Patterns.EMAIL_ADDRESS.matcher(signupEtEmail.text).matches()) {
-                signupEtEmail.error = resources.getText(R.string.et_email_validation_email)
-                return false
-            }
-            if(signupEtPassword.text.isNullOrEmpty()) {
-                signupEtPassword.error = resources.getText(R.string.et_pass_validation_empty)
-                return false
-            }
-            if(signupEtPassword.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
-                signupEtPassword.error = resources.getText(R.string.et_pass_validation_minimum)
-                return false
-            }
             if(!signupCbTerms.isChecked) {
                 signupCbTerms.error = resources.getString(R.string.cb_terms_validation)
                 AndroidComponents.snackbarNotification(
@@ -109,7 +94,8 @@ class SignupFragment : Fragment() {
                 return false
             }
         }
-        return true
+        return  validatorService.validateEmail(binding.signupEtEmail) &&
+                validatorService.validatePassword(binding.signupEtPassword)
     }
     private suspend fun signUp() {
         with(binding) {

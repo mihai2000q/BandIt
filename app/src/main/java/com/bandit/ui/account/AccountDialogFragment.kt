@@ -20,6 +20,8 @@ import com.bandit.component.ImagePickerDialog
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding
+import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 import com.bandit.util.PreferencesUtils
 import com.bumptech.glide.Glide
@@ -31,6 +33,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     private val binding get() = _binding!!
     private val viewModel: AccountViewModel by activityViewModels()
     private var roleIndex = 0
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +45,13 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             accountBtSignOut.setOnClickListener { signOut() }
             viewModel.account.observe(viewLifecycleOwner) {
                 accountEtName.setText(it.name)
                 accountEtNickname.setText(it.nickname)
-                roleIndex = it.role.ordinal
+                accountSpinnerRole.setSelection(it.role.ordinal)
             }
             AndroidComponents.spinner(
                 super.requireContext(),
@@ -63,7 +67,8 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                     .into(accountIvProfilePicture)
             }
             accountBtSave.setOnClickListener {
-                AndroidUtils.loadDialogFragment(this@AccountDialogFragment) { updateAccount() }
+                if(validateFields())
+                    AndroidUtils.loadDialogFragment(this@AccountDialogFragment) { updateAccount() }
             }
             val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
                 viewModel.updateProfilePicture(it)
@@ -87,6 +92,11 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                 R.drawable.ic_account
             )
         )
+    }
+
+    private fun validateFields(): Boolean {
+        return  validatorService.validateName(binding.accountEtName) &&
+                validatorService.validateNickname(binding.accountEtNickname)
     }
 
     private suspend fun updateAccount() {

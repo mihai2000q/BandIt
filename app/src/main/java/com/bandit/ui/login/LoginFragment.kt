@@ -108,11 +108,12 @@ class LoginFragment : Fragment() {
 
     private suspend fun loginOnSuccess(): Boolean? {
         //TODO: Remove comment, but for debugging purposes this will be deactivated
-        return validatorService.validateEmailVerified(
+        /*return validatorService.validateEmailVerified(
             binding.loginEtEmail,
             { login() },
             DILocator.getAuthenticator()
-        )
+        )*/
+        return login()
     }
 
     private fun onLoginFailure() {

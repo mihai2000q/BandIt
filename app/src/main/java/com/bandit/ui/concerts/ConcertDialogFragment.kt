@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
 import com.bandit.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
+import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 
 abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelectedListener {
@@ -20,6 +21,7 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
     protected val binding get() = _binding!!
     protected val viewModel: ConcertsViewModel by activityViewModels()
     protected var typeIndex: Int = 0
+    private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,7 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate) {
                 AndroidUtils.hideKeyboard(
@@ -66,22 +69,10 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
     }
 
     protected open fun validateFields(): Boolean {
-        with(binding) {
-            if(concertEtName.text.isNullOrEmpty()) {
-                concertEtName.error = resources.getString(R.string.et_name_validation)
-                return false
-            }
-            if(concertEtDate.text.isNullOrEmpty()) {
-                concertEtDate.error = resources.getString(R.string.et_date_validation)
-                return false
-            }
-            if(concertEtTime.text.isNullOrEmpty()) {
-                concertEtTime.error = resources.getString(R.string.et_time_validation)
-                return false
-            }
-            //duration
-        }
-        return true
+        return  validatorService.validateName(binding.concertEtName) &&
+                validatorService.validateDate(binding.concertEtDate) &&
+                validatorService.validateTime(binding.concertEtTime) &&
+                validatorService.validateDuration(binding.concertEtDuration)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
