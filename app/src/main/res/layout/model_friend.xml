@@ -20,34 +20,49 @@
             android:layout_height="@dimen/friend_pic_dimension_height"
             android:contentDescription="@string/content_description_account_iv_picture"
             android:src="@drawable/placeholder_profile_pic"
+            app:civ_border_color="@color/friend_pic_border_color"
+            app:civ_border_width="@dimen/friend_pic_border_width"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:civ_border_width="@dimen/friend_pic_border_width"
-            app:civ_border_color="@color/friend_pic_border_color"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/friend_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/default_value"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/friend_name"
             app:layout_constraintEnd_toEndOf="@+id/friend_name"
-            app:layout_constraintStart_toEndOf="@+id/friend_profile_picture"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/friend_name"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/friend_band_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/friend_name"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/friend_name"
+            app:layout_constraintTop_toBottomOf="@+id/friend_name" />
 
         <TextView
             android:id="@+id/friend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
             android:text="@string/default_value"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/friend_band_name"
             app:layout_constraintEnd_toStartOf="@+id/friend_role"
-            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/friend_profile_picture"
             app:layout_constraintTop_toBottomOf="@+id/friend_nickname" />
 

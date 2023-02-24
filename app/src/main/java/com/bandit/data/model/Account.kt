@@ -9,6 +9,7 @@ data class Account(
     var role: BandItEnums.Account.Role,
     val email: String,
     var bandId: Long?,
+    var bandName: String?,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
 ) : BaseModel(id), Comparable<Account> {
@@ -16,7 +17,7 @@ data class Account(
         return name.compareTo(other.name)
     }
     override fun toString(): String {
-        return "Account(id=$id, name='$name', nickname='$nickname', role=$role, email='$email', bandId=$bandId, userUid=$userUid)"
+        return "Account(id=$id, name='$name', nickname='$nickname', role=$role, email='$email', bandId=$bandId, bandName=$bandName, userUid=$userUid)"
     }
 
     fun isEmpty(): Boolean {
@@ -34,6 +35,7 @@ data class Account(
         if (role != other.role) return false
         if (email != other.email) return false
         if (bandId != other.bandId) return false
+        if (bandName != other.bandName) return false
 
         return true
     }
@@ -44,10 +46,11 @@ data class Account(
         result = 31 * result + role.hashCode()
         result = 31 * result + email.hashCode()
         result = 31 * result + (bandId?.hashCode() ?: 0)
+        result = 31 * result + (bandName?.hashCode() ?: 0)
         return result
     }
 
     companion object {
-        val EMPTY = Account("", "", BandItEnums.Account.Role.LeadGuitar, "", -1)
+        val EMPTY = Account("", "", BandItEnums.Account.Role.LeadGuitar, "", -1, "")
     }
 }

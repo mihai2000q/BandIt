@@ -15,6 +15,7 @@ class AccountTest {
             role = BandItEnums.Account.Role.LeadGuitar,
             email = "Davy@dave.com",
             bandId = null,
+            bandName = null,
         )
         assertEquals("David Johnson", account.name)
         assertEquals("Davy", account.nickname)
@@ -41,6 +42,7 @@ class AccountTest {
             role = BandItEnums.Account.Role.LeadGuitar,
             email = "Davy@dave.com",
             bandId = null,
+            bandName = null,
         )
         val account2 = Account(
             name = "David Johnson",
@@ -48,6 +50,7 @@ class AccountTest {
             role = BandItEnums.Account.Role.LeadGuitar,
             email = "Davy@dave.com",
             bandId = null,
+            bandName = null,
         )
         val account3 = Account(
             name = "David Juan",
@@ -55,6 +58,7 @@ class AccountTest {
             role = BandItEnums.Account.Role.LeadGuitar,
             email = "Davy@dave.com",
             bandId = null,
+            bandName = null,
         )
         assertEquals(account1, account2)
         assertNotEquals(account1.id, account2.id)
@@ -69,6 +73,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "Ricky Johnson",
@@ -76,6 +81,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "Carlos Johnson",
@@ -83,6 +89,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "David Johnson",
@@ -90,6 +97,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             )
         )
         outcome.sort()
@@ -100,6 +108,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "David Johnson",
@@ -107,6 +116,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "James Johnson",
@@ -114,6 +124,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             ),
             Account(
                 name = "Ricky Johnson",
@@ -121,6 +132,7 @@ class AccountTest {
                 role = BandItEnums.Account.Role.LeadGuitar,
                 email = "",
                 bandId = null,
+                bandName = null,
             )
         )
         assertEquals(outcome, expected)

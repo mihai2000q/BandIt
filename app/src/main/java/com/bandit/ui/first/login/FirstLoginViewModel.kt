@@ -23,6 +23,7 @@ class FirstLoginViewModel : ViewModel() {
                 nickname = nickname.value!!,
                 role = role.value!!,
                 bandId = null,
+                bandName = null,
                 email = _auth.currentUser?.email ?: "",
                 userUid = _auth.currentUser?.uid
             )
