@@ -41,7 +41,9 @@ class BandAddMemberDialogFragment : DialogFragment() {
             friendsViewModel.friends.observe(viewLifecycleOwner) {
                 val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
                 bandAddMemberFriends.adapter = PeopleAdapter(
-                    this@BandAddMemberDialogFragment, accounts, friendsViewModel
+                    this@BandAddMemberDialogFragment,
+                    accounts.filter { acc -> acc.bandId == null },
+                    friendsViewModel
                 ) { acc ->
                     AndroidUtils.loadDialogFragment(this@BandAddMemberDialogFragment) {
                         viewModel.sendBandInvitation(acc)
