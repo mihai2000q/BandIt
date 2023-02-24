@@ -8,6 +8,10 @@ class BandRepository(val database: Database? = null) {
     private val _bandInvitations: MutableList<BandInvitation> = database?.bandInvitations?.toMutableList() ?: mutableListOf()
     val bandInvitations: List<BandInvitation> = _bandInvitations
 
+    suspend fun createBand(name: String) {
+        database?.createBand(name)
+    }
+
     suspend fun sendBandInvitation(account: Account) {
         database?.sendBandInvitation(account)
     }

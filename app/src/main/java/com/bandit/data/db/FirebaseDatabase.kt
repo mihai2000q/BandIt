@@ -44,9 +44,9 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    override suspend fun add(item: Any) {
-        set(item)
-    }
+    override suspend fun add(item: Any) = coroutineScope {
+        async { set(item) }
+    }.await()
 
     override suspend fun remove(item: Any) {
         reset(item)
@@ -56,16 +56,18 @@ class FirebaseDatabase : Database {
         set(item)
     }
 
-    override suspend fun updateAccount(account: Account) {
-        if(_currentAccount.isEmpty()) return
-        with(_currentAccount) {
-            name = account.name
-            nickname = account.nickname
-            role = account.role
-            bandId = account.bandId
-            set(this)
+    override suspend fun updateAccount(account: Account) = coroutineScope {
+        async {
+            if(_currentAccount.isEmpty()) return@async
+            with(_currentAccount) {
+                name = account.name
+                nickname = account.nickname
+                role = account.role
+                bandId = account.bandId
+                this@FirebaseDatabase.set(this)
+            }
         }
-    }
+    }.await()
 
     override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
         async {
@@ -86,6 +88,46 @@ class FirebaseDatabase : Database {
                 .await()
                 .toObject(UserAccountDto::class.java)
                 ?.accountSetup
+        }
+    }.await()
+
+    override suspend fun createBand(name: String) = coroutineScope {
+        async {
+            val band = Band(
+                name,
+                _currentAccount.id,
+                mutableMapOf()
+            )
+            launch {
+                this@FirebaseDatabase.updateAccount(
+                    Account(
+                        name = _currentAccount.name,
+                        nickname = _currentAccount.nickname,
+                        role = _currentAccount.role,
+                        email = _currentAccount.email,
+                        bandId = band.id,
+                        id = _currentAccount.id,
+                        userUid = _currentAccount.userUid
+                    )
+                )
+            }.invokeOnCompletion {
+                launch {
+                    band.members[_currentAccount] = true
+                    this@FirebaseDatabase.add(band)
+                }.invokeOnCompletion {
+                    launch {
+                        this@FirebaseDatabase.setBandInvitation(
+                            BandInvitationDto(
+                                AndroidUtils.generateRandomLong(),
+                                band.id,
+                                _currentAccount.id,
+                                true
+                            )
+                        )
+                    }
+                }
+            }
+            return@async
         }
     }.await()
 
@@ -244,23 +286,25 @@ class FirebaseDatabase : Database {
         bandInvitations.clear()
     }
 
-    private suspend fun set(item: Any) {
-        when(item) {
-            is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
-            is Band -> {
-                setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
-                _currentBand = item
+    private suspend fun set(item: Any) = coroutineScope {
+        async {
+            when(item) {
+                is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
+                is Band -> {
+                    setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
+                    _currentBand = item
+                }
+                is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
+                is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
+                is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
+                is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
+                is Task -> setItem(Constants.Firebase.Database.TASKS, TaskMapper.fromItemToDto(item))
+                is Note -> setItem(Constants.Firebase.Database.NOTES, NoteMapper.fromItemToDto(item))
+                is FriendRequestDto -> setItem(Constants.Firebase.Database.FRIEND_REQUESTS, item)
+                is FriendDto -> setItem(Constants.Firebase.Database.FRIENDS, item)
             }
-            is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
-            is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
-            is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
-            is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
-            is Task -> setItem(Constants.Firebase.Database.TASKS, TaskMapper.fromItemToDto(item))
-            is Note -> setItem(Constants.Firebase.Database.NOTES, NoteMapper.fromItemToDto(item))
-            is FriendRequestDto -> setItem(Constants.Firebase.Database.FRIEND_REQUESTS, item)
-            is FriendDto -> setItem(Constants.Firebase.Database.FRIENDS, item)
         }
-    }
+    }.await()
 
     private suspend fun reset(item: Any) {
         when (item) {
@@ -291,6 +335,7 @@ class FirebaseDatabase : Database {
                     Log.e(Constants.Firebase.Database.TAG, "${item.javaClass.name} ERROR $it")
                 }
                 .await()
+            return@async
         }
     }.await()
 
