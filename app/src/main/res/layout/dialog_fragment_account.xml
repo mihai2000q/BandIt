@@ -88,18 +88,13 @@
             android:text="@string/account_field_role"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/account_tv_nickname"
-            app:layout_constraintStart_toStartOf="@+id/account_et_role"
+            app:layout_constraintStart_toStartOf="@+id/account_spinner_role"
             app:layout_constraintTop_toTopOf="@+id/account_tv_nickname" />
 
-        <EditText
-            android:id="@+id/account_et_role"
+        <Spinner
+            android:id="@+id/account_spinner_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="150dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/account_field_role"
-            android:inputType="textPersonName"
             android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="@+id/account_et_nickname"
             app:layout_constraintEnd_toEndOf="parent"
