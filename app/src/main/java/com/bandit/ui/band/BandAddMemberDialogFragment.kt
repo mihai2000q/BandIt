@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -16,7 +17,7 @@ import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
-class BandAddMemberDialogFragment : DialogFragment() {
+class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
     private var _binding: DialogFragmentBandAddMemberBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
@@ -38,6 +39,7 @@ class BandAddMemberDialogFragment : DialogFragment() {
             TableRow.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
+            bandAddMemberSearch.setOnQueryTextListener(this@BandAddMemberDialogFragment)
             friendsViewModel.friends.observe(viewLifecycleOwner) {
                 val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
                 bandAddMemberFriends.adapter = PeopleAdapter(
@@ -61,6 +63,21 @@ class BandAddMemberDialogFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        friendsViewModel.refresh()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.people_filtered_toast)
+        )
+        binding.bandAddMemberSearch.clearFocus()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        friendsViewModel.filterFriendsToBandMember(name = newText)
+        return true
     }
 
     companion object {

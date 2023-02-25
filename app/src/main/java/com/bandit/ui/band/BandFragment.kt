@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
+import com.bandit.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
 import com.bandit.ui.adapter.BandAdapter
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
 
-class BandFragment : Fragment() {
+class BandFragment : Fragment(), OnQueryTextListener {
     private var _binding: FragmentBandBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
@@ -48,23 +50,25 @@ class BandFragment : Fragment() {
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
             }
-            viewModel.members.observe(viewLifecycleOwner) {
+            viewModel.band.observe(viewLifecycleOwner) {
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
                     bandTvName.visibility = View.GONE
                     bandRvMemberList.visibility = View.GONE
                     bandBtCreate.visibility = View.VISIBLE
-                    bandTvMembers.visibility = View.INVISIBLE
+                    bandSearchView.visibility = View.INVISIBLE
                     bandBtAdd.visibility = View.INVISIBLE
                 }
                 else {
                     bandTvName.visibility = View.VISIBLE
                     bandBtCreate.visibility = View.GONE
                     bandRvMemberList.visibility = View.VISIBLE
-                    bandTvMembers.visibility = View.VISIBLE
+                    bandSearchView.visibility = View.VISIBLE
                     bandBtAdd.visibility = View.VISIBLE
-                    bandRvMemberList.adapter = BandAdapter(this@BandFragment, it, friendsViewModel)
                 }
+            }
+            viewModel.members.observe(viewLifecycleOwner) {
+                bandRvMemberList.adapter = BandAdapter(this@BandFragment, it, friendsViewModel)
             }
             bandBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -85,11 +89,26 @@ class BandFragment : Fragment() {
                     childFragmentManager
                 )
             }
+            bandSearchView.setOnQueryTextListener(this@BandFragment)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.band_members_filtered_toast)
+        )
+        binding.bandSearchView.clearFocus()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.filterBandMembers(name = newText)
+        return true
     }
 }
