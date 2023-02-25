@@ -58,6 +58,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
                     bandBtCreate.visibility = View.VISIBLE
                     bandSearchView.visibility = View.INVISIBLE
                     bandBtAdd.visibility = View.INVISIBLE
+                    layoutBandEmpty.visibility = View.VISIBLE
                 }
                 else {
                     bandTvName.visibility = View.VISIBLE
@@ -65,6 +66,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
                     bandRvMemberList.visibility = View.VISIBLE
                     bandSearchView.visibility = View.VISIBLE
                     bandBtAdd.visibility = View.VISIBLE
+                    layoutBandEmpty.visibility = View.GONE
                 }
             }
             viewModel.members.observe(viewLifecycleOwner) {

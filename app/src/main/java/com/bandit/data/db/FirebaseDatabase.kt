@@ -177,7 +177,8 @@ class FirebaseDatabase : Database {
                 }.invokeOnCompletion {
                     launch {
                         // update the account by adding the band
-                        _currentAccount.bandId = dto.bandId
+                        _currentAccount.bandId = bandInvitation.band.id
+                        _currentAccount.bandName = bandInvitation.band.name
                         this@FirebaseDatabase.updateAccount(_currentAccount)
                     }.invokeOnCompletion {
                         // then read the new band and its items
