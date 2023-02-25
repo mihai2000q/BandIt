@@ -41,7 +41,10 @@ class FriendsViewModel : ViewModel() {
     fun filterPeople(name: String? = null) {
         _people.value = _repository.filterPeople(name)
     }
-    private fun refresh() {
+    fun filterFriendsToBandMember(name: String? = null) {
+        _friends.value = _repository.filterFriends(name).filter { it.bandId == null }
+    }
+    fun refresh() {
         _people.value = _repository.people
         _friends.value = _repository.friends
         _friendRequests.value = _repository.friendRequests

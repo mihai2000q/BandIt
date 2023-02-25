@@ -40,6 +40,7 @@
     <string name="band_invitation_accepted_toast">Band Invitation Accepted</string>
     <string name="band_invitation_rejected_toast">Band Invitation Rejected</string>
     <string name="band_invitation_filtered_toast">Band Invitations Filtered</string>
+    <string name="band_members_filtered_toast">Band Members Filtered</string>
     <string name="friend_filtered_toast">Friends Filtered</string>
     <string name="people_filtered_toast">People Filtered</string>
 </resources>

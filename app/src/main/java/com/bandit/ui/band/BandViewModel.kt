@@ -10,7 +10,7 @@ import com.bandit.data.model.Band
 import com.bandit.data.model.BandInvitation
 import com.bandit.data.repository.BandRepository
 import com.bandit.di.DILocator
-import kotlinx.coroutines.coroutineScope
+import com.bandit.util.FilterUtils
 import kotlinx.coroutines.launch
 
 class BandViewModel : ViewModel() {
@@ -44,7 +44,15 @@ class BandViewModel : ViewModel() {
         refresh()
     }
 
-    private fun refresh() {
+    fun filterBandInvitations(bandName: String?) {
+        _bandInvitations.value = _repository.filterBandInvitations(bandName)
+    }
+
+    fun filterBandMembers(name: String?) {
+        _members.value = _band.value?.members?.filter { FilterUtils.filter(it.key.name, name) }?.toMutableMap()
+    }
+
+    fun refresh() {
         _band.value = _database.currentBand
         _members.value = _band.value?.members
         _bandInvitations.value = _repository.bandInvitations

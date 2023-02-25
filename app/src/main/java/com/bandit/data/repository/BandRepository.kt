@@ -3,6 +3,7 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Account
 import com.bandit.data.model.BandInvitation
+import com.bandit.util.FilterUtils
 
 class BandRepository(val database: Database? = null) {
     private val _bandInvitations: MutableList<BandInvitation> = database?.bandInvitations?.toMutableList() ?: mutableListOf()
@@ -26,4 +27,7 @@ class BandRepository(val database: Database? = null) {
         database?.rejectBandInvitation(bandInvitation)
         _bandInvitations.remove(bandInvitation)
     }
+
+    fun filterBandInvitations(bandName: String?) : List<BandInvitation> =
+        _bandInvitations.filter { FilterUtils.filter(it.band.name, bandName) }
 }
