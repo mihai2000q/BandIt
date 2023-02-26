@@ -27,9 +27,11 @@
         </activity>
         <activity
             android:name="com.bandit.LoadingActivity"
+            android:screenOrientation="portrait"
             android:exported="true"/>
         <activity
             android:name="com.bandit.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"/>
         <meta-data
             android:name="android.app.lib_name"

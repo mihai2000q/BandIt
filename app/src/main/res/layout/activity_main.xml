@@ -45,7 +45,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navGraph="@navigation/mobile_navigation"
-                tools:layout="@layout/fragment_login" />
+                tools:layout="@layout/fragment_login"
+                tools:ignore="FragmentTagUsage" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/main_bottom_navigation_view"
@@ -54,7 +55,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/bottom_navigation_menu" />
+                app:menu="@menu/bottom_navigation_menu"
+                tools:ignore="VisualLintBottomNav" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -64,7 +66,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/drawer_menu_header"
-            app:menu="@menu/drawer_menu"/>
+            app:menu="@menu/drawer_menu"
+            tools:ignore="VisualLintBounds" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
