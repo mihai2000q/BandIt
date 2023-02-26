@@ -93,8 +93,8 @@ class LoginFragment : Fragment() {
                         viewModel.signInWithEmailAndPassword(
                             loginEtEmail.text.toString(),
                             loginEtPassword.text.toString(),
-                            { result = loginOnSuccess() }
-                        ) { onLoginFailure() }
+                            { result = this@LoginFragment.loginOnSuccess() }
+                        ) { this@LoginFragment.onLoginFailure() }
                     } else {
                         loginEtEmail.error =
                             resources.getString(R.string.et_email_validation_email_not_used)
@@ -102,7 +102,7 @@ class LoginFragment : Fragment() {
                     }
                 }
                 else
-                    onNetworkFailure()
+                    this@LoginFragment.onNetworkFailure()
             }
         }
         return result

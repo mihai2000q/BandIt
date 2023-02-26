@@ -31,7 +31,7 @@ class FirebaseAuthenticator : Authenticator {
                     .await()
                     .user
                 if(_currentUser != null) {
-                    Log.d(
+                    Log.i(
                         Constants.Firebase.Auth.TAG,
                         "sign in with email and password: success"
                     )
