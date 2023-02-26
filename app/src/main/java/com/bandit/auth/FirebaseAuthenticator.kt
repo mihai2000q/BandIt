@@ -53,7 +53,7 @@ class FirebaseAuthenticator : Authenticator {
                     result = true
                 }
                 .addOnFailureListener {
-                    Log.w(Constants.Firebase.Auth.TAG, "create user: failed")
+                    Log.e(Constants.Firebase.Auth.TAG, "create user: failed")
                     result = false
                 }
                 .await()

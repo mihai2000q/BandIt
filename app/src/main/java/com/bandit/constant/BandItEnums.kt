@@ -31,7 +31,8 @@ sealed class BandItEnums {
         enum class Type {
             Simple,
             Training,
-            Concert
+            Concert,
+            Composing
         }
     }
 }
