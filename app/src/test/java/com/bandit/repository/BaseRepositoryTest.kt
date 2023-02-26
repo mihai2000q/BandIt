@@ -1,14 +1,14 @@
 package com.bandit.repository
 
 import com.bandit.constant.Constants
-import com.bandit.data.model.BaseModel
-import com.bandit.data.repository.BaseRepository
+import com.bandit.template.TemplateModel
+import com.bandit.template.TemplateRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 
-abstract class BaseRepositoryTest <T : BaseModel> {
+abstract class BaseRepositoryTest <T : TemplateModel> {
     protected fun different_ids(
-        repository: BaseRepository<T>,
+        repository: TemplateRepository<T>,
         item: T
     ) {
         runBlocking {
@@ -22,7 +22,7 @@ abstract class BaseRepositoryTest <T : BaseModel> {
     protected abstract fun import_data()
 
     protected fun repository_remove(
-        repository: BaseRepository<T>
+        repository: TemplateRepository<T>
     ) {
         import_data()
         val itemToRemove = repository.list[0]

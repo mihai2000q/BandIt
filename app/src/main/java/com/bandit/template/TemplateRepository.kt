@@ -1,13 +1,12 @@
-package com.bandit.data.repository
+package com.bandit.template
 
 import com.bandit.data.db.Database
-import com.bandit.data.model.BaseModel
 
-abstract class BaseRepository<T>(
+abstract class TemplateRepository<T>(
     private val _database: Database? = null,
     databaseList: List<T>?
 )
-where T : BaseModel
+where T : TemplateModel
 {
     private val _list: MutableList<T> = databaseList?.toMutableList() ?: mutableListOf()
     val list: List<T> get() = _list

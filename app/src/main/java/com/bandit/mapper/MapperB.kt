@@ -1,12 +1,12 @@
 package com.bandit.mapper
 
-import com.bandit.data.db.dto.BaseBandDto
-import com.bandit.data.model.BaseModel
+import com.bandit.template.TemplateBandDto
+import com.bandit.template.TemplateModel
 
 sealed interface MapperB<T, E>
 where
-T : BaseModel,
-E : BaseBandDto
+T : TemplateModel,
+E : TemplateBandDto
 {
     fun fromDtoToItem(dto: E): T
     fun fromItemToDto(item: T): E

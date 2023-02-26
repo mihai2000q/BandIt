@@ -1,5 +1,7 @@
 package com.bandit.data.db.dto
 
+import com.bandit.template.TemplateBandDto
+
 data class ConcertDto(
     override val id: Long = -1,
     val name: String? = null,
@@ -10,4 +12,4 @@ data class ConcertDto(
     val place: String? = null,
     val type: Long? = null,
     override val bandId: Long = -1
-) : BaseBandDto(id, bandId)
+) : TemplateBandDto(id, bandId)

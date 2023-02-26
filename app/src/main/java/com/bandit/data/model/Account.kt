@@ -1,6 +1,7 @@
 package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
+import com.bandit.template.TemplateModel
 import com.bandit.util.AndroidUtils
 
 data class Account(
@@ -12,7 +13,7 @@ data class Account(
     var bandName: String?,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : BaseModel(id), Comparable<Account> {
+) : TemplateModel(id), Comparable<Account> {
     override fun compareTo(other: Account): Int {
         return name.compareTo(other.name)
     }

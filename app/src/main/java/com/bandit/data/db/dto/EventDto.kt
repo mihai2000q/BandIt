@@ -1,5 +1,7 @@
 package com.bandit.data.db.dto
 
+import com.bandit.template.TemplateBandDto
+
 
 data class EventDto(
     override val id: Long = -1,
@@ -8,4 +10,4 @@ data class EventDto(
     val duration: Long? = null,
     val type: Long? = null,
     override val bandId: Long = -1
-) : BaseBandDto(id, bandId)
+) : TemplateBandDto(id, bandId)

@@ -1,5 +1,7 @@
 package com.bandit.data.db.dto
 
+import com.bandit.template.TemplateBandDto
+
 data class SongDto(
     val name: String? = null,
     override val bandId: Long = -1,
@@ -8,4 +10,4 @@ data class SongDto(
     val albumName: String? = null,
     val albumId: Long? = null,
     override val id: Long = -1
-) : BaseBandDto(id, bandId)
+) : TemplateBandDto(id, bandId)
