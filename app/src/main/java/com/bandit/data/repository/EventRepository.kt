@@ -6,7 +6,7 @@ import com.bandit.data.model.Event
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
-import com.bandit.util.FilterUtils.filter
+import com.bandit.util.FilterUtils
 
 class EventRepository(database: Database? = null)
     : BaseRepository<Event>(database, database?.events) {
@@ -32,11 +32,11 @@ class EventRepository(database: Database? = null)
         duration: Duration? = null
     ) = list
         .asSequence()
-        .filter { filter(it.name, name) }
-        .filter { filter(it.dateTime.toLocalDate(), date) }
-        .filter { filter(it.dateTime.toLocalTime(), time) }
-        .filter { filter(it.type, type) }
-        .filter { filter(it.duration, duration) }
+        .filter { FilterUtils.filter(it.name, name) }
+        .filter { FilterUtils.filter(it.dateTime.toLocalDate(), date) }
+        .filter { FilterUtils.filter(it.dateTime.toLocalTime(), time) }
+        .filter { FilterUtils.filter(it.type, type) }
+        .filter { FilterUtils.filter(it.duration, duration) }
         .toList()
 
     fun getAllEventDates() = list.map { e -> e.dateTime.toLocalDate() }

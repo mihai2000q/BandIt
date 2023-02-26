@@ -21,17 +21,17 @@ class ScheduleViewModel : ViewModel() {
 
     suspend fun addEvent(event: Event) = coroutineScope {
         launch { _repository.add(event) }.join()
-        refresh()
+        this@ScheduleViewModel.refresh()
     }
 
      suspend fun removeEvent(event: Event) = coroutineScope {
          launch { _repository.remove(event) }.join()
-         refresh()
+         this@ScheduleViewModel.refresh()
     }
 
     suspend fun editEvent(event: Event) = coroutineScope {
         launch { _repository.edit(event) }.join()
-        refresh()
+        this@ScheduleViewModel.refresh()
     }
 
     fun filterEvents(
