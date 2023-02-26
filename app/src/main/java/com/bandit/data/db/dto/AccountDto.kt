@@ -1,6 +1,6 @@
 package com.bandit.data.db.dto
 
-import com.bandit.data.model.BaseModel
+import com.bandit.template.TemplateModel
 
 data class AccountDto(
     override val id: Long = -1,
@@ -11,4 +11,4 @@ data class AccountDto(
     val bandId: Long? = null,
     val bandName: String? = null,
     val userUid: String? = null
-) : BaseModel(id)
+) : TemplateModel(id)

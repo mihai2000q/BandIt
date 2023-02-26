@@ -3,13 +3,14 @@ package com.bandit.data.repository
 import com.bandit.constant.BandItEnums
 import com.bandit.data.db.Database
 import com.bandit.data.model.Event
+import com.bandit.template.TemplateRepository
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import com.bandit.util.FilterUtils
 
 class EventRepository(database: Database? = null)
-    : BaseRepository<Event>(database, database?.events) {
+    : TemplateRepository<Event>(database, database?.events) {
     override fun reassignId(item: Event): Event {
         var newEvent: Event = item
         while(isIdUsed(newEvent.id)) {

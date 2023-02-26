@@ -3,13 +3,13 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
-import com.bandit.extension.normalizeWord
+import com.bandit.template.TemplateRepository
 import java.time.Duration
 import java.time.LocalDate
 import com.bandit.util.FilterUtils.filter
 
 class AlbumRepository(database: Database? = null)
-    : BaseRepository<Album>(database, database?.albums) {
+    : TemplateRepository<Album>(database, database?.albums) {
     fun filterAlbums(
         name: String? = null,
         releaseDate: LocalDate? = null,

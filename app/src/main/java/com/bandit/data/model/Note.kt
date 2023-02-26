@@ -1,5 +1,6 @@
 package com.bandit.data.model
 
+import com.bandit.template.TemplateModel
 import com.bandit.util.AndroidUtils
 import java.time.LocalDateTime
 
@@ -9,7 +10,7 @@ data class Note(
     val accountId: Long,
     val createdOn: LocalDateTime = LocalDateTime.now(),
     override val id: Long = AndroidUtils.generateRandomLong()
-) : BaseModel(id), Comparable<Note> {
+) : TemplateModel(id), Comparable<Note> {
     override fun compareTo(other: Note): Int {
         return createdOn.compareTo(other.createdOn)
     }

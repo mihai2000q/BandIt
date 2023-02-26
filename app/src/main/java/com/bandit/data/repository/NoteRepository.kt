@@ -2,9 +2,10 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Note
+import com.bandit.template.TemplateRepository
 
 class NoteRepository(database: Database? = null)
-    : BaseRepository<Note>(database, database?.notes) {
+    : TemplateRepository<Note>(database, database?.notes) {
     override fun reassignId(item: Note): Note {
         var newNote: Note = item
         while (isIdUsed(newNote.id)) {

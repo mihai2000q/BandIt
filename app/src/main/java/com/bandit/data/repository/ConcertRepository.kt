@@ -3,13 +3,14 @@ package com.bandit.data.repository
 import com.bandit.constant.BandItEnums
 import com.bandit.data.db.Database
 import com.bandit.data.model.Concert
+import com.bandit.template.TemplateRepository
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import com.bandit.util.FilterUtils.filter
 
 class ConcertRepository(database: Database? = null)
-    : BaseRepository<Concert>(database, database?.concerts) {
+    : TemplateRepository<Concert>(database, database?.concerts) {
     fun filterConcerts(
         name: String? = null,
         date: LocalDate? = null,
