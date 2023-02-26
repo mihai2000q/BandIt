@@ -32,7 +32,7 @@ class LoginViewModel : ViewModel() {
                 Log.i(TAG, "User logged in")
                 onSuccess?.invoke()
             } else {
-                Log.i(TAG, "User couldn't log in")
+                Log.w(TAG, "User couldn't log in")
                 onFailure?.invoke()
             }
         }

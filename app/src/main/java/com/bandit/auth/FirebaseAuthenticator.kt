@@ -14,15 +14,7 @@ class FirebaseAuthenticator : Authenticator {
     private var _currentUser = _auth.currentUser
     override val currentUser get() = _currentUser
 
-    init {
-        if(_auth.currentUser != null)
-            _currentUser = _auth.currentUser
-    }
-
-    override suspend fun signInWithEmailAndPassword(
-        email: String,
-        password: String
-    ): Boolean? =
+    override suspend fun signInWithEmailAndPassword(email: String, password: String): Boolean? =
     coroutineScope {
         async {
             var result: Boolean? = null
