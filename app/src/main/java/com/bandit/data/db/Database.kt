@@ -3,6 +3,9 @@ package com.bandit.data.db
 import com.bandit.data.dto.BandInvitationDto
 import com.bandit.data.model.*
 
+/**
+ * Database interface for accessing items
+ */
 interface Database {
     val concerts: List<Concert>
     val songs: List<Song>

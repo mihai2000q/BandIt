@@ -4,6 +4,7 @@ import com.bandit.constant.BandItEnums
 import com.bandit.data.dto.ConcertDto
 import com.bandit.data.model.Concert
 import com.bandit.data.model.Event
+import com.bandit.util.ParserUtils
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -12,12 +13,12 @@ object ConcertMapper : MapperB<Concert, ConcertDto> {
         return Concert(
             name = dto.name ?: "Null",
             dateTime = LocalDateTime.parse(dto.dateTime),
-            duration = Duration.parse("PT${dto.duration}S"),
+            duration = ParserUtils.parseDuration(dto.duration),
             bandId = dto.bandId,
             city = dto.city,
             country = dto.country,
             place = dto.place,
-            concertType =  mapIntToConcertType(dto.type?.toInt() ?: 0),
+            concertType = this.mapIntToConcertType(dto.type?.toInt() ?: 0),
             id = dto.id
         )
     }
@@ -31,7 +32,7 @@ object ConcertMapper : MapperB<Concert, ConcertDto> {
             city = item.city,
             country = item.country,
             place = item.place,
-            type = mapConcertTypeToInt(item.concertType)?.toLong(),
+            type = this.mapConcertTypeToInt(item.concertType)?.toLong(),
             bandId = item.bandId
         )
     }
