@@ -58,14 +58,6 @@ class FirebaseDatabase : Database {
         async { set(item) }
     }.await()
 
-    override suspend fun updateAccount(account: Account) = coroutineScope {
-        async {
-            if(_currentAccount.isEmpty()) return@async
-            _currentAccount = account
-            this@FirebaseDatabase.set(account)
-        }
-    }.await()
-
     override suspend fun setUserAccountSetup(
         userUid: String,
         email: String,
@@ -99,7 +91,7 @@ class FirebaseDatabase : Database {
                 mutableMapOf()
             )
             launch {
-                this@FirebaseDatabase.updateAccount(
+                this@FirebaseDatabase.edit(
                     Account(
                         name = _currentAccount.name,
                         nickname = _currentAccount.nickname,
@@ -184,7 +176,7 @@ class FirebaseDatabase : Database {
                         // update the account by adding the band
                         _currentAccount.bandId = bandInvitation.band.id
                         _currentAccount.bandName = bandInvitation.band.name
-                        this@FirebaseDatabase.updateAccount(_currentAccount)
+                        this@FirebaseDatabase.edit(_currentAccount)
                     }.invokeOnCompletion {
                         // then read the new band and its items
                         launch { this@FirebaseDatabase.readBand() }
@@ -322,7 +314,10 @@ class FirebaseDatabase : Database {
     private suspend fun set(item: Any) = coroutineScope {
         async {
             when(item) {
-                is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
+                is Account -> {
+                    setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
+                    _currentAccount = item
+                }
                 is Band -> {
                     setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
                     _currentBand = item

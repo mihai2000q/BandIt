@@ -33,7 +33,7 @@ class AccountViewModel : ViewModel() {
                     id = this.id,
                     userUid = this.userUid
                 )
-                _database.updateAccount(newAccount)
+                _database.edit(newAccount)
                 _account.value = newAccount
             }
         }
