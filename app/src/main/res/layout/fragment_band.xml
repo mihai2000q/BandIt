@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="1"
-            tools:listitem="@layout/model_member">
+            tools:listitem="@layout/model_band_member">
 
         </androidx.recyclerview.widget.RecyclerView>
 

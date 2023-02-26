@@ -7,22 +7,22 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
-import com.bandit.databinding.ModelMemberBinding
+import com.bandit.databinding.ModelBandMemberBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
-data class BandAdapter(
+data class BandMemberAdapter(
     private val fragment: Fragment,
     private val members: MutableMap<Account, Boolean>,
     private val viewModel: FriendsViewModel
-) : RecyclerView.Adapter<BandAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<BandMemberAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ModelMemberBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ModelBandMemberBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ModelMemberBinding.inflate(
+            ModelBandMemberBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
