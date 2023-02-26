@@ -2,6 +2,7 @@ package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
 import com.bandit.data.template.Item
+import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
 
 data class Account(
@@ -20,6 +21,14 @@ data class Account(
     override fun toString(): String {
         return "Account(id=$id, name='$name', nickname='$nickname', role=$role, email='$email', bandId=$bandId, bandName=$bandName, userUid=$userUid)"
     }
+
+    fun printRole() =
+        if (this.role.name.normalizeWord() == "Leadguitar")
+            "Lead Guitar"
+        else if(this.role.name.normalizeWord() == "Rhythmguitar")
+            "Rhythm Guitar"
+        else
+            this.role.name.normalizeWord()
 
     fun isEmpty(): Boolean {
         return this == EMPTY

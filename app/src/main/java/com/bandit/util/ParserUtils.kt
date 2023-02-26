@@ -38,4 +38,11 @@ object ParserUtils {
             "PT${text[0]}${text[1]}M" +
                     "${text[3]}${text[4]}S"
         )
+
+    fun parseDuration(
+        seconds: Long?
+    ) : Duration =
+        if(seconds == null)
+            Duration.ZERO
+        else Duration.parse("PT${seconds}S")
 }

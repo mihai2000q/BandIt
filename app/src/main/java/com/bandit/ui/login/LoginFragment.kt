@@ -93,8 +93,8 @@ class LoginFragment : Fragment() {
                         viewModel.signInWithEmailAndPassword(
                             loginEtEmail.text.toString(),
                             loginEtPassword.text.toString(),
-                            { result = loginOnSuccess() }
-                        ) { onLoginFailure() }
+                            { result = this@LoginFragment.loginOnSuccess() }
+                        ) { this@LoginFragment.onLoginFailure() }
                     } else {
                         loginEtEmail.error =
                             resources.getString(R.string.et_email_validation_email_not_used)
@@ -102,7 +102,7 @@ class LoginFragment : Fragment() {
                     }
                 }
                 else
-                    onNetworkFailure()
+                    this@LoginFragment.onNetworkFailure()
             }
         }
         return result
@@ -141,9 +141,9 @@ class LoginFragment : Fragment() {
 
     private suspend fun login(): Boolean? = coroutineScope {
         async {
-            val result = _database.isUserAccountSetup()
+            val result = _database.isUserAccountSetup(DILocator.getAuthenticator().currentUser!!.uid)
             if (result == true) {
-                _database.init()
+                _database.init(DILocator.getAuthenticator().currentUser!!.uid)
                 preferencesService.savePreference(
                     Constants.Preferences.REMEMBER_ME,
                     binding.loginCbRemember.isChecked

@@ -39,7 +39,7 @@ data class BandMemberAdapter(
         val hasAccepted = members.values.toList()[position]
         with(holder.binding) {
             memberNickname.text = account.nickname
-            memberRole.text = account.role.name
+            memberRole.text = account.printRole()
             if(DILocator.getDatabase().currentBand.creator == account.id)
                 memberStatus.setText(R.string.band_member_creator)
             else if(hasAccepted) {

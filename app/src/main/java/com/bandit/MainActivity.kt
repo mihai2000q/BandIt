@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 return null
             }
-            DILocator.getDatabase().init()
+            DILocator.getDatabase().init(DILocator.getAuthenticator().currentUser!!.uid)
             true
         } else {
             AndroidUtils.lockNavigation(
