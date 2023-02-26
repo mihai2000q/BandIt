@@ -1,6 +1,6 @@
 package com.bandit.data.model
 
-import com.bandit.template.TemplateModel
+import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 
 data class BandInvitation (
@@ -8,7 +8,7 @@ data class BandInvitation (
     val account: Account,
     var hasAccepted: Boolean,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : TemplateModel(id), Comparable<BandInvitation> {
+) : Item(id), Comparable<BandInvitation> {
     override fun compareTo(other: BandInvitation): Int {
         return band.name.compareTo(other.band.name)
     }

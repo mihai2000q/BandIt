@@ -4,10 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.extension.print
+import com.bandit.ui.template.SongDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 

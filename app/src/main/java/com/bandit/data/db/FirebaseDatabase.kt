@@ -2,14 +2,13 @@ package com.bandit.data.db
 
 import android.util.Log
 import com.bandit.constant.Constants
-import com.bandit.data.db.dto.*
+import com.bandit.data.dto.*
+import com.bandit.data.mapper.*
 import com.bandit.data.model.*
 import com.bandit.di.DILocator
-import com.bandit.mapper.*
-import com.bandit.data.db.dto.BandInvitationDto
-import com.bandit.template.TemplateAccountDto
-import com.bandit.template.TemplateBandDto
-import com.bandit.template.TemplateModel
+import com.bandit.data.template.TemplateAccountDto
+import com.bandit.data.template.TemplateBandDto
+import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -361,7 +360,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun setItem(table: String, item: TemplateModel) = coroutineScope {
+    private suspend fun setItem(table: String, item: Item) = coroutineScope {
         async {
             _firestore.collection(table).document(generateDocumentNameId(table, item.id))
                 .set(item)
@@ -373,7 +372,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun deleteItem(table: String, item: TemplateModel) = coroutineScope {
+    private suspend fun deleteItem(table: String, item: Item) = coroutineScope {
         async {
             _firestore.collection(table)
                 .document(generateDocumentNameId(table, item.id))
@@ -630,7 +629,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend inline fun <T : TemplateModel, reified E : TemplateBandDto> readBandItem(
+    private suspend inline fun <T : Item, reified E : TemplateBandDto> readBandItem(
         table: String,
         mapperB: MapperB<T, E>,
         bandId: Long
@@ -652,7 +651,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend inline fun <T : TemplateModel, reified E : TemplateAccountDto> readAccountItem(
+    private suspend inline fun <T : Item, reified E : TemplateAccountDto> readAccountItem(
         table: String,
         mapperA: MapperA<T, E>,
         accountId: Long

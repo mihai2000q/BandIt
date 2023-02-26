@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.component.AndroidComponents
-import com.bandit.component.CustomBottomSheetDialogFragment
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.TypingBottomSheetDialogFragment
 import com.bandit.data.model.Task
 import com.bandit.databinding.FragmentTodolistBinding
 import com.bandit.di.DILocator
@@ -31,8 +31,8 @@ class TodoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val customBottomSheetDialogFragment = CustomBottomSheetDialogFragment {
-            if(it.text.isNullOrEmpty()) return@CustomBottomSheetDialogFragment
+        val typingBottomSheetDialogFragment = TypingBottomSheetDialogFragment {
+            if(it.text.isNullOrEmpty()) return@TypingBottomSheetDialogFragment
             AndroidUtils.loadDialogFragment(this) {
                 viewModel.addTask(
                     Task(
@@ -81,7 +81,7 @@ class TodoListFragment : Fragment() {
                 todolistBtAdd
             ) {
                 AndroidUtils.showDialogFragment(
-                    customBottomSheetDialogFragment,
+                    typingBottomSheetDialogFragment,
                     childFragmentManager
                 )
             }

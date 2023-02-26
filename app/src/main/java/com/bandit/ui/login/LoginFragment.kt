@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator

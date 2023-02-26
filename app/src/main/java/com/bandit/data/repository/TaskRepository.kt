@@ -2,7 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Task
-import com.bandit.template.TemplateRepository
+import com.bandit.data.template.TemplateRepository
 
 class TaskRepository(database: Database? = null)
     : TemplateRepository<Task>(database, database?.tasks) {

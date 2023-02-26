@@ -1,6 +1,6 @@
 package com.bandit.data.model
 
-import com.bandit.template.TemplateModel
+import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 import java.time.Duration
 import java.time.LocalDate
@@ -12,7 +12,7 @@ data class Album(
     val label: String = "",
     val songs: MutableList<Song> = mutableListOf(),
     override val id: Long = AndroidUtils.generateRandomLong()
-) : TemplateModel(id), Comparable<Album> {
+) : Item(id), Comparable<Album> {
     val duration: Duration = Duration.ZERO
 
     init {

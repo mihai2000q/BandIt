@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.BandInvitation
 import com.bandit.databinding.ModelBandInvitationBinding
 import com.bandit.ui.band.BandViewModel

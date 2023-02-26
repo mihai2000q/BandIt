@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
 import com.bandit.ui.adapter.BandMemberAdapter
 import com.bandit.ui.friends.FriendsViewModel

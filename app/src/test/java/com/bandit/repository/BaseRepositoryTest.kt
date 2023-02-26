@@ -1,12 +1,12 @@
 package com.bandit.repository
 
 import com.bandit.constant.Constants
-import com.bandit.template.TemplateModel
-import com.bandit.template.TemplateRepository
+import com.bandit.data.template.Item
+import com.bandit.data.template.TemplateRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 
-abstract class BaseRepositoryTest <T : TemplateModel> {
+abstract class BaseRepositoryTest <T : Item> {
     protected fun different_ids(
         repository: TemplateRepository<T>,
         item: T
