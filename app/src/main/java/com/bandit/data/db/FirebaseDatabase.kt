@@ -454,7 +454,7 @@ class FirebaseDatabase : Database {
                     band = BandMapper.fromDtoToItem(readBandDtos(dto.bandId!!).first(), mutableMapOf())
                     account = AccountMapper.fromDtoToItem(readAccountDtos { it.id == dto.accountId }.first())
                 }.join()
-                bandInvitations.add(BandInvitationMapper.fromDtoToItem(dto, band, account))
+                bandInvitations += BandInvitationMapper.fromDtoToItem(dto, band, account)
             }
         }
     }.await()
