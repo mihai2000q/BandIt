@@ -8,7 +8,6 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 class FirstLoginViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()
@@ -29,7 +28,11 @@ class FirstLoginViewModel : ViewModel() {
                 userUid = _auth.currentUser?.uid
             )
         )
-        _database.setUserAccountSetup(true)
+        _database.setUserAccountSetup(
+            _auth.currentUser?.email ?: "",
+            _auth.currentUser?.uid ?: "",
+            true
+        )
     }
 
     suspend fun saveProfilePicture(uri: Uri) = coroutineScope {

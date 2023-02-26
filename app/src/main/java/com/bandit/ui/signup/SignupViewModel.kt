@@ -2,7 +2,6 @@ package com.bandit.ui.signup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
@@ -15,7 +14,11 @@ class SignupViewModel : ViewModel() {
     suspend fun createUser(password: String) {
         coroutineScope {
             launch { _auth.createUser(email.value!!, password) }.join()
-            launch { _database.setUserAccountSetup(false) }.join()
+            launch { _database.setUserAccountSetup(
+                _auth.currentUser?.uid ?: "",
+                _auth.currentUser?.email ?: "",
+                false
+            ) }.join()
         }
     }
 

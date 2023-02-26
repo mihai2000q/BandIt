@@ -141,9 +141,9 @@ class LoginFragment : Fragment() {
 
     private suspend fun login(): Boolean? = coroutineScope {
         async {
-            val result = _database.isUserAccountSetup()
+            val result = _database.isUserAccountSetup(DILocator.getAuthenticator().currentUser!!.uid)
             if (result == true) {
-                _database.init()
+                _database.init(DILocator.getAuthenticator().currentUser!!.uid)
                 preferencesService.savePreference(
                     Constants.Preferences.REMEMBER_ME,
                     binding.loginCbRemember.isChecked

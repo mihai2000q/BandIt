@@ -5,7 +5,6 @@ import com.bandit.constant.Constants
 import com.bandit.data.dto.*
 import com.bandit.data.mapper.*
 import com.bandit.data.model.*
-import com.bandit.di.DILocator
 import com.bandit.data.template.TemplateAccountDto
 import com.bandit.data.template.TemplateBandDto
 import com.bandit.data.template.Item
@@ -36,9 +35,9 @@ class FirebaseDatabase : Database {
     private var _currentBand = Band.EMPTY
     private val _firestore = Firebase.firestore
 
-    override suspend fun init() = coroutineScope {
+    override suspend fun init(userUid: String) = coroutineScope {
         async {
-            readAccount()
+            readAccount(userUid)
             readBand()
             readBandInvitations()
             readAccountItems()
@@ -67,21 +66,24 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    override suspend fun setUserAccountSetup(isAccountSetup: Boolean) = coroutineScope {
+    override suspend fun setUserAccountSetup(
+        userUid: String,
+        email: String,
+        isAccountSetup: Boolean
+    ) = coroutineScope {
         async {
-            val auth = DILocator.getAuthenticator()
             _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-                .document(generateDocumentNameUserUid())
-                .set(UserAccountDto(isAccountSetup, auth.currentUser!!.uid, auth.currentUser!!.email))
+                .document(generateDocumentNameUserUid(userUid))
+                .set(UserAccountDto(isAccountSetup, userUid, email))
                 .await()
             return@async
         }
     }.await()
 
-    override suspend fun isUserAccountSetup(): Boolean? = coroutineScope {
+    override suspend fun isUserAccountSetup(userUid: String): Boolean? = coroutineScope {
         async {
             return@async _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-                .document(generateDocumentNameUserUid())
+                .document(generateDocumentNameUserUid(userUid))
                 .get()
                 .await()
                 .toObject(UserAccountDto::class.java)
@@ -389,10 +391,10 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend fun readAccount() = coroutineScope {
+    private suspend fun readAccount(userUid: String) = coroutineScope {
         async {
             val accountDBEntries = readAccountDtos {
-                return@readAccountDtos it.userUid == DILocator.getAuthenticator().currentUser?.uid
+                return@readAccountDtos it.userUid == userUid
             }
             if (accountDBEntries.isEmpty()) return@async
             _currentAccount = AccountMapper.fromDtoToItem(accountDBEntries.first())
@@ -674,9 +676,8 @@ class FirebaseDatabase : Database {
             }
         }.await()
 
-    private fun generateDocumentNameUserUid() =
-        Constants.Firebase.Database.USER_ACCOUNT_SETUPS.dropLast(1) + "-" +
-                DILocator.getAuthenticator().currentUser!!.uid
+    private fun generateDocumentNameUserUid(userUid: String) =
+        Constants.Firebase.Database.USER_ACCOUNT_SETUPS.dropLast(1) + "-" + userUid
 
     private fun generateDocumentNameId(table: String, id: Long) =
         "${table.lowercase().dropLast(1)}$id"
