@@ -365,7 +365,8 @@ class FirebaseDatabase : Database {
             _firestore.collection(table).document(generateDocumentNameId(table, item.id))
                 .set(item)
                 .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "${item.javaClass.name} ERROR $it")
+                    Log.e(Constants.Firebase.Database.TAG,
+                        "${item.javaClass.name} ${item.id} - set item ERROR $it")
                 }
                 .await()
             return@async
@@ -379,8 +380,8 @@ class FirebaseDatabase : Database {
                 .delete()
                 .addOnFailureListener {
                     Log.e(
-                        Constants.Firebase.Database.TAG, "Error while selecting item of " +
-                                "type ${item.javaClass.name} with error $it"
+                        Constants.Firebase.Database.TAG,
+                        "${item.javaClass.name} ${item.id} - delete item ERROR $it"
                     )
                 }
                 .await()
