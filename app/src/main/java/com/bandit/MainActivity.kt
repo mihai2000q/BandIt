@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesService: IPreferencesService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        super.setContentView(binding.root)
         preferencesService = DILocator.getPreferencesService(this)
         lifecycleScope.launch {
             val destination = AndroidUtils.loadIntent(this@MainActivity) { startApp() }
@@ -44,22 +46,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun startApp(): Boolean? {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         val bottomNavView = binding.mainBottomNavigationView
-        bottomNavView.selectedItemId =
-            R.id.navigation_home //solving small issue by setting a default
+        // solving small issue by setting a default
+        bottomNavView.selectedItemId = R.id.navigation_home
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.main_nav_host) as NavHostFragment
         val navController = navHostFragment.navController
 
-        setSupportActionBar(binding.mainToolbar)
+        super.setSupportActionBar(binding.mainToolbar)
         setupActionBarWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
-        setupNavigationElements(navController)
+        this.setupNavigationElements(navController)
         supportActionBar?.hide()
 
         return authentication()
