@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IValidatorService

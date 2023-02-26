@@ -14,7 +14,7 @@ import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.di.DILocator

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
 import com.bandit.di.DILocator

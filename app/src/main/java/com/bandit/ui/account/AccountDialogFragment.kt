@@ -15,8 +15,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bandit.R
-import com.bandit.component.AndroidComponents
-import com.bandit.component.ImagePickerDialog
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.ImagePickerDialog
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentAccountBinding

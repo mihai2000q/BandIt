@@ -3,9 +3,10 @@ package com.bandit.ui.songs.albums
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.ui.songs.SongsViewModel
+import com.bandit.ui.template.AlbumDialogFragment
 import com.bandit.util.ParserUtils
 import com.google.android.material.badge.BadgeDrawable
 

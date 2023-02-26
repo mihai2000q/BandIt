@@ -6,7 +6,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
 import com.bandit.ui.schedule.ScheduleDetailDialogFragment

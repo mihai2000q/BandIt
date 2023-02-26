@@ -9,7 +9,7 @@ import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.ui.adapter.BandInvitationAdapter
 import com.bandit.util.AndroidUtils

@@ -1,6 +1,6 @@
 package com.bandit.data.model
 
-import com.bandit.template.TemplateModel
+import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 import java.time.Duration
 import java.time.LocalDate
@@ -13,7 +13,7 @@ data class Song(
     var albumName: String? = null,
     var albumId: Long? = null,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : TemplateModel(id), Comparable<Song> {
+) : Item(id), Comparable<Song> {
     override fun compareTo(other: Song): Int {
         return if(this.releaseDate.compareTo(other.releaseDate) == 0)
             this.name.compareTo(other.name)

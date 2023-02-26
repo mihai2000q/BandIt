@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendRequestBinding
 import com.bandit.ui.friends.FriendsViewModel

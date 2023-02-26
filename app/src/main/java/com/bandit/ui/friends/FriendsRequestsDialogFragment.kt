@@ -9,7 +9,7 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentFriendsBinding
 import com.bandit.ui.adapter.FriendRequestAdapter

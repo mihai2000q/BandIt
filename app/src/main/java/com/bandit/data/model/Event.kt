@@ -2,7 +2,7 @@ package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
 import com.bandit.extension.normalizeWord
-import com.bandit.template.TemplateModel
+import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 import java.time.Duration
 import java.time.LocalDateTime
@@ -14,7 +14,7 @@ open class Event(
     val type: BandItEnums.Event.Type,
     open val bandId: Long,
     override val id: Long = AndroidUtils.generateRandomLong()
-) : TemplateModel(id), Comparable<Event> {
+) : Item(id), Comparable<Event> {
     override fun compareTo(other: Event): Int {
         return this.dateTime.compareTo(other.dateTime)
     }

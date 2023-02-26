@@ -3,7 +3,7 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
-import com.bandit.template.TemplateRepository
+import com.bandit.data.template.TemplateRepository
 import java.time.Duration
 import java.time.LocalDate
 import com.bandit.util.FilterUtils.filter

@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.component.AndroidComponents
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Task
 import com.bandit.databinding.ModelTaskBinding
 import com.bandit.ui.todolist.TodoListViewModel

@@ -32,8 +32,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bandit.LoadingActivity
 import com.bandit.R
-import com.bandit.component.AndroidComponents
-import com.bandit.component.LoadingDialogFragment
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.LoadingDialogFragment
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
