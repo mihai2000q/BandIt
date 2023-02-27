@@ -85,7 +85,7 @@ class ScheduleFragment : Fragment(),
 
             with(viewModel.currentDate.value!!) {
                 val cal = Calendar.Builder()
-                cal.setDate(year, month.ordinal, dayOfMonth)
+                cal.setDate(this.year, this.month.ordinal, this.dayOfMonth)
                 scheduleCalendarView.setDate(cal.build())
             }
             highlightDays()
