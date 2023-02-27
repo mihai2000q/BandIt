@@ -44,10 +44,8 @@ interface Database {
      * @param item any type of object
      */
     suspend fun edit(item: Any)
-    suspend fun setUserAccountSetup(userUid: String, email: String, isAccountSetup: Boolean)
     suspend fun isUserAccountSetup(userUid: String): Boolean?
     suspend fun createBand(name: String)
-    suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto)
     suspend fun sendBandInvitation(account: Account)
     suspend fun acceptBandInvitation(bandInvitation: BandInvitation)
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation)

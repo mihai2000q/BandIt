@@ -58,15 +58,11 @@ class FirebaseDatabase : Database {
         async { set(item) }
     }.await()
 
-    override suspend fun setUserAccountSetup(
-        userUid: String,
-        email: String,
-        isAccountSetup: Boolean
-    ) = coroutineScope {
+    private suspend fun setUserAccountSetup(userAccountDto: UserAccountDto) = coroutineScope {
         async {
             _firestore.collection(Constants.Firebase.Database.USER_ACCOUNT_SETUPS)
-                .document(generateDocumentNameUserUid(userUid))
-                .set(UserAccountDto(isAccountSetup, userUid, email))
+                .document(generateDocumentNameUserUid(userAccountDto.userUid!!))
+                .set(userAccountDto)
                 .await()
             return@async
         }
@@ -109,12 +105,11 @@ class FirebaseDatabase : Database {
                     this@FirebaseDatabase.add(band)
                 }.invokeOnCompletion {
                     launch {
-                        this@FirebaseDatabase.setBandInvitation(
-                            BandInvitationDto(
-                                AndroidUtils.generateRandomLong(),
-                                band.id,
-                                _currentAccount.id,
-                                true
+                        this@FirebaseDatabase.add(
+                            BandInvitation(
+                                band = _currentBand,
+                                account = _currentAccount,
+                                hasAccepted = true
                             )
                         )
                     }.invokeOnCompletion {
@@ -130,30 +125,14 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    override suspend fun setBandInvitation(bandInvitationDto: BandInvitationDto) = coroutineScope {
-        async {
-            _firestore.collection(Constants.Firebase.Database.BAND_INVITATIONS)
-                .document(
-                    generateDocumentNameId(
-                        Constants.Firebase.Database.BAND_INVITATIONS,
-                        bandInvitationDto.id
-                    )
-                )
-                .set(bandInvitationDto)
-                .await()
-            return@async
-        }
-    }.await()
-
     override suspend fun sendBandInvitation(account: Account) = coroutineScope {
         async {
             _currentBand.members[account] = false
-            this@FirebaseDatabase.setBandInvitation(
-                BandInvitationDto(
-                    AndroidUtils.generateRandomLong(),
-                    currentBand.id,
-                    account.id,
-                    false
+            this@FirebaseDatabase.add(
+                BandInvitation(
+                    band = currentBand,
+                    account = account,
+                    hasAccepted = false
                 )
             )
         }
@@ -161,15 +140,10 @@ class FirebaseDatabase : Database {
 
     override suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         async {
-            lateinit var dto: BandInvitationDto
-            launch {
-                // get the Dto of this band invitation
-                dto = BandInvitationMapper.fromItemToDto(bandInvitations.first { it.id == bandInvitation.id })
-            }.invokeOnCompletion {
                 launch {
                     // accept the invitation and update the database
-                    dto.accepted = true
-                    this@FirebaseDatabase.setBandInvitation(dto)
+                    bandInvitation.hasAccepted = true
+                    this@FirebaseDatabase.add(bandInvitation)
                     bandInvitations.remove(bandInvitation)
                 }.invokeOnCompletion {
                     launch {
@@ -192,7 +166,6 @@ class FirebaseDatabase : Database {
                                     }
                             }
                     }
-                }
             }
             return@async
         }
@@ -314,6 +287,7 @@ class FirebaseDatabase : Database {
     private suspend fun set(item: Any) = coroutineScope {
         async {
             when(item) {
+                is UserAccountDto -> { setUserAccountSetup(item) }
                 is Account -> {
                     setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
                     _currentAccount = item
@@ -321,6 +295,9 @@ class FirebaseDatabase : Database {
                 is Band -> {
                     setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
                     _currentBand = item
+                }
+                is BandInvitation -> {
+                    setItem(Constants.Firebase.Database.BAND_INVITATIONS, BandInvitationMapper.fromItemToDto(item))
                 }
                 is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
                 is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
