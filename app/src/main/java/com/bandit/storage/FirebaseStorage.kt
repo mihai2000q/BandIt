@@ -13,7 +13,7 @@ import kotlinx.coroutines.tasks.await
 class FirebaseStorage : Storage {
     private val _storage = Firebase.storage
 
-    override suspend fun setProfilePicture(userUid: String?, imageUri: Uri) =
+    override suspend fun saveProfilePicture(userUid: String?, imageUri: Uri) =
     coroutineScope {
         async {
             val profilePicRef = _storage.reference

@@ -8,7 +8,7 @@ interface Storage {
      * @param userUid the user unique ID
      * @param imageUri the given image
      */
-    suspend fun setProfilePicture(userUid: String?, imageUri: Uri)
+    suspend fun saveProfilePicture(userUid: String?, imageUri: Uri)
     /**
      * This method returns the profile picture for a user
      * @param userUid the user unique id

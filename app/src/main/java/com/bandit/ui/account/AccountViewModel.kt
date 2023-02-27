@@ -37,7 +37,7 @@ class AccountViewModel : ViewModel() {
     }
 
     suspend fun saveProfilePicture(imageUri: Uri) = coroutineScope {
-        _storage.setProfilePicture(_auth.currentUser?.uid, imageUri)
+        _storage.saveProfilePicture(_auth.currentUser?.uid, imageUri)
     }
 
     suspend fun getProfilePicture(): ByteArray = coroutineScope {
