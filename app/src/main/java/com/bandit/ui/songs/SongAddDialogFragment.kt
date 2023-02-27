@@ -3,17 +3,18 @@ package com.bandit.ui.songs
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
-import com.bandit.di.DILocator
+import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.template.SongDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
 class SongAddDialogFragment : SongDialogFragment() {
-    private val _database = DILocator.getDatabase()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +37,7 @@ class SongAddDialogFragment : SongDialogFragment() {
             viewModel.addSong(
                 Song(
                     songEtName.text.toString(),
-                    _database.currentBand.id,
+                    bandViewModel.band.value!!.id,
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
                     ParserUtils.parseDuration(songEtDuration.text.toString())
                 )

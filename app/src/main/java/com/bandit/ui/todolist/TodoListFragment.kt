@@ -11,8 +11,8 @@ import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.component.TypingBottomSheetDialogFragment
 import com.bandit.data.model.Task
 import com.bandit.databinding.FragmentTodolistBinding
-import com.bandit.di.DILocator
 import com.bandit.ui.adapter.TaskAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 
 class TodoListFragment : Fragment() {
@@ -20,6 +20,7 @@ class TodoListFragment : Fragment() {
     private var _binding: FragmentTodolistBinding? = null
     private val binding get() = _binding!!
     private val viewModel: TodoListViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,7 @@ class TodoListFragment : Fragment() {
                     Task(
                         checked = false,
                         message = it.text.toString(),
-                        bandId = DILocator.getDatabase().currentBand.id
+                        bandId = bandViewModel.band.value!!.id
                     )
                 )
                 AndroidComponents.toastNotification(
@@ -54,36 +55,23 @@ class TodoListFragment : Fragment() {
                 todolistRvTasks,
                 todolistRvEmpty,
                 todolistRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty TaskAdapter(
                         this@TodoListFragment, it.sorted(), viewModel)
                 }
             )
-            viewModel.tasks.observe(viewLifecycleOwner) {
-                if(DILocator.getDatabase().currentBand.isEmpty()) {
-                    todolistRvTasks.visibility = View.GONE
-                    todolistRvBandEmpty.visibility = View.VISIBLE
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    todolistBtAdd
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        typingBottomSheetDialogFragment,
+                        childFragmentManager
+                    )
                 }
-                else if(it.isEmpty()) {
-                    todolistRvTasks.visibility = View.GONE
-                    todolistRvEmpty.visibility = View.VISIBLE
-                } else {
-                    todolistRvTasks.adapter =
-                        TaskAdapter(this@TodoListFragment, it.sorted(), viewModel)
-                    todolistRvTasks.visibility = View.VISIBLE
-                    todolistRvEmpty.visibility = View.GONE
-                    todolistRvBandEmpty.visibility = View.GONE
-                }
-            }
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                todolistBtAdd
-            ) {
-                AndroidUtils.showDialogFragment(
-                    typingBottomSheetDialogFragment,
-                    childFragmentManager
-                )
             }
         }
     }

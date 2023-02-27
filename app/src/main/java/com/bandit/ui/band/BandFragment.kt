@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.BandMemberAdapter
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
@@ -21,6 +22,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
     private val friendsViewModel: FriendsViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +72,9 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 }
             }
             viewModel.members.observe(viewLifecycleOwner) {
-                bandRvMemberList.adapter = BandMemberAdapter(this@BandFragment, it, friendsViewModel)
+                bandRvMemberList.adapter = BandMemberAdapter(
+                    this@BandFragment, it, friendsViewModel, accountViewModel.account.value!!
+                )
             }
             bandBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(

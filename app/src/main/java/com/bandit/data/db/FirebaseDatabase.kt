@@ -108,7 +108,7 @@ class FirebaseDatabase : Database {
             _currentBand.members[account] = false
             this@FirebaseDatabase.add(
                 BandInvitation(
-                    band = currentBand,
+                    band = _currentBand,
                     account = account,
                     hasAccepted = false
                 )

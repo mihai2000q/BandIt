@@ -73,7 +73,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
                     AndroidUtils.loadDialogFragment(this@AccountDialogFragment) { updateAccount() }
             }
             val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
-                viewModel.updateProfilePicture(it)
+                viewModel.saveProfilePicture(it)
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.account_profile_pic_updated_toast)

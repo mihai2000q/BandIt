@@ -13,6 +13,7 @@ import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IValidatorService
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.util.AndroidUtils
 
 class BandCreateDialogFragment : DialogFragment() {
@@ -20,6 +21,7 @@ class BandCreateDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentCreateBandBinding? = null
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
@@ -49,7 +51,9 @@ class BandCreateDialogFragment : DialogFragment() {
                 if(!validateFields()) return@setOnClickListener
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
-                    AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) { this.createBand() }
+                    AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) {
+                        this.createBand(accountViewModel.account.value!!.id)
+                    }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_create_toast)

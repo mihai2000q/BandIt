@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelBandMemberBinding
-import com.bandit.di.DILocator
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
 data class BandMemberAdapter(
     private val fragment: Fragment,
     private val members: MutableMap<Account, Boolean>,
-    private val viewModel: FriendsViewModel
+    private val viewModel: FriendsViewModel,
+    private val creator: Account
+
 ) : RecyclerView.Adapter<BandMemberAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ModelBandMemberBinding) : RecyclerView.ViewHolder(binding.root)
@@ -40,7 +41,7 @@ data class BandMemberAdapter(
         with(holder.binding) {
             memberNickname.text = account.nickname
             memberRole.text = account.printRole()
-            if(DILocator.getDatabase().currentBand.creator == account.id)
+            if(creator == account)
                 memberStatus.setText(R.string.band_member_creator)
             else if(hasAccepted) {
                 memberStatus.setText(R.string.band_member_accepted_true)

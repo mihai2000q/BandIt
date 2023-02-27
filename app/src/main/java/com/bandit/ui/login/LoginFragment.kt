@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.repository.AccountRepository
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
@@ -30,7 +31,6 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
-    private val _database = DILocator.getDatabase()
     private lateinit var validatorService: IValidatorService
     private lateinit var preferencesService: IPreferencesService
 
@@ -89,7 +89,7 @@ class LoginFragment : Fragment() {
         with(binding) {
             if(validateFields()) {
                 if(AndroidUtils.isNetworkAvailable()) {
-                    if (_database.isEmailInUse(loginEtEmail.text.toString())) {
+                    if (viewModel.database.isEmailInUse(loginEtEmail.text.toString())) {
                         viewModel.signInWithEmailAndPassword(
                             loginEtEmail.text.toString(),
                             loginEtPassword.text.toString(),
@@ -113,7 +113,7 @@ class LoginFragment : Fragment() {
         /*return validatorService.validateEmailVerified(
             binding.loginEtEmail,
             { login() },
-            DILocator.getAuthenticator()
+            viewModel.auth
         )*/
         return login()
     }
@@ -141,9 +141,12 @@ class LoginFragment : Fragment() {
 
     private suspend fun login(): Boolean? = coroutineScope {
         async {
-            val result = _database.isUserAccountSetup(DILocator.getAuthenticator().currentUser!!.uid)
+            val result = AccountRepository.isUserAccountSetup(
+                viewModel.database,
+                viewModel.auth.currentUser!!.uid
+            )
             if (result == true) {
-                _database.init(DILocator.getAuthenticator().currentUser!!.uid)
+                viewModel.database.init(viewModel.auth.currentUser!!.uid)
                 preferencesService.savePreference(
                     Constants.Preferences.REMEMBER_ME,
                     binding.loginCbRemember.isChecked

@@ -9,8 +9,8 @@ import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
-import com.bandit.di.DILocator
 import com.bandit.data.mapper.ConcertMapper
+import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.ui.template.ConcertDialogFragment
 import com.bandit.util.AndroidUtils
@@ -19,7 +19,7 @@ import com.bandit.util.ParserUtils
 class ConcertAddDialogFragment : ConcertDialogFragment() {
 
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
-    private val _database = DILocator.getDatabase()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +47,7 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
                     concertEtTime.text.toString()
                 ),
                 duration = ParserUtils.parseDuration(concertEtDuration.text.toString()),
-                bandId = _database.currentBand.id,
+                bandId = bandViewModel.band.value!!.id,
                 city = concertEtCity.text.toString(),
                 country = concertEtCountry.text.toString(),
                 place = concertEtPlace.text.toString(),
