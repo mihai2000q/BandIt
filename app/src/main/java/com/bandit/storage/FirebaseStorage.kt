@@ -22,14 +22,14 @@ class FirebaseStorage : Storage {
                 .putFile(imageUri)
                 .addOnSuccessListener {
                     Log.i(
-                        Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
-                                "was uploaded successfully"
+                        Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
+                                " was uploaded successfully"
                     )
                 }
                 .addOnFailureListener {
-                    Log.w(
-                        Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
-                                "had problems while uploading"
+                    Log.e(
+                        Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
+                                " had problems while uploading"
                     )
                 }
                 .await()
@@ -47,14 +47,14 @@ class FirebaseStorage : Storage {
                         .getBytes(Constants.ONE_GIGABYTE)
                         .addOnSuccessListener {
                             Log.i(
-                                Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
-                                        "was uploaded successfully"
+                                Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
+                                        " was uploaded successfully"
                             )
                         }
                         .addOnFailureListener {
-                            Log.w(
-                                Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid " +
-                                        "had problems while uploading"
+                            Log.e(
+                                Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
+                                        " had problems while looking up"
                             )
                         }
                         .await()
