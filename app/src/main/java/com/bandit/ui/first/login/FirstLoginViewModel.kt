@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import com.bandit.data.dto.UserAccountDto
 import com.bandit.data.model.Account
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
@@ -28,11 +29,11 @@ class FirstLoginViewModel : ViewModel() {
                 userUid = _auth.currentUser?.uid
             )
         )
-        _database.setUserAccountSetup(
-            _auth.currentUser?.email ?: "",
-            _auth.currentUser?.uid ?: "",
-            true
-        )
+        _database.add(UserAccountDto(
+            email = _auth.currentUser?.email ?: "",
+            userUid = _auth.currentUser?.uid ?: "",
+            accountSetup =  true
+        ))
     }
 
     suspend fun saveProfilePicture(uri: Uri) = coroutineScope {
