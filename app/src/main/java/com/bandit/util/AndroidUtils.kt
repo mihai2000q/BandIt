@@ -1,5 +1,6 @@
 package com.bandit.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -76,6 +77,7 @@ object AndroidUtils {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
+    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -89,6 +91,7 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
+    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -237,18 +240,20 @@ object AndroidUtils {
         }
     }
 
+    //TODO add a band observer
     fun <T : Comparable<T>> setRecyclerViewEmpty(
         viewLifecycleOwner: LifecycleOwner,
         list: LiveData<List<T>>,
         rvList: RecyclerView,
         rvEmpty: LinearLayout,
         rvBandEmpty: LinearLayout,
+        band: LiveData<Band>,
         adapter: (list: List<T>) -> Adapter<*>,
         additional: (() -> Unit)? = null
     ) {
         list.observe(viewLifecycleOwner) {
             additional?.invoke()
-            if(DILocator.getDatabase().currentBand.isEmpty()) {
+            if(band.value!!.isEmpty()) {
                 rvList.visibility = View.GONE
                 rvEmpty.visibility = View.GONE
                 rvBandEmpty.visibility = View.VISIBLE

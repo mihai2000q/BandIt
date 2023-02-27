@@ -11,8 +11,8 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentConcertsBinding
-import com.bandit.di.DILocator
 import com.bandit.ui.adapter.ConcertAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
 
@@ -20,7 +20,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
-    val viewModel: ConcertsViewModel by activityViewModels()
+    private val viewModel: ConcertsViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,25 +43,27 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
             )
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             concertsHeader.headerTvTitle.setText(R.string.title_concerts)
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                concertsBtAdd
-            ) {
-                AndroidUtils.showDialogFragment(
-                    concertAddDialogFragment,
-                    childFragmentManager
-                )
-            }
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                concertsBtFilter
-            ) {
-                AndroidUtils.showDialogFragment(
-                    concertFilterDialogFragment,
-                    childFragmentManager
-                )
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    concertsBtAdd
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        concertAddDialogFragment,
+                        childFragmentManager
+                    )
+                }
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    concertsBtFilter
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        concertFilterDialogFragment,
+                        childFragmentManager
+                    )
+                }
             }
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
@@ -68,6 +71,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsList,
                 concertsRvEmpty,
                 concertsRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty ConcertAdapter(
                         this@ConcertsFragment,

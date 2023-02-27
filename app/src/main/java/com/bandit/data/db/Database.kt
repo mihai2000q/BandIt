@@ -1,6 +1,5 @@
 package com.bandit.data.db
 
-import com.bandit.data.dto.BandInvitationDto
 import com.bandit.data.model.*
 
 /**

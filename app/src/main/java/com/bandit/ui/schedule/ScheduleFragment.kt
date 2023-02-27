@@ -17,8 +17,8 @@ import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentScheduleBinding
-import com.bandit.di.DILocator
 import com.bandit.ui.adapter.EventAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.delay
 import java.util.*
@@ -31,6 +31,7 @@ class ScheduleFragment : Fragment(),
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
     private var viewTypeIndex = MutableLiveData(0)
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
 
@@ -99,6 +100,7 @@ class ScheduleFragment : Fragment(),
                 scheduleEventsView,
                 scheduleRvEmpty,
                 scheduleRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
@@ -110,15 +112,17 @@ class ScheduleFragment : Fragment(),
                 if(viewModel.calendarMode.value == false) return@setRecyclerViewEmpty
                 highlightDays()
             }
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                scheduleBtAdd
-            ) {
-                AndroidUtils.showDialogFragment(
-                    scheduleAddDialogFragment,
-                    childFragmentManager
-                )
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    scheduleBtAdd
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        scheduleAddDialogFragment,
+                        childFragmentManager
+                    )
+                }
             }
         }
     }
@@ -137,6 +141,7 @@ class ScheduleFragment : Fragment(),
                 scheduleEventsView,
                 scheduleRvEmpty,
                 scheduleRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
@@ -147,16 +152,18 @@ class ScheduleFragment : Fragment(),
             ) {
                 if(viewModel.calendarMode.value == true) return@setRecyclerViewEmpty
             }
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                scheduleBtAdd
-            ) {
-                scheduleAddDialogFragment.date.value = null
-                AndroidUtils.showDialogFragment(
-                    scheduleAddDialogFragment,
-                    childFragmentManager
-                )
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    scheduleBtAdd
+                ) {
+                    scheduleAddDialogFragment.date.value = null
+                    AndroidUtils.showDialogFragment(
+                        scheduleAddDialogFragment,
+                        childFragmentManager
+                    )
+                }
             }
         }
     }

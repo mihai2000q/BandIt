@@ -49,7 +49,9 @@ class BandCreateDialogFragment : DialogFragment() {
                 if(!validateFields()) return@setOnClickListener
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
-                    AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) { this.createBand() }
+                    AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) {
+                        this.createBand(DILocator.getDatabase().currentAccount.id)
+                    }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
                         resources.getString(R.string.band_create_toast)

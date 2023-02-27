@@ -14,18 +14,23 @@ import com.bandit.util.FilterUtils
 import kotlinx.coroutines.launch
 
 class BandViewModel : ViewModel() {
-    private val _database = DILocator.getDatabase()
-    private val _band = MutableLiveData(_database.currentBand)
+    private val _repository = BandRepository(DILocator.getDatabase())
+    private val _band = MutableLiveData(_repository.band)
     val band: LiveData<Band> = _band
     private val _members = MutableLiveData(band.value?.members ?: mutableMapOf())
     val members: LiveData<MutableMap<Account, Boolean>> = _members
-    private val _repository = BandRepository(_database)
     private val _bandInvitations = MutableLiveData(_repository.bandInvitations)
     val bandInvitations: LiveData<List<BandInvitation>> = _bandInvitations
     val name = MutableLiveData<String>()
     val bandTabOpen = MutableLiveData(false)
-    suspend fun createBand() = viewModelScope.launch {
-        launch { _repository.createBand(name.value!!) }.join()
+    suspend fun createBand(creatorId: Long) = viewModelScope.launch {
+        launch { _repository.createBand(
+            Band(
+                name = name.value!!,
+                creator = creatorId,
+                members = mutableMapOf()
+            )
+        ) }.join()
         refresh()
     }
 
@@ -53,7 +58,7 @@ class BandViewModel : ViewModel() {
     }
 
     fun refresh() {
-        _band.value = _database.currentBand
+        _band.value = _repository.band
         _members.value = _band.value?.members
         _bandInvitations.value = _repository.bandInvitations
     }

@@ -14,9 +14,9 @@ import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Song
 import com.bandit.databinding.FragmentSongsBinding
-import com.bandit.di.DILocator
 import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
 import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
@@ -27,6 +27,7 @@ class SongsFragment : Fragment() {
     private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
     private lateinit var badgeDrawable: BadgeDrawable
 
     override fun onCreateView(
@@ -47,13 +48,15 @@ class SongsFragment : Fragment() {
                 songsHeader.headerBtAccount
             )
             songsHeader.headerTvTitle.setText(R.string.title_songs)
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                songsBtAlbumMode
-            ) {
-                songsSearchView.setQuery("", false)
-                viewModel.albumMode.value = !viewModel.albumMode.value!!
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    songsBtAlbumMode
+                ) {
+                    songsSearchView.setQuery("", false)
+                    viewModel.albumMode.value = !viewModel.albumMode.value!!
+                }
             }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
@@ -83,6 +86,7 @@ class SongsFragment : Fragment() {
                 songsList,
                 songsRvEmpty,
                 songsRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty AlbumAdapter(
                         this@SongsFragment, it, viewModel)
@@ -143,6 +147,7 @@ class SongsFragment : Fragment() {
                 songsList,
                 songsRvEmpty,
                 songsRvBandEmpty,
+                bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty SongAdapter(
                         this@SongsFragment,
@@ -199,25 +204,27 @@ class SongsFragment : Fragment() {
                     drawableIcon
                 )
             )
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                songsBtAdd
-            ) {
-                AndroidUtils.showDialogFragment(
-                    addDialogFragment,
-                    childFragmentManager
-                )
-            }
-            AndroidUtils.disableIfBandNull(
-                resources,
-                DILocator.getDatabase().currentBand,
-                songsBtFilter
-            ) {
-                AndroidUtils.showDialogFragment(
-                    filterDialogFragment,
-                    childFragmentManager
-                )
+            bandViewModel.band.observe(viewLifecycleOwner) {
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    songsBtAdd
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        addDialogFragment,
+                        childFragmentManager
+                    )
+                }
+                AndroidUtils.disableIfBandNull(
+                    resources,
+                    it,
+                    songsBtFilter
+                ) {
+                    AndroidUtils.showDialogFragment(
+                        filterDialogFragment,
+                        childFragmentManager
+                    )
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
+import com.bandit.di.DILocator
 import com.bandit.ui.adapter.BandMemberAdapter
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
@@ -70,7 +71,9 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 }
             }
             viewModel.members.observe(viewLifecycleOwner) {
-                bandRvMemberList.adapter = BandMemberAdapter(this@BandFragment, it, friendsViewModel)
+                bandRvMemberList.adapter = BandMemberAdapter(
+                    this@BandFragment, it, friendsViewModel, DILocator.getDatabase().currentAccount
+                )
             }
             bandBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
