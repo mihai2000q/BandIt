@@ -28,7 +28,6 @@ interface Database {
      * This method is used to add an item to the database
      * (if the data type is not supported, it will simply be ignored).
      * @param item any type of object
-     *
      */
     suspend fun add(item: Any)
     /**
@@ -43,6 +42,11 @@ interface Database {
      * @param item any type of object
      */
     suspend fun edit(item: Any)
+    /**
+     * This method is used to check whether a user has setup their account yet
+     * @param userUid the user that is checked
+     * @return result of the query
+     */
     suspend fun isUserAccountSetup(userUid: String): Boolean?
     /**
      * This method creates the given Band object
@@ -51,13 +55,34 @@ interface Database {
      */
     suspend fun createBand(band: Band)
     /**
-     *
+     * This method is used to send a band invitation to an user
+     * @param account is the user account which receives the invitation
      */
     suspend fun sendBandInvitation(account: Account)
+    /**
+     * This method is used to accept a band invitation
+     * @param bandInvitation is the invitation
+     */
     suspend fun acceptBandInvitation(bandInvitation: BandInvitation)
+    /**
+     * This method is used to reject a band invitation
+     * @param bandInvitation is the invitation
+     */
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation)
+    /**
+     * This method is used to send a friend request to another user
+     * @param account is the account which receives the request
+     */
     suspend fun sendFriendRequest(account: Account)
+    /**
+     * This method is used to accept a friend request from a user
+     * @param account is the account which becomes your friend
+     */
     suspend fun acceptFriendRequest(account: Account)
+    /**
+     * This method is used to reject a friend request from a user
+     * @param account is the account which you reject
+     */
     suspend fun rejectFriendRequest(account: Account)
     /**
      * This method verifies whether the given email is in use or not.

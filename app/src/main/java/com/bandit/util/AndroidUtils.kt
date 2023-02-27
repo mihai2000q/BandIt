@@ -240,7 +240,6 @@ object AndroidUtils {
         }
     }
 
-    //TODO add a band observer
     fun <T : Comparable<T>> setRecyclerViewEmpty(
         viewLifecycleOwner: LifecycleOwner,
         list: LiveData<List<T>>,
@@ -281,7 +280,7 @@ object AndroidUtils {
         list.observe(viewLifecycleOwner) {
             if(it.isEmpty()) {
                 rvList.visibility = View.GONE
-                rvEmpty.visibility = View.GONE
+                rvEmpty.visibility = View.VISIBLE
             } else {
                 rvList.adapter = adapter(it)
                 rvList.visibility = View.VISIBLE
