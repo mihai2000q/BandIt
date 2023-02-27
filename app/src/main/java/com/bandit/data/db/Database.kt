@@ -45,7 +45,15 @@ interface Database {
      */
     suspend fun edit(item: Any)
     suspend fun isUserAccountSetup(userUid: String): Boolean?
-    suspend fun createBand(name: String)
+    /**
+     * This method creates the given Band object
+     * and updates all the components linked to it
+     * @param band the given band input
+     */
+    suspend fun createBand(band: Band)
+    /**
+     *
+     */
     suspend fun sendBandInvitation(account: Account)
     suspend fun acceptBandInvitation(bandInvitation: BandInvitation)
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation)

@@ -2,6 +2,7 @@ package com.bandit.data.repository
 
 import com.bandit.data.db.Database
 import com.bandit.data.model.Account
+import com.bandit.data.model.Band
 import com.bandit.data.model.BandInvitation
 import com.bandit.util.FilterUtils
 
@@ -10,7 +11,13 @@ class BandRepository(val database: Database? = null) {
     val bandInvitations: List<BandInvitation> = _bandInvitations
 
     suspend fun createBand(name: String) {
-        database?.createBand(name)
+        database?.createBand(
+            Band(
+                name = name,
+                creator = database.currentAccount.id,
+                mutableMapOf()
+            )
+        )
         _bandInvitations.clear()
     }
 
