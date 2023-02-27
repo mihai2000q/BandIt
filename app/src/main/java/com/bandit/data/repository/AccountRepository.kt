@@ -70,5 +70,8 @@ class AccountRepository(private val _database: Database? = null) {
                 )
             )
         }
+        suspend fun isUserAccountSetup(database: Database, userUid: String) =
+            database.isUserAccountSetup(userUid)
+
     }
 }

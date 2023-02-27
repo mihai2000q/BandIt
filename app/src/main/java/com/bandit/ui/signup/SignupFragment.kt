@@ -22,7 +22,6 @@ class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
-    private val _database = DILocator.getDatabase()
     private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
@@ -67,8 +66,8 @@ class SignupFragment : Fragment() {
             binding.signupTitle
         )
         if (validateFields()) {
-            if (!_database.isEmailInUse(binding.signupEtEmail.text.toString()))
-                signUp()
+            if (!viewModel.database.isEmailInUse(binding.signupEtEmail.text.toString()))
+                this.signUp()
             else
                 binding.signupEtEmail.error = resources.getString(R.string.et_email_validation_email_already_used)
         }

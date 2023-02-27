@@ -78,8 +78,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun authentication(): Boolean? {
-        return if(preferencesService.getBooleanPreference(Constants.Preferences.REMEMBER_ME)
-            && DILocator.getAuthenticator().currentUser != null
+        return if(
+            preferencesService.getBooleanPreference(Constants.Preferences.REMEMBER_ME) &&
+            DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {
                 AndroidUtils.lockNavigation(

@@ -10,9 +10,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
 class LoginViewModel : ViewModel() {
+    private val _database = DILocator.getDatabase()
+    private val _auth = DILocator.getAuthenticator()
+    val auth get() = _auth
+    val database get() = _database
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> get() = _email
-    private val _auth = DILocator.getAuthenticator()
     init {
         if(_auth.currentUser != null)
             _email.value = _auth.currentUser?.email

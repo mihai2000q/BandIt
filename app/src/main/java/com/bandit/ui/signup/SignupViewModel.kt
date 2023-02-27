@@ -9,13 +9,16 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class SignupViewModel : ViewModel() {
+    private val _database = DILocator.getDatabase()
+    private val _auth = DILocator.getAuthenticator()
+    val database get() = _database
     val email = MutableLiveData<String>()
     suspend fun createUser(password: String) {
         coroutineScope {
-            launch { DILocator.getAuthenticator().createUser(email.value!!, password) }.join()
+            launch { _auth.createUser(email.value!!, password) }.join()
             launch { AccountRepository.setUserAccountSetup(
-                DILocator.getDatabase(),
-                DILocator.getAuthenticator(),
+                _database,
+                _auth,
                 false
             ) }.join()
         }
