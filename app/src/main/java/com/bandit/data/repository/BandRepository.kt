@@ -9,8 +9,8 @@ import com.bandit.util.FilterUtils
 class BandRepository(val database: Database? = null) {
     private val _bandInvitations: MutableList<BandInvitation> = database?.bandInvitations?.toMutableList() ?: mutableListOf()
     val bandInvitations: List<BandInvitation> = _bandInvitations
-    private var _band = database?.currentBand
-    val band get() = _band!!
+    private var _band = database?.currentBand ?: Band.EMPTY
+    val band get() = _band
 
     suspend fun createBand(band: Band) {
         database?.createBand(band)

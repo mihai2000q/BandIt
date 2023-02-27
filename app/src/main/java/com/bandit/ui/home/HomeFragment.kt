@@ -11,16 +11,14 @@ import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentHomeBinding
-import com.bandit.di.DILocator
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.HomeButtonAdapter
-import com.bandit.ui.band.BandInvitationDialogFragment
-import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val _database = DILocator.getDatabase()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private val _buttons = mapOf(
         "Concerts" to BandItEnums.Home.NavigationType.Bottom,
         "Songs" to BandItEnums.Home.NavigationType.Bottom,
@@ -61,9 +59,9 @@ class HomeFragment : Fragment() {
 
     private fun drawerHeader() {
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_name)
-            ?.text = _database.currentAccount.name
+            ?.text = accountViewModel.account.value!!.name
         super.requireActivity().findViewById<TextView>(R.id.drawer_header_tv_email)
-            ?.text = _database.currentAccount.email
+            ?.text = accountViewModel.account.value!!.email
     }
 
 }

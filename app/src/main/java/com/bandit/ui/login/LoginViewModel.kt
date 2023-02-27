@@ -12,10 +12,10 @@ import kotlinx.coroutines.coroutineScope
 class LoginViewModel : ViewModel() {
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> get() = _email
-    private val _authenticator = DILocator.getAuthenticator()
+    private val _auth = DILocator.getAuthenticator()
     init {
-        if(_authenticator.currentUser != null)
-            _email.value = _authenticator.currentUser?.email
+        if(_auth.currentUser != null)
+            _email.value = _auth.currentUser?.email
     }
     suspend fun signInWithEmailAndPassword(
         email: String?,
@@ -24,7 +24,7 @@ class LoginViewModel : ViewModel() {
         onFailure: (() -> Unit)? = null
     ) = coroutineScope {
         async {
-            if (_authenticator.signInWithEmailAndPassword(
+            if (_auth.signInWithEmailAndPassword(
                     email ?: "",
                     password ?: ""
                 ) == true

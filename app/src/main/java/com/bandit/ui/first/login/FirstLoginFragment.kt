@@ -22,6 +22,7 @@ import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var _binding: FragmentFirstLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FirstLoginViewModel by activityViewModels()
-    private val _database = DILocator.getDatabase()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private var phase = 0
     private var roleIndex = 0
     private lateinit var validatorService: IValidatorService
@@ -79,7 +80,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
             val imagePickerDialog = ImagePickerDialog(firstLoginProfilePicture) {
-                viewModel.saveProfilePicture(it)
+                accountViewModel.saveProfilePicture(it)
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.account_profile_pic_selected_toast)
@@ -87,6 +88,15 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
             firstLoginProfilePicture.setOnClickListener {
                 AndroidUtils.showDialogFragment(imagePickerDialog, childFragmentManager)
+            }
+            viewModel.name.observe(viewLifecycleOwner) {
+                firstLoginEtName.setText(it)
+            }
+            viewModel.nickname.observe(viewLifecycleOwner) {
+                firstLoginEtNickname.setText(it)
+            }
+            viewModel.role.observe(viewLifecycleOwner) {
+                firstLoginSpinnerRole.setSelection(it.ordinal)
             }
         }
     }
@@ -157,7 +167,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private suspend fun goToHomePage(): Boolean {
-        _database.init(DILocator.getAuthenticator().currentUser!!.uid)
+        DILocator.getDatabase().init(DILocator.getAuthenticator().currentUser!!.uid)
         preferencesService.savePreference(
             Constants.Preferences.REMEMBER_ME,
             this.arguments?.getBoolean(Constants.SafeArgs.REMEMBER_ME) ?: false
@@ -179,7 +189,11 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             Context.INPUT_METHOD_SERVICE,
             binding.firstLoginTitle
         )
-        viewModel.createAccount()
+        accountViewModel.createAccount(
+            viewModel.name.value!!,
+            viewModel.nickname.value!!,
+            viewModel.role.value!!
+        )
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

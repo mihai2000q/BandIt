@@ -10,7 +10,7 @@ import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
-import com.bandit.di.DILocator
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.NoteAdapter
 import com.bandit.util.AndroidUtils
 
@@ -19,6 +19,7 @@ class PersonalNotesFragment : Fragment() {
     private var _binding: FragmentPersonalNotesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonalNotesViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +54,7 @@ class PersonalNotesFragment : Fragment() {
                 Note(
                     resources.getString(R.string.et_title),
                     resources.getString(R.string.default_note_message),
-                    DILocator.getDatabase().currentAccount.id
+                    accountViewModel.account.value!!.id
                 )
             )
         }
