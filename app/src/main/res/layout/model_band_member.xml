@@ -1,65 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="#F3EEEE"
+    android:padding="16dp">
 
-    <data>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/member_profile_picture"
+        android:layout_width="@dimen/friend_pic_dimension_width"
+        android:layout_height="@dimen/friend_pic_dimension_height"
+        android:contentDescription="@string/content_description_account_iv_picture"
+        android:src="@drawable/placeholder_profile_pic"
+        app:civ_border_color="@color/friend_pic_border_color"
+        app:civ_border_width="@dimen/friend_pic_border_width"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
 
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/member_nickname"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="#F3EEEE"
-        android:padding="16dp">
+        android:text="@string/default_value"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/member_role"
+        app:layout_constraintStart_toEndOf="@+id/member_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/member_role"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/member_profile_picture"
-            android:layout_width="@dimen/friend_pic_dimension_width"
-            android:layout_height="@dimen/friend_pic_dimension_height"
-            android:contentDescription="@string/content_description_account_iv_picture"
-            android:src="@drawable/placeholder_profile_pic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:civ_border_width="@dimen/friend_pic_border_width"
-            app:civ_border_color="@color/friend_pic_border_color" />
+    <TextView
+        android:id="@+id/member_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_value"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/member_status"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toEndOf="@+id/member_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/member_nickname" />
 
-        <TextView
-            android:id="@+id/member_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/member_role"
-            app:layout_constraintStart_toEndOf="@+id/member_profile_picture"
-            app:layout_constraintStart_toStartOf="@+id/member_role"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/member_role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/member_status"
-            app:layout_constraintHorizontal_bias="0.07"
-            app:layout_constraintStart_toEndOf="@+id/member_profile_picture"
-            app:layout_constraintTop_toBottomOf="@+id/member_nickname" />
-
-        <TextView
-            android:id="@+id/member_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/default_value"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+    <TextView
+        android:id="@+id/member_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_value"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

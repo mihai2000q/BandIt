@@ -1,105 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="32dp">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <EditText
+        android:id="@+id/schedule_et_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="32dp">
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/et_name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_et_date"
+        app:layout_constraintEnd_toEndOf="@+id/schedule_et_duration"
+        app:layout_constraintStart_toStartOf="@+id/schedule_et_duration"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/schedule_et_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/et_name"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/schedule_et_date"
-            app:layout_constraintEnd_toEndOf="@+id/schedule_et_duration"
-            app:layout_constraintStart_toStartOf="@+id/schedule_et_duration"
-            app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/schedule_et_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="8dp"
+        android:width="100dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_date"
+        android:inputType="date"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_et_duration"
+        app:layout_constraintEnd_toStartOf="@+id/schedule_et_time"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_et_name" />
 
-        <EditText
-            android:id="@+id/schedule_et_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginVertical="8dp"
-            android:width="100dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/concert_field_date"
-            android:inputType="date"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/schedule_et_duration"
-            app:layout_constraintEnd_toStartOf="@+id/schedule_et_time"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/schedule_et_name" />
+    <EditText
+        android:id="@+id/schedule_et_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="8dp"
+        android:width="100dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_time"
+        android:inputType="time"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/schedule_et_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/schedule_et_date"
+        app:layout_constraintTop_toTopOf="@+id/schedule_et_date" />
 
-        <EditText
-            android:id="@+id/schedule_et_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="4dp"
-            android:layout_marginVertical="8dp"
-            android:width="100dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/concert_field_time"
-            android:inputType="time"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toBottomOf="@+id/schedule_et_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/schedule_et_date"
-            app:layout_constraintTop_toTopOf="@+id/schedule_et_date" />
+    <EditText
+        android:id="@+id/schedule_et_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/et_duration"
+        android:inputType="time"
+        android:maxLength="5"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_spinner_type"
+        app:layout_constraintEnd_toEndOf="@+id/schedule_spinner_type"
+        app:layout_constraintStart_toStartOf="@+id/schedule_spinner_type"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_et_date" />
 
-        <EditText
-            android:id="@+id/schedule_et_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/et_duration"
-            android:inputType="time"
-            android:maxLength="5"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/schedule_spinner_type"
-            app:layout_constraintEnd_toEndOf="@+id/schedule_spinner_type"
-            app:layout_constraintStart_toStartOf="@+id/schedule_spinner_type"
-            app:layout_constraintTop_toBottomOf="@+id/schedule_et_date" />
+    <Spinner
+        android:id="@+id/schedule_spinner_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints="@string/et_type"
+        android:contentDescription="@string/content_description_spinner_role"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_button"
+        app:layout_constraintEnd_toEndOf="@+id/schedule_button"
+        app:layout_constraintStart_toStartOf="@+id/schedule_button"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_et_duration" />
 
-        <Spinner
-            android:id="@+id/schedule_spinner_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:autofillHints="@string/et_type"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/schedule_button"
-            app:layout_constraintEnd_toEndOf="@+id/schedule_button"
-            app:layout_constraintStart_toStartOf="@+id/schedule_button"
-            app:layout_constraintTop_toBottomOf="@+id/schedule_et_duration" />
+    <Button
+        android:id="@+id/schedule_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:text="@string/bt_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_spinner_type" />
 
-        <Button
-            android:id="@+id/schedule_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:text="@string/bt_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/schedule_spinner_type" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

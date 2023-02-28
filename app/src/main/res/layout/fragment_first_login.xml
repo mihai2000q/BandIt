@@ -1,291 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ProgressBar
+        android:id="@+id/first_login_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:max="4"
+        android:scaleX="0.75"
+        android:scaleY="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/first_login_progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:max="4"
-            android:scaleX="0.75"
-            android:scaleY="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/first_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:text="@string/first_login_tv_title"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_login_progress_bar"
+        app:layout_constraintVertical_bias="0.00999999" />
 
-        <TextView
-            android:id="@+id/first_login_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:text="@string/first_login_tv_title"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.522"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_progress_bar"
-            app:layout_constraintVertical_bias="0.00999999" />
+    <ViewFlipper
+        android:id="@+id/first_login_image_flipper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoStart="true"
+        android:flipInterval="4000"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        app:layout_constraintBottom_toTopOf="@id/first_login_vf_form"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_login_title">
 
-        <ViewFlipper
-            android:id="@+id/first_login_image_flipper"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autoStart="true"
-            android:flipInterval="4000"
-            android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/slide_out_right"
-            app:layout_constraintBottom_toTopOf="@id/first_login_vf_form"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_title">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_1" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_1" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_2" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_2" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_3" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_3" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_4" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_4" />
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_5" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_5" />
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_6" />
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_6" />
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/content_description_first_login_image"
+            app:srcCompat="@drawable/first_login_7" />
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_description_first_login_image"
-                app:srcCompat="@drawable/first_login_7" />
+    </ViewFlipper>
 
-        </ViewFlipper>
+    <ViewFlipper
+        android:id="@+id/first_login_vf_form"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inAnimation="@android:anim/fade_in"
+        android:outAnimation="@android:anim/fade_out"
+        app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_login_title"
+        app:layout_constraintVertical_bias="0.9">
 
-        <ViewFlipper
-            android:id="@+id/first_login_vf_form"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inAnimation="@android:anim/fade_in"
-            android:outAnimation="@android:anim/fade_out"
-            app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_title"
-            app:layout_constraintVertical_bias="0.9">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+            <TextView
+                android:id="@+id/first_login_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/tv_name"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/first_login_et_name"
+                app:layout_constraintEnd_toStartOf="@+id/first_login_et_name"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/first_login_et_name" />
 
-                <TextView
-                    android:id="@+id/first_login_tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/tv_name"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/first_login_et_name"
-                    app:layout_constraintEnd_toStartOf="@+id/first_login_et_name"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/first_login_et_name" />
+            <EditText
+                android:id="@+id/first_login_et_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/et_name_non_mandatory"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/first_login_tv_name"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <EditText
-                    android:id="@+id/first_login_et_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/et_name_non_mandatory"
-                    android:inputType="textPersonName"
-                    android:minHeight="48dp"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_name"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+            <TextView
+                android:id="@+id/first_login_tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/tv_nickname"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/first_login_et_nickname"
+                app:layout_constraintEnd_toStartOf="@+id/first_login_et_nickname"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/first_login_et_nickname" />
 
-                <TextView
-                    android:id="@+id/first_login_tv_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/tv_nickname"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/first_login_et_nickname"
-                    app:layout_constraintEnd_toStartOf="@+id/first_login_et_nickname"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/first_login_et_nickname" />
+            <EditText
+                android:id="@+id/first_login_et_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/et_nickname"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/first_login_tv_nickname"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <EditText
-                    android:id="@+id/first_login_et_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/et_nickname"
-                    android:inputType="textPersonName"
-                    android:minHeight="48dp"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_nickname"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+            <TextView
+                android:id="@+id/first_login_tv_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/tv_name"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/first_login_spinner_role"
+                app:layout_constraintEnd_toStartOf="@+id/first_login_spinner_role"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/first_login_spinner_role" />
 
-                <TextView
-                    android:id="@+id/first_login_tv_role"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/tv_name"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/first_login_spinner_role"
-                    app:layout_constraintEnd_toStartOf="@+id/first_login_spinner_role"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/first_login_spinner_role" />
+            <Spinner
+                android:id="@+id/first_login_spinner_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/first_login_tv_role"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Spinner
-                    android:id="@+id/first_login_spinner_role"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/first_login_tv_role"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/first_login_profile_picture"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/default_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/first_login_profile_picture"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/default_avatar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/first_login_tv_congrats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_login_tv_subject_last"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/first_login_tv_congrats"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/first_login_tv_subject_last"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    </ViewFlipper>
 
-        </ViewFlipper>
+    <Button
+        android:id="@+id/first_login_bt_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:text="@string/bt_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/first_login_bt_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/first_login_image_flipper"
+        app:layout_constraintVertical_bias="0.51" />
 
-        <Button
-            android:id="@+id/first_login_bt_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:text="@string/bt_next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/first_login_bt_cancel"
-            app:layout_constraintTop_toBottomOf="@+id/first_login_image_flipper"
-            app:layout_constraintVertical_bias="0.51" />
+    <Button
+        android:id="@+id/first_login_bt_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/eton_blue"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:text="@string/bt_cancel"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/first_login_bt_next"
+        app:layout_constraintEnd_toStartOf="@+id/first_login_bt_next"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/first_login_bt_next" />
 
-        <Button
-            android:id="@+id/first_login_bt_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/eton_blue"
-            android:scaleX="1.25"
-            android:scaleY="1.25"
-            android:text="@string/bt_cancel"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/first_login_bt_next"
-            app:layout_constraintEnd_toStartOf="@+id/first_login_bt_next"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/first_login_bt_next" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
