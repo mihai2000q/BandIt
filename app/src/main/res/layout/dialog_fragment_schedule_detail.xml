@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <data>
-
-    </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/schedule_detail_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp"
+        android:text="@string/et_name"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/schedule_detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="8dp"
-            android:text="@string/et_name"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/schedule_detail_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/default_value" />
 
-        <TextView
-            android:id="@+id/schedule_detail_date_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/default_value" />
+    <TextView
+        android:id="@+id/schedule_detail_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/default_value"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/schedule_detail_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="@string/default_value"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/schedule_detail_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="8dp"
-            android:text="@string/default_value" />
-    </LinearLayout>
-</layout>
+    <TextView
+        android:id="@+id/schedule_detail_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp"
+        android:text="@string/default_value" />
+</LinearLayout>

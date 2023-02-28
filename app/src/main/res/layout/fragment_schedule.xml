@@ -1,107 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <data>
-
-    </data>
+    <include
+        android:id="@+id/schedule_header"
+        layout="@layout/header_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <include
-            android:id="@+id/schedule_header"
-            layout="@layout/header_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/schedule_switch_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <SearchView
+            android:id="@+id/schedule_search_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:iconifiedByDefault="false"
+            android:inputType="textPersonName"
+            android:queryHint="@string/search_view" />
+
+        <Spinner
+            android:id="@+id/schedule_spinner_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:autofillHints="@string/et_type"
             tools:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/schedule_bt_add"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/schedule_switch_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-            <SearchView
-                android:id="@+id/schedule_search_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:iconifiedByDefault="false"
-                android:inputType="textPersonName"
-                android:queryHint="@string/search_view" />
-
-            <Spinner
-                android:id="@+id/schedule_spinner_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:autofillHints="@string/et_type"
-                tools:visibility="gone" />
-
-            <ImageButton
-                android:id="@+id/schedule_bt_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:contentDescription="@string/content_description_bt_add"
-                android:minWidth="48dp"
-                app:srcCompat="@drawable/ic_add_circle" />
-        </LinearLayout>
-
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/schedule_calendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:requiresFadingEdge="vertical"
-            app:headerColor="@color/dark_spring_green"
-            app:swipeEnabled="true"
-            app:todayLabelColor="@color/turquoise_green"
-            tools:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/schedule_events_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/model_event"/>
-
-        <LinearLayout
-            android:id="@+id/schedule_rv_empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/schedule_tv_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_view_event_empty"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/schedule_rv_band_empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/recycler_view_empty_band"
-                android:textSize="16sp" />
-        </LinearLayout>
-
+            android:background="#FFFFFF"
+            android:contentDescription="@string/content_description_bt_add"
+            android:minWidth="48dp"
+            app:srcCompat="@drawable/ic_add_circle" />
     </LinearLayout>
-</layout>
+
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/schedule_calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:requiresFadingEdge="vertical"
+        app:headerColor="@color/dark_spring_green"
+        app:swipeEnabled="true"
+        app:todayLabelColor="@color/turquoise_green"
+        tools:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schedule_events_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/model_event"/>
+
+    <LinearLayout
+        android:id="@+id/schedule_rv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/schedule_tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recycler_view_event_empty"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/schedule_rv_band_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recycler_view_empty_band"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

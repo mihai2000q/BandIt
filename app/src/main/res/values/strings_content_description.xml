@@ -12,4 +12,8 @@
     <string name="content_description_bt_add_new_friends">Add New Friends</string>
     <string name="content_description_bt_accept">Accept Request</string>
     <string name="content_description_first_login_image">Sample Image</string>
+    <string name="content_description_spinner_type">Type</string>
+    <string name="content_description_spinner_role">Role</string>
+    <string name="content_description_et_email">Type Email</string>
+    <string name="content_description_et_password">Type Password</string>
 </resources>

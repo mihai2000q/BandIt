@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <data>
-
-    </data>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/home_navigation_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/home_navigation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/default_value"
-            tools:minHeight="150dp"
-            tools:minWidth="150dp" />
-    </LinearLayout>
-</layout>
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/default_value"
+        tools:minHeight="150dp"
+        tools:minWidth="150dp" />
+</LinearLayout>
