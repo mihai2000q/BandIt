@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bandit.constant.Constants
@@ -19,6 +21,7 @@ import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferencesService: IPreferencesService
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +58,17 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         super.setSupportActionBar(binding.mainToolbar)
-        setupActionBarWithNavController(navController)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_concerts, R.id.navigation_songs,
+                R.id.navigation_social, R.id.navigation_schedule
+            ), binding.mainDrawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         this.setupNavigationElements(navController)
-        supportActionBar?.hide()
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         return authentication()
     }
@@ -104,5 +113,17 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         DILocator.getDatabase().clearData()
         viewModelStore.clear()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return if(!binding.mainDrawerLayout.isOpen &&
+            binding.mainDrawerLayout
+                .getDrawerLockMode(binding.mainDrawerMenu) != DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+        ) {
+            binding.mainDrawerLayout.open()
+            true
+        }
+        else
+            false
     }
 }
