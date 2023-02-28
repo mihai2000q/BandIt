@@ -7,6 +7,7 @@
     <fragment
         android:id="@+id/navigation_login"
         android:name="com.bandit.ui.login.LoginFragment"
+        android:label="@string/login_label"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
@@ -17,11 +18,11 @@
         <action
             android:id="@+id/action_navigation_login_to_firstLoginFragment"
             app:destination="@id/navigation_first_login" />
-
     </fragment>
     <fragment
         android:id="@+id/navigation_signup"
         android:name="com.bandit.ui.signup.SignupFragment"
+        android:label="@string/signup_label"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
@@ -30,32 +31,38 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.bandit.ui.home.HomeFragment"
+        android:label="@string/home_label"
         tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
         android:id="@+id/navigation_concerts"
         android:name="com.bandit.ui.concerts.ConcertsFragment"
+        android:label="@string/concerts_label"
         tools:layout="@layout/fragment_concerts"/>
     <fragment
         android:id="@+id/navigation_songs"
         android:name="com.bandit.ui.songs.SongsFragment"
+        android:label="@string/songs_label"
         tools:layout="@layout/fragment_songs"/>
     <fragment
         android:id="@+id/navigation_social"
         android:name="com.bandit.ui.social.SocialFragment"
+        android:label="@string/social_label"
         tools:layout="@layout/fragment_social"/>
     <fragment
         android:id="@+id/navigation_schedule"
         android:name="com.bandit.ui.schedule.ScheduleFragment"
+        android:label="@string/schedule_label"
         tools:layout="@layout/fragment_schedule"/>
     <fragment
         android:id="@+id/navigation_todolist"
         android:name="com.bandit.ui.todolist.TodoListFragment"
+        android:label="@string/todolist_label"
         tools:layout="@layout/fragment_todolist" />
     <fragment
         android:id="@+id/navigation_first_login"
         android:name="com.bandit.ui.first.login.FirstLoginFragment"
-        android:label="FirstLoginFragment"
+        android:label="@string/first_login_label"
         tools:layout="@layout/fragment_first_login">
         <action
             android:id="@+id/action_firstLoginFragment_to_navigation_home"
@@ -67,6 +74,6 @@
     <fragment
         android:id="@+id/navigation_personal_notes"
         android:name="com.bandit.ui.notes.PersonalNotesFragment"
-        android:label="PersonalNotesFragment"
+        android:label="@string/personal_notes_label"
         tools:layout="@layout/fragment_personal_notes" />
 </navigation>
