@@ -1,6 +1,8 @@
 package com.bandit
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -17,6 +19,7 @@ import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
+import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
@@ -92,19 +95,13 @@ class MainActivity : AppCompatActivity() {
             DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {
-                AndroidUtils.lockNavigation(
-                    binding.mainBottomNavigationView,
-                    binding.mainDrawerLayout
-                )
+                AndroidUtils.lockNavigation(this)
                 return null
             }
             DILocator.getDatabase().init(DILocator.getAuthenticator().currentUser!!.uid)
             true
         } else {
-            AndroidUtils.lockNavigation(
-                binding.mainBottomNavigationView,
-                binding.mainDrawerLayout
-            )
+            AndroidUtils.lockNavigation(this)
             false
         }
     }
@@ -113,6 +110,31 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         DILocator.getDatabase().clearData()
         viewModelStore.clear()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val accountButton = menu?.findItem(R.id.action_bar_profile)
+        accountButton?.isVisible = isAccountButtonShown
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_bar_profile -> {
+                val accountDialogFragment = AccountDialogFragment()
+                AndroidUtils.showDialogFragment(
+                    accountDialogFragment,
+                    supportFragmentManager
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -125,5 +147,8 @@ class MainActivity : AppCompatActivity() {
         }
         else
             false
+    }
+    companion object {
+        var isAccountButtonShown = true
     }
 }

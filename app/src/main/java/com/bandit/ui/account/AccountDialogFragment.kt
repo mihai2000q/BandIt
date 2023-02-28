@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +25,7 @@ import com.bandit.util.AndroidUtils
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 
-class AccountDialogFragment(private val accountButton: ImageButton) : DialogFragment(), OnItemSelectedListener {
+class AccountDialogFragment : DialogFragment(), OnItemSelectedListener {
 
     private var _binding: DialogFragmentAccountBinding? = null
     private val binding get() = _binding!!
@@ -88,12 +86,6 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        accountButton.setImageDrawable(
-            ContextCompat.getDrawable(
-                super.requireContext(),
-                R.drawable.ic_account
-            )
-        )
     }
 
     private fun validateFields(): Boolean {
@@ -123,11 +115,7 @@ class AccountDialogFragment(private val accountButton: ImageButton) : DialogFrag
         for(i in 0 until navController.backQueue.size)
             navController.popBackStack()
         navController.navigate(R.id.navigation_login)
-
-        AndroidUtils.lockNavigation(
-            super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
-            super.requireActivity().findViewById(R.id.main_drawer_layout)
-        )
+        AndroidUtils.lockNavigation(super.requireActivity())
         preferencesService.resetAllPreferences()
         super.requireActivity().viewModelStore.clear()
         AndroidComponents.toastNotification(
