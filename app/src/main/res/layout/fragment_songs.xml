@@ -29,7 +29,6 @@
             android:iconifiedByDefault="false"
             android:layout_weight="1"
             android:inputType="textPersonName"
-            android:maxWidth="260dp"
             android:queryHint="@string/search_view" />
 
         <ImageButton
