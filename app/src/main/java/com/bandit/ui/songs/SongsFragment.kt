@@ -43,11 +43,6 @@ class SongsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             badgeDrawable = BadgeDrawable.create(super.requireContext())
-            AndroidComponents.header(
-                super.requireActivity(),
-                songsHeader.headerBtAccount
-            )
-            songsHeader.headerTvTitle.setText(R.string.title_songs)
             bandViewModel.band.observe(viewLifecycleOwner) {
                 AndroidUtils.disableIfBandNull(
                     resources,

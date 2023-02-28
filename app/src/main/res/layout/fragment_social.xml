@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/social_header"
-        layout="@layout/header_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/social_tab_layout"
         android:layout_width="match_parent"
@@ -21,25 +15,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/social_chats_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/social_chats_tab" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/social_friends_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/social_friends_tab" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/social_band_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/social_band_tab" />
 
     </com.google.android.material.tabs.TabLayout>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/social_view_pager"
         android:layout_width="match_parent"

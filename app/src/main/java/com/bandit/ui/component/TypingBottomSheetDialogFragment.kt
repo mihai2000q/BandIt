@@ -45,20 +45,13 @@ class TypingBottomSheetDialogFragment(
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if(validateField())
+        if(!binding.bottomSheetDfEditText.text.isNullOrBlank())
             onDismissEvent(binding.bottomSheetDfEditText)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun validateField(): Boolean {
-        if(binding.bottomSheetDfEditText.text.isNullOrBlank()) {
-            return false
-        }
-        return true
     }
 
     companion object {

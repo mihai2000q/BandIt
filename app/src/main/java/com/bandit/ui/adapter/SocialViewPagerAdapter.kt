@@ -7,7 +7,6 @@ import com.bandit.constant.Constants
 import com.bandit.ui.band.BandFragment
 import com.bandit.ui.chats.ChatsFragment
 import com.bandit.ui.friends.FriendsFragment
-import com.google.android.material.badge.ExperimentalBadgeUtils
 
 class SocialViewPagerAdapter(fragmentActivity: FragmentActivity)
     : FragmentStateAdapter(fragmentActivity) {

@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
+import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -151,10 +153,7 @@ class LoginFragment : Fragment() {
                     Constants.Preferences.REMEMBER_ME,
                     binding.loginCbRemember.isChecked
                 )
-                AndroidUtils.unlockNavigation(
-                    super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
-                    super.requireActivity().findViewById(R.id.main_drawer_layout)
-                )
+                AndroidUtils.unlockNavigation(super.requireActivity())
                 AndroidComponents.toastNotification(
                     super.requireContext(),
                     resources.getString(R.string.login_toast),
