@@ -1,130 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-    <data>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/account_iv_profile_picture"
+        android:layout_width="@dimen/profile_pic_dimension_height"
+        android:layout_height="@dimen/profile_pic_dimension_width"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/content_description_account_iv_picture"
+        android:src="@drawable/placeholder_profile_pic"
+        app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:civ_border_width="@dimen/profile_pic_border_width"
+        app:civ_border_color="@color/profile_pic_border_color"/>
 
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/account_tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:text="@string/et_name_non_mandatory"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/account_iv_profile_picture"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/account_iv_profile_picture"
-            android:layout_width="@dimen/profile_pic_dimension_height"
-            android:layout_height="@dimen/profile_pic_dimension_width"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/content_description_account_iv_picture"
-            android:src="@drawable/placeholder_profile_pic"
-            app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.100000024"
-            app:civ_border_width="@dimen/profile_pic_border_width"
-            app:civ_border_color="@color/profile_pic_border_color"/>
+    <EditText
+        android:id="@+id/account_et_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/et_name_non_mandatory"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
+        app:layout_constraintStart_toEndOf="@+id/account_iv_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/account_tv_name"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/account_tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/et_name_non_mandatory"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toEndOf="@+id/account_iv_profile_picture"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998"
-            app:layout_constraintVertical_chainStyle="packed" />
+    <TextView
+        android:id="@+id/account_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/account_field_nickname"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/account_et_nickname"
+        app:layout_constraintStart_toStartOf="@+id/account_iv_profile_picture"
+        app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_chainStyle="packed" />
 
-        <EditText
-            android:id="@+id/account_et_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/et_name_non_mandatory"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
-            app:layout_constraintStart_toEndOf="@+id/account_iv_profile_picture"
-            app:layout_constraintStart_toStartOf="@+id/account_tv_name"
-            app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/account_et_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="150dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/account_field_nickname"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
+        app:layout_constraintStart_toStartOf="@+id/account_tv_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture"
+        app:layout_constraintVertical_bias="0.26999998" />
 
-        <TextView
-            android:id="@+id/account_tv_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/account_field_nickname"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/account_et_nickname"
-            app:layout_constraintStart_toStartOf="@+id/account_iv_profile_picture"
-            app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture"
-            app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintVertical_chainStyle="packed" />
+    <TextView
+        android:id="@+id/account_tv_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account_field_role"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/account_tv_nickname"
+        app:layout_constraintStart_toStartOf="@+id/account_spinner_role"
+        app:layout_constraintTop_toTopOf="@+id/account_tv_nickname" />
 
-        <EditText
-            android:id="@+id/account_et_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:width="150dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/account_field_nickname"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/account_bt_sign_out"
-            app:layout_constraintStart_toStartOf="@+id/account_tv_nickname"
-            app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture"
-            app:layout_constraintVertical_bias="0.26999998" />
+    <Spinner
+        android:id="@+id/account_spinner_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/account_et_nickname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/account_et_nickname"
+        app:layout_constraintTop_toTopOf="@+id/account_et_nickname" />
 
-        <TextView
-            android:id="@+id/account_tv_role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/account_field_role"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/account_tv_nickname"
-            app:layout_constraintStart_toStartOf="@+id/account_spinner_role"
-            app:layout_constraintTop_toTopOf="@+id/account_tv_nickname" />
+    <Button
+        android:id="@+id/account_bt_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dark_sea_green"
+        android:text="@string/bt_sign_out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/account_bt_save"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <Spinner
-            android:id="@+id/account_spinner_role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            app:layout_constraintBottom_toBottomOf="@+id/account_et_nickname"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/account_et_nickname"
-            app:layout_constraintTop_toTopOf="@+id/account_et_nickname" />
+    <Button
+        android:id="@+id/account_bt_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_save"
+        app:layout_constraintBottom_toBottomOf="@+id/account_bt_sign_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/account_bt_sign_out"
+        app:layout_constraintTop_toTopOf="@+id/account_bt_sign_out" />
 
-        <Button
-            android:id="@+id/account_bt_sign_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/dark_sea_green"
-            android:text="@string/bt_sign_out"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/account_bt_save"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/account_bt_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bt_save"
-            app:layout_constraintBottom_toBottomOf="@+id/account_bt_sign_out"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/account_bt_sign_out"
-            app:layout_constraintTop_toTopOf="@+id/account_bt_sign_out" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

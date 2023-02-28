@@ -46,11 +46,6 @@ class ScheduleFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            AndroidComponents.header(
-                super.requireActivity(),
-                scheduleHeader.headerBtAccount
-            )
-            scheduleHeader.headerTvTitle.setText(R.string.title_schedule)
             scheduleEventsView.layoutManager = GridLayoutManager(context, 1)
             AndroidComponents.spinner(
                 super.requireContext(),
@@ -78,7 +73,6 @@ class ScheduleFragment : Fragment(),
         delay(700) // the Calendar Widget takes some time to load, so I delay here
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
-            scheduleHeader.root.visibility = View.GONE
             scheduleCalendarView.visibility = View.VISIBLE
             scheduleSearchView.visibility = View.INVISIBLE
             scheduleSpinnerMode.visibility = View.VISIBLE
@@ -130,7 +124,6 @@ class ScheduleFragment : Fragment(),
     private fun listMode() {
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
-            scheduleHeader.root.visibility = View.VISIBLE
             scheduleCalendarView.visibility = View.GONE
             scheduleSpinnerMode.visibility = View.GONE
             scheduleSearchView.visibility = View.VISIBLE

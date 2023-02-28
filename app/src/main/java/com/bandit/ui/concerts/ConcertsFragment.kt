@@ -37,12 +37,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         val badgeDrawable = BadgeDrawable.create(super.requireContext())
         val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
         with(binding) {
-            AndroidComponents.header(
-                super.requireActivity(),
-                concertsHeader.headerBtAccount
-            )
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
-            concertsHeader.headerTvTitle.setText(R.string.title_concerts)
             bandViewModel.band.observe(viewLifecycleOwner) {
                 AndroidUtils.disableIfBandNull(
                     resources,
@@ -100,7 +95,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        viewModel.filterConcerts(name = newText)
+        if(binding.concertsSearchView.width > 0)
+            viewModel.filterConcerts(name = newText)
         return false
     }
 

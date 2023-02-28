@@ -1,155 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="32dp">
 
-    <data>
-
-    </data>
-
-    <ScrollView
+    <EditText
+        android:id="@+id/concert_et_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="outsideOverlay">
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/et_name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="32dp">
+    <EditText
+        android:id="@+id/concert_et_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="8dp"
+        android:width="100dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_date"
+        android:inputType="date"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_name" />
 
-            <EditText
-                android:id="@+id/concert_et_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/et_name"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/concert_et_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="8dp"
+        android:width="100dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_time"
+        android:inputType="time"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_et_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_et_date"
+        app:layout_constraintTop_toTopOf="@+id/concert_et_date" />
 
-            <EditText
-                android:id="@+id/concert_et_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_marginVertical="8dp"
-                android:width="100dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/concert_field_date"
-                android:inputType="date"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_city"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_name" />
+    <EditText
+        android:id="@+id/concert_et_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_city"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_country"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_date" />
 
-            <EditText
-                android:id="@+id/concert_et_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
-                android:layout_marginVertical="8dp"
-                android:width="100dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/concert_field_time"
-                android:inputType="time"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toBottomOf="@+id/concert_et_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/concert_et_date"
-                app:layout_constraintTop_toTopOf="@+id/concert_et_date" />
+    <EditText
+        android:id="@+id/concert_et_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_country"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_city" />
 
-            <EditText
-                android:id="@+id/concert_et_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/concert_field_city"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_country"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_date" />
+    <EditText
+        android:id="@+id/concert_et_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/concert_field_place"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_country" />
 
-            <EditText
-                android:id="@+id/concert_et_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/concert_field_country"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:textColorHint="#757575"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_place"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_city" />
+    <EditText
+        android:id="@+id/concert_et_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints=""
+        android:hint="@string/et_duration"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_et_spinner_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_place" />
 
-            <EditText
-                android:id="@+id/concert_et_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/concert_field_place"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_duration"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_country" />
+    <Spinner
+        android:id="@+id/concert_et_spinner_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:autofillHints="@string/et_type"
+        android:contentDescription="@string/content_description_spinner_type"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_duration" />
 
-            <EditText
-                android:id="@+id/concert_et_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints=""
-                android:hint="@string/et_duration"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_et_spinner_type"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_place" />
-
-            <Spinner
-                android:id="@+id/concert_et_spinner_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:autofillHints="@string/et_type"
-                android:minHeight="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/concert_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_duration" />
-
-            <Button
-                android:id="@+id/concert_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
-                android:text="@string/bt_add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/concert_et_spinner_type" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-</layout>
+    <Button
+        android:id="@+id/concert_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:text="@string/bt_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_et_spinner_type" />
+</androidx.constraintlayout.widget.ConstraintLayout>

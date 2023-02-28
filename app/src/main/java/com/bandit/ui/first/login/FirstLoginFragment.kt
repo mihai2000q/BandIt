@@ -172,10 +172,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             Constants.Preferences.REMEMBER_ME,
             this.arguments?.getBoolean(Constants.SafeArgs.REMEMBER_ME) ?: false
         )
-        AndroidUtils.unlockNavigation(
-            super.requireActivity().findViewById(R.id.main_bottom_navigation_view),
-            super.requireActivity().findViewById(R.id.main_drawer_layout)
-        )
+        AndroidUtils.unlockNavigation(super.requireActivity())
         AndroidComponents.toastNotification(
             super.requireContext(),
             resources.getString(R.string.first_login_toast)

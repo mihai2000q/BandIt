@@ -25,7 +25,7 @@ class PersonalNotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPersonalNotesBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentPersonalNotesBinding.inflate(inflater, container, false)
         return binding.root
     }
 

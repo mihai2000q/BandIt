@@ -1,24 +1,30 @@
 package com.bandit
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
+import com.bandit.ui.account.AccountDialogFragment
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferencesService: IPreferencesService
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,11 +61,17 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         super.setSupportActionBar(binding.mainToolbar)
-        setupActionBarWithNavController(navController)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_concerts, R.id.navigation_songs,
+                R.id.navigation_social, R.id.navigation_schedule
+            ), binding.mainDrawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         this.setupNavigationElements(navController)
-        supportActionBar?.hide()
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         return authentication()
     }
@@ -83,20 +95,60 @@ class MainActivity : AppCompatActivity() {
             DILocator.getAuthenticator().currentUser != null
         ) {
             if(!AndroidUtils.isNetworkAvailable()) {
-                AndroidUtils.lockNavigation(
-                    binding.mainBottomNavigationView,
-                    binding.mainDrawerLayout
-                )
+                AndroidUtils.lockNavigation(this)
                 return null
             }
             DILocator.getDatabase().init(DILocator.getAuthenticator().currentUser!!.uid)
             true
         } else {
-            AndroidUtils.lockNavigation(
-                binding.mainBottomNavigationView,
-                binding.mainDrawerLayout
-            )
+            AndroidUtils.lockNavigation(this)
             false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DILocator.getDatabase().clearData()
+        viewModelStore.clear()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val accountButton = menu?.findItem(R.id.action_bar_profile)
+        accountButton?.isVisible = isAccountButtonShown
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_bar_profile -> {
+                val accountDialogFragment = AccountDialogFragment()
+                AndroidUtils.showDialogFragment(
+                    accountDialogFragment,
+                    supportFragmentManager
+                )
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return if(!binding.mainDrawerLayout.isOpen &&
+            binding.mainDrawerLayout
+                .getDrawerLockMode(binding.mainDrawerMenu) != DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+        ) {
+            binding.mainDrawerLayout.open()
+            true
+        }
+        else
+            false
+    }
+    companion object {
+        var isAccountButtonShown = true
     }
 }

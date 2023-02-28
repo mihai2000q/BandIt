@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bandit.LoadingActivity
+import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.component.LoadingDialogFragment
@@ -61,13 +62,27 @@ object AndroidUtils {
             calendar.timeZone.toZoneId()
         ).toLocalDate()
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
-    fun unlockNavigation(bottomNavigationView: BottomNavigationView?, drawerLayout: DrawerLayout?) {
-        bottomNavigationView?.visibility = View.VISIBLE
-        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    fun unlockNavigation(
+        activity: Activity
+    ) {
+        activity.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)
+            ?.visibility = View.VISIBLE
+        activity.findViewById<DrawerLayout>(R.id.main_drawer_layout)
+            ?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        activity.invalidateOptionsMenu().apply {
+            MainActivity.isAccountButtonShown = true
+        }
     }
-    fun lockNavigation(bottomNavigationView: BottomNavigationView?, drawerLayout: DrawerLayout?) {
-        drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        bottomNavigationView?.visibility = View.INVISIBLE
+    fun lockNavigation(
+        activity: Activity
+    ) {
+        activity.findViewById<BottomNavigationView>(R.id.main_bottom_navigation_view)
+            ?.visibility = View.INVISIBLE
+        activity.findViewById<DrawerLayout>(R.id.main_drawer_layout)
+            ?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        activity.invalidateOptionsMenu().apply {
+            MainActivity.isAccountButtonShown = false
+        }
     }
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager

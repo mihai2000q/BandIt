@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <data>
-
-    </data>
-
-    <LinearLayout
+    <EditText
+        android:id="@+id/bottom_sheet_df_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/bottom_sheet_df_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/bottom_sheet_df_edit_text"
-            android:inputType="textPersonName"
-            android:minHeight="48dp" />
-    </LinearLayout>
-</layout>
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/bottom_sheet_df_edit_text"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize" />
+</LinearLayout>

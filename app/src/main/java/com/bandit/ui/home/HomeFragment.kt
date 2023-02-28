@@ -38,11 +38,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            AndroidComponents.header(
-                super.requireActivity(),
-                homeHeader.headerBtAccount
-            )
-            homeHeader.headerTvTitle.setText(R.string.title_home)
             homeRvButtons.adapter = HomeButtonAdapter(
                 this@HomeFragment,
                 _buttons,

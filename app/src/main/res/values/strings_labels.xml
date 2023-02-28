@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_label">Login</string>
+    <string name="signup_label">Sign Up</string>
+    <string name="first_login_label">Set Up Your Account</string>
+    <string name="home_label">Home</string>
+    <string name="concerts_label">Concerts</string>
+    <string name="songs_label">Songs</string>
+    <string name="schedule_label">Schedule</string>
+    <string name="social_label">Social</string>
+    <string name="todolist_label">To Do List</string>
+    <string name="personal_notes_label">Personal Notes</string>
+</resources>
