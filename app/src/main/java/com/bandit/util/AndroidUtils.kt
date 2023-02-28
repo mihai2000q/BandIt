@@ -267,20 +267,22 @@ object AndroidUtils {
     ) {
         list.observe(viewLifecycleOwner) {
             additional?.invoke()
-            if(band.value!!.isEmpty()) {
-                rvList.visibility = View.GONE
-                rvEmpty.visibility = View.GONE
-                rvBandEmpty.visibility = View.VISIBLE
-            }
-            else if(it.isEmpty()) {
-                rvList.visibility = View.GONE
-                rvBandEmpty.visibility = View.GONE
-                rvEmpty.visibility = View.VISIBLE
-            } else {
-                rvList.adapter = adapter(it)
-                rvList.visibility = View.VISIBLE
-                rvEmpty.visibility = View.GONE
-                rvBandEmpty.visibility = View.GONE
+            band.observe(viewLifecycleOwner) { band ->
+                if(band.isEmpty()) {
+                    rvList.visibility = View.GONE
+                    rvEmpty.visibility = View.GONE
+                    rvBandEmpty.visibility = View.VISIBLE
+                }
+                else if(it.isEmpty()) {
+                    rvList.visibility = View.GONE
+                    rvBandEmpty.visibility = View.GONE
+                    rvEmpty.visibility = View.VISIBLE
+                } else {
+                    rvList.adapter = adapter(it)
+                    rvList.visibility = View.VISIBLE
+                    rvEmpty.visibility = View.GONE
+                    rvBandEmpty.visibility = View.GONE
+                }
             }
         }
     }
