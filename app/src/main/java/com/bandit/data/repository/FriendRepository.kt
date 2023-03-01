@@ -29,6 +29,13 @@ class FriendRepository(private val _database: Database? = null) {
         _people.add(account)
     }
 
+    fun removeBandForFriend(account: Account) {
+        _friends.remove(account)
+        account.bandId = null
+        account.bandName = null
+        _friends.add(account)
+    }
+
     fun filterFriendRequests(name: String? = null): List<Account> =
         _friendRequests.filter { FilterUtils.filter(it.name, name) }
 

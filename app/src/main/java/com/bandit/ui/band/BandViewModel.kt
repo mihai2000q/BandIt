@@ -31,22 +31,27 @@ class BandViewModel : ViewModel() {
                 members = mutableMapOf()
             )
         ) }.join()
-        refresh()
+        this@BandViewModel.refresh()
     }
 
     suspend fun sendBandInvitation(account: Account) = viewModelScope.launch {
         launch { _repository.sendBandInvitation(account) }.join()
-        refresh()
+        this@BandViewModel.refresh()
     }
 
     suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
         launch { _repository.acceptBandInvitation(bandInvitation) }.join()
-        refresh()
+        this@BandViewModel.refresh()
     }
 
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
         launch { _repository.rejectBandInvitation(bandInvitation) }.join()
-        refresh()
+        this@BandViewModel.refresh()
+    }
+    
+    suspend fun kickBandMember(account: Account) = viewModelScope.launch {
+        launch { _repository.kickBandMember(account) }.join()
+        this@BandViewModel.refresh()
     }
 
     fun filterBandInvitations(bandName: String?) {

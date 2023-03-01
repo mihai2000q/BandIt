@@ -43,4 +43,6 @@
     <string name="band_members_filtered_toast">Band Members Filtered</string>
     <string name="friend_filtered_toast">Friends Filtered</string>
     <string name="people_filtered_toast">People Filtered</string>
+    <string name="band_member_kicked_toast">Band Member Kicked</string>
+    <string name="band_member_tried_kick_toast">Cannot kick this member</string>
 </resources>

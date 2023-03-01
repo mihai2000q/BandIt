@@ -22,15 +22,15 @@ class FriendsViewModel : ViewModel() {
     val friendsTabOpen = MutableLiveData(false)
     suspend fun sendFriendRequest(account: Account) = coroutineScope {
         launch { _repository.sendFriendRequest(account) }.join()
-        refresh()
+        this@FriendsViewModel.refresh()
     }
     suspend fun acceptFriendRequest(account: Account) = coroutineScope {
         launch { _repository.acceptFriendRequest(account) }.join()
-        refresh()
+        this@FriendsViewModel.refresh()
     }
     suspend fun rejectFriendRequest(account: Account) = coroutineScope {
         launch { _repository.rejectFriendRequest(account) }.join()
-        refresh()
+        this@FriendsViewModel.refresh()
     }
     fun filterFriendRequests(name: String? = null) {
         _friendRequests.value = _repository.filterFriendRequests(name)
@@ -48,6 +48,10 @@ class FriendsViewModel : ViewModel() {
         _people.value = _repository.people
         _friends.value = _repository.friends
         _friendRequests.value = _repository.friendRequests
+    }
+    fun removeBandForFriend(account: Account) {
+        _repository.removeBandForFriend(account)
+        this@FriendsViewModel.refresh()
     }
     suspend fun getProfilePicture(userUid: String?): ByteArray = coroutineScope {
         return@coroutineScope _storage.getProfilePicture(userUid)

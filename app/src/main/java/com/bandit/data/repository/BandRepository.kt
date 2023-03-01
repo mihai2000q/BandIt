@@ -5,6 +5,9 @@ import com.bandit.data.model.Account
 import com.bandit.data.model.Band
 import com.bandit.data.model.BandInvitation
 import com.bandit.util.FilterUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class BandRepository(val database: Database? = null) {
     private val _bandInvitations: MutableList<BandInvitation> = database?.bandInvitations?.toMutableList() ?: mutableListOf()
@@ -27,10 +30,17 @@ class BandRepository(val database: Database? = null) {
         _bandInvitations.clear()
     }
 
-    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) {
+    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         database?.rejectBandInvitation(bandInvitation)
         _bandInvitations.remove(bandInvitation)
     }
+
+    suspend fun kickBandMember(account: Account) = coroutineScope {
+        async {
+            launch { database?.kickBandMember(account) }
+            band.members.remove(account)
+        }
+    }.await()
 
     fun filterBandInvitations(bandName: String?) : List<BandInvitation> =
         _bandInvitations.filter { FilterUtils.filter(it.band.name, bandName) }
