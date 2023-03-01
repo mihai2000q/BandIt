@@ -57,4 +57,11 @@ class LoginFragmentInstrumentedTest {
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_incorrect))))
     }
+    @Test
+    fun login_fragment_login() {
+        onView(withId(R.id.login_et_email)).perform(typeText(AndroidTestsUtil.accountEmail))
+        onView(withId(R.id.login_et_password)).perform(typeText(AndroidTestsUtil.accountPassword))
+        onView(withId(R.id.login_bt_login)).perform(click())
+        onView(withText(R.string.login_toast)).check(matches(isDisplayed()))
+    }
 }
