@@ -31,10 +31,6 @@ class ValidatorService(
             editText.error = activity.resources.getText(R.string.et_pass_validation_minimum)
             return false
         }
-        if(editText.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
-            editText.error = activity.resources.getText(R.string.et_pass_validation_minimum)
-            return false
-        }
         return true
     }
     override suspend fun validateEmailVerified(
