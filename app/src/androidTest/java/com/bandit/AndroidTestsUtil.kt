@@ -7,7 +7,9 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
+import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 
 
 object AndroidTestsUtil {
@@ -29,6 +31,20 @@ object AndroidTestsUtil {
 
             override fun perform(uiController: UiController, view: View) {
                 uiController.loopMainThreadForAtLeast(delay);
+            }
+        }
+    }
+    fun withIndex(matcher: Matcher<View?>, index: Int): Matcher<View?>? {
+        return object : TypeSafeMatcher<View>() {
+            var currentIndex = 0
+            override fun describeTo(description: Description) {
+                description.appendText("with index: ")
+                description.appendValue(index)
+                matcher.describeTo(description)
+            }
+
+            override fun matchesSafely(view: View?): Boolean {
+                return matcher.matches(view) && currentIndex++ == index
             }
         }
     }
