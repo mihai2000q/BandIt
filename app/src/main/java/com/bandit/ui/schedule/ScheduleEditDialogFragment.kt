@@ -61,7 +61,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 Event(
                     scheduleEtName.text.toString(),
                     ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
-                    ParserUtils.parseDuration(scheduleEtDuration.text.toString()),
+                    ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
                     BandItEnums.Event.Type.values()[typeIndex],
                     viewModel.selectedEvent.value!!.bandId,
                     viewModel.selectedEvent.value!!.id

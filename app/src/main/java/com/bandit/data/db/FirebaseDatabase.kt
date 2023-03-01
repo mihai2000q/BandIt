@@ -19,6 +19,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
 
 class FirebaseDatabase : Database {
+    // initial data set - not updated, just loaded/read
     override val concerts: MutableList<Concert> = mutableListOf()
     override val songs: MutableList<Song> = mutableListOf()
     override val albums: MutableList<Album> = mutableListOf()

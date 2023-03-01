@@ -8,19 +8,19 @@ import com.bandit.data.model.BandInvitation
 object BandInvitationMapper {
     fun fromDtoToItem(dto: BandInvitationDto, band: Band, account: Account): BandInvitation {
         return BandInvitation(
-            band,
-            account,
-            dto.accepted ?: false,
-            dto.id
+            band = band,
+            account = account,
+            hasAccepted = dto.accepted ?: false,
+            id = dto.id
         )
     }
 
     fun fromItemToDto(item: BandInvitation): BandInvitationDto {
         return BandInvitationDto(
-            item.id,
-            item.band.id,
-            item.account.id,
-            item.hasAccepted
+            id = item.id,
+            bandId = item.band.id,
+            accountId = item.account.id,
+            accepted = item.hasAccepted
         )
     }
 }

@@ -57,7 +57,7 @@ class SongEditDialogFragment : SongDialogFragment() {
                     songEtName.text.toString(),
                     viewModel.selectedSong.value!!.bandId,
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    ParserUtils.parseDuration(songEtDuration.text.toString()),
+                    ParserUtils.parseDurationText(songEtDuration.text.toString()),
                     viewModel.selectedSong.value!!.albumName,
                     viewModel.selectedSong.value!!.albumId,
                     viewModel.selectedSong.value!!.id

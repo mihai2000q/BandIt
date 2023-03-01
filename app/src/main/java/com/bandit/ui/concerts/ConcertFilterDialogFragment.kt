@@ -52,7 +52,7 @@ class ConcertFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : Co
                     if(concertEtDuration.text.isNullOrEmpty())
                         null
                     else
-                        ParserUtils.parseDuration(concertEtDuration.text.toString()),
+                        ParserUtils.parseDurationText(concertEtDuration.text.toString()),
                     city = concertEtCity.text.toString(),
                     country = concertEtCountry.text.toString(),
                     place = concertEtPlace.text.toString(),
