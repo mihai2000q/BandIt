@@ -135,7 +135,10 @@ class BandFragment : Fragment(), OnQueryTextListener {
             resources.getString(R.string.alert_dialog_positive),
             resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(this) { viewModel.disbandBand() }
+            AndroidUtils.loadDialogFragment(this) {
+                viewModel.disbandBand()
+                viewModelStore.clear()
+            }
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_disbanded_toast),
