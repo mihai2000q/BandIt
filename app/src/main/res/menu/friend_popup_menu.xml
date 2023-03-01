@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/popup_menu_unfriend"
+        android:id="@+id/friend_popup_menu_add_to_band"
+        android:title="@string/bt_add_member" />
+    <item
+        android:id="@+id/friend_popup_menu_unfriend"
         android:title="@string/bt_unfriend" />
 </menu>

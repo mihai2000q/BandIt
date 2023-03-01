@@ -93,8 +93,8 @@ data class BandMemberAdapter(
         }
         AndroidComponents.alertDialog(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.band_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.band_alert_dialog_kick_member),
+            holder.binding.root.resources.getString(R.string.band_alert_dialog_kick_title),
+            holder.binding.root.resources.getString(R.string.band_alert_dialog_kick_message),
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {

@@ -72,18 +72,9 @@ class FirebaseDatabase : Database {
     override suspend fun createBand(band: Band) = coroutineScope {
         async {
             // update the account's band properties
-            this@FirebaseDatabase.edit(
-                Account(
-                    name = _currentAccount.name,
-                    nickname = _currentAccount.nickname,
-                    role = _currentAccount.role,
-                    email = _currentAccount.email,
-                    bandId = band.id,
-                    bandName = band.name,
-                    id = _currentAccount.id,
-                    userUid = _currentAccount.userUid,
-                )
-            )
+            _currentAccount.bandId = band.id
+            _currentAccount.bandName = band.name
+            this@FirebaseDatabase.edit(_currentAccount)
             // add the band to database
             band.members[_currentAccount] = true
             this@FirebaseDatabase.add(band)
@@ -169,6 +160,52 @@ class FirebaseDatabase : Database {
                 it.accountId == account.id && it.bandId == currentBand.id
             }.first()
             this@FirebaseDatabase.remove(member)
+        }
+    }.await()
+
+    override suspend fun abandonBand() = coroutineScope {
+        async {
+            _currentBand = Band.EMPTY
+            _currentAccount.bandId = null
+            _currentAccount.bandName = null
+            this@FirebaseDatabase.edit(_currentAccount)
+            val membership = readBandInvitationDtos {
+                it.accountId == _currentAccount.id && it.accepted == true
+            }.first()
+            this@FirebaseDatabase.remove(membership)
+        }
+    }.await()
+
+    override suspend fun disbandBand() = coroutineScope {
+        async {
+            _currentBand = Band.EMPTY
+            _currentAccount.bandId = null
+            _currentAccount.bandName = null
+            // remove all band invitations
+            lateinit var memberships: List<BandInvitationDto>
+            launch { memberships = readBandInvitationDtos {
+                it.bandId == _currentBand.id
+            } }.invokeOnCompletion {
+                launch {
+                    memberships.forEach { this@FirebaseDatabase.remove(it) }
+                }
+            }
+            // edit all properties from band members
+            lateinit var members: List<Account>
+            launch {
+                members = readAccountDtos { it.bandId == _currentBand.id }
+                    .map { AccountMapper.fromDtoToItem(it) }
+            }.invokeOnCompletion {
+                launch {
+                    members.forEach {
+                        it.bandId = null
+                        it.bandName = null
+                        this@FirebaseDatabase.edit(it)
+                    }
+                }
+            }
+            launch { this@FirebaseDatabase.remove(_currentBand) }
+            return@async
         }
     }.await()
 
@@ -312,14 +349,8 @@ class FirebaseDatabase : Database {
     private suspend fun reset(item: Any) = coroutineScope {
         async {
             when (item) {
-                is Account -> {
-                    deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
-                    _currentAccount = Account.EMPTY
-                }
-                is Band -> {
-                    deleteItem(Constants.Firebase.Database.BANDS, item)
-                    _currentBand = Band.EMPTY
-                }
+                is Account -> deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
+                is Band -> deleteItem(Constants.Firebase.Database.BANDS, item)
                 is BandInvitation,
                 is BandInvitationDto -> deleteItem(Constants.Firebase.Database.BAND_INVITATIONS, item as Item)
                 is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)

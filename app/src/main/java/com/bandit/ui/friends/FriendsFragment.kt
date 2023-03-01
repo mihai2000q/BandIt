@@ -11,7 +11,9 @@ import androidx.fragment.app.activityViewModels
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentFriendsBinding
+import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
 
@@ -19,6 +21,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by activityViewModels()
+    private val bandViewModel: BandViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by activityViewModels()
     private val friendsAddDialogFragment = FriendsAddDialogFragment()
     private val friendsRequestsDialogFragment = FriendsRequestsDialogFragment()
 
@@ -62,7 +66,13 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             viewModel.friends.observe(viewLifecycleOwner) {
-                friendsList.adapter = PeopleAdapter(this@FriendsFragment, it.sorted(), viewModel)
+                friendsList.adapter = PeopleAdapter(
+                    this@FriendsFragment,
+                    it.sorted(),
+                    viewModel,
+                    bandViewModel,
+                    accountViewModel.account.value!!
+                )
             }
         }
     }
