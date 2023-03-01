@@ -90,6 +90,11 @@ interface Database {
      */
     suspend fun rejectFriendRequest(account: Account)
     /**
+     * This method is used to unfriend a friend
+     * @param account is the account which you unfriend
+     */
+    suspend fun unfriend(account: Account)
+    /**
      * This method verifies whether the given email is in use or not.
      * @param email the email that is checked
      * @return the result of the checking

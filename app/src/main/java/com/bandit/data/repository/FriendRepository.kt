@@ -3,6 +3,9 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Account
 import com.bandit.util.FilterUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class FriendRepository(private val _database: Database? = null) {
     private val _people: MutableList<Account> = _database?.people?.toMutableList() ?: mutableListOf()
@@ -28,6 +31,14 @@ class FriendRepository(private val _database: Database? = null) {
         _friendRequests.remove(account)
         _people.add(account)
     }
+
+    suspend fun unfriend(account: Account) = coroutineScope {
+        async {
+            launch { _database?.unfriend(account) }
+            _friends.remove(account)
+            _people.add(account)
+        }
+    }.await()
 
     fun removeBandForFriend(account: Account) {
         _friends.remove(account)

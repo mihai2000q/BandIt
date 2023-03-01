@@ -2,4 +2,6 @@
 <resources>
     <string name="friends_add_dialog_title">Search For A New Friend</string>
     <string name="friends_requests_dialog_title">Friend Requests</string>
+    <string name="friend_alert_dialog_title">Unfriend Person</string>
+    <string name="friend_alert_dialog_message">Are you sure you want to unfriend this person?</string>
 </resources>

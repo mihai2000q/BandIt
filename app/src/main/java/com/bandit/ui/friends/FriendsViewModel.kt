@@ -32,6 +32,10 @@ class FriendsViewModel : ViewModel() {
         launch { _repository.rejectFriendRequest(account) }.join()
         this@FriendsViewModel.refresh()
     }
+    suspend fun unfriend(account: Account) = coroutineScope {
+        launch { _repository.unfriend(account) }.join()
+        this@FriendsViewModel.refresh()
+    }
     fun filterFriendRequests(name: String? = null) {
         _friendRequests.value = _repository.filterFriendRequests(name)
     }
