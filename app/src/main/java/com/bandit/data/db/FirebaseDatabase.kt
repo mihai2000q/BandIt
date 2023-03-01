@@ -340,10 +340,7 @@ class FirebaseDatabase : Database {
         async {
             when(item) {
                 is UserAccountDto -> setUserAccountSetup(item)
-                is Account -> {
-                    setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
-                    _currentAccount = item.copy()
-                }
+                is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
                 is Band -> setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
                 is BandInvitation -> setItem(Constants.Firebase.Database.BAND_INVITATIONS,
                         BandInvitationMapper.fromItemToDto(item))
@@ -420,11 +417,9 @@ class FirebaseDatabase : Database {
 
     private suspend fun readAccount(userUid: String) = coroutineScope {
         async {
-            val accountDBEntries = readAccountDtos {
-                return@readAccountDtos it.userUid == userUid
-            }
-            if (accountDBEntries.isEmpty()) return@async
-            _currentAccount = AccountMapper.fromDtoToItem(accountDBEntries.first())
+            _currentAccount = readAccountDtos {
+                it.userUid == userUid
+            }.map { AccountMapper.fromDtoToItem(it) }.first()
         }
     }.await()
 

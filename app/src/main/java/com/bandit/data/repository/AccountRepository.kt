@@ -26,6 +26,8 @@ class AccountRepository(private val _database: Database? = null) {
             email = auth.currentUser?.email ?: "",
             userUid = auth.currentUser?.uid
         )
+        if(_database == null)
+            _currentAccount = newAccount
         _database?.add(newAccount)
         if (_database != null)
             setUserAccountSetup(
