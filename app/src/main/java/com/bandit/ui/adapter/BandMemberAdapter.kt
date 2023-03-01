@@ -98,8 +98,10 @@ data class BandMemberAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(fragment) { viewModel.kickBandMember(account) }
-            friendsViewModel.removeBandForFriend(account)
+            AndroidUtils.loadDialogFragment(fragment) {
+                friendsViewModel.removeBandForFriend(account)
+                viewModel.kickBandMember(account)
+            }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.band_member_kicked_toast),

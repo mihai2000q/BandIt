@@ -37,8 +37,8 @@ class BandRepository(private val _database: Database? = null) {
 
     suspend fun kickBandMember(account: Account) = coroutineScope {
         async {
-            launch { _database?.kickBandMember(account) }
             _band.members.remove(account)
+            launch { _database?.kickBandMember(account) }
         }
     }.await()
 

@@ -167,6 +167,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private suspend fun goToHomePage(): Boolean {
+        super.requireActivity().viewModelStore.clear()
         viewModel.database.init(viewModel.auth.currentUser!!.uid)
         preferencesService.savePreference(
             Constants.Preferences.REMEMBER_ME,

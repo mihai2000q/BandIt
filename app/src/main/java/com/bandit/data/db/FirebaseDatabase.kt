@@ -145,66 +145,82 @@ class FirebaseDatabase : Database {
 
     override suspend fun kickBandMember(account: Account) = coroutineScope {
         async {
-            val newAccount = Account(
-                name = account.name,
-                nickname = account.nickname,
-                role = account.role,
-                email = account.email,
-                bandId = null,
-                bandName = null,
-                id = account.id,
-                userUid = account.userUid
-            )
-            this@FirebaseDatabase.edit(newAccount)
-            val member = readBandInvitationDtos {
-                it.accountId == account.id && it.bandId == currentBand.id
+            account.bandId = null
+            account.bandName = null
+            this@FirebaseDatabase.edit(account)
+            val membership = readBandInvitationDtos {
+                it.accountId == account.id && it.bandId == currentBand.id && it.accepted == true
             }.first()
-            this@FirebaseDatabase.remove(member)
+            this@FirebaseDatabase.remove(membership)
         }
     }.await()
 
     override suspend fun abandonBand() = coroutineScope {
         async {
             _currentBand = Band.EMPTY
-            _currentAccount.bandId = null
-            _currentAccount.bandName = null
-            this@FirebaseDatabase.edit(_currentAccount)
-            val membership = readBandInvitationDtos {
-                it.accountId == _currentAccount.id && it.accepted == true
-            }.first()
-            this@FirebaseDatabase.remove(membership)
+            this@FirebaseDatabase.kickBandMember(_currentAccount)
         }
     }.await()
 
     override suspend fun disbandBand() = coroutineScope {
         async {
-            _currentBand = Band.EMPTY
-            _currentAccount.bandId = null
-            _currentAccount.bandName = null
-            // remove all band invitations
-            lateinit var memberships: List<BandInvitationDto>
-            launch { memberships = readBandInvitationDtos {
-                it.bandId == _currentBand.id
-            } }.invokeOnCompletion {
-                launch {
-                    memberships.forEach { this@FirebaseDatabase.remove(it) }
-                }
-            }
-            // edit all properties from band members
-            lateinit var members: List<Account>
             launch {
-                members = readAccountDtos { it.bandId == _currentBand.id }
-                    .map { AccountMapper.fromDtoToItem(it) }
-            }.invokeOnCompletion {
+                _currentAccount.bandId = null
+                _currentAccount.bandName = null
+                // remove all band invitations
+                lateinit var memberships: List<BandInvitationDto>
                 launch {
-                    members.forEach {
-                        it.bandId = null
-                        it.bandName = null
-                        this@FirebaseDatabase.edit(it)
+                    memberships = readBandInvitationDtos {
+                        it.bandId == _currentBand.id
+                    }
+                }.invokeOnCompletion {
+                    launch {
+                        memberships.forEach { this@FirebaseDatabase.remove(it) }
                     }
                 }
+                // edit all properties from band members
+                lateinit var members: List<Account>
+                launch {
+                    members = readAccountDtos { it.bandId == _currentBand.id }
+                        .map { AccountMapper.fromDtoToItem(it) }
+                }.invokeOnCompletion {
+                    launch {
+                        members.forEach {
+                            it.bandId = null
+                            it.bandName = null
+                            this@FirebaseDatabase.edit(it)
+                        }
+                    }
+                }
+                launch { this@FirebaseDatabase.remove(_currentBand) }
+                launch {
+                    this@FirebaseDatabase.removeBandItems(
+                        Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id
+                    )
+                }
+                launch {
+                    this@FirebaseDatabase.removeBandItems(
+                        Constants.Firebase.Database.SONGS, SongMapper, _currentBand.id
+                    )
+                }
+                launch {
+                    this@FirebaseDatabase.removeBandItems(
+                        Constants.Firebase.Database.ALBUMS, AlbumMapper, _currentBand.id
+                    )
+                }
+                launch {
+                    this@FirebaseDatabase.removeBandItems(
+                        Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id
+                    )
+                }
+                launch {
+                    this@FirebaseDatabase.removeBandItems(
+                        Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id
+                    )
+                }
+            }.invokeOnCompletion {
+                _currentBand = Band.EMPTY
             }
-            launch { this@FirebaseDatabase.remove(_currentBand) }
             return@async
         }
     }.await()
@@ -323,18 +339,13 @@ class FirebaseDatabase : Database {
     private suspend fun set(item: Any) = coroutineScope {
         async {
             when(item) {
-                is UserAccountDto -> { setUserAccountSetup(item) }
-                is Account -> {
-                    setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
-                    _currentAccount = item
-                }
-                is Band -> {
-                    setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
-                    _currentBand = item
-                }
-                is BandInvitation ->
-                    setItem(Constants.Firebase.Database.BAND_INVITATIONS, BandInvitationMapper.fromItemToDto(item))
-                is Concert -> setItem(Constants.Firebase.Database.CONCERTS, ConcertMapper.fromItemToDto(item))
+                is UserAccountDto -> setUserAccountSetup(item)
+                is Account -> setItem(Constants.Firebase.Database.ACCOUNTS, AccountMapper.fromItemToDto(item))
+                is Band -> setItem(Constants.Firebase.Database.BANDS, BandMapper.fromItemToDto(item))
+                is BandInvitation -> setItem(Constants.Firebase.Database.BAND_INVITATIONS,
+                        BandInvitationMapper.fromItemToDto(item))
+                is Concert -> setItem(Constants.Firebase.Database.CONCERTS,
+                    ConcertMapper.fromItemToDto(item))
                 is Song -> setItem(Constants.Firebase.Database.SONGS, SongMapper.fromItemToDto(item))
                 is Album -> setItem(Constants.Firebase.Database.ALBUMS, AlbumMapper.fromItemToDto(item))
                 is Event -> setItem(Constants.Firebase.Database.EVENTS, EventMapper.fromItemToDto(item))
@@ -406,11 +417,9 @@ class FirebaseDatabase : Database {
 
     private suspend fun readAccount(userUid: String) = coroutineScope {
         async {
-            val accountDBEntries = readAccountDtos {
-                return@readAccountDtos it.userUid == userUid
-            }
-            if (accountDBEntries.isEmpty()) return@async
-            _currentAccount = AccountMapper.fromDtoToItem(accountDBEntries.first())
+            _currentAccount = readAccountDtos {
+                it.userUid == userUid
+            }.map { AccountMapper.fromDtoToItem(it) }.first()
         }
     }.await()
 
@@ -636,6 +645,25 @@ class FirebaseDatabase : Database {
                     .toObjects<E>()
             }
         }.await()
+
+    private suspend inline fun<T : Item, reified E : TemplateBandDto> removeBandItems(
+        table: String,
+        mapperB: MapperB<T, E>,
+        bandId: Long
+    ) = coroutineScope {
+        async {
+            lateinit var items: List<T>
+            launch {
+                items = readAndMapItemsB(table, mapperB, bandId)
+            }.invokeOnCompletion {
+                launch {
+                    items.forEach {
+                        this@FirebaseDatabase.remove(it)
+                    }
+                }
+            }
+        }
+    }.await()
 
     private fun generateDocumentNameUserUid(userUid: String) =
         Constants.Firebase.Database.USER_ACCOUNT_SETUPS.dropLast(1) + "-" + userUid
