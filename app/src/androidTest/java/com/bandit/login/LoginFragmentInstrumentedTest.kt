@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest
 import com.bandit.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,6 +24,16 @@ class LoginFragmentInstrumentedTest {
     @Before
     fun setup() {
         onView(withId(R.id.login_et_email)).perform(clearText())
+    }
+    @Test
+    fun login_fragment_ui() {
+        onView(withId(R.id.main_bottom_navigation_view)).check(matches(Matchers.not(isDisplayed())))
+        onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.login_label))))
+        onView(withId(R.id.login_et_email)).check(matches(isDisplayed()))
+        onView(withId(R.id.login_et_password)).check(matches(isDisplayed()))
+        onView(withId(R.id.login_bt_login)).check(matches(withText(R.string.login_bt_login)))
+        onView(withId(R.id.login_bt_signup)).check(matches(withText(R.string.bt_sign_up)))
+        onView(withId(R.id.login_cb_remember)).check(matches(isNotChecked()))
     }
     @Test
     fun login_fragment_log_in_validation() {
@@ -64,8 +75,12 @@ class LoginFragmentInstrumentedTest {
         onView(withId(R.id.login_et_password)).perform(typeText(AndroidTestsUtil.accountPassword))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(AndroidTestsUtil.waitFor(AndroidTestsUtil.maximumDelayLoadingScreen))
-
         // check if it is the home tab
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
+    }
+    @Test
+    fun login_fragment_navigation_to_signup() {
+        onView(withId(R.id.login_bt_signup)).perform(click())
+        onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.signup_label))))
     }
 }
