@@ -54,6 +54,11 @@ class BandViewModel : ViewModel() {
         this@BandViewModel.refresh()
     }
 
+    suspend fun abandonBand() = viewModelScope.launch {
+        launch { _repository.abandonBand() }.join()
+        this@BandViewModel.refresh()
+    }
+
     fun filterBandInvitations(bandName: String?) {
         _bandInvitations.value = _repository.filterBandInvitations(bandName)
     }

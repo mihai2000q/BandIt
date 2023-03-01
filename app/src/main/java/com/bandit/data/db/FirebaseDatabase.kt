@@ -172,6 +172,19 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
+    override suspend fun abandonBand() = coroutineScope {
+        async {
+            _currentBand = Band.EMPTY
+            _currentAccount.bandId = null
+            _currentAccount.bandName = null
+            this@FirebaseDatabase.edit(_currentAccount)
+            val membership = readBandInvitationDtos {
+                it.accountId == _currentAccount.id && it.accepted == true
+            }.first()
+            this@FirebaseDatabase.remove(membership)
+        }
+    }.await()
+
     override suspend fun sendFriendRequest(account: Account) = coroutineScope {
         async {
             this@FirebaseDatabase.add(
