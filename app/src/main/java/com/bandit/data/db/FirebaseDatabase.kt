@@ -185,6 +185,39 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
+    override suspend fun disbandBand() = coroutineScope {
+        async {
+            _currentBand = Band.EMPTY
+            _currentAccount.bandId = null
+            _currentAccount.bandName = null
+            // remove all band invitations
+            lateinit var memberships: List<BandInvitationDto>
+            launch { memberships = readBandInvitationDtos {
+                it.bandId == _currentBand.id
+            } }.invokeOnCompletion {
+                launch {
+                    memberships.forEach { this@FirebaseDatabase.remove(it) }
+                }
+            }
+            // edit all properties from band members
+            lateinit var members: List<Account>
+            launch {
+                members = readAccountDtos { it.bandId == _currentBand.id }
+                    .map { AccountMapper.fromDtoToItem(it) }
+            }.invokeOnCompletion {
+                launch {
+                    members.forEach {
+                        it.bandId = null
+                        it.bandName = null
+                        this@FirebaseDatabase.edit(it)
+                    }
+                }
+            }
+            launch { this@FirebaseDatabase.remove(_currentBand) }
+            return@async
+        }
+    }.await()
+
     override suspend fun sendFriendRequest(account: Account) = coroutineScope {
         async {
             this@FirebaseDatabase.add(
@@ -325,14 +358,8 @@ class FirebaseDatabase : Database {
     private suspend fun reset(item: Any) = coroutineScope {
         async {
             when (item) {
-                is Account -> {
-                    deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
-                    _currentAccount = Account.EMPTY
-                }
-                is Band -> {
-                    deleteItem(Constants.Firebase.Database.BANDS, item)
-                    _currentBand = Band.EMPTY
-                }
+                is Account -> deleteItem(Constants.Firebase.Database.ACCOUNTS, item)
+                is Band -> deleteItem(Constants.Firebase.Database.BANDS, item)
                 is BandInvitation,
                 is BandInvitationDto -> deleteItem(Constants.Firebase.Database.BAND_INVITATIONS, item as Item)
                 is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)

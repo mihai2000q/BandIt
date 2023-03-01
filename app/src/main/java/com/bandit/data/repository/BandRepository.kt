@@ -49,6 +49,13 @@ class BandRepository(private val _database: Database? = null) {
         }
     }.await()
 
+    suspend fun disbandBand() = coroutineScope {
+        async {
+            launch { _database?.disbandBand() }
+            _band = Band.EMPTY
+        }
+    }.await()
+
     fun filterBandInvitations(bandName: String?) : List<BandInvitation> =
         _bandInvitations.filter { FilterUtils.filter(it.band.name, bandName) }
 }

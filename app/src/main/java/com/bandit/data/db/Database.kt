@@ -75,9 +75,13 @@ interface Database {
      */
     suspend fun kickBandMember(account: Account)
     /**
-     * This method is used to abandon a band
+     * This method is used to abandon the current band
      */
     suspend fun abandonBand()
+    /**
+     * This method is used to disband the current band
+     */
+    suspend fun disbandBand()
     /**
      * This method is used to send a friend request to another user
      * @param account is the account which receives the request

@@ -53,18 +53,24 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 badgeDrawable.number = it.size
             }
             viewModel.band.observe(viewLifecycleOwner) {
+                if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
+                    bandBtAbandon.setText(R.string.bt_disband)
+                    bandBtAbandon.setOnClickListener { onDisband() }
+                }
+                else
+                    bandBtAbandon.setOnClickListener { onAbandon() }
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
+                    bandBtAbandon.visibility = View.GONE
                     bandTvName.visibility = View.GONE
                     bandRvMemberList.visibility = View.GONE
-                    bandBtCreate.visibility = View.VISIBLE
                     bandSearchView.visibility = View.INVISIBLE
                     bandBtAdd.visibility = View.INVISIBLE
                     layoutBandEmpty.visibility = View.VISIBLE
                 }
                 else {
+                    bandBtAbandon.visibility = View.VISIBLE
                     bandTvName.visibility = View.VISIBLE
-                    bandBtCreate.visibility = View.GONE
                     bandRvMemberList.visibility = View.VISIBLE
                     bandSearchView.visibility = View.VISIBLE
                     bandBtAdd.visibility = View.VISIBLE
@@ -103,6 +109,38 @@ class BandFragment : Fragment(), OnQueryTextListener {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun onAbandon() {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.band_alert_dialog_abandon_title),
+            resources.getString(R.string.band_alert_dialog_abandon_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(this) { viewModel.abandonBand() }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_abandoned_toast),
+            )
+        }
+    }
+
+    private fun onDisband() {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.band_alert_dialog_disband_title),
+            resources.getString(R.string.band_alert_dialog_disband_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(this) { viewModel.disbandBand() }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_disbanded_toast),
+            )
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

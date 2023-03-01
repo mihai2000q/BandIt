@@ -52,6 +52,7 @@ class AccountDialogFragment : DialogFragment(), OnItemSelectedListener {
                 accountEtName.setText(it.name)
                 accountEtNickname.setText(it.nickname)
                 accountSpinnerRole.setSelection(it.role.ordinal)
+                accountTvBandName.text = it.bandName
             }
             AndroidComponents.spinner(
                 super.requireContext(),
