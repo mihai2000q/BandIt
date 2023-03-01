@@ -219,6 +219,16 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
+    override suspend fun unfriend(account: Account) = coroutineScope {
+        async {
+            val allFriends = readDtos<FriendDto>(Constants.Firebase.Database.FRIENDS)
+            val friend1 = allFriends.first { it.accountId == account.id && it.friendId == _currentAccount.id }
+            val friend2 = allFriends.first { it.accountId == _currentAccount.id && it.friendId == account.id }
+            this@FirebaseDatabase.remove(friend1)
+            this@FirebaseDatabase.remove(friend2)
+        }
+    }.await()
+
     override suspend fun isEmailInUse(email: String): Boolean =
         coroutineScope {
             async {
