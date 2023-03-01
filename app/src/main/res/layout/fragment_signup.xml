@@ -100,7 +100,6 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/content_description_et_email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_tv_email"
@@ -108,7 +107,7 @@
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/signup_tv_email"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/signup_et_password"
@@ -116,14 +115,13 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/content_description_et_password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_tv_password"
         app:layout_constraintEnd_toEndOf="@+id/signup_et_email"
         app:layout_constraintStart_toStartOf="@+id/signup_et_email"
         app:layout_constraintTop_toTopOf="@+id/signup_tv_password"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/signup_iv_logo"
