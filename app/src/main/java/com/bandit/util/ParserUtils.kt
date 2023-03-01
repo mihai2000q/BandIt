@@ -29,7 +29,7 @@ object ParserUtils {
     )
 
 
-    fun parseDuration(
+    fun parseDurationText(
         text: String?
     ) : Duration =
         if(text.isNullOrEmpty())
@@ -39,7 +39,7 @@ object ParserUtils {
                     "${text[3]}${text[4]}S"
         )
 
-    fun parseDuration(
+    fun parseDurationSeconds(
         seconds: Long?
     ) : Duration =
         if(seconds == null)

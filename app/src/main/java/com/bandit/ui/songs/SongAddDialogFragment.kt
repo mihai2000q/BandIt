@@ -39,7 +39,7 @@ class SongAddDialogFragment : SongDialogFragment() {
                     songEtName.text.toString(),
                     bandViewModel.band.value!!.id,
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    ParserUtils.parseDuration(songEtDuration.text.toString())
+                    ParserUtils.parseDurationText(songEtDuration.text.toString())
                 )
             )
             AndroidComponents.toastNotification(

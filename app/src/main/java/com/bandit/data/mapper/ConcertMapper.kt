@@ -5,7 +5,6 @@ import com.bandit.data.dto.ConcertDto
 import com.bandit.data.model.Concert
 import com.bandit.data.model.Event
 import com.bandit.util.ParserUtils
-import java.time.Duration
 import java.time.LocalDateTime
 
 object ConcertMapper : MapperB<Concert, ConcertDto> {
@@ -13,7 +12,7 @@ object ConcertMapper : MapperB<Concert, ConcertDto> {
         return Concert(
             name = dto.name ?: "Null",
             dateTime = LocalDateTime.parse(dto.dateTime),
-            duration = ParserUtils.parseDuration(dto.duration),
+            duration = ParserUtils.parseDurationSeconds(dto.duration),
             bandId = dto.bandId,
             city = dto.city,
             country = dto.country,

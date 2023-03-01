@@ -5,7 +5,6 @@ import com.bandit.data.dto.EventDto
 import com.bandit.data.model.Concert
 import com.bandit.data.model.Event
 import com.bandit.util.ParserUtils
-import java.time.Duration
 import java.time.LocalDateTime
 
 object EventMapper : MapperB<Event, EventDto> {
@@ -13,7 +12,7 @@ object EventMapper : MapperB<Event, EventDto> {
         return Event(
             name = dto.name ?: "Null",
             dateTime = LocalDateTime.parse(dto.dateTime),
-            duration = ParserUtils.parseDuration(dto.duration),
+            duration = ParserUtils.parseDurationSeconds(dto.duration),
             type =  this.mapIntToEventType(dto.type?.toInt() ?: 0),
             bandId = dto.bandId,
             id = dto.id

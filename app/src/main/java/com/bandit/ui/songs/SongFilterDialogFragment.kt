@@ -32,7 +32,7 @@ class SongFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : SongD
                     if(songEtDuration.text.isNullOrEmpty())
                         null
                     else
-                        ParserUtils.parseDuration(songEtDuration.text.toString())
+                        ParserUtils.parseDurationText(songEtDuration.text.toString())
                 )
                 map.forEach { (key, value) ->
                     viewModel.songFilters.value?.replace(value, key.text.toString())
