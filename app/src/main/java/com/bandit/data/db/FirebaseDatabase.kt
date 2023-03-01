@@ -72,18 +72,9 @@ class FirebaseDatabase : Database {
     override suspend fun createBand(band: Band) = coroutineScope {
         async {
             // update the account's band properties
-            this@FirebaseDatabase.edit(
-                Account(
-                    name = _currentAccount.name,
-                    nickname = _currentAccount.nickname,
-                    role = _currentAccount.role,
-                    email = _currentAccount.email,
-                    bandId = band.id,
-                    bandName = band.name,
-                    id = _currentAccount.id,
-                    userUid = _currentAccount.userUid,
-                )
-            )
+            _currentAccount.bandId = band.id
+            _currentAccount.bandName = band.name
+            this@FirebaseDatabase.edit(_currentAccount)
             // add the band to database
             band.members[_currentAccount] = true
             this@FirebaseDatabase.add(band)

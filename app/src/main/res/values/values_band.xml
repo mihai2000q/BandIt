@@ -13,5 +13,5 @@
     <string name="band_alert_dialog_disband_title">Disband Band</string>
     <string name="band_alert_dialog_disband_message">Are you sure you want to disband this band?</string>
 
-    <color name="band_member_my_account_color">#F3EEEE</color>
+    <color name="band_member_my_account_color">#ACA2A2</color>
 </resources>
