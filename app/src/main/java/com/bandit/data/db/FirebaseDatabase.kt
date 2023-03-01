@@ -152,6 +152,26 @@ class FirebaseDatabase : Database {
         async { reset(bandInvitation) }
     }.await()
 
+    override suspend fun kickBandMember(account: Account) = coroutineScope {
+        async {
+            val newAccount = Account(
+                name = account.name,
+                nickname = account.nickname,
+                role = account.role,
+                email = account.email,
+                bandId = null,
+                bandName = null,
+                id = account.id,
+                userUid = account.userUid
+            )
+            this@FirebaseDatabase.edit(newAccount)
+            val member = readBandInvitationDtos {
+                it.accountId == account.id && it.bandId == currentBand.id
+            }.first()
+            this@FirebaseDatabase.remove(member)
+        }
+    }.await()
+
     override suspend fun sendFriendRequest(account: Account) = coroutineScope {
         async {
             this@FirebaseDatabase.add(
@@ -290,7 +310,8 @@ class FirebaseDatabase : Database {
                     deleteItem(Constants.Firebase.Database.BANDS, item)
                     _currentBand = Band.EMPTY
                 }
-                is BandInvitation -> deleteItem(Constants.Firebase.Database.BAND_INVITATIONS, item)
+                is BandInvitation,
+                is BandInvitationDto -> deleteItem(Constants.Firebase.Database.BAND_INVITATIONS, item as Item)
                 is Concert -> deleteItem(Constants.Firebase.Database.CONCERTS, item)
                 is Song -> deleteItem(Constants.Firebase.Database.SONGS, item)
                 is Album -> deleteItem(Constants.Firebase.Database.ALBUMS, item)
@@ -492,17 +513,7 @@ class FirebaseDatabase : Database {
 
     private suspend fun readPeople() = coroutineScope {
         async {
-            val table = Constants.Firebase.Database.ACCOUNTS
-            people += _firestore.collection(table)
-                .get()
-                .addOnSuccessListener {
-                    Log.i(Constants.Firebase.Database.TAG, "$table imported successfully")
-                }
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "$table ERROR $it")
-                }
-                .await()
-                .toObjects<AccountDto>()
+            people += readDtos<AccountDto>(Constants.Firebase.Database.ACCOUNTS)
                 .map { AccountMapper.fromDtoToItem(it) }
             people -= _currentAccount
             people -= friendRequests.toSet()
@@ -513,26 +524,14 @@ class FirebaseDatabase : Database {
     private suspend fun readAccountDtos(filterPredicate: (account: AccountDto) -> Boolean)
     : List<AccountDto> = coroutineScope {
         async {
-            return@async _firestore.collection(Constants.Firebase.Database.ACCOUNTS)
-                .get()
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "Accounts ERROR $it")
-                }
-                .await()
-                .toObjects<AccountDto>()
+            return@async readDtos<AccountDto>(Constants.Firebase.Database.ACCOUNTS)
                 .filter(filterPredicate)
         }
     }.await()
 
     private suspend fun readBandDtos(bandId: Long): List<BandDto> = coroutineScope {
         async {
-            return@async _firestore.collection(Constants.Firebase.Database.BANDS)
-                .get()
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "Bands ERROR $it")
-                }
-                .await()
-                .toObjects<BandDto>()
+            return@async readDtos<BandDto>(Constants.Firebase.Database.BANDS)
                 .filter { it.id == bandId }
         }
     }.await()
@@ -540,14 +539,7 @@ class FirebaseDatabase : Database {
     private suspend fun readBandInvitationDtos(filterPredicate: (BandInvitationDto) -> Boolean)
             : List<BandInvitationDto> = coroutineScope {
         async {
-            return@async _firestore
-                .collection(Constants.Firebase.Database.BAND_INVITATIONS)
-                .get()
-                .addOnFailureListener {
-                    Log.e(Constants.Firebase.Database.TAG, "Band Invitations ERROR $it")
-                }
-                .await()
-                .toObjects<BandInvitationDto>()
+            return@async readDtos<BandInvitationDto>(Constants.Firebase.Database.BAND_INVITATIONS)
                 .filter(filterPredicate)
         }
     }.await()

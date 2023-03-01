@@ -6,4 +6,8 @@
     <string name="band_member_accepted_false">pending</string>
     <string name="band_add_member_tv">Add New Member</string>
     <string name="band_invitation_title">Band Invitations</string>
+    <string name="band_alert_dialog_title">Kick Member</string>
+    <string name="band_alert_dialog_kick_member">Are you sure you want to kick this member?</string>
+
+    <color name="band_member_my_account_color">#F3EEEE</color>
 </resources>

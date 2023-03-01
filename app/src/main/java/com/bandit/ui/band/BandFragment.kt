@@ -73,7 +73,8 @@ class BandFragment : Fragment(), OnQueryTextListener {
             }
             viewModel.members.observe(viewLifecycleOwner) {
                 bandRvMemberList.adapter = BandMemberAdapter(
-                    this@BandFragment, it, friendsViewModel, accountViewModel.account.value!!
+                    this@BandFragment, it, viewModel,
+                    friendsViewModel, accountViewModel.account.value!!
                 )
             }
             bandBtAdd.setOnClickListener {

@@ -3,22 +3,27 @@ package com.bandit.ui.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelBandMemberBinding
+import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
 data class BandMemberAdapter(
     private val fragment: Fragment,
     private val members: MutableMap<Account, Boolean>,
-    private val viewModel: FriendsViewModel,
-    private val creator: Account
-
+    private val viewModel: BandViewModel,
+    private val friendsViewModel: FriendsViewModel,
+    private val myAccount: Account
 ) : RecyclerView.Adapter<BandMemberAdapter.ViewHolder>() {
-
+    private lateinit var popupMenu: PopupMenu
+    private var isPopupShown = false
     inner class ViewHolder(val binding: ModelBandMemberBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,21 +43,78 @@ data class BandMemberAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
-        with(holder.binding) {
-            memberNickname.text = account.nickname
-            memberRole.text = account.printRole()
-            if(creator == account)
-                memberStatus.setText(R.string.band_member_creator)
-            else if(hasAccepted) {
-                memberStatus.setText(R.string.band_member_accepted_true)
-                memberStatus.setTextColor(Color.GREEN)
+        with(holder) {
+            itemView.setOnLongClickListener { onLongClick(holder, account) }
+            if(account == myAccount)
+                itemView.background = ContextCompat.getDrawable(
+                    binding.root.context,
+                    R.color.band_member_my_account_color
+                )
+
+            with(binding) {
+                memberNickname.text = account.nickname
+                memberRole.text = account.printRole()
+                if(viewModel.band.value!!.creator == account.id)
+                    memberStatus.setText(R.string.band_member_creator)
+                else if(hasAccepted) {
+                    memberStatus.setText(R.string.band_member_accepted_true)
+                    memberStatus.setTextColor(Color.GREEN)
+                }
+                else {
+                    memberStatus.setText(R.string.band_member_accepted_false)
+                    memberStatus.setTextColor(Color.RED)
+                }
+                AndroidUtils.setProfilePicture(fragment, friendsViewModel,
+                    memberProfilePicture, account.userUid)
+
             }
-            else {
-                memberStatus.setText(R.string.band_member_accepted_false)
-                memberStatus.setTextColor(Color.RED)
-            }
-            AndroidUtils.setProfilePicture(fragment, viewModel, memberProfilePicture, account.userUid)
         }
+    }
+
+    private fun popupMenu(holder: ViewHolder, account: Account) {
+        popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
+        popupMenu.inflate(R.menu.band_member_popup_menu)
+        popupMenu.setOnDismissListener { isPopupShown = false }
+        popupMenu.setOnMenuItemClickListener {
+            popupMenu.dismiss()
+            when (it.itemId) {
+                else -> onKick(holder, account)
+            }
+        }
+    }
+
+    private fun onKick(holder: ViewHolder, account: Account): Boolean {
+        if(viewModel.band.value!!.creator == account.id) {
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.band_member_tried_kick_toast)
+            )
+            return true
+        }
+        AndroidComponents.alertDialog(
+            holder.binding.root.context,
+            holder.binding.root.resources.getString(R.string.band_alert_dialog_title),
+            holder.binding.root.resources.getString(R.string.band_alert_dialog_kick_member),
+            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
+            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(fragment) { viewModel.kickBandMember(account) }
+            friendsViewModel.removeBandForFriend(account)
+            AndroidComponents.toastNotification(
+                holder.binding.root.context,
+                holder.binding.root.resources.getString(R.string.band_member_kicked_toast),
+            )
+        }
+        return true
+    }
+
+    private fun onLongClick(holder: ViewHolder, account: Account): Boolean {
+        if(!isPopupShown && account != myAccount) {
+            popupMenu(holder, account)
+            isPopupShown = true
+            popupMenu.show()
+        }
+        return true
     }
 
 }

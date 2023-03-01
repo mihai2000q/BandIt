@@ -70,6 +70,11 @@ interface Database {
      */
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation)
     /**
+     * This method is used to kick a band member
+     * @param account the user that is kicked
+     */
+    suspend fun kickBandMember(account: Account)
+    /**
      * This method is used to send a friend request to another user
      * @param account is the account which receives the request
      */
