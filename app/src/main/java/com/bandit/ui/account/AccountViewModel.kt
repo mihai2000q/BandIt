@@ -23,9 +23,8 @@ class AccountViewModel : ViewModel() {
         nickname: String,
         role: BandItEnums.Account.Role
     ) = coroutineScope {
-        launch { _repository.createAccount(
-            name, nickname, role, _auth
-        ) }.join()
+        launch { _repository.createAccount(name, nickname, role, _auth) }.join()
+        this@AccountViewModel.refresh()
     }
     suspend fun updateAccount(
         name: String,
@@ -33,7 +32,7 @@ class AccountViewModel : ViewModel() {
         role: BandItEnums.Account.Role
     ) = coroutineScope {
         launch { _repository.updateAccount(name, nickname, role) }.join()
-        _account.value = _repository.currentAccount
+        this@AccountViewModel.refresh()
     }
 
     suspend fun saveProfilePicture(imageUri: Uri) = coroutineScope {
@@ -42,6 +41,10 @@ class AccountViewModel : ViewModel() {
 
     suspend fun getProfilePicture(): ByteArray = coroutineScope {
         return@coroutineScope _storage.getProfilePicture(_auth.currentUser?.uid)
+    }
+
+    private fun refresh() {
+        _account.value = _repository.currentAccount
     }
 
     fun signOut() {

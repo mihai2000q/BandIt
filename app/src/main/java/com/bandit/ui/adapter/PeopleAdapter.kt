@@ -90,19 +90,11 @@ class PeopleAdapter(
             )
             return true
         }
-        AndroidComponents.alertDialog(
+        AndroidUtils.loadDialogFragment(fragment) { bandViewModel.sendBandInvitation(account) }
+        AndroidComponents.toastNotification(
             holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.friend_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.friend_alert_dialog_message),
-            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
-            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
-        ) {
-            AndroidUtils.loadDialogFragment(fragment) { bandViewModel.sendBandInvitation(account) }
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.band_invitation_sent_toast),
-            )
-        }
+            holder.binding.root.resources.getString(R.string.band_invitation_sent_toast),
+        )
         return true
     }
 

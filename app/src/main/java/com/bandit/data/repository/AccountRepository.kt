@@ -27,13 +27,12 @@ class AccountRepository(private val _database: Database? = null) {
             userUid = auth.currentUser?.uid
         )
         _database?.add(newAccount)
-        if(_database != null)
+        if (_database != null)
             setUserAccountSetup(
                 _database,
                 auth,
                 true
             )
-        _currentAccount = newAccount
     }
 
     suspend fun updateAccount(
@@ -62,11 +61,11 @@ class AccountRepository(private val _database: Database? = null) {
 
     companion object {
         suspend fun setUserAccountSetup(database: Database, auth: Authenticator, accountSetup: Boolean) {
-                database.add(
-                    UserAccountDto(
-                        userUid = auth.currentUser?.uid ?: "",
-                        email = auth.currentUser?.email ?: "",
-                        accountSetup = accountSetup
+            database.add(
+                UserAccountDto(
+                    userUid = auth.currentUser?.uid ?: "",
+                    email = auth.currentUser?.email ?: "",
+                    accountSetup = accountSetup
                 )
             )
         }

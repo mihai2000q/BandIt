@@ -145,66 +145,57 @@ class FirebaseDatabase : Database {
 
     override suspend fun kickBandMember(account: Account) = coroutineScope {
         async {
-            val newAccount = Account(
-                name = account.name,
-                nickname = account.nickname,
-                role = account.role,
-                email = account.email,
-                bandId = null,
-                bandName = null,
-                id = account.id,
-                userUid = account.userUid
-            )
-            this@FirebaseDatabase.edit(newAccount)
-            val member = readBandInvitationDtos {
-                it.accountId == account.id && it.bandId == currentBand.id
+            account.bandId = null
+            account.bandName = null
+            this@FirebaseDatabase.edit(account)
+            val membership = readBandInvitationDtos {
+                it.accountId == account.id && it.bandId == currentBand.id && it.accepted == true
             }.first()
-            this@FirebaseDatabase.remove(member)
+            this@FirebaseDatabase.remove(membership)
         }
     }.await()
 
     override suspend fun abandonBand() = coroutineScope {
         async {
             _currentBand = Band.EMPTY
-            _currentAccount.bandId = null
-            _currentAccount.bandName = null
-            this@FirebaseDatabase.edit(_currentAccount)
-            val membership = readBandInvitationDtos {
-                it.accountId == _currentAccount.id && it.accepted == true
-            }.first()
-            this@FirebaseDatabase.remove(membership)
+            this@FirebaseDatabase.kickBandMember(_currentAccount)
         }
     }.await()
 
     override suspend fun disbandBand() = coroutineScope {
         async {
-            _currentBand = Band.EMPTY
-            _currentAccount.bandId = null
-            _currentAccount.bandName = null
-            // remove all band invitations
-            lateinit var memberships: List<BandInvitationDto>
-            launch { memberships = readBandInvitationDtos {
-                it.bandId == _currentBand.id
-            } }.invokeOnCompletion {
-                launch {
-                    memberships.forEach { this@FirebaseDatabase.remove(it) }
-                }
-            }
-            // edit all properties from band members
-            lateinit var members: List<Account>
             launch {
-                members = readAccountDtos { it.bandId == _currentBand.id }
-                    .map { AccountMapper.fromDtoToItem(it) }
-            }.invokeOnCompletion {
+                _currentAccount.bandId = null
+                _currentAccount.bandName = null
+                // remove all band invitations
+                lateinit var memberships: List<BandInvitationDto>
                 launch {
-                    members.forEach {
-                        it.bandId = null
-                        it.bandName = null
-                        this@FirebaseDatabase.edit(it)
+                    memberships = readBandInvitationDtos {
+                        it.bandId == _currentBand.id
+                    }
+                }.invokeOnCompletion {
+                    launch {
+                        memberships.forEach { this@FirebaseDatabase.remove(it) }
                     }
                 }
+                // edit all properties from band members
+                lateinit var members: List<Account>
+                launch {
+                    members = readAccountDtos { it.bandId == _currentBand.id }
+                        .map { AccountMapper.fromDtoToItem(it) }
+                }.invokeOnCompletion {
+                    launch {
+                        members.forEach {
+                            it.bandId = null
+                            it.bandName = null
+                            this@FirebaseDatabase.edit(it)
+                        }
+                    }
+                }
+                launch { this@FirebaseDatabase.remove(_currentBand) }
+            }.invokeOnCompletion {
+                _currentBand = Band.EMPTY
             }
-            launch { this@FirebaseDatabase.remove(_currentBand) }
             return@async
         }
     }.await()
