@@ -58,7 +58,7 @@ data class ConcertAdapter(
                         else -> Color.LTGRAY
                     }
                 concertLayout.setBackgroundColor(color)
-                concertTitle.text = concert.name.uppercase()
+                concertTitle.text = concert.name
                 if(!concert.city.isNullOrEmpty() || !concert.country.isNullOrEmpty())
                     concertCityCountry.text = buildString {
                         append("${concert.city?.normalizeWord()}, ")

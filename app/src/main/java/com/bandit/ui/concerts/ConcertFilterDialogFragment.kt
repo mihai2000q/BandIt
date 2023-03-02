@@ -40,11 +40,11 @@ class ConcertFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : Co
             concertButton.setOnClickListener {
                 viewModel.filterConcerts(
                     name = concertEtName.text.toString(),
-                    date = if(concertEtDate.text.toString().isEmpty())
+                    date = if(concertEtDate.text.isNullOrEmpty())
                         null
                     else
                         LocalDate.parse(concertEtDate.text.toString()),
-                    time = if(concertEtTime.text.toString().isEmpty())
+                    time = if(concertEtTime.text.isNullOrEmpty())
                         null
                     else
                         LocalTime.parse(concertEtTime.text.toString()),
