@@ -39,7 +39,7 @@ class PersonalNotesInstrumentedTest {
     fun personal_notes_fragment_ui() {
         onView(withId(R.id.personal_notes_bt_add)).check(matches(isDisplayed()))
         try {
-            // if there is a task, then check this
+            // if there is a note, then check this
             onView(withId(R.id.personal_notes_list)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this

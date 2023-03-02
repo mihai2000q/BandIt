@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
@@ -53,7 +54,7 @@ object AndroidTestsUtil {
             }
         }
     }
-    fun pressEnter(childId: Int): ViewAction {
+    fun pressEnter(): ViewAction {
         return object : ViewAction {
             override fun getDescription(): String {
                 return "Perform enter action on this view"
@@ -83,7 +84,7 @@ object AndroidTestsUtil {
     fun clearText(childId: Int): ViewAction {
         return object : ViewAction {
             override fun getDescription(): String {
-                return "Perform action on this view"
+                return "Clear Text on Edit Text"
             }
 
             override fun getConstraints(): Matcher<View> {
@@ -95,6 +96,21 @@ object AndroidTestsUtil {
 
             override fun perform(uiController: UiController?, view: View?) {
                 view?.findViewById<EditText>(childId)?.setText("")
+            }
+        }
+    }
+    fun clearText(): ViewAction {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return allOf(isAssignableFrom(SearchView::class.java))
+            }
+
+            override fun getDescription(): String {
+                return "Clear Text on Search View"
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                (view as SearchView).setQuery("", false)
             }
         }
     }

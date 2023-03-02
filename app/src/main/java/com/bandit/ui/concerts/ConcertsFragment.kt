@@ -95,8 +95,10 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if(binding.concertsSearchView.width > 0)
+        if(binding.concertsSearchView.width > 0) {
             viewModel.filterConcerts(name = newText)
+            viewModel.filters.value?.put(ConcertsViewModel.Filter.Name, newText ?: "")
+        }
         return false
     }
 
