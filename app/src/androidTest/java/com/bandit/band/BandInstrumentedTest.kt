@@ -3,7 +3,6 @@ package com.bandit.band
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -11,7 +10,6 @@ import androidx.test.filters.LargeTest
 import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.di.DILocator
 import com.bandit.util.ConstantsTest
 import org.hamcrest.Matchers.not
 import org.junit.Rule
@@ -20,7 +18,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class BandFragmentInstrumentedTest {
+class BandInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     private fun beforeEach(email: String, password: String) {
