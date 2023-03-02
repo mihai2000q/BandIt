@@ -40,7 +40,7 @@
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/signup_button"
+        android:id="@+id/signup_bt_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
@@ -87,9 +87,9 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
         android:text="@string/signup_checkbox_terms_and_conditions"
-        app:layout_constraintBottom_toTopOf="@+id/signup_button"
-        app:layout_constraintEnd_toEndOf="@+id/signup_button"
-        app:layout_constraintStart_toStartOf="@+id/signup_button"
+        app:layout_constraintBottom_toTopOf="@+id/signup_bt_signup"
+        app:layout_constraintEnd_toEndOf="@+id/signup_bt_signup"
+        app:layout_constraintStart_toStartOf="@+id/signup_bt_signup"
         app:layout_constraintTop_toBottomOf="@+id/signup_et_password"
         app:layout_constraintVertical_bias="0.19"
         app:layout_constraintVertical_chainStyle="packed" />
