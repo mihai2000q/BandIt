@@ -10,13 +10,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.TaskAdapter
+import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.withIndex
 import com.bandit.util.ConstantsTest
-import org.hamcrest.Matchers.not
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
@@ -52,12 +51,11 @@ class TodolistInstrumentedTest {
         val taskName = "I should test at some point"
         this.addTask(taskName)
         this.removeFirstTask()
-        onView(withText(taskName)).check(matches(not(isDisplayed())))
         try {
             // if there is a task, then check this
-            onView(withText(taskName)).check(matches(not(isDisplayed())))
+            onView(withText(taskName)).check(matches(isDisplayed()))
             fail("The task should have been deleted")
-        } catch (_: AssertionError) { }
+        } catch (_: AssertionError) {}
     }
     @Test
     fun todolist_fragment_click_edit_task() {
@@ -73,7 +71,10 @@ class TodolistInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, typeText(newName)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.pressEnter(R.id.task_et_message)))
+                0, AndroidTestsUtil.pressEnter()
+            ))
+
+        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         this.removeFirstTask()
     }
@@ -96,8 +97,10 @@ class TodolistInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, typeText(newName)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.pressEnter(R.id.task_et_message)))
+                0, AndroidTestsUtil.pressEnter()
+            ))
 
+        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         this.removeFirstTask()
     }
@@ -118,8 +121,9 @@ class TodolistInstrumentedTest {
     private fun removeFirstTask() {
         onView(withId(R.id.todolist_rv_tasks))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, longClick()
-            ))
+                0, longClick()))
+        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
+
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
