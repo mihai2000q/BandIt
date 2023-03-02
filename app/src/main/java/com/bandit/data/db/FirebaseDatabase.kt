@@ -78,6 +78,7 @@ class FirebaseDatabase : Database {
             this@FirebaseDatabase.edit(_currentAccount)
             // add the band to database
             band.members[_currentAccount] = true
+            _currentBand = band
             this@FirebaseDatabase.add(band)
             // add the creator to members
             this@FirebaseDatabase.add(

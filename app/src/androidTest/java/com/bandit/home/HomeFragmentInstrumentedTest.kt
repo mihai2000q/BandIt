@@ -8,9 +8,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.AndroidTestsUtil
+import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
+import com.bandit.util.ConstantsTest
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -24,11 +25,12 @@ class HomeFragmentInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        AndroidTestsUtil.login()
+        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
     }
     @Test
     fun home_fragment_user_interface() {
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
+        onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withId(R.id.action_bar_profile))))
         onView(withText("Your Concerts")).check(matches(isDisplayed()))
         onView(withText("Your Songs")).check(matches(isDisplayed()))
         onView(withText("Your Social")).check(matches(isDisplayed()))
