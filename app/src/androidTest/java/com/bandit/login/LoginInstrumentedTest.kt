@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest
 import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
+import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.ConstantsTest
 import org.hamcrest.Matchers
 import org.junit.Before
@@ -38,6 +39,7 @@ class LoginInstrumentedTest {
     }
     @Test
     fun login_fragment_log_in_validation() {
+        val randomEmail = "rando@random.com"
         // validation empty email field
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_email))
@@ -50,23 +52,34 @@ class LoginInstrumentedTest {
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_email_validation_email))))
 
         // validation empty password field
-        onView(withId(R.id.login_et_email)).perform(clearText())
-        onView(withId(R.id.login_et_email)).perform(typeText(ConstantsTest.adminEmail))
+        onView(withId(R.id.login_et_email))
+            .perform(clearText(), typeText(randomEmail))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_empty))))
 
-        // validation minimum password field
+        // validation minimum password
         onView(withId(R.id.login_et_password)).perform(typeText("1234567"))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_minimum))))
 
-        // validation incorrect password
-        onView(withId(R.id.login_et_password)).perform(clearText())
-        onView(withId(R.id.login_et_password)).perform(typeText("123456789"))
+        // validation email not used
+        onView(withId(R.id.login_et_password))
+            .perform(clearText(), typeText("123456789"))
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayLoadingScreen / 2))
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
+        onView(withId(R.id.login_et_email)).perform(click())
+        onView(withId(R.id.login_et_email))
+            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_email_validation_email_not_used))))
+
+        // validation incorrect password
+        onView(withId(R.id.login_et_email))
+            .perform(clearText(), typeText(ConstantsTest.adminEmail))
+        onView(withId(R.id.login_et_password))
+            .perform(clearText(), typeText("123456789"))
+        onView(withId(R.id.login_bt_login)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_incorrect))))
     }
@@ -75,7 +88,7 @@ class LoginInstrumentedTest {
         onView(withId(R.id.login_et_email)).perform(typeText(ConstantsTest.adminEmail))
         onView(withId(R.id.login_et_password)).perform(typeText(ConstantsTest.adminPassword))
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayLoadingScreen))
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen))
         // check if it is the home tab
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
     }
