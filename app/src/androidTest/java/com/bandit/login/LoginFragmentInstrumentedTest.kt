@@ -7,9 +7,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.AndroidTestsUtil
+import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
+import com.bandit.util.ConstantsTest
 import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
@@ -50,7 +51,7 @@ class LoginFragmentInstrumentedTest {
 
         // validation empty password field
         onView(withId(R.id.login_et_email)).perform(clearText())
-        onView(withId(R.id.login_et_email)).perform(typeText(AndroidTestsUtil.accountEmail))
+        onView(withId(R.id.login_et_email)).perform(typeText(ConstantsTest.adminEmail))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_empty))))
@@ -65,16 +66,16 @@ class LoginFragmentInstrumentedTest {
         onView(withId(R.id.login_et_password)).perform(clearText())
         onView(withId(R.id.login_et_password)).perform(typeText("123456789"))
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(AndroidTestsUtil.maximumDelayLoadingScreen / 2))
+        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayLoadingScreen / 2))
         onView(withId(R.id.login_et_password))
             .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_incorrect))))
     }
     @Test
     fun login_fragment_login() {
-        onView(withId(R.id.login_et_email)).perform(typeText(AndroidTestsUtil.accountEmail))
-        onView(withId(R.id.login_et_password)).perform(typeText(AndroidTestsUtil.accountPassword))
+        onView(withId(R.id.login_et_email)).perform(typeText(ConstantsTest.adminEmail))
+        onView(withId(R.id.login_et_password)).perform(typeText(ConstantsTest.adminPassword))
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(AndroidTestsUtil.maximumDelayLoadingScreen))
+        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayLoadingScreen))
         // check if it is the home tab
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
     }

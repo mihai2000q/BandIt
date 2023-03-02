@@ -1,4 +1,4 @@
-package com.bandit
+package com.bandit.util
 
 import android.view.View
 import androidx.test.espresso.Espresso
@@ -7,22 +7,20 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
+import com.bandit.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 
 
 object AndroidTestsUtil {
-    const val accountEmail = "Admin@Bandit.com"
-    const val accountPassword = "adminbandit"
-    const val maximumDelayLoadingScreen = 5_000L //ms
     fun getResourceString(id: Int): String {
         return InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(id)
     }
     fun waitFor(delay: Long): ViewAction {
         return object : ViewAction {
             override fun getDescription(): String {
-                return "wait for " + delay + "milliseconds";
+                return "wait for " + delay + "milliseconds"
             }
 
             override fun getConstraints(): Matcher<View> {
@@ -30,11 +28,11 @@ object AndroidTestsUtil {
             }
 
             override fun perform(uiController: UiController, view: View) {
-                uiController.loopMainThreadForAtLeast(delay);
+                uiController.loopMainThreadForAtLeast(delay)
             }
         }
     }
-    fun withIndex(matcher: Matcher<View?>, index: Int): Matcher<View?>? {
+    fun withIndex(matcher: Matcher<View?>, index: Int): Matcher<View?> {
         return object : TypeSafeMatcher<View>() {
             var currentIndex = 0
             override fun describeTo(description: Description) {
@@ -48,13 +46,13 @@ object AndroidTestsUtil {
             }
         }
     }
-    fun login() {
+    fun login(email: String, password: String) {
         Espresso.onView(ViewMatchers.withId(R.id.login_et_email)).perform(ViewActions.clearText())
         Espresso.onView(ViewMatchers.withId(R.id.login_et_email))
-            .perform(ViewActions.typeText(accountEmail))
+            .perform(ViewActions.typeText(email))
         Espresso.onView(ViewMatchers.withId(R.id.login_et_password))
-            .perform(ViewActions.typeText(accountPassword))
+            .perform(ViewActions.typeText(password))
         Espresso.onView(ViewMatchers.withId(R.id.login_bt_login)).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.isRoot()).perform(waitFor(maximumDelayLoadingScreen))
+        Espresso.onView(ViewMatchers.isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen))
     }
 }
