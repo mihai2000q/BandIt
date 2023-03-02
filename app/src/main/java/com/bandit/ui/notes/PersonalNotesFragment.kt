@@ -41,7 +41,7 @@ class PersonalNotesFragment : Fragment() {
             ) {
                 return@setRecyclerViewEmpty NoteAdapter(
                     this@PersonalNotesFragment,
-                    it.sorted(),
+                    it.sorted().asReversed(),
                     viewModel
                 )
             }

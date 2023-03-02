@@ -58,7 +58,7 @@ class TodoListFragment : Fragment() {
                 bandViewModel.band,
                 {
                     return@setRecyclerViewEmpty TaskAdapter(
-                        this@TodoListFragment, it.sorted(), viewModel)
+                        this@TodoListFragment, it.sorted().asReversed(), viewModel)
                 }
             )
             bandViewModel.band.observe(viewLifecycleOwner) {
