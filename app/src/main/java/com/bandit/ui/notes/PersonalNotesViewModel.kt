@@ -3,6 +3,7 @@ package com.bandit.ui.notes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Note
 import com.bandit.data.repository.NoteRepository
@@ -23,7 +24,7 @@ class PersonalNotesViewModel : ViewModel() {
         launch { _repository.remove(note) }.join()
         _notes.value = _repository.list
     }
-    suspend fun editNote(note: Note) = coroutineScope {
+    suspend fun editNote(note: Note) = viewModelScope.launch {
         launch { _repository.edit(note) }.join()
         _notes.value = _repository.list
     }
