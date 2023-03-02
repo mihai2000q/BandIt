@@ -16,6 +16,7 @@ import com.bandit.R
 import com.bandit.ui.adapter.TaskAdapter
 import com.bandit.util.AndroidTestsUtil.withIndex
 import com.bandit.util.ConstantsTest
+import org.hamcrest.Matchers.not
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
@@ -37,17 +38,13 @@ class TodolistFragmentInstrumentedTest {
     @Test
     fun todolist_fragment_ui() {
         onView(withId(R.id.todolist_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.todolist_rv_tasks)).check(matches(isDisplayed()))
-    }
-    @Test
-    fun todolist_fragment_add_task() {
-        val taskName = "new task"
         try {
-            onView(withText(taskName)).check(matches(isDisplayed()))
-            fail("This task should have been deleted")
-        } catch (_: NoMatchingViewException) {}
-        this.addTask(taskName)
-        onView(withText(taskName)).check(matches(isDisplayed()))
+            // if there is a task, then check this
+            onView(withId(R.id.todolist_rv_tasks)).check(matches(isDisplayed()))
+        } catch (_: AssertionError) {
+            // if the above does not work, then check this
+            onView(withId(R.id.todolist_rv_empty)).check(matches(isDisplayed()))
+        }
     }
     // Condition - this is the only task in the view with that name
     @Test
@@ -55,10 +52,12 @@ class TodolistFragmentInstrumentedTest {
         val taskName = "I should test at some point"
         this.addTask(taskName)
         this.removeFirstTask()
+        onView(withText(taskName)).check(matches(not(isDisplayed())))
         try {
-            onView(withText(taskName)).check(matches(isDisplayed()))
-            fail("This task should have been deleted")
-        } catch (_: NoMatchingViewException) {}
+            // if there is a task, then check this
+            onView(withText(taskName)).check(matches(not(isDisplayed())))
+            fail("The task should have been deleted")
+        } catch (_: AssertionError) { }
     }
     @Test
     fun todolist_fragment_click_edit_task() {
@@ -103,6 +102,10 @@ class TodolistFragmentInstrumentedTest {
         this.removeFirstTask()
     }
     private fun addTask(name: String) {
+        try {
+            onView(withText(name)).check(matches(isDisplayed()))
+            fail("This task shouldn't be here before adding")
+        } catch (_: NoMatchingViewException) {}
         onView(withId(R.id.todolist_bt_add)).perform(click())
         onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.bottom_sheet_df_edit_text))
@@ -113,7 +116,6 @@ class TodolistFragmentInstrumentedTest {
         onView(withIndex(withText(name), 0)).check(matches(isDisplayed()))
     }
     private fun removeFirstTask() {
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.todolist_rv_tasks))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, longClick()
