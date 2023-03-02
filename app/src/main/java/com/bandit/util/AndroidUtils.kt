@@ -249,7 +249,7 @@ object AndroidUtils {
                     view,
                     resources.getString(R.string.empty_band_snackbar),
                     resources.getString(R.string.bt_okay)
-                )
+                ).show()
             else
                 normalAction()
         }

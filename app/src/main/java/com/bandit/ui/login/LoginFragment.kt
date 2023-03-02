@@ -133,7 +133,7 @@ class LoginFragment : Fragment() {
             binding.loginLayout,
             resources.getString(R.string.no_internet_connection_snackbar),
             resources.getString(R.string.bt_retry)
-        )
+        ).show()
     }
 
     private fun validateFields(): Boolean {

@@ -16,12 +16,14 @@ import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
+import com.google.android.material.snackbar.Snackbar
 
 class SignupFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
+    private lateinit var snackbar: Snackbar
     private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
@@ -38,11 +40,17 @@ class SignupFragment : Fragment() {
         with(binding) {
             signupEtPassword.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    signupButton.callOnClick()
-                    signupButton.requestFocus()
+                    signupBtSignup.callOnClick()
+                    signupBtSignup.requestFocus()
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false
+            }
+            signupCbTerms.setOnCheckedChangeListener { _, isChecked ->
+                if(isChecked && signupCbTerms.error != null) {
+                    signupCbTerms.error = null
+                    snackbar.dismiss()
+                }
             }
             signupCbTerms.setOnClickListener {
                 AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, signupCbTerms)
@@ -53,7 +61,7 @@ class SignupFragment : Fragment() {
             signupBtGoBack.setOnClickListener {
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
-            signupButton.setOnClickListener {
+            signupBtSignup.setOnClickListener {
                 AndroidUtils.loadIntent(this@SignupFragment) { signUpButton() }
             }
         }
@@ -79,10 +87,14 @@ class SignupFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
+        val result = validatorService.validateEmail(binding.signupEtEmail) &&
+                validatorService.validatePassword(binding.signupEtPassword)
+        if(!result)
+            return false
         with(binding) {
             if(!signupCbTerms.isChecked) {
                 signupCbTerms.error = resources.getString(R.string.cb_terms_validation)
-                AndroidComponents.snackbarNotification(
+                snackbar = AndroidComponents.snackbarNotification(
                     binding.signupLayout,
                     resources.getString(R.string.cb_terms_validation),
                     resources.getString(R.string.bt_accept)
@@ -90,11 +102,11 @@ class SignupFragment : Fragment() {
                     signupCbTerms.isChecked = true
                     signupCbTerms.error = null
                 }
+                snackbar.show()
                 return false
             }
         }
-        return  validatorService.validateEmail(binding.signupEtEmail) &&
-                validatorService.validatePassword(binding.signupEtPassword)
+        return true
     }
     private suspend fun signUp() {
         with(binding) {

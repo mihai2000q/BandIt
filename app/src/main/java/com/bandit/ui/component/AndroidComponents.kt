@@ -122,7 +122,7 @@ object AndroidComponents {
         message: String,
         text: String,
         action: (() -> Unit)? = null
-    ) {
+    ): Snackbar {
         val snack = Snackbar
             .make(
                 view,
@@ -132,7 +132,7 @@ object AndroidComponents {
             .setAction(text) {
                 action?.invoke()
             }
-        snack.show()
+        return snack
     }
 
     fun toastNotification(context: Context, message: String,
