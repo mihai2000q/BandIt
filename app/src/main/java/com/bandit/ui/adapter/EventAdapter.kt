@@ -48,11 +48,8 @@ class EventAdapter(
             itemView.setOnLongClickListener { onLongClick(holder, event) }
             with(binding) {
                 eventDate.text = event.printExplicitDateTime()
-                eventTimeName.text = buildString {
-                    append(event.dateTime.toLocalTime().toString())
-                    append(" ")
-                    append(event.name)
-                }
+                eventTime.text = event.dateTime.toLocalTime().toString()
+                eventName.text = event.name
             }
         }
     }

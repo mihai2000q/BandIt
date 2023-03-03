@@ -53,6 +53,7 @@ class ScheduleFragment : Fragment(),
                 this@ScheduleFragment,
                 BandItEnums.Schedule.ViewType.values()
             )
+            scheduleSearchView.setOnQueryTextListener(this@ScheduleFragment)
             scheduleSwitchView.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.calendarMode.value = isChecked
             }
@@ -191,6 +192,7 @@ class ScheduleFragment : Fragment(),
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterEvents(newText)
+        viewModel.filterName.value = newText
         return true
     }
 
