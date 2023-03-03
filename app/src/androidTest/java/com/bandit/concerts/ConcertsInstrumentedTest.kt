@@ -1,6 +1,7 @@
 package com.bandit.concerts
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -54,6 +55,12 @@ class ConcertsInstrumentedTest {
         val concertPlace = "Rom Arena"
         this.addConcert(concertName, concertCity, concertCountry, concertPlace)
         this.removeConcert(concertName)
+        try {
+            onView(withText(concertName)).check(matches(isDisplayed()))
+            Assert.fail("This concert should have been deleted")
+        }
+        catch (_: AssertionError) {}
+        catch (_: NoMatchingViewException) {}
     }
     // Condition - there is only one concert with these properties
     @Test
@@ -72,7 +79,6 @@ class ConcertsInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(concertName)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
-
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.concert_et_name))
@@ -83,7 +89,6 @@ class ConcertsInstrumentedTest {
             .perform(clearText(), typeText(newPlace), closeSoftKeyboard())
 
         onView(withId(R.id.concert_button)).perform(click())
-
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withText(newName)).check(matches(isDisplayed()))
@@ -114,10 +119,7 @@ class ConcertsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.concerts_search_view))
-            .perform(AndroidTestsUtil.clearText())
-
-        onView(withId(R.id.concerts_search_view))
-            .perform(typeText(searchValue), closeSoftKeyboard())
+            .perform(AndroidTestsUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
         this.removeConcert(concertName)
     }

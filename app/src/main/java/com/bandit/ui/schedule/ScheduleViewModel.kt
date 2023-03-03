@@ -18,6 +18,7 @@ class ScheduleViewModel : ViewModel() {
     val selectedEvent = MutableLiveData<Event>()
     val calendarMode = MutableLiveData(false)
     val currentDate = MutableLiveData(LocalDate.now())
+    val filterName = MutableLiveData("")
 
     suspend fun addEvent(event: Event) = coroutineScope {
         launch { _repository.add(event) }.join()
@@ -42,7 +43,7 @@ class ScheduleViewModel : ViewModel() {
     }
 
     fun removeFilters() {
-        filterEvents()
+        this.filterEvents()
     }
 
     fun getDates() = _repository.getAllEventDates()
@@ -50,7 +51,9 @@ class ScheduleViewModel : ViewModel() {
     private fun refresh() {
         _events.value = _repository.list
         if(calendarMode.value == true)
-            filterEvents(date = currentDate.value)
+            this.filterEvents(date = currentDate.value)
+        if(!filterName.value.isNullOrBlank())
+            this.filterEvents(name = filterName.value)
     }
 
     companion object {
