@@ -11,6 +11,7 @@ import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
@@ -22,7 +23,7 @@ class BandInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     private fun beforeEach(email: String, password: String) {
-        AndroidTestsUtil.login(email, password)
+        TestUtil.login(email, password)
         onView(withId(R.id.navigation_social)).perform(click())
         onView(withText(R.string.social_band_tab)).perform(click())
     }

@@ -159,7 +159,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
-            binding.firstLoginTitle
+            binding.firstLoginBtNext
         )
         binding.firstLoginVfForm.showNext()
         binding.firstLoginProgressBar.progress++
@@ -185,7 +185,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
-            binding.firstLoginTitle
+            binding.firstLoginBtNext
         )
         accountViewModel.createAccount(
             viewModel.name.value!!,

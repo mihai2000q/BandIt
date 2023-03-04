@@ -9,10 +9,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.getResourceString
 import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -71,11 +71,9 @@ class SignupInstrumentedTest {
     // Condition - there should not be another account with the same email
     @Test
     fun signup_fragment_create_account_and_login() {
-        val newAccountEmail = "android@test.com"
-        val newAccountPass = "androidtest"
-        onView(withId(R.id.signup_et_email)).perform(typeText(newAccountEmail))
+        onView(withId(R.id.signup_et_email)).perform(typeText(ConstantsTest.newAccountEmail))
         onView(withId(R.id.signup_et_password))
-            .perform(typeText(newAccountPass), closeSoftKeyboard())
+            .perform(typeText(ConstantsTest.newAccountPass), closeSoftKeyboard())
         onView(withId(R.id.signup_cb_terms)).perform(click())
         onView(withId(R.id.signup_bt_signup)).perform(click())
 
@@ -84,7 +82,7 @@ class SignupInstrumentedTest {
         onView(withId(R.id.signup_bt_go_back)).perform(click())
 
         // test to see if it has been created successfully
-        AndroidTestsUtil.login(newAccountEmail, newAccountPass)
+        TestUtil.login(ConstantsTest.newAccountEmail, ConstantsTest.newAccountPass)
         onView(withId(R.id.main_toolbar))
             .check(matches(hasDescendant(withText(R.string.first_login_label))))
     }

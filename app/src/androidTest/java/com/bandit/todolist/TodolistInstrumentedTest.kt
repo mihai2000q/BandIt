@@ -16,6 +16,7 @@ import com.bandit.ui.adapter.TaskAdapter
 import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.withIndex
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
@@ -30,7 +31,7 @@ class TodolistInstrumentedTest {
     // Condition - have an account with a band already in place
     @Before
     fun setup() {
-        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.main_drawer_layout)).perform(DrawerActions.open())
         onView(withId(R.id.navigation_todolist)).perform(click())
     }

@@ -12,6 +12,7 @@ import com.bandit.util.AndroidTestsUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -25,7 +26,7 @@ class HomeInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
     }
     @Test
     fun home_fragment_user_interface() {
