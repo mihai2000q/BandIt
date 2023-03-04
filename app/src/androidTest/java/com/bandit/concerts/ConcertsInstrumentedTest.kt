@@ -15,6 +15,7 @@ import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.*
 import org.junit.Assert
 import org.junit.Before
@@ -29,7 +30,7 @@ class ConcertsInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.navigation_concerts)).perform(click())
     }
     // Condition - have a setup account with a band

@@ -13,10 +13,10 @@ import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.NoteAdapter
-import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.AndroidTestsUtil.withIndex
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +31,7 @@ class PersonalNotesInstrumentedTest {
     // Condition - have an account with a band already in place
     @Before
     fun setup() {
-        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.main_drawer_layout)).perform(DrawerActions.open())
         onView(withId(R.id.navigation_personal_notes)).perform(click())
     }

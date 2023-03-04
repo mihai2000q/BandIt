@@ -14,6 +14,7 @@ import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.AndroidTestsUtil.withIndex
 import com.bandit.util.ConstantsTest
+import com.bandit.util.TestUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Ignore
@@ -26,7 +27,7 @@ class SongsInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        AndroidTestsUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.navigation_songs)).perform(click())
     }
     // Condition - have a setup account with a band
