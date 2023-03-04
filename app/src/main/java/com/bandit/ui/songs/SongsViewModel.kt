@@ -3,12 +3,14 @@ package com.bandit.ui.songs
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.data.repository.AlbumRepository
 import com.bandit.data.repository.SongRepository
 import com.bandit.di.DILocator
+import com.bandit.util.ParserUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.time.Duration
@@ -28,28 +30,28 @@ class SongsViewModel : ViewModel() {
     enum class SongFilter { Name, ReleaseDate, Duration}
     enum class AlbumFilter { Name, ReleaseDate, Label}
     val songFilters = MutableLiveData<MutableMap<SongFilter, String>>(mutableMapOf())
-
-    private val _albumFilters = MutableLiveData<MutableMap<AlbumFilter, String>>(mutableMapOf())
-    val albumFilters: LiveData<MutableMap<AlbumFilter, String>> get() = _albumFilters
+    val albumFilters = MutableLiveData<MutableMap<AlbumFilter, String>>(mutableMapOf())
     init {
         SongFilter.values().forEach { songFilters.value?.put(it, "") }
-        AlbumFilter.values().forEach { _albumFilters.value?.put(it, "") }
+        AlbumFilter.values().forEach { albumFilters.value?.put(it, "") }
     }
     suspend fun addSong(song: Song) = coroutineScope {
         launch { _songRepository.add(song) }.join()
-        _songs.value = _songRepository.list
+        this@SongsViewModel.refreshSongs()
     }
     suspend fun removeSong(song: Song) = coroutineScope {
         launch { _songRepository.remove(song) }.join()
-        _songs.value = _songRepository.list
         if(song.albumId != null)
-            removeSongFromAlbum(_albums.value!!.first{ it.id == song.albumId }, song)
+            _albumRepository.removeSong(_albums.value!!
+                .first { it.id == song.albumId }, song)
+        this@SongsViewModel.refreshSongs()
     }
     suspend fun editSong(song: Song) = coroutineScope {
         launch { _songRepository.edit(song) }.join()
-        _songs.value = _songRepository.list
         if(song.albumId != null)
-            editSongFromAlbum(_albums.value!!.first{ it.id == song.albumId }, song)
+            this@SongsViewModel.editSongFromAlbum(_albums.value!!
+                .first { it.id == song.albumId }, song)
+        this@SongsViewModel.refreshSongs()
     }
     fun filterSongs(
         name: String?,
@@ -62,40 +64,44 @@ class SongsViewModel : ViewModel() {
 
     suspend fun addAlbum(album: Album) = coroutineScope {
         launch { _albumRepository.add(album) }.join()
-        _albums.value = _albumRepository.list
+        this@SongsViewModel.refreshAlbums()
     }
 
     suspend fun removeAlbum(album: Album) = coroutineScope {
-        launch { _albumRepository.remove(album) }.join()
-        _albums.value = _albumRepository.list
-        _songs.value!!
-            .filter { it.albumId == album.id }
-            .forEach {
-                it.albumId = null
-                it.albumName = null
-                editSong(it)
+        launch {
+            _albumRepository.remove(album)
+            _songs.value!!
+                .filter { it.albumId == album.id }
+                .forEach {
+                    it.albumId = null
+                    it.albumName = null
+                    this@SongsViewModel.editSong(it)
             }
+        }.join()
+        this@SongsViewModel.refreshAlbums()
     }
 
     suspend fun editAlbum(album: Album) = coroutineScope {
-        launch { _albumRepository.edit(album) }.join()
-        if(didAlbumChangeName(album))
-            _songs.value!!.filter { it.albumId == album.id }
-                .forEach {
-                    it.albumName = album.name
-                    editSong(it)
-                }
-        _albums.value = _albumRepository.list
+        launch { _albumRepository.edit(album)
+            if(didAlbumChangeName(album))
+                _songs.value!!
+                    .filter { it.albumId == album.id }
+                    .forEach {
+                        it.albumName = album.name
+                        this@SongsViewModel.editSong(it)
+                    }
+        }.join()
+        this@SongsViewModel.refreshAlbums()
     }
 
-    suspend fun addSongToAlbum(album: Album, song: Song) = coroutineScope {
-        launch { editSong(_albumRepository.addSong(album, song)) }.join()
-        _albums.value = _albumRepository.list
+    suspend fun addSongToAlbum(album: Album, song: Song) = viewModelScope.launch {
+        launch { this@SongsViewModel.editSong(_albumRepository.addSong(album, song)) }.join()
+        this@SongsViewModel.refreshAlbums()
     }
 
-    suspend fun removeSongFromAlbum(album: Album, song: Song) = coroutineScope {
-        launch { editSong(_albumRepository.removeSong(album, song)) }.join()
-        _albums.value = _albumRepository.list
+    suspend fun removeSongFromAlbum(album: Album, song: Song) = viewModelScope.launch {
+        launch { this@SongsViewModel.editSong(_albumRepository.removeSong(album, song)) }.join()
+        this@SongsViewModel.refreshAlbums()
     }
 
     fun getSongsWithoutAnAlbum() = _songRepository.getSongsWithoutAnAlbum()
@@ -113,12 +119,45 @@ class SongsViewModel : ViewModel() {
 
     fun getAlbumFiltersOn() = albumFilters.value?.filter { it.value.isNotBlank() }!!.size
 
-    private suspend fun editSongFromAlbum(album: Album, song: Song) = coroutineScope {
-        launch { _albumRepository.editSong(album, song) }.join()
-        _albums.value = _albumRepository.list
+    private fun editSongFromAlbum(album: Album, song: Song) {
+        _albumRepository.editSong(album, song)
     }
 
     private fun didAlbumChangeName(album: Album) = _albums.value!!.first{ it.id == album.id }.name == album.name
+
+    private fun refreshSongs() {
+        _songs.value = _songRepository.list
+        with(songFilters.value!!) {
+            if(this.any { it.value != "" })
+                this@SongsViewModel.filterSongs(
+                    name = this[SongFilter.Name],
+                    releaseDate = if(this[SongFilter.ReleaseDate].isNullOrEmpty())
+                        null
+                    else
+                        ParserUtils.parseDate(this[SongFilter.ReleaseDate]),
+                    albumName = null,
+                    duration = if(this[SongFilter.Duration].isNullOrEmpty())
+                        null
+                    else
+                        ParserUtils.parseDurationText(this[SongFilter.Duration])
+                )
+        }
+    }
+
+    private fun refreshAlbums() {
+        _albums.value = _albumRepository.list
+        with(albumFilters.value!!) {
+            if(this.any { it.value != "" })
+                this@SongsViewModel.filterAlbums(
+                    name = this[AlbumFilter.Name],
+                    releaseDate = if(this[AlbumFilter.ReleaseDate].isNullOrEmpty())
+                        null
+                    else
+                        ParserUtils.parseDate(this[AlbumFilter.ReleaseDate]),
+                    label = this[AlbumFilter.Label]
+                )
+        }
+    }
 
     companion object {
         const val TAG = Constants.Song.VIEW_MODEL_TAG
