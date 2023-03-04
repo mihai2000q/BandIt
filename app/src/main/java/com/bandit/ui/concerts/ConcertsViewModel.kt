@@ -41,7 +41,7 @@ class ConcertsViewModel : ViewModel() {
     private fun refresh() {
         _concerts.value = _repository.list
         with(filters.value!!) {
-            if(this.any { it.value == "" })
+            if(this.any { it.value != "" })
                 this@ConcertsViewModel.filterConcerts(
                     name = this[Filter.Name],
                     date = if(this[Filter.Date].isNullOrEmpty())

@@ -7,6 +7,9 @@ import com.bandit.data.template.TemplateRepository
 import java.time.Duration
 import java.time.LocalDate
 import com.bandit.util.FilterUtils.filter
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class AlbumRepository(database: Database? = null)
     : TemplateRepository<Album>(database, database?.albums) {
@@ -38,25 +41,22 @@ class AlbumRepository(database: Database? = null)
         return newAlbum
     }
 
-    suspend fun addSong(album: Album, song: Song): Song {
+    fun addSong(album: Album, song: Song): Song {
         song.albumId = album.id
         song.albumName = album.name
         album.songs.add(song)
-        edit(album)
         return song
     }
 
-    suspend fun removeSong(album: Album, song: Song): Song {
+    fun removeSong(album: Album, song: Song): Song {
         if(!album.songs.remove(song)) return Song.EMPTY
-        edit(album)
         song.albumId = null
         song.albumName = null
         return song
     }
 
-    suspend fun editSong(album: Album, newSong: Song) {
+    fun editSong(album: Album, newSong: Song) {
         val oldSong = album.songs.first { it.id == newSong.id }
         album.songs[album.songs.indexOf(oldSong)] = newSong
-        edit(album)
     }
 }

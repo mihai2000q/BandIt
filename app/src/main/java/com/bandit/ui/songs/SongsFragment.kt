@@ -102,6 +102,8 @@ class SongsFragment : Fragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         viewModel.filterAlbums(name = newText)
+                        viewModel.albumFilters.value?.set(
+                            SongsViewModel.AlbumFilter.Name, newText ?: "")
                         return false
                     }
                 }
@@ -167,6 +169,8 @@ class SongsFragment : Fragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         viewModel.filterSongs(name = newText)
+                        viewModel.songFilters.value?.set(
+                            SongsViewModel.SongFilter.Name, newText ?: "")
                         return false
                     }
                 }
