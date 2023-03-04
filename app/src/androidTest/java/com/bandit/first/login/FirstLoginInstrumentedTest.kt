@@ -26,15 +26,14 @@ class FirstLoginInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        TestUtil.login(ConstantsTest.newAccountEmail, ConstantsTest.newAccountPass)
+        TestUtil.login(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
     }
     // Condition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_navigate_back_to_login() {
         onView(withId(R.id.main_toolbar))
             .check(matches(hasDescendant(withText(R.string.first_login_label))))
-        onView(withId(R.id.first_login_bt_next)).check(matches(isDisplayed()))
-        onView(withText(R.string.bt_next)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_bt_next)).check(matches(withText(R.string.bt_next)))
         onView(withId(R.id.first_login_image_flipper)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_progress_bar)).check(matches(isDisplayed()))
 
@@ -47,24 +46,21 @@ class FirstLoginInstrumentedTest {
     // Condition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_setup_account() {
-        val name = "Android Test"
-        val nickname = "Android-er"
-        val role = "Manager"
         // first phase - choose the name
         onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name))
-            .perform(typeText(name), pressImeActionButton())
+            .perform(typeText(ConstantsTest.accountName), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
         onView(withId(R.id.first_login_tv_nickname)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
-            .perform(typeText(nickname), pressImeActionButton())
+            .perform(typeText(ConstantsTest.accountNickname), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // third phase - choose the role
         onView(withId(R.id.first_login_spinner_role)).perform(click())
-        onView(withText(role)).perform(click())
+        onView(withText(ConstantsTest.accountRole)).perform(click())
         onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -80,7 +76,7 @@ class FirstLoginInstrumentedTest {
             Assert.fail("This button should have been removed from the view")
         } catch (_: AssertionError) {}
         catch (_: NoMatchingViewException) {}
-        onView(withText(R.string.first_login_bt_next_last)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_bt_next)).check(matches(withText(R.string.first_login_bt_next_last)))
         onView(withId(R.id.first_login_bt_next)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen))
