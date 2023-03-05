@@ -6,6 +6,7 @@ object ConstantsTest {
     const val newUserEmail = "android@test.com"
     const val newUserPassword = "androidtest"
     const val accountName = "Android Test"
+    const val accountNewName = "Best Tester"
     const val accountNickname = "Android-er"
     const val accountRole = "Manager"
     const val maximumDelayLoadingScreen = 7_500L //ms

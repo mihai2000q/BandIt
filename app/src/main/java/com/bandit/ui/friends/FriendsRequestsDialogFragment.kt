@@ -1,6 +1,7 @@
 package com.bandit.ui.friends
 
 import android.app.ActionBar
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,8 +54,9 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
         _binding = null
     }
 
-    companion object {
-        const val TAG = Constants.Social.Friends.ADD_TAG
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        binding.friendsDialogSearchView.setQuery("", false)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -68,6 +70,11 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterFriendRequests(newText)
+        viewModel.friendRequestsFilterName.value = newText
         return false
+    }
+
+    companion object {
+        const val TAG = Constants.Social.Friends.ADD_TAG
     }
 }

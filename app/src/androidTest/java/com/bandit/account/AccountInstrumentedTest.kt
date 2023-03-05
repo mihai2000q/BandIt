@@ -45,7 +45,7 @@ class AccountInstrumentedTest {
     // Condition - needs an account already setup
     @Test
     fun account_fragment_update_account() {
-        val newName = "Best Tester"
+        val newName = ConstantsTest.accountNewName
         val newNickname = "Bester"
 
         onView(withId(R.id.account_iv_profile_picture)).perform(click())

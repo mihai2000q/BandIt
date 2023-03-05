@@ -98,6 +98,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterFriends(newText)
+        viewModel.friendsFilterName.value = newText
         return false
     }
 }

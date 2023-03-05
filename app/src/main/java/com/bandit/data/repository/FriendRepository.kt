@@ -15,22 +15,28 @@ class FriendRepository(private val _database: Database? = null) {
     private val _friendRequests: MutableList<Account> = _database?.friendRequests?.toMutableList() ?: mutableListOf()
     val friendRequests: List<Account> = _friendRequests
 
-    suspend fun sendFriendRequest(account: Account) {
-        _database?.sendFriendRequest(account)
-        _people.remove(account)
-    }
+    suspend fun sendFriendRequest(account: Account) = coroutineScope {
+        async {
+            launch { _database?.sendFriendRequest(account) }
+            _people.remove(account)
+        }
+    }.await()
 
-    suspend fun acceptFriendRequest(account: Account) {
-        _database?.acceptFriendRequest(account)
-        _friendRequests.remove(account)
-        _friends.add(account)
-    }
+    suspend fun acceptFriendRequest(account: Account) = coroutineScope {
+        async {
+            launch { _database?.acceptFriendRequest(account) }
+            _friendRequests.remove(account)
+            _friends.add(account)
+        }
+    }.await()
 
-    suspend fun rejectFriendRequest(account: Account) {
-        _database?.rejectFriendRequest(account)
-        _friendRequests.remove(account)
-        _people.add(account)
-    }
+    suspend fun rejectFriendRequest(account: Account) = coroutineScope {
+        async {
+            launch { _database?.rejectFriendRequest(account) }
+            _friendRequests.remove(account)
+            _people.add(account)
+        }
+    }.await()
 
     suspend fun unfriend(account: Account) = coroutineScope {
         async {

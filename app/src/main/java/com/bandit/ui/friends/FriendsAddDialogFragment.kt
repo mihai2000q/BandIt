@@ -1,6 +1,7 @@
 package com.bandit.ui.friends
 
 import android.app.ActionBar
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,7 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
+            friendsDialogTitle.setText(R.string.friends_add_dialog_title)
             viewModel.people.observe(viewLifecycleOwner) {
                 friendsDialogList.adapter = PeopleAdapter(
                     this@FriendsAddDialogFragment,
@@ -54,7 +56,6 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
                 }
             }
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsAddDialogFragment)
-            friendsDialogTitle.setText(R.string.friends_add_dialog_title)
         }
     }
 
@@ -63,8 +64,9 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
         _binding = null
     }
 
-    companion object {
-        const val TAG = Constants.Social.Friends.NEW_FRIEND_TAG
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        binding.friendsDialogSearchView.setQuery("", false)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -78,6 +80,11 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterPeople(newText)
+        viewModel.peopleFilterName.value = newText
         return false
+    }
+
+    companion object {
+        const val TAG = Constants.Social.Friends.NEW_FRIEND_TAG
     }
 }
