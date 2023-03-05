@@ -493,20 +493,20 @@ class FirebaseDatabase : Database {
 
     private suspend fun readBandItems() = coroutineScope {
         async {
-            readConcerts()
-            readSongs()
-            readAlbums()
-            readEvents()
-            readTasks()
+            launch { readConcerts() }
+            launch { readSongs() }
+            launch { readAlbums() }
+            launch { readEvents() }
+            launch { readTasks() }
         }
     }.await()
 
     private suspend fun readAccountItems() = coroutineScope {
         async {
-            readNotes()
-            readFriends()
-            readFriendRequests()
-            readPeople()
+            launch { readNotes() }
+            launch { readFriends() }
+            launch { readFriendRequests() }
+            launch { readPeople() }
         }
     }.await()
 
