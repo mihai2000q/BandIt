@@ -39,7 +39,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view)).check(matches(isDisplayed()))
         try {
             // if there is a concert, then check this
-            onView(withId(R.id.songs_list)).check(matches(isDisplayed()))
+            onView(withId(R.id.songs_rv_list)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.songs_rv_empty)).check(matches(isDisplayed()))
@@ -311,7 +311,7 @@ class SongsInstrumentedTest {
         onView(withText(name)).check(matches(isDisplayed()))
     }
     private fun removeSongOrAlbum(name: String) {
-        onView(withId(R.id.songs_list))
+        onView(withId(R.id.songs_rv_list))
             .perform(
                 RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
@@ -321,7 +321,7 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
     }
     private fun editSong(name: String, newName: String) {
-        onView(withId(R.id.songs_list))
+        onView(withId(R.id.songs_rv_list))
             .perform(
                 RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
@@ -334,7 +334,7 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
     }
     private fun editAlbum(name: String, newName: String) {
-        onView(withId(R.id.songs_list))
+        onView(withId(R.id.songs_rv_list))
             .perform(
                 RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))

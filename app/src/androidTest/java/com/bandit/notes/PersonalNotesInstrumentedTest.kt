@@ -39,7 +39,7 @@ class PersonalNotesInstrumentedTest {
         onView(withId(R.id.personal_notes_bt_add)).check(matches(isDisplayed()))
         try {
             // if there is a note, then check this
-            onView(withId(R.id.personal_notes_list)).check(matches(isDisplayed()))
+            onView(withId(R.id.personal_notes_rv_list)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.personal_notes_rv_empty)).check(matches(isDisplayed()))
@@ -59,13 +59,13 @@ class PersonalNotesInstrumentedTest {
         val newMessage = "I should probably not forget to write the lyrics for my beautiful band"
         this.addNote()
 
-        onView(withId(R.id.personal_notes_list))
+        onView(withId(R.id.personal_notes_rv_list))
             .perform(RecyclerViewActions.actionOnItemAtPosition<NoteAdapter.ViewHolder>(
                 0, click()))
 
-        onView(withId(R.id.personal_notes_edit_title))
+        onView(withId(R.id.personal_notes_et_title))
             .perform(clearText(), typeText(newTitle))
-        onView(withId(R.id.personal_notes_edit_content))
+        onView(withId(R.id.personal_notes_et_content))
             .perform(clearText(), typeText(newMessage), pressImeActionButton())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -81,7 +81,7 @@ class PersonalNotesInstrumentedTest {
         val newMessage = "I should probably not forget to write the lyrics for my beautiful band"
         this.addNote()
 
-        onView(withId(R.id.personal_notes_list))
+        onView(withId(R.id.personal_notes_rv_list))
             .perform(RecyclerViewActions.actionOnItemAtPosition<NoteAdapter.ViewHolder>(
                 0, longClick()
                 ))
@@ -89,9 +89,9 @@ class PersonalNotesInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.personal_notes_edit_title))
+        onView(withId(R.id.personal_notes_et_title))
             .perform(clearText(), typeText(newTitle))
-        onView(withId(R.id.personal_notes_edit_content))
+        onView(withId(R.id.personal_notes_et_content))
             .perform(clearText(), typeText(newMessage), pressImeActionButton())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -114,7 +114,7 @@ class PersonalNotesInstrumentedTest {
             .check(matches(isDisplayed()))
     }
     private fun removeFirstNote() {
-        onView(withId(R.id.personal_notes_list))
+        onView(withId(R.id.personal_notes_rv_list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<NoteAdapter.ViewHolder>(
                 0, longClick()

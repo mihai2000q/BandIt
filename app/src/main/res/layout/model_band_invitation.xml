@@ -9,7 +9,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/band_invitation_band_name"
+        android:id="@+id/band_invitation_tv_band_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

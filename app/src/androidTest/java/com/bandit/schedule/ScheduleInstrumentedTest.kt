@@ -44,7 +44,7 @@ class ScheduleInstrumentedTest {
             "The Schedule Calendar View should be invisible")
         try {
             // if there is a concert, then check this
-            onView(withId(R.id.schedule_events_view)).check(matches(isDisplayed()))
+            onView(withId(R.id.schedule_rv_events_view)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.schedule_rv_empty)).check(matches(isDisplayed()))
@@ -62,7 +62,7 @@ class ScheduleInstrumentedTest {
             "The Schedule Search View should be invisible")
         try {
             // if there is a concert, then check this
-            onView(withId(R.id.schedule_events_view)).check(matches(isDisplayed()))
+            onView(withId(R.id.schedule_rv_events_view)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.schedule_rv_empty)).check(matches(isDisplayed()))
@@ -82,7 +82,7 @@ class ScheduleInstrumentedTest {
         val newName = "Weekly Training Session"
         this.addEvent(eventName)
 
-        onView(withId(R.id.schedule_events_view))
+        onView(withId(R.id.schedule_rv_events_view))
             .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(eventName)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
@@ -186,7 +186,7 @@ class ScheduleInstrumentedTest {
         onView(withText(name)).check(matches(isDisplayed()))
     }
     private fun removeEvent(name: String) {
-        onView(withId(R.id.schedule_events_view))
+        onView(withId(R.id.schedule_rv_events_view))
             .perform(
                 RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(name)), longClick()))

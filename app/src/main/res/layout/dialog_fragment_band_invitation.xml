@@ -17,7 +17,7 @@
         android:textSize="20sp" />
 
     <SearchView
-        android:id="@+id/band_invitation_search"
+        android:id="@+id/band_invitation_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
