@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -165,9 +164,9 @@ class BandInstrumentedTest {
         // accept the invitation
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        onView(withId(R.id.band_invitation_search))
+        onView(withId(R.id.band_invitation_search_view))
             .perform(typeText(bandName.dropLast(1)), closeSoftKeyboard())
-        onView(withId(R.id.band_invitation_band_name)).check(matches(withText(bandName)))
+        onView(withId(R.id.band_invitation_tv_band_name)).check(matches(withText(bandName)))
         onView(withId(R.id.band_invitation_bt_accept)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -202,11 +201,11 @@ class BandInstrumentedTest {
         val band = ConstantsTest.bandName
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
         onView(withId(R.id.band_bt_invitations)).perform(click())
-        onView(withId(R.id.band_invitation_search))
+        onView(withId(R.id.band_invitation_search_view))
             .perform(typeText(band.dropLast(1)), closeSoftKeyboard())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.band_invitation_band_name)).check(matches(withText(band)))
+        onView(withId(R.id.band_invitation_tv_band_name)).check(matches(withText(band)))
         onView(withId(R.id.band_invitation_bt_reject)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))

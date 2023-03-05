@@ -39,7 +39,7 @@ class ConcertsInstrumentedTest {
         onView(withId(R.id.concerts_search_view)).check(matches(isDisplayed()))
         try {
             // if there is a concert, then check this
-            onView(withId(R.id.concerts_list)).check(matches(isDisplayed()))
+            onView(withId(R.id.concerts_rv_list)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.concerts_rv_empty)).check(matches(isDisplayed()))
@@ -70,7 +70,7 @@ class ConcertsInstrumentedTest {
         val newCity = "Leipzig"
         val newPlace = "Red Bull Arena"
 
-        onView(withId(R.id.concerts_list))
+        onView(withId(R.id.concerts_rv_list))
             .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(concertName)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
@@ -185,7 +185,7 @@ class ConcertsInstrumentedTest {
             onView(withText(place)).check(matches(isDisplayed()))
     }
     private fun removeConcert(name: String) {
-        onView(withId(R.id.concerts_list))
+        onView(withId(R.id.concerts_rv_list))
             .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_delete)).perform(click())

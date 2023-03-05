@@ -33,7 +33,7 @@ class LoginInstrumentedTest {
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.login_label))))
         onView(withId(R.id.login_et_email)).check(matches(isDisplayed()))
         onView(withId(R.id.login_et_password)).check(matches(isDisplayed()))
-        onView(withId(R.id.login_bt_login)).check(matches(withText(R.string.login_bt_login)))
+        onView(withId(R.id.login_bt_login)).check(matches(withText(R.string.bt_login)))
         onView(withId(R.id.login_bt_signup)).check(matches(withText(R.string.bt_sign_up)))
         onView(withId(R.id.login_cb_remember)).check(matches(isNotChecked()))
     }

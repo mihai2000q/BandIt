@@ -16,7 +16,7 @@
         android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/album_songs_without_album"
+        android:id="@+id/album_rv_songs_without_album"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"

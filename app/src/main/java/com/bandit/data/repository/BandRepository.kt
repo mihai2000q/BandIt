@@ -32,7 +32,12 @@ class BandRepository(private val _database: Database? = null) {
     suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         async {
             _database?.acceptBandInvitation(bandInvitation)
-            _band = _database?.currentBand ?: bandInvitation.band
+            if(_database == null) {
+                _band = bandInvitation.band
+                _band.members[bandInvitation.account] = true
+            }
+            else
+                _band = _database.currentBand
             _bandInvitations.clear()
         }
     }.await()

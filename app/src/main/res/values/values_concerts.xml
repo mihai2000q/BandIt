@@ -8,4 +8,8 @@
     <string name="recycler_view_concerts_empty">There is no concert yet, maybe you should add one</string>
     <string name="concert_alert_dialog_title">Delete Concert</string>
     <string name="concert_alert_dialog_message">Are you sure you want to delete this concert?</string>
+    <string name="concert_add_toast">Concert Added</string>
+    <string name="concert_edit_toast">Concert Edited</string>
+    <string name="concert_remove_toast">Concert Removed</string>
+    <string name="concert_filter_toast">Concerts Filtered</string>
 </resources>

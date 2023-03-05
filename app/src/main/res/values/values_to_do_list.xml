@@ -3,4 +3,7 @@
     <string name="recycler_view_task_empty">There is no task yet, maybe you should add one</string>
     <string name="task_alert_dialog_title">Delete Task</string>
     <string name="task_alert_dialog_message">Are you sure you want to delete this task?</string>
+    <string name="task_add_toast">Task Added</string>
+    <string name="task_edit_toast">Task Edited</string>
+    <string name="task_remove_toast">Task Removed</string>
 </resources>
