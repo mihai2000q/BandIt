@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 class TodolistInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
-    // Condition - have an account with a band already setup
+    // Precondition - have an account with a band already setup
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)

@@ -27,7 +27,7 @@ class FirstLoginInstrumentedTest {
     fun setup() {
         TestUtil.login(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
     }
-    // Condition - needs an account to be signed up (can take one from the Sign Up tests)
+    // Precondition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_navigate_back_to_login() {
         onView(withId(R.id.main_toolbar))
@@ -42,7 +42,7 @@ class FirstLoginInstrumentedTest {
             .check(matches(hasDescendant(withText(R.string.login_label))))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
     }
-    // Condition - needs an account to be signed up (can take one from the Sign Up tests)
+    // Precondition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_setup_account() {
         val name = ConstantsTest.accountName

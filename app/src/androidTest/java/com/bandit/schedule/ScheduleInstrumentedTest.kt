@@ -32,7 +32,7 @@ class ScheduleInstrumentedTest {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.navigation_schedule)).perform(click())
     }
-    // Condition - have a setup account with a band
+    // Precondition - have a setup account with a band
     @Test
     fun concerts_fragment_ui() {
         // events mode
@@ -147,6 +147,7 @@ class ScheduleInstrumentedTest {
 
         this.removeEvent(eventName)
     }
+    // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_calendar_mode_filter_event() {
         onView(withId(R.id.schedule_switch_view)).perform(click())

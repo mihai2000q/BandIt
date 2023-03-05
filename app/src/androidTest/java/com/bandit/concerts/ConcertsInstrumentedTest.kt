@@ -31,7 +31,7 @@ class ConcertsInstrumentedTest {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.navigation_concerts)).perform(click())
     }
-    // Condition - have a setup account with a band
+    // Precondition - have a setup account with a band
     @Test
     fun concerts_fragment_ui() {
         onView(withId(R.id.concerts_bt_add)).check(matches(isDisplayed()))

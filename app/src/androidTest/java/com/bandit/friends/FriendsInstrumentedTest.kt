@@ -27,7 +27,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.navigation_social)).perform(click())
         onView(withText(R.string.social_friends_tab)).perform(click())
     }
-    // Condition for all tests - have a setup account that is not friends with the Admin yet
+    // Precondition for all tests - have a setup account that is not friends with the Admin yet
     // The test will take the new user from the Sign Up/ First Login and Account tests
     // and will befriend the Admin
     @Test
@@ -43,6 +43,7 @@ class FriendsInstrumentedTest {
         }
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
     }
+    // Condition - the user is not friends with the admin
     // the new user sends a friend request to the admin
     @Test
     fun friends_fragment_send_friend_request() {
@@ -62,6 +63,7 @@ class FriendsInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
             "This account should not be displayed anymore in add friends")
     }
+    // Precondition - the user sent the admin a friend request
     // the admin rejects the friend request
     @Test
     fun friends_fragment_reject_friend_request() {
@@ -103,6 +105,7 @@ class FriendsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
     }
+    // Precondition - the user sent the admin a friend request
     // the admin accepts the friend request
     @Test
     fun friends_fragment_accept_friend_request() {
@@ -141,6 +144,7 @@ class FriendsInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
             "This account should not be displayed in friend requests")
     }
+    // Precondition - the user must be friends with the admin
     // the user unfriends the admin
     @Test
     fun friends_fragment_unfriend() {

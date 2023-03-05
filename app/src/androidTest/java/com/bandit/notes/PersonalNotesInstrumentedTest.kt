@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 class PersonalNotesInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
-    // Condition - have an account with a band already in place
+    // Precondition - have an account already setup
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)

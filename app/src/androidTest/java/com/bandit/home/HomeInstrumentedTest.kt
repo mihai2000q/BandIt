@@ -24,6 +24,7 @@ import org.junit.runner.RunWith
 class HomeInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    // Precondition - have an account already setup
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)

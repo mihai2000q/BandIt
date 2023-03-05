@@ -23,12 +23,12 @@ import org.junit.Test
 class SongsInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    // Precondition - have a setup account with a band already in place
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.navigation_songs)).perform(click())
     }
-    // Condition - have a setup account with a band
     @Test
     fun songs_fragment_ui() {
         // the songs mode and album share the same UI components

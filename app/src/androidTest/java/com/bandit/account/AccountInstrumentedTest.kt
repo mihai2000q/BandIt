@@ -28,7 +28,7 @@ class AccountInstrumentedTest {
         TestUtil.login(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
         onView(withId(R.id.action_bar_profile)).perform(click())
     }
-    // Condition - needs an account already setup with these exact name/nickname and role
+    // Precondition - needs an account already setup with these exact name/nickname and role
     @Test
     fun account_fragment_ui() {
         onView(withId(R.id.account_iv_profile_picture)).check(matches(isDisplayed()))
@@ -73,6 +73,7 @@ class AccountInstrumentedTest {
         onView(withId(R.id.account_et_name)).check(matches(withText(newName)))
         onView(withId(R.id.account_et_nickname)).check(matches(withText(newNickname)))
     }
+    // Condition - needs an account already setup
     @Test
     fun account_fragment_sign_out() {
         onView(withId(R.id.account_bt_sign_out)).perform(click())
