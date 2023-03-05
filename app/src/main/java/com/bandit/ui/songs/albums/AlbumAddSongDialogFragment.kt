@@ -37,7 +37,7 @@ class AlbumAddSongDialogFragment : DialogFragment() {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-            albumSongsWithoutAlbum.adapter =
+            albumRvSongsWithoutAlbum.adapter =
                 SongAdapter(
                     this@AlbumAddSongDialogFragment,
                     viewModel.getSongsWithoutAnAlbum().sorted().reversed(),

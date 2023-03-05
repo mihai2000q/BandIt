@@ -37,9 +37,9 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-            friendsDialogTitle.setText(R.string.friends_add_dialog_title)
+            friendsDialogTvTitle.setText(R.string.friends_add_dialog_title)
             viewModel.people.observe(viewLifecycleOwner) {
-                friendsDialogList.adapter = PeopleAdapter(
+                friendsDialogRvList.adapter = PeopleAdapter(
                     this@FriendsAddDialogFragment,
                     it.sorted(),
                     viewModel

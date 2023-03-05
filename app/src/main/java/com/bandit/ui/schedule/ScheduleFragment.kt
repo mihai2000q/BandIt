@@ -46,7 +46,7 @@ class ScheduleFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            scheduleEventsView.layoutManager = GridLayoutManager(context, 1)
+            scheduleRvEventsView.layoutManager = GridLayoutManager(context, 1)
             AndroidComponents.spinner(
                 super.requireContext(),
                 scheduleSpinnerMode,
@@ -92,7 +92,7 @@ class ScheduleFragment : Fragment(),
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.events,
-                scheduleEventsView,
+                scheduleRvEventsView,
                 scheduleRvEmpty,
                 scheduleRvBandEmpty,
                 bandViewModel.band,
@@ -132,7 +132,7 @@ class ScheduleFragment : Fragment(),
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.events,
-                scheduleEventsView,
+                scheduleRvEventsView,
                 scheduleRvEmpty,
                 scheduleRvBandEmpty,
                 bandViewModel.band,

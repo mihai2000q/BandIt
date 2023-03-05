@@ -36,7 +36,7 @@ class PersonalNotesFragment : Fragment() {
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.notes,
-                personalNotesList,
+                personalNotesRvList,
                 personalNotesRvEmpty
             ) {
                 return@setRecyclerViewEmpty NoteAdapter(

@@ -35,10 +35,10 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
         )
         with(binding) {
             viewModel.selectedNote.observe(viewLifecycleOwner) {
-                personalNotesEditTitle.setText(it.title)
-                personalNotesEditContent.setText(it.content)
+                personalNotesEtTitle.setText(it.title)
+                personalNotesEtContent.setText(it.content)
             }
-            personalNotesEditContent.setOnKeyListener { _, keyCode, event ->
+            personalNotesEtContent.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     super.dismiss()
                     return@setOnKeyListener true
@@ -58,8 +58,8 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
         AndroidUtils.loadDialogFragment(this) {
             viewModel.editNote(
                 Note(
-                    title = binding.personalNotesEditTitle.text.toString(),
-                    content = binding.personalNotesEditContent.text.toString(),
+                    title = binding.personalNotesEtTitle.text.toString(),
+                    content = binding.personalNotesEtContent.text.toString(),
                     accountId = viewModel.selectedNote.value!!.accountId,
                     createdOn = viewModel.selectedNote.value!!.createdOn,
                     id = viewModel.selectedNote.value!!.id

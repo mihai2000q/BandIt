@@ -37,10 +37,10 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-            friendsDialogTitle.setText(R.string.friends_requests_dialog_title)
+            friendsDialogTvTitle.setText(R.string.friends_requests_dialog_title)
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
             viewModel.friendRequests.observe(viewLifecycleOwner) {
-                friendsDialogList.adapter = FriendRequestAdapter(
+                friendsDialogRvList.adapter = FriendRequestAdapter(
                     this@FriendsRequestsDialogFragment,
                     it.sorted(),
                     viewModel
