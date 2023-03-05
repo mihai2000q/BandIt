@@ -12,11 +12,8 @@ import com.bandit.util.AndroidUtils
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withTimeoutOrNull
 
 class FirebaseDatabase : Database {
     // initial data set - not updated, just loaded/read
@@ -75,22 +72,26 @@ class FirebaseDatabase : Database {
             // update the account's band properties
             _currentAccount.bandId = band.id
             _currentAccount.bandName = band.name
-            this@FirebaseDatabase.edit(_currentAccount)
+            launch { this@FirebaseDatabase.edit(_currentAccount) }
             // add the band to database
             band.members[_currentAccount] = true
             _currentBand = band
-            this@FirebaseDatabase.add(band)
+            launch { this@FirebaseDatabase.add(band) }
             // add the creator to members
-            this@FirebaseDatabase.add(
-                BandInvitation(
-                    band = _currentBand,
-                    account = _currentAccount,
-                    hasAccepted = true
+            launch {
+                this@FirebaseDatabase.add(
+                    BandInvitation(
+                        band = _currentBand,
+                        account = _currentAccount,
+                        hasAccepted = true
+                    )
                 )
-            )
+            }
             //reject all the other bands
-            bandInvitations.forEach {
-                this@FirebaseDatabase.rejectBandInvitation(it)
+            launch {
+                bandInvitations.forEach {
+                    this@FirebaseDatabase.rejectBandInvitation(it)
+                }
             }
             return@async
         }
@@ -99,13 +100,16 @@ class FirebaseDatabase : Database {
     override suspend fun sendBandInvitation(account: Account) = coroutineScope {
         async {
             _currentBand.members[account] = false
-            this@FirebaseDatabase.add(
-                BandInvitation(
-                    band = _currentBand,
-                    account = account,
-                    hasAccepted = false
+            launch {
+                this@FirebaseDatabase.add(
+                    BandInvitation(
+                        band = _currentBand,
+                        account = account,
+                        hasAccepted = false
+                    )
                 )
-            )
+            }
+            return@async
         }
     }.await()
 
@@ -114,14 +118,14 @@ class FirebaseDatabase : Database {
             launch {
                 // accept the invitation and update the database
                 bandInvitation.hasAccepted = true
-                this@FirebaseDatabase.add(bandInvitation)
-                // remove it from the program cache,
+                launch { this@FirebaseDatabase.add(bandInvitation) }
+                // remove it from the runtime program cache,
                 // as the list is used to reject all the other invitations
                 bandInvitations.remove(bandInvitation)
                 // update the account by adding the band
                 _currentAccount.bandId = bandInvitation.band.id
                 _currentAccount.bandName = bandInvitation.band.name
-                this@FirebaseDatabase.edit(_currentAccount)
+                launch { this@FirebaseDatabase.edit(_currentAccount) }
             }.invokeOnCompletion {
                 // then read the new band and its items
                 launch { this@FirebaseDatabase.readBand() }
@@ -147,20 +151,26 @@ class FirebaseDatabase : Database {
 
     override suspend fun kickBandMember(account: Account) = coroutineScope {
         async {
+            _currentBand.members.remove(account)
             account.bandId = null
             account.bandName = null
-            this@FirebaseDatabase.edit(account)
-            val membership = readBandInvitationDtos {
-                it.accountId == account.id && it.bandId == currentBand.id && it.accepted == true
-            }.first()
-            this@FirebaseDatabase.remove(membership)
+            launch { this@FirebaseDatabase.edit(account) }
+            launch {
+                val membership = readBandInvitationDtos {
+                    it.accountId == account.id && it.bandId == _currentBand.id
+                }.first()
+                this@FirebaseDatabase.remove(membership)
+            }
+            return@async
         }
     }.await()
 
     override suspend fun abandonBand() = coroutineScope {
         async {
-            _currentBand = Band.EMPTY
-            this@FirebaseDatabase.kickBandMember(_currentAccount)
+            launch { this@FirebaseDatabase.kickBandMember(_currentAccount) }.invokeOnCompletion {
+                _currentBand = Band.EMPTY
+            }
+            return@async
         }
     }.await()
 
@@ -426,17 +436,14 @@ class FirebaseDatabase : Database {
     }.await()
 
     private suspend fun readBand() = coroutineScope {
-        var bandDto: BandDto
-        val accounts: MutableList<Account> = mutableListOf()
         async {
-
             if(_currentAccount.bandId == null) return@async
 
             val bandDtos = readBandDtos(_currentAccount.bandId!!)
 
             if(bandDtos.size != 1)
                 throw RuntimeException("there can't be more than one band associated with an account")
-            bandDto = bandDtos.first()
+            val bandDto = bandDtos.first()
 
             val bandInvitationDtos = readBandInvitationDtos {
                 it.bandId == bandDto.id
@@ -446,6 +453,7 @@ class FirebaseDatabase : Database {
                 return@readAccountDtos bandInvitationDtos.filter { it.accountId == a.id }.size == 1
             }
 
+            val accounts: MutableList<Account> = mutableListOf()
             accountDtos.forEach {
                 accounts.add(AccountMapper.fromDtoToItem(it))
             }

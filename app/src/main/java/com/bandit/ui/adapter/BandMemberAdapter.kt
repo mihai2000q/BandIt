@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
@@ -98,9 +99,9 @@ data class BandMemberAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(fragment) {
-                friendsViewModel.removeBandForFriend(account)
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope, fragment) {
                 viewModel.kickBandMember(account)
+                friendsViewModel.removeBandForFriend(account)
             }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,

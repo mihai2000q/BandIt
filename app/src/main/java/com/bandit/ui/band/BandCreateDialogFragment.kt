@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -51,7 +52,10 @@ class BandCreateDialogFragment : DialogFragment() {
                 if(!validateFields()) return@setOnClickListener
                 with(viewModel) {
                     this.name.value = createBandEtName.text.toString()
-                    AndroidUtils.loadDialogFragment(this@BandCreateDialogFragment) {
+                    AndroidUtils.loadDialogFragment(
+                        this.viewModelScope,
+                        this@BandCreateDialogFragment
+                    ) {
                         this.createBand(accountViewModel.account.value!!.id)
                     }
                     AndroidComponents.toastNotification(

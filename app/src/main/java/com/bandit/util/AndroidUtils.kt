@@ -45,6 +45,7 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -204,6 +205,20 @@ object AndroidUtils {
         task: suspend () -> Unit
     ) {
         fragment.lifecycleScope.launch {
+            LoadingDialogFragment.finish.value = false
+            val loadingDialogFragment = LoadingDialogFragment()
+            showDialogFragment(loadingDialogFragment, fragment.childFragmentManager)
+            launch { task() }.join()
+            LoadingDialogFragment.finish.value = true
+        }
+    }
+
+    fun loadDialogFragment(
+        viewModelScope: CoroutineScope,
+        fragment: Fragment,
+        task: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
             LoadingDialogFragment.finish.value = false
             val loadingDialogFragment = LoadingDialogFragment()
             showDialogFragment(loadingDialogFragment, fragment.childFragmentManager)

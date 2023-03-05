@@ -46,7 +46,7 @@ class AccountInstrumentedTest {
     @Test
     fun account_fragment_update_account() {
         val newName = ConstantsTest.accountNewName
-        val newNickname = "Bester"
+        val newNickname = ConstantsTest.accountNewNickname
 
         onView(withId(R.id.account_iv_profile_picture)).perform(click())
         onView(withId(R.id.image_picker_tv_header)).check(matches(isDisplayed()))

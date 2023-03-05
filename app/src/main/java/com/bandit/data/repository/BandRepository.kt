@@ -15,44 +15,57 @@ class BandRepository(private val _database: Database? = null) {
     private var _band = _database?.currentBand ?: Band.EMPTY
     val band get() = _band
 
-    suspend fun createBand(band: Band) {
-        _database?.createBand(band)
-        _band = band
-        _bandInvitations.clear()
-    }
+    suspend fun createBand(band: Band) = coroutineScope {
+        async {
+            _database?.createBand(band)
+            _band = _database?.currentBand ?: band
+            _bandInvitations.clear()
+        }
+    }.await()
 
-    suspend fun sendBandInvitation(account: Account) {
-        _database?.sendBandInvitation(account)
-    }
+    suspend fun sendBandInvitation(account: Account) = coroutineScope {
+        async {
+            _database?.sendBandInvitation(account)
+        }
+    }.await()
 
-    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) {
-        _database?.acceptBandInvitation(bandInvitation)
-        _bandInvitations.clear()
-    }
+    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
+        async {
+            _database?.acceptBandInvitation(bandInvitation)
+            _band = _database?.currentBand ?: bandInvitation.band
+            _bandInvitations.clear()
+        }
+    }.await()
 
     suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
-        _database?.rejectBandInvitation(bandInvitation)
-        _bandInvitations.remove(bandInvitation)
-    }
+        async {
+            _bandInvitations.remove(bandInvitation)
+            launch { _database?.rejectBandInvitation(bandInvitation) }
+        }
+    }.await()
 
     suspend fun kickBandMember(account: Account) = coroutineScope {
         async {
-            _band.members.remove(account)
-            launch { _database?.kickBandMember(account) }
+            if(_database == null) {
+                _band.members.remove(account)
+                account.bandId = null
+                account.bandName = null
+            }
+            _database?.kickBandMember(account)
         }
     }.await()
 
     suspend fun abandonBand() = coroutineScope {
         async {
-            launch { _database?.abandonBand() }
-            _band = Band.EMPTY
+            _database?.abandonBand()
+            _band = _database?.currentBand ?: Band.EMPTY
         }
     }.await()
 
     suspend fun disbandBand() = coroutineScope {
         async {
-            launch { _database?.disbandBand() }
-            _band = Band.EMPTY
+            _database?.disbandBand()
+            _band = _database?.currentBand ?: Band.EMPTY
         }
     }.await()
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
@@ -90,7 +91,9 @@ class PeopleAdapter(
             )
             return true
         }
-        AndroidUtils.loadDialogFragment(fragment) { bandViewModel.sendBandInvitation(account) }
+        AndroidUtils.loadDialogFragment(bandViewModel.viewModelScope, fragment) {
+            bandViewModel.sendBandInvitation(account)
+        }
         AndroidComponents.toastNotification(
             holder.binding.root.context,
             holder.binding.root.resources.getString(R.string.band_invitation_sent_toast),

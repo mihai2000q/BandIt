@@ -11,6 +11,7 @@ import com.bandit.data.model.BandInvitation
 import com.bandit.data.repository.BandRepository
 import com.bandit.di.DILocator
 import com.bandit.util.FilterUtils
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class BandViewModel : ViewModel() {
@@ -23,43 +24,47 @@ class BandViewModel : ViewModel() {
     val bandInvitations: LiveData<List<BandInvitation>> = _bandInvitations
     val name = MutableLiveData<String>()
     val bandTabOpen = MutableLiveData(false)
-    suspend fun createBand(creatorId: Long) = viewModelScope.launch {
-        launch { _repository.createBand(
-            Band(
-                name = name.value!!,
-                creator = creatorId,
-                members = mutableMapOf()
+    val filterBandInvitationsName = MutableLiveData("")
+    val filterMembersName = MutableLiveData("")
+    suspend fun createBand(creatorId: Long) = coroutineScope {
+        launch {
+            _repository.createBand(
+                Band(
+                    name = name.value!!,
+                    creator = creatorId,
+                    members = mutableMapOf()
+                )
             )
-        ) }.join()
+        }.join()
         this@BandViewModel.refresh()
     }
 
-    suspend fun sendBandInvitation(account: Account) = viewModelScope.launch {
+    suspend fun sendBandInvitation(account: Account) = coroutineScope {
         launch { _repository.sendBandInvitation(account) }.join()
         this@BandViewModel.refresh()
     }
 
-    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
+    suspend fun acceptBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         launch { _repository.acceptBandInvitation(bandInvitation) }.join()
         this@BandViewModel.refresh()
     }
 
-    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = viewModelScope.launch {
+    suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
         launch { _repository.rejectBandInvitation(bandInvitation) }.join()
         this@BandViewModel.refresh()
     }
     
-    suspend fun kickBandMember(account: Account) = viewModelScope.launch {
+    suspend fun kickBandMember(account: Account) = coroutineScope {
         launch { _repository.kickBandMember(account) }.join()
         this@BandViewModel.refresh()
     }
 
-    suspend fun abandonBand() = viewModelScope.launch {
+    suspend fun abandonBand() = coroutineScope {
         launch { _repository.abandonBand() }.join()
         this@BandViewModel.refresh()
     }
 
-    suspend fun disbandBand() = viewModelScope.launch {
+    suspend fun disbandBand() = coroutineScope {
         launch { _repository.disbandBand() }.join()
         this@BandViewModel.refresh()
     }
@@ -76,6 +81,10 @@ class BandViewModel : ViewModel() {
         _band.value = _repository.band
         _members.value = _band.value?.members
         _bandInvitations.value = _repository.bandInvitations
+        if(!filterMembersName.value.isNullOrBlank())
+            this.filterBandMembers(filterMembersName.value)
+        if(!filterBandInvitationsName.value.isNullOrBlank())
+            this.filterBandInvitations(filterBandInvitationsName.value)
     }
 
     companion object {
