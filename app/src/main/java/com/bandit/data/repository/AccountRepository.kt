@@ -15,7 +15,7 @@ class AccountRepository(private val _database: Database? = null) {
         name: String,
         nickname: String,
         role: BandItEnums.Account.Role,
-        auth: Authenticator
+        auth: Authenticator?
     ) = coroutineScope {
         val newAccount = Account(
             name = name,
@@ -23,13 +23,13 @@ class AccountRepository(private val _database: Database? = null) {
             role = role,
             bandId = null,
             bandName = null,
-            email = auth.currentUser?.email ?: "",
-            userUid = auth.currentUser?.uid
+            email = auth?.currentUser?.email ?: "",
+            userUid = auth?.currentUser?.uid
         )
         if(_database == null)
             _currentAccount = newAccount
         _database?.add(newAccount)
-        if (_database != null)
+        if (_database != null && auth != null)
             setUserAccountSetup(
                 _database,
                 auth,
@@ -56,9 +56,11 @@ class AccountRepository(private val _database: Database? = null) {
         _currentAccount = newAccount
     }
 
-    fun signOut(auth: Authenticator) {
+    fun signOut(auth: Authenticator?) {
+        if(_database == null)
+            _currentAccount = Account.EMPTY
         _database?.clearData()
-        auth.signOut()
+        auth?.signOut()
     }
 
     companion object {
