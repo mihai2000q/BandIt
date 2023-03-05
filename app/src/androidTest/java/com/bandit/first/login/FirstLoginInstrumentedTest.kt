@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
+import com.bandit.util.AndroidTestsUtil
 import com.bandit.util.AndroidTestsUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
@@ -46,16 +47,26 @@ class FirstLoginInstrumentedTest {
     // Condition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_setup_account() {
+        val name = ConstantsTest.accountName
+        val nickname = ConstantsTest.accountNickname
         // first phase - choose the name
+        onView(withId(R.id.first_login_bt_next)).perform(click())
+        onView(withId(R.id.first_login_et_name)).check(matches(
+            hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_name_validation))))
+
         onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name))
-            .perform(typeText(ConstantsTest.accountName), pressImeActionButton())
+            .perform(typeText(name), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
+        onView(withId(R.id.first_login_bt_next)).perform(click())
+        onView(withId(R.id.first_login_et_nickname)).check(matches(
+            hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_nickname_validation))))
+
         onView(withId(R.id.first_login_tv_nickname)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
-            .perform(typeText(ConstantsTest.accountNickname), pressImeActionButton())
+            .perform(typeText(nickname), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // third phase - choose the role
