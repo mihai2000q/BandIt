@@ -10,7 +10,7 @@ data class BandInvitation (
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : Item(id), Comparable<BandInvitation> {
     override fun compareTo(other: BandInvitation): Int {
-        return band.name.compareTo(other.band.name)
+        return band.compareTo(other.band)
     }
 
     fun isEmpty(): Boolean {

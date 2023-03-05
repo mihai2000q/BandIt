@@ -9,10 +9,14 @@ data class Band(
     val members: MutableMap<Account, Boolean>,
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : Item(id) {
+) : Item(id), Comparable<Band> {
     fun isEmpty(): Boolean {
         return this == EMPTY
     }
 
+    override fun compareTo(other: Band): Int {
+        return this.name.compareTo(other.name)
+    }
     companion object {
         val EMPTY = Band("", -1, mutableMapOf())
     }
