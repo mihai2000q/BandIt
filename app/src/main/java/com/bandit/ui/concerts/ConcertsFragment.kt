@@ -63,7 +63,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.concerts,
-                concertsList,
+                concertsRvList,
                 concertsRvEmpty,
                 concertsRvBandEmpty,
                 bandViewModel.band,

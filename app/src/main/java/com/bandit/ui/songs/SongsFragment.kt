@@ -69,7 +69,7 @@ class SongsFragment : Fragment() {
         val albumFilterDialogFragment = AlbumFilterDialogFragment(badgeDrawable)
         with(binding) {
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
-            songsList.layoutManager = GridLayoutManager(context, 2)
+            songsRvList.layoutManager = GridLayoutManager(context, 2)
             mode(
                 R.drawable.ic_list,
                 albumAddDialogFragment,
@@ -78,7 +78,7 @@ class SongsFragment : Fragment() {
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.albums,
-                songsList,
+                songsRvList,
                 songsRvEmpty,
                 songsRvBandEmpty,
                 bandViewModel.band,
@@ -132,7 +132,7 @@ class SongsFragment : Fragment() {
         val songFilterDialogFragment = SongFilterDialogFragment(badgeDrawable)
         with(binding) {
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
-            songsList.layoutManager = GridLayoutManager(context, 1)
+            songsRvList.layoutManager = GridLayoutManager(context, 1)
             mode(
                 R.drawable.ic_album_view,
                 songAddDialogFragment,
@@ -141,7 +141,7 @@ class SongsFragment : Fragment() {
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.songs,
-                songsList,
+                songsRvList,
                 songsRvEmpty,
                 songsRvBandEmpty,
                 bandViewModel.band,

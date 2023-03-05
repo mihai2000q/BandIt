@@ -44,7 +44,7 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
             bandAddMemberSearch.setOnQueryTextListener(this@BandAddMemberDialogFragment)
             friendsViewModel.friends.observe(viewLifecycleOwner) {
                 val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
-                bandAddMemberFriends.adapter = PeopleAdapter(
+                bandRvAddMemberFriends.adapter = PeopleAdapter(
                     this@BandAddMemberDialogFragment,
                     accounts.filter { acc -> acc.bandId == null },
                     friendsViewModel

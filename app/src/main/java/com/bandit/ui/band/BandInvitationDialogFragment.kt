@@ -34,7 +34,7 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        binding.bandInvitationSearch.setOnQueryTextListener(this)
+        binding.bandInvitationSearchView.setOnQueryTextListener(this)
         viewModel.bandInvitations.observe(viewLifecycleOwner) {
             binding.bandInvitationRvList.adapter = BandInvitationAdapter(
                 this,
@@ -46,7 +46,7 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.bandInvitationSearch.setQuery("", false)
+        binding.bandInvitationSearchView.setQuery("", false)
         _binding = null
         viewModel.refresh()
     }
@@ -56,7 +56,7 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
             super.requireContext(),
             resources.getString(R.string.band_invitation_filtered_toast)
         )
-        binding.bandInvitationSearch.clearFocus()
+        binding.bandInvitationSearchView.clearFocus()
         return true
     }
 

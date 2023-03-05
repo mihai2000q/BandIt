@@ -37,7 +37,7 @@ class BandInvitationAdapter(
         val bandInvitation = bandInvitations[position]
 
         with(holder.binding) {
-            bandInvitationBandName.text = bandInvitation.band.name
+            bandInvitationTvBandName.text = bandInvitation.band.name
             bandInvitationBtAccept.setOnClickListener { onAccept(holder, bandInvitation) }
             bandInvitationBtReject.setOnClickListener { onReject(holder, bandInvitation) }
         }
