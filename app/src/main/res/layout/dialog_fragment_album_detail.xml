@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginVertical="8dp"
-        android:text="@string/album_bt_add_song" />
+        android:text="@string/bt_add_song" />
 
     <TextView
         android:id="@+id/album_detail_actual_songs"

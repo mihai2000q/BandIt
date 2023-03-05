@@ -12,6 +12,18 @@
     <string name="band_alert_dialog_abandon_message">Are you sure you want to abandon this band?</string>
     <string name="band_alert_dialog_disband_title">Disband Band</string>
     <string name="band_alert_dialog_disband_message">Are you sure you want to disband this band?</string>
+    <string name="band_create_toast">Band Created</string>
+    <string name="band_invitation_sent_toast">Band Invitation Sent</string>
+    <string name="band_invitation_accepted_toast">Band Invitation Accepted</string>
+    <string name="band_invitation_rejected_toast">Band Invitation Rejected</string>
+    <string name="band_invitation_filtered_toast">Band Invitations Filtered</string>
+    <string name="band_members_filtered_toast">Band Members Filtered</string>
+    <string name="band_member_kicked_toast">Band Member Kicked</string>
+    <string name="band_member_tried_kick_toast">Cannot kick this member</string>
+    <string name="band_member_same_band_toast">This member is already in your band</string>
+    <string name="band_member_in_band_toast">This member is in a band already</string>
+    <string name="band_abandoned_toast">Band Abandoned</string>
+    <string name="band_disbanded_toast">Band Disbanded</string>
 
     <color name="band_member_my_account_color">#ACA2A2</color>
 </resources>
