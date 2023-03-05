@@ -15,11 +15,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
 import com.bandit.ui.account.AccountDialogFragment
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.launch
 
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
         this.setupNavigationElements(navController)
+        this.setupSwipeRefreshLayout(binding.swipeRefreshLayout, navController)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         return authentication()
@@ -85,6 +88,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_social,
                 R.id.navigation_schedule -> binding.mainBottomNavigationView.visibility = View.VISIBLE
                 else -> binding.mainBottomNavigationView.visibility = View.GONE
+            }
+            when(destination.id) {
+                R.id.navigation_signup,
+                R.id.navigation_login,
+                R.id.navigation_first_login -> binding.swipeRefreshLayout.isEnabled = false
+                else -> binding.swipeRefreshLayout.isEnabled = true
+            }
+        }
+    }
+
+    private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, navController: NavController) {
+        swipeRefreshLayout.setDistanceToTriggerSync(AndroidUtils.getScreenHeight(this) * 9 / 16)
+        swipeRefreshLayout.setOnRefreshListener {
+            lifecycleScope.launch {
+                viewModelStore.clear()
+                DILocator.getDatabase().clearData()
+                DILocator.getDatabase().init(DILocator.getAuthenticator().currentUser!!.uid)
+                AndroidComponents.toastNotification(
+                    applicationContext,
+                    resources.getString(R.string.page_refresh_toast)
+                )
+                AndroidUtils.refreshFragment(navController)
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }

@@ -26,19 +26,21 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bandit.LoadingActivity
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
-import com.bandit.ui.component.LoadingDialogFragment
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.LoadingDialogFragment
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.badge.BadgeDrawable
@@ -343,5 +345,11 @@ object AndroidUtils {
                     view.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
+    }
+
+    fun refreshFragment(navController: NavController) {
+        val fragmentId = navController.currentDestination?.id
+        navController.popBackStack(fragmentId!!,true)
+        navController.navigate(fragmentId)
     }
 }

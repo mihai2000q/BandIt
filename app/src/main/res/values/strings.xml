@@ -12,4 +12,5 @@
     <string name="alert_dialog_negative">No</string>
     <string name="alert_dialog_positive">Yes</string>
     <string name="recycler_view_empty_band">Enter a band to add items</string>
+    <string name="page_refresh_toast">App Refreshed</string>
 </resources>
