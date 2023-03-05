@@ -1,7 +1,6 @@
 package com.bandit.songs
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -10,12 +9,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
-import com.bandit.util.AndroidTestsUtil
-import com.bandit.util.AndroidTestsUtil.waitFor
-import com.bandit.util.AndroidTestsUtil.withIndex
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.waitFor
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
@@ -53,12 +51,8 @@ class SongsInstrumentedTest {
         val songName = "The Warrior"
         this.addSong(songName)
         this.removeSongOrAlbum(songName)
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been deleted")
-        }
-        catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        "This song should have been deleted")
     }
     // Condition - there is only one song with these properties
     @Test
@@ -84,15 +78,13 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(typeText("2323"), closeSoftKeyboard())
 
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.songs_search_view))
-            .perform(AndroidTestsUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
+            .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
         this.removeSongOrAlbum(songName)
     }
@@ -112,10 +104,8 @@ class SongsInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.song_button)).perform(click())
 
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been filtered out")
 
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -133,12 +123,8 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         this.removeSongOrAlbum(albumName)
-        try {
-            onView(withText(albumName)).check(matches(isDisplayed()))
-            Assert.fail("This album should have been deleted")
-        }
-        catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+            "This album should have been deleted")
     }
     // Condition - there is only one album with these properties
     @Test
@@ -166,15 +152,13 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(typeText("2323"), closeSoftKeyboard())
 
-        try {
-            onView(withText(albumName)).check(matches(isDisplayed()))
-            Assert.fail("This album should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+            "This album should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.songs_search_view))
-            .perform(AndroidTestsUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
+            .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
         this.removeSongOrAlbum(albumName)
     }
@@ -195,10 +179,8 @@ class SongsInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.album_button)).perform(click())
 
-        try {
-            onView(withText(albumName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+            "This album should have been filtered out")
 
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -231,11 +213,8 @@ class SongsInstrumentedTest {
         // check if the added song is still available
         onView(withId(R.id.album_detail_bt_add_songs)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been added to the album")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+            "This song should have been added to the album")
 
         // add second song to album
         onView(withText(songName2)).perform(click())
@@ -274,31 +253,24 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withText(newAlbumName)).perform(click())
         onView(withText(newSongName)).check(matches(isDisplayed()))
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been edited")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
-        try {
-            onView(withText(songName2)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been removed")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been edited")
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName2),
+            "This song should have been removed")
 
         // delete album
         onView(isRoot()).perform(pressBack())
         this.removeSongOrAlbum(newAlbumName)
 
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        try {
-            onView(withText(newAlbumName)).check(matches(isDisplayed()))
-            Assert.fail("This album should have been removed")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newAlbumName),
+            "This album should have been deleted")
         this.removeSongOrAlbum(newSongName)
     }
     // Condition - there is no other album or song with these names
     // FAILING - due to unknown reasons - replaced with manual testing
+    // the official reason: on line 289, the layout loses its focus and never regains it
+    // therefore, it crashes after a timeout
     @Test
     @Ignore("Because it will fail on line 317")
     fun songs_fragment_remove_song_from_album() {
@@ -319,11 +291,8 @@ class SongsInstrumentedTest {
         onView(withText(R.string.album_remove_from_album)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        try {
-            onView(withText(songName)).check(matches(isDisplayed()))
-            Assert.fail("This song should have been removed from the album")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been removed from the album")
 
         // check if the song is still on the songs list
         onView(isRoot()).perform(pressBack())

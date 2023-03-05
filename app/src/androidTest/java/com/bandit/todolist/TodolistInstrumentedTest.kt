@@ -1,7 +1,6 @@
 package com.bandit.todolist
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
@@ -13,11 +12,10 @@ import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.TaskAdapter
-import com.bandit.util.AndroidTestsUtil
-import com.bandit.util.AndroidTestsUtil.withIndex
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +26,7 @@ import org.junit.runner.RunWith
 class TodolistInstrumentedTest {
     @get:Rule
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
-    // Condition - have an account with a band already in place
+    // Condition - have an account with a band already setup
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
@@ -46,17 +44,13 @@ class TodolistInstrumentedTest {
             onView(withId(R.id.todolist_rv_empty)).check(matches(isDisplayed()))
         }
     }
-    // Condition - this is the only task in the view with that name
     @Test
     fun todolist_fragment_add_and_remove_task() {
         val taskName = "I should test at some point"
         this.addTask(taskName)
         this.removeFirstTask()
-        try {
-            // if there is a task, then check this
-            onView(withText(taskName)).check(matches(isDisplayed()))
-            fail("The task should have been deleted")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(taskName),
+        "The task should have been deleted")
     }
     @Test
     fun todolist_fragment_click_edit_task() {
@@ -68,14 +62,14 @@ class TodolistInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, click()))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.clearText(R.id.task_et_message)))
+                0, AndroidTestUtil.clearText(R.id.task_et_message)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, typeText(newName)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.pressEnter()
+                0, AndroidTestUtil.pressEnter()
             ))
 
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         this.removeFirstTask()
     }
@@ -94,28 +88,24 @@ class TodolistInstrumentedTest {
 
         onView(withId(R.id.todolist_rv_tasks))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.clearText(R.id.task_et_message)))
+                0, AndroidTestUtil.clearText(R.id.task_et_message)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, typeText(newName)))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
-                0, AndroidTestsUtil.pressEnter()
+                0, AndroidTestUtil.pressEnter()
             ))
 
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         this.removeFirstTask()
     }
     private fun addTask(name: String) {
-        try {
-            onView(withText(name)).check(matches(isDisplayed()))
-            fail("This task shouldn't be here before adding")
-        } catch (_: NoMatchingViewException) {}
         onView(withId(R.id.todolist_bt_add)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.bottom_sheet_df_edit_text))
             .perform(typeText(name), pressImeActionButton())
 
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withIndex(withText(name), 0)).check(matches(isDisplayed()))
     }
@@ -123,11 +113,11 @@ class TodolistInstrumentedTest {
         onView(withId(R.id.todolist_rv_tasks))
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, longClick()))
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
 
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.maximumDelayOperations))
     }
 }

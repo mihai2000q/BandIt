@@ -9,8 +9,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.util.AndroidTestsUtil.waitFor
-import com.bandit.util.AndroidTestsUtil.withIndex
+import com.bandit.util.AndroidTestUtil.waitFor
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
 import org.junit.Before
@@ -45,7 +45,7 @@ class AccountInstrumentedTest {
     // Condition - needs an account already setup
     @Test
     fun account_fragment_update_account() {
-        val newName = "Best Tester"
+        val newName = ConstantsTest.accountNewName
         val newNickname = "Bester"
 
         onView(withId(R.id.account_iv_profile_picture)).perform(click())

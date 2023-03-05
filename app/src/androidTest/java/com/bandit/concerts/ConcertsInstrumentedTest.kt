@@ -1,7 +1,6 @@
 package com.bandit.concerts
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -12,12 +11,11 @@ import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
-import com.bandit.util.AndroidTestsUtil
-import com.bandit.util.AndroidTestsUtil.waitFor
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.*
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,12 +54,8 @@ class ConcertsInstrumentedTest {
         val concertPlace = "Rom Arena"
         this.addConcert(concertName, concertCity, concertCountry, concertPlace)
         this.removeConcert(concertName)
-        try {
-            onView(withText(concertName)).check(matches(isDisplayed()))
-            Assert.fail("This concert should have been deleted")
-        }
-        catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(concertName),
+            "This concert should have been deleted")
     }
     // Condition - there is only one concert with these properties
     @Test
@@ -112,15 +106,13 @@ class ConcertsInstrumentedTest {
         onView(withId(R.id.concerts_search_view))
             .perform(typeText("2"), closeSoftKeyboard())
 
-        try {
-            onView(withText(concertName)).check(matches(isDisplayed()))
-            Assert.fail("This concert should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(concertName),
+            "This concert should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.concerts_search_view))
-            .perform(AndroidTestsUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
+            .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
         this.removeConcert(concertName)
     }
@@ -141,10 +133,8 @@ class ConcertsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        try {
-            onView(withText(concertName)).check(matches(isDisplayed()))
-            Assert.fail("This concert should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(concertName),
+            "This concert should have been filtered out")
 
         // filter for the concert to be seen
         onView(withId(R.id.concerts_bt_filter)).perform(click())

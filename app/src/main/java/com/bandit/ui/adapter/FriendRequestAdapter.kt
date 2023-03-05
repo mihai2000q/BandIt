@@ -2,6 +2,7 @@ package com.bandit.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R

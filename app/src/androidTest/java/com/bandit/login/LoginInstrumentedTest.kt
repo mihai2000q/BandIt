@@ -7,10 +7,10 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestsUtil
+import com.bandit.util.AndroidTestUtil
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.util.AndroidTestsUtil.waitFor
+import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import org.hamcrest.Matchers
 import org.junit.Before
@@ -43,26 +43,26 @@ class LoginInstrumentedTest {
         // validation empty email field
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_email_validation_empty))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_empty))))
 
         // validation for email pattern
         onView(withId(R.id.login_et_email)).perform(typeText("something"))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_email_validation_email))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_email))))
 
         // validation empty password field
         onView(withId(R.id.login_et_email))
             .perform(clearText(), typeText(randomEmail))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_empty))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_empty))))
 
         // validation minimum password
         onView(withId(R.id.login_et_password)).perform(typeText("1234567"))
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_minimum))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_minimum))))
 
         // validation email not used
         onView(withId(R.id.login_et_password))
@@ -71,7 +71,7 @@ class LoginInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withId(R.id.login_et_email)).perform(click())
         onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_email_validation_email_not_used))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_email_not_used))))
 
         // validation incorrect password
         onView(withId(R.id.login_et_email))
@@ -81,7 +81,7 @@ class LoginInstrumentedTest {
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestsUtil.getResourceString(R.string.et_pass_validation_incorrect))))
+            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_incorrect))))
     }
     @Test
     fun login_fragment_login() {

@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/search_view" />
+        android:queryHint="@string/friends_search_view_add" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friends_dialog_list"

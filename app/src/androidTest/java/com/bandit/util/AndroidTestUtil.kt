@@ -8,20 +8,28 @@ import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.platform.app.InstrumentationRegistry
-import com.bandit.R
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
+import org.junit.Assert
 
 
-object AndroidTestsUtil {
+object AndroidTestUtil {
+    fun checkIfItIsNotDisplayed(matcher: Matcher<View?>, errorMessage: String) {
+        try {
+            Espresso.onView(matcher).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            Assert.fail(errorMessage)
+        } catch (_: AssertionError) {}
+        catch (_: NoMatchingViewException) {}
+    }
     fun getResourceString(id: Int): String {
         return InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(id)
     }

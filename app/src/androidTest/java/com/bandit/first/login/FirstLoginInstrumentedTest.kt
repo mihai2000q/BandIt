@@ -1,7 +1,6 @@
 package com.bandit.first.login
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -10,10 +9,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.util.AndroidTestsUtil.waitFor
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -46,16 +45,26 @@ class FirstLoginInstrumentedTest {
     // Condition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
     fun first_login_fragment_setup_account() {
+        val name = ConstantsTest.accountName
+        val nickname = ConstantsTest.accountNickname
         // first phase - choose the name
+        onView(withId(R.id.first_login_bt_next)).perform(click())
+        onView(withId(R.id.first_login_et_name)).check(matches(
+            hasErrorText(AndroidTestUtil.getResourceString(R.string.et_name_validation))))
+
         onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name))
-            .perform(typeText(ConstantsTest.accountName), pressImeActionButton())
+            .perform(typeText(name), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
+        onView(withId(R.id.first_login_bt_next)).perform(click())
+        onView(withId(R.id.first_login_et_nickname)).check(matches(
+            hasErrorText(AndroidTestUtil.getResourceString(R.string.et_nickname_validation))))
+
         onView(withId(R.id.first_login_tv_nickname)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
-            .perform(typeText(ConstantsTest.accountNickname), pressImeActionButton())
+            .perform(typeText(nickname), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // third phase - choose the role
@@ -71,11 +80,8 @@ class FirstLoginInstrumentedTest {
 
         // congratulations
         onView(withId(R.id.first_login_tv_congrats)).check(matches(isDisplayed()))
-        try {
-            onView(withId(R.id.first_login_bt_cancel)).check(matches(isDisplayed()))
-            Assert.fail("This button should have been removed from the view")
-        } catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.first_login_bt_cancel),
+            "This button should have been removed from the view")
         onView(withId(R.id.first_login_bt_next)).check(matches(withText(R.string.first_login_bt_next_last)))
         onView(withId(R.id.first_login_bt_next)).perform(click())
 
