@@ -41,10 +41,28 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/friends_list"
+        android:id="@+id/friends_rv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="1"
-        tools:listitem="@layout/model_friend"/>
+        tools:listitem="@layout/model_friend">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/friends_rv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recycler_view_friends_empty"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

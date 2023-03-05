@@ -65,8 +65,13 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 badgeDrawable.isVisible = false
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
-            viewModel.friends.observe(viewLifecycleOwner) {
-                friendsList.adapter = PeopleAdapter(
+            AndroidUtils.setRecyclerViewEmpty(
+                viewLifecycleOwner,
+                viewModel.friends,
+                friendsRvList,
+                friendsRvEmpty
+            ) {
+                return@setRecyclerViewEmpty PeopleAdapter(
                     this@FriendsFragment,
                     it.sorted(),
                     viewModel,
