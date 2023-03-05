@@ -3,6 +3,7 @@ package com.bandit.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
@@ -43,7 +44,7 @@ class BandInvitationAdapter(
     }
 
     private fun onAccept(holder: ViewHolder, bandInvitation: BandInvitation) {
-        AndroidUtils.loadDialogFragment(dialogFragment) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, dialogFragment) {
             viewModel.acceptBandInvitation(bandInvitation)
             AndroidComponents.toastNotification(
                 holder.binding.root.context,

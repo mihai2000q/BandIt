@@ -46,6 +46,7 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.bandInvitationSearch.setQuery("", false)
         _binding = null
         viewModel.refresh()
     }
@@ -61,6 +62,7 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterBandInvitations(bandName = newText)
+        viewModel.filterBandInvitationsName.value = newText
         return true
     }
 

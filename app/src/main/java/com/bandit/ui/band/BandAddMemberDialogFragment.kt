@@ -1,5 +1,6 @@
 package com.bandit.ui.band
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.SearchView.OnQueryTextListener
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -47,7 +49,10 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
                     accounts.filter { acc -> acc.bandId == null },
                     friendsViewModel
                 ) { acc ->
-                    AndroidUtils.loadDialogFragment(this@BandAddMemberDialogFragment) {
+                    AndroidUtils.loadDialogFragment(
+                        viewModel.viewModelScope,
+                        this@BandAddMemberDialogFragment
+                    ) {
                         viewModel.sendBandInvitation(acc)
                     }
                     AndroidComponents.toastNotification(
@@ -60,10 +65,15 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
         }
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        binding.bandAddMemberSearch.setQuery("", false)
+        friendsViewModel.refresh()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        friendsViewModel.refresh()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

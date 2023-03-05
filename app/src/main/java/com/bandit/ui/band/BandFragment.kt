@@ -8,6 +8,7 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
@@ -135,7 +136,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
             resources.getString(R.string.alert_dialog_positive),
             resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(this) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
                 viewModel.disbandBand()
                 viewModelStore.clear()
             }
@@ -157,6 +158,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         viewModel.filterBandMembers(name = newText)
+        viewModel.filterMembersName.value = newText
         return true
     }
 }
