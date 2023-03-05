@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestsUtil
+import com.bandit.util.AndroidTestUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.util.ConstantsTest
@@ -51,12 +51,12 @@ class BandInstrumentedTest {
     fun band_fragment_create_band() {
         val bandName = "Admin's Band"
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_bt_create)).perform(click())
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.smallDelay))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.create_band_et_name)).perform(typeText(bandName), pressImeActionButton())
 
-        onView(isRoot()).perform(AndroidTestsUtil.waitFor(ConstantsTest.maximumDelayOperations))
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withId(R.id.band_bt_create)).check(matches(not(isDisplayed())))
         onView(withId(R.id.band_bt_abandon)).check(matches(withText(R.string.bt_disband)))

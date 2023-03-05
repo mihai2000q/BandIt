@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestsUtil
+import com.bandit.util.AndroidTestUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.util.ConstantsTest
@@ -54,7 +54,7 @@ class HomeInstrumentedTest {
         onView(withId(R.id.navigation_schedule)).perform(click())
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.schedule_label))))
 
-        onView(AndroidTestsUtil.withIndex(withId(R.id.navigation_home), 1)).perform(click())
+        onView(AndroidTestUtil.withIndex(withId(R.id.navigation_home), 1)).perform(click())
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
     }
     @Test
@@ -92,7 +92,7 @@ class HomeInstrumentedTest {
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.personal_notes_label))))
 
         onView(withId(R.id.main_drawer_layout)).perform(open())
-        onView(AndroidTestsUtil.withIndex(withId(R.id.navigation_home), 0)).perform(click())
+        onView(AndroidTestUtil.withIndex(withId(R.id.navigation_home), 0)).perform(click())
         onView(withId(R.id.main_toolbar)).check(matches(hasDescendant(withText(R.string.home_label))))
 
         onView(withId(R.id.main_bottom_navigation_view)).check(matches(isDisplayed()))

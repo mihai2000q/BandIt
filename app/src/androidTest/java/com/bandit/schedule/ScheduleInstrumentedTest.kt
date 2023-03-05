@@ -1,7 +1,6 @@
 package com.bandit.schedule
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -12,12 +11,11 @@ import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
-import com.bandit.util.AndroidTestsUtil
-import com.bandit.util.AndroidTestsUtil.waitFor
-import com.bandit.util.AndroidTestsUtil.withIndex
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.waitFor
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,14 +38,10 @@ class ScheduleInstrumentedTest {
         // events mode
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
-        try {
-            onView(withId(R.id.schedule_spinner_mode)).check(matches(isDisplayed()))
-            Assert.fail("The Schedule Spinner 'Day/Week/Month' View should be invisible")
-        } catch (_: AssertionError) {}
-        try {
-            onView(withId(R.id.schedule_calendar_view)).check(matches(isDisplayed()))
-            Assert.fail("The Schedule Calendar View should be invisible")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_spinner_mode),
+            "The Schedule Spinner 'Day/Week/Month' View should be invisible")
+        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_calendar_view),
+            "The Schedule Calendar View should be invisible")
         try {
             // if there is a concert, then check this
             onView(withId(R.id.schedule_events_view)).check(matches(isDisplayed()))
@@ -64,10 +58,8 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_spinner_mode)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_calendar_view)).check(matches(isDisplayed()))
-        try {
-            onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
-            Assert.fail("The Schedule Search View should be invisible")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_search_view),
+            "The Schedule Search View should be invisible")
         try {
             // if there is a concert, then check this
             onView(withId(R.id.schedule_events_view)).check(matches(isDisplayed()))
@@ -82,12 +74,6 @@ class ScheduleInstrumentedTest {
         val eventName = "New Event"
         this.addEvent(eventName)
         this.removeEvent(eventName)
-        try {
-            onView(withText(eventName)).check(matches(isDisplayed()))
-            Assert.fail("This event should have been deleted")
-        }
-        catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
     }
     // Condition - there is only one event with these properties
     @Test
@@ -127,15 +113,13 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_search_view))
             .perform(typeText("2"), closeSoftKeyboard())
 
-        try {
-            onView(withText(eventName)).check(matches(isDisplayed()))
-            Assert.fail("This event should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(eventName),
+            "This event should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.schedule_search_view))
-            .perform(AndroidTestsUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
+            .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
         this.removeEvent(eventName)
     }
@@ -162,12 +146,6 @@ class ScheduleInstrumentedTest {
         onView(withText(eventName)).check(matches(isDisplayed()))
 
         this.removeEvent(eventName)
-        try {
-            onView(withText(eventName)).check(matches(isDisplayed()))
-            Assert.fail("This event should have been deleted")
-        }
-        catch (_: AssertionError) {}
-        catch (_: NoMatchingViewException) {}
     }
     @Test
     fun schedule_fragment_calendar_mode_filter_event() {
@@ -182,10 +160,8 @@ class ScheduleInstrumentedTest {
         onView(withIndex(withText(nextDay.toString()), 0)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        try {
-            onView(withText(eventName)).check(matches(isDisplayed()))
-            Assert.fail("It should have been filtered out")
-        } catch (_: AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(eventName),
+            "It should have been filtered out")
 
         onView(withIndex(withText(todayDate.dayOfMonth.toString()), 0)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -217,5 +193,7 @@ class ScheduleInstrumentedTest {
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(name),
+            "This event should have been deleted")
     }
 }

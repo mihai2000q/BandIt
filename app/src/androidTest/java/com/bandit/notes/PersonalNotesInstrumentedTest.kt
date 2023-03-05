@@ -1,7 +1,6 @@
 package com.bandit.notes
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
@@ -13,11 +12,11 @@ import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.NoteAdapter
-import com.bandit.util.AndroidTestsUtil.waitFor
-import com.bandit.util.AndroidTestsUtil.withIndex
+import com.bandit.util.AndroidTestUtil
+import com.bandit.util.AndroidTestUtil.waitFor
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,10 +50,8 @@ class PersonalNotesInstrumentedTest {
     fun personal_notes_fragment_add_and_remove_note() {
         this.addNote()
         this.removeFirstNote()
-        try {
-            onView(withText(R.string.default_note_message)).check(matches(isDisplayed()))
-            Assert.fail("This note should have been deleted")
-        } catch (_: java.lang.AssertionError) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(R.string.default_note_message),
+            "This note should have been deleted")
     }
     @Test
     fun personal_notes_fragment_click_edit_note() {
@@ -105,10 +102,8 @@ class PersonalNotesInstrumentedTest {
         this.removeFirstNote()
     }
     private fun addNote() {
-        try {
-            onView(withText(R.string.default_note_message)).check(matches(isDisplayed()))
-            Assert.fail("This note shouldn't be here before adding")
-        } catch (_: NoMatchingViewException) {}
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(R.string.default_note_message),
+            "This note shouldn't be here before adding")
         onView(withId(R.id.personal_notes_bt_add)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
