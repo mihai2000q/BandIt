@@ -52,7 +52,7 @@ class FirebaseStorage : Storage {
                             )
                         }
                         .addOnFailureListener {
-                            Log.e(
+                            Log.d(
                                 Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
                                         " had problems while looking up"
                             )
@@ -60,7 +60,7 @@ class FirebaseStorage : Storage {
                         .await()
                 }
                 catch (exception: StorageException) {
-                    Log.w(
+                    Log.e(
                         Constants.Firebase.Storage.TAG, "There is no Profile pic for user $userUid"
                     )
                     return@async byteArrayOf()

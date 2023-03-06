@@ -24,19 +24,19 @@ class FriendsViewModel : ViewModel() {
     val friendsFilterName = MutableLiveData("")
     val peopleFilterName = MutableLiveData("")
     val friendRequestsFilterName = MutableLiveData("")
-    suspend fun sendFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun sendFriendRequest(account: Account) = coroutineScope {
         launch { _repository.sendFriendRequest(account) }.join()
         this@FriendsViewModel.refresh()
     }
-    suspend fun acceptFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun acceptFriendRequest(account: Account) = coroutineScope {
         launch { _repository.acceptFriendRequest(account) }.join()
         this@FriendsViewModel.refresh()
     }
-    suspend fun rejectFriendRequest(account: Account) = viewModelScope.launch {
+    suspend fun rejectFriendRequest(account: Account) = coroutineScope {
         launch { _repository.rejectFriendRequest(account) }.join()
         this@FriendsViewModel.refresh()
     }
-    suspend fun unfriend(account: Account) = viewModelScope.launch {
+    suspend fun unfriend(account: Account) = coroutineScope {
         launch { _repository.unfriend(account) }.join()
         this@FriendsViewModel.refresh()
     }

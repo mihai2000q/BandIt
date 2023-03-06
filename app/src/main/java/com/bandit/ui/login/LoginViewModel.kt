@@ -26,20 +26,18 @@ class LoginViewModel : ViewModel() {
         onSuccess: (suspend () -> Unit)? = null,
         onFailure: (() -> Unit)? = null
     ) = coroutineScope {
-        async {
-            if (_auth.signInWithEmailAndPassword(
-                    email ?: "",
-                    password ?: ""
-                ) == true
-            ) {
-                Log.i(TAG, "User logged in")
-                onSuccess?.invoke()
-            } else {
-                Log.w(TAG, "User couldn't log in")
-                onFailure?.invoke()
-            }
+        if (_auth.signInWithEmailAndPassword(
+                email ?: "",
+                password ?: ""
+            ) == true
+        ) {
+            Log.i(TAG, "User logged in")
+            onSuccess?.invoke()
+        } else {
+            Log.w(TAG, "User couldn't log in")
+            onFailure?.invoke()
         }
-    }.await()
+    }
 
     companion object {
         const val TAG = Constants.Login.VIEW_MODEL_TAG

@@ -1,6 +1,6 @@
 package com.bandit.constant
 
-sealed class BandItEnums {
+object BandItEnums {
     object Home {
         enum class NavigationType { Bottom, Drawer }
     }

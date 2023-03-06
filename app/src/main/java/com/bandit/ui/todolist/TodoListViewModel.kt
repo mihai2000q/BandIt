@@ -18,14 +18,18 @@ class TodoListViewModel : ViewModel() {
     val tasks: LiveData<List<Task>> = _tasks
     suspend fun addTask(task: Task) = coroutineScope {
         launch { _repository.add(task) }.join()
-        _tasks.value = _repository.list
+        this@TodoListViewModel.refresh()
     }
     suspend fun removeTask(task: Task) = coroutineScope {
         launch { _repository.remove(task) }.join()
-        _tasks.value = _repository.list
+        this@TodoListViewModel.refresh()
     }
     suspend fun editTask(task: Task) = viewModelScope.launch {
         launch { _repository.edit(task) }.join()
+        this@TodoListViewModel.refresh()
+    }
+
+    private fun refresh() {
         _tasks.value = _repository.list
     }
 
