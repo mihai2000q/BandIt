@@ -1,8 +1,7 @@
 package com.bandit.service
 
+import androidx.activity.result.ActivityResultLauncher
+
 interface IPermissionService {
-    fun checkReadStoragePermission(): Boolean
-    fun checkCameraPermission(): Boolean
-    fun requestReadStoragePermission()
-    fun requestCameraPermission()
+    fun checkPermission(permission: String, launcher: ActivityResultLauncher<String>, action: () -> Unit)
 }

@@ -1,5 +1,6 @@
 package com.bandit.ui.component
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -16,9 +17,11 @@ import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogImagePickerBinding
 import com.bandit.di.DILocator
+import com.bandit.service.IPermissionService
 import com.bandit.util.AndroidUtils
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class ImagePickerDialog(
     private val profilePicture: ImageView,
@@ -28,6 +31,9 @@ class ImagePickerDialog(
     private val binding get() = _binding!!
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
+    private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var galleryPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var permissionService: IPermissionService
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,24 +61,42 @@ class ImagePickerDialog(
                 }
             }
         }
+        cameraPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            if(it)
+                camera()
+            else
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.permission_denied_toast)
+                )
+        }
+        galleryPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            if(it)
+                gallery()
+            else
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.permission_denied_toast)
+                )
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val permissionService = DILocator.getPermissionService(super.requireActivity())
+        permissionService = DILocator.getPermissionService(super.requireActivity())
         with(binding) {
             imagePickerTvCamera.setOnClickListener {
-                if(permissionService.checkCameraPermission())
-                    camera()
-                else
-                    permissionService.requestCameraPermission()
+                permissionService.checkPermission(Manifest.permission.CAMERA,
+                    cameraPermissionLauncher) { camera() }
             }
             imagePickerTvGallery.setOnClickListener {
-                if(permissionService.checkReadStoragePermission())
-                    gallery()
-                else
-                    permissionService.requestReadStoragePermission()
+                permissionService.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+                    galleryPermissionLauncher) { camera() }
             }
         }
     }
