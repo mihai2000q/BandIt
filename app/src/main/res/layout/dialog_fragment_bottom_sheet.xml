@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:maxLength="@string/max_length_bottom_shelf"
         android:hint="@string/bottom_sheet_df_edit_text"
         android:inputType="textPersonName"
         android:minHeight="48dp"
