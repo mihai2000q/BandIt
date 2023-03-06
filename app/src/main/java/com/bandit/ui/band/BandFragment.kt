@@ -120,7 +120,8 @@ class BandFragment : Fragment(), OnQueryTextListener {
             resources.getString(R.string.alert_dialog_positive),
             resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(this) { viewModel.abandonBand() }
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                this) { viewModel.abandonBand() }
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_abandoned_toast),

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -46,7 +47,8 @@ class AlbumAddSongDialogFragment : DialogFragment() {
                     resources.getString(R.string.album_remove_from_album),
                     false
                 ) {
-                    AndroidUtils.loadDialogFragment(this@AlbumAddSongDialogFragment) {
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@AlbumAddSongDialogFragment) {
                         viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
                     }
                     AndroidComponents.toastNotification(

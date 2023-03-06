@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
@@ -29,7 +30,8 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
             date.observe(viewLifecycleOwner) { scheduleEtDate.setText(date.value) }
             scheduleButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@ScheduleAddDialogFragment) { addEvent() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@ScheduleAddDialogFragment) { addEvent() }
             }
         }
     }

@@ -9,6 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
@@ -58,7 +59,8 @@ class ScheduleFragment : Fragment(),
                 viewModel.calendarMode.value = isChecked
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
-                AndroidUtils.loadDialogFragment(this@ScheduleFragment) {
+                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                    this@ScheduleFragment) {
                     if(it) calendarMode() else listMode()
                 }
             }

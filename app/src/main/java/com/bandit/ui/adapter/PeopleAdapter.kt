@@ -109,7 +109,8 @@ class PeopleAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(fragment) { viewModel.unfriend(account) }
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                fragment) { viewModel.unfriend(account) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.friend_unfriended_toast),

@@ -3,6 +3,7 @@ package com.bandit.ui.songs
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -24,7 +25,8 @@ class SongEditDialogFragment : SongDialogFragment() {
             }
             songButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@SongEditDialogFragment) { editSong() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@SongEditDialogFragment) { editSong() }
             }
         }
     }

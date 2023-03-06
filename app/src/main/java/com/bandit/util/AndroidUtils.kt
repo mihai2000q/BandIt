@@ -203,19 +203,6 @@ object AndroidUtils {
         }.await()
 
     fun loadDialogFragment(
-        fragment: Fragment,
-        task: suspend () -> Unit
-    ) {
-        fragment.lifecycleScope.launch {
-            LoadingDialogFragment.finish.value = false
-            val loadingDialogFragment = LoadingDialogFragment()
-            showDialogFragment(loadingDialogFragment, fragment.childFragmentManager)
-            launch { task() }.join()
-            LoadingDialogFragment.finish.value = true
-        }
-    }
-
-    fun loadDialogFragment(
         viewModelScope: CoroutineScope,
         fragment: Fragment,
         task: suspend () -> Unit

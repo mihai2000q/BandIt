@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
@@ -28,7 +29,8 @@ class ConcertAddDialogFragment : ConcertDialogFragment() {
             concertButton.setText(R.string.bt_add)
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@ConcertAddDialogFragment) { addConcert() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@ConcertAddDialogFragment) { addConcert() }
             }
         }
     }

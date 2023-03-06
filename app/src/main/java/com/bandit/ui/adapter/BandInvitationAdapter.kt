@@ -55,7 +55,7 @@ class BandInvitationAdapter(
     }
 
     private fun onReject(holder: ViewHolder, bandInvitation: BandInvitation) {
-        AndroidUtils.loadDialogFragment(dialogFragment) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, dialogFragment) {
             viewModel.rejectBandInvitation(bandInvitation)
             AndroidComponents.toastNotification(
                 holder.binding.root.context,

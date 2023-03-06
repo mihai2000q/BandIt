@@ -3,6 +3,7 @@ package com.bandit.ui.schedule
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
@@ -27,7 +28,8 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             }
             scheduleButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@ScheduleEditDialogFragment) { editEvent() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@ScheduleEditDialogFragment) { editEvent() }
             }
         }
     }
