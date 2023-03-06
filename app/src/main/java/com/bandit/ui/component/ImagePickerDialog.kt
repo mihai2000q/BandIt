@@ -22,6 +22,7 @@ import com.bandit.util.AndroidUtils
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+
 class ImagePickerDialog(
     private val profilePicture: ImageView,
     private val savePic: suspend (Uri) -> Unit
@@ -90,16 +91,12 @@ class ImagePickerDialog(
         permissionService = DILocator.getPermissionService(super.requireActivity())
         with(binding) {
             imagePickerTvCamera.setOnClickListener {
-                if(permissionService.checkCameraPermission())
-                    camera()
-                else
-                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                permissionService.checkPermission(Manifest.permission.CAMERA,
+                    cameraPermissionLauncher) { camera() }
             }
             imagePickerTvGallery.setOnClickListener {
-                if(permissionService.checkReadStoragePermission())
-                    gallery()
-                else
-                    galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                permissionService.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+                    galleryPermissionLauncher) { camera() }
             }
         }
     }
