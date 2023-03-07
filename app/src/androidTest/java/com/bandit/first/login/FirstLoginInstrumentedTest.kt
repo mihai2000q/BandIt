@@ -13,6 +13,7 @@ import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +27,20 @@ class FirstLoginInstrumentedTest {
     @Before
     fun setup() {
         TestUtil.login(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+    }
+    @Test
+    fun first_login_fragment_ui() {
+        onView(withId(R.id.main_bottom_navigation_view)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_image_flipper)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_bt_next)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_bt_cancel)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_et_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_et_nickname)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_tv_nickname)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_spinner_role)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_profile_picture)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_tv_congrats)).check(matches(not(isDisplayed())))
     }
     // Precondition - needs an account to be signed up (can take one from the Sign Up tests)
     @Test
@@ -43,6 +58,7 @@ class FirstLoginInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
     }
     // Precondition - needs an account to be signed up (can take one from the Sign Up tests)
+    // This test also tests the validation part
     @Test
     fun first_login_fragment_setup_account() {
         val name = ConstantsTest.accountName
@@ -87,6 +103,7 @@ class FirstLoginInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen))
 
+        onView(withId(R.id.main_bottom_navigation_view)).check(matches((isDisplayed())))
         onView(withId(R.id.main_toolbar))
             .check(matches(hasDescendant(withText(R.string.home_label))))
     }

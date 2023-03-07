@@ -16,8 +16,8 @@ class SignupViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     suspend fun createUser(password: String) = coroutineScope {
         async {
-            launch { _auth.createUser(email.value!!, password) }
             launch {
+                _auth.createUser(email.value!!, password)
                 AccountRepository.setUserAccountSetup(
                     _database,
                     _auth,
