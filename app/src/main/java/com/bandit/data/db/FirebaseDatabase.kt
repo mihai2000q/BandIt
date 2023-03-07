@@ -504,9 +504,12 @@ class FirebaseDatabase : Database {
     private suspend fun readAccountItems() = coroutineScope {
         async {
             launch { readNotes() }
-            launch { readFriends() }
-            launch { readFriendRequests() }
-            launch { readPeople() }
+            launch {
+                launch { readFriends() }
+                launch { readFriendRequests() }
+            }.invokeOnCompletion {
+                launch { readPeople() }
+            }
         }
     }.await()
 
@@ -575,7 +578,6 @@ class FirebaseDatabase : Database {
         async {
             people += readDtos<AccountDto>(Constants.Firebase.Database.ACCOUNTS)
                 .map { AccountMapper.fromDtoToItem(it) }
-            Log.i(Constants.Firebase.Database.TAG, " - the above is people")
             people -= _currentAccount
             people -= friendRequests.toSet()
             people -= friends.toSet()
