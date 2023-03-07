@@ -69,7 +69,8 @@ class LoginFragment : Fragment() {
                         Context.INPUT_METHOD_SERVICE,
                         loginEtPassword
                     )
-                    val destination = AndroidUtils.loadIntentWithDestination(this@LoginFragment) { tryToLogin() }
+                    val destination = AndroidUtils.loadIntentWithDestination(
+                        this@LoginFragment) { tryToLogin() }
                     super.requireActivity().whenStarted { navigation(destination) }
                 }
             }

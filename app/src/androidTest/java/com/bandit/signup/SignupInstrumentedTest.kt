@@ -13,6 +13,7 @@ import com.bandit.util.AndroidTestUtil.getResourceString
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +27,19 @@ class SignupInstrumentedTest {
     @Before
     fun setup() {
         onView(withId(R.id.login_bt_signup)).perform(click())
+    }
+    @Test
+    fun signup_fragment_ui() {
+        onView(withId(R.id.main_bottom_navigation_view)).check(matches(Matchers.not(isDisplayed())))
+        onView(withId(R.id.signup_bt_signup)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_bt_go_back)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_et_email)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_et_password)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_tv_email)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_tv_password)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_iv_logo)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.signup_cb_terms)).check(matches(isNotChecked()))
     }
     @Test
     fun signup_fragment_validation() {

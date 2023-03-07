@@ -18,14 +18,17 @@ class PersonalNotesViewModel : ViewModel() {
     val selectedNote = MutableLiveData<Note>()
     suspend fun addNote(note: Note) = coroutineScope {
         launch { _repository.add(note) }.join()
-        _notes.value = _repository.list
+        this@PersonalNotesViewModel.refresh()
     }
     suspend fun removeNote(note: Note) = coroutineScope {
         launch { _repository.remove(note) }.join()
-        _notes.value = _repository.list
+        this@PersonalNotesViewModel.refresh()
     }
-    suspend fun editNote(note: Note) = viewModelScope.launch {
+    suspend fun editNote(note: Note) = coroutineScope {
         launch { _repository.edit(note) }.join()
+        this@PersonalNotesViewModel.refresh()
+    }
+    private fun refresh() {
         _notes.value = _repository.list
     }
     companion object {

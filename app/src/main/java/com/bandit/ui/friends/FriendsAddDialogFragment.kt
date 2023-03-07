@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -45,7 +46,8 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
                     viewModel
                 )
                 { acc ->
-                    AndroidUtils.loadDialogFragment(this@FriendsAddDialogFragment) {
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@FriendsAddDialogFragment) {
                         viewModel.sendFriendRequest(acc)
                     }
                     AndroidComponents.toastNotification(

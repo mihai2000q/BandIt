@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -22,7 +23,8 @@ class SongAddDialogFragment : SongDialogFragment() {
             songButton.setText(R.string.bt_add)
             songButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@SongAddDialogFragment) { addSong() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@SongAddDialogFragment) { addSong() }
             }
         }
     }

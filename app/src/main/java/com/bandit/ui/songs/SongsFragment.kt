@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
@@ -236,7 +237,7 @@ class SongsFragment : Fragment() {
             resources.getString(R.string.alert_dialog_positive),
             resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(this@SongsFragment) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this@SongsFragment) {
                 viewModel.removeSong(song)
             }
             AndroidComponents.toastNotification(

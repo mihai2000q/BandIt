@@ -6,6 +6,7 @@ import com.bandit.data.db.Database
 import com.bandit.data.dto.UserAccountDto
 import com.bandit.data.model.Account
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class AccountRepository(private val _database: Database? = null) {
     private var _currentAccount = _database?.currentAccount ?: Account.EMPTY
@@ -30,11 +31,13 @@ class AccountRepository(private val _database: Database? = null) {
             _currentAccount = newAccount
         _database?.add(newAccount)
         if (_database != null && auth != null)
-            setUserAccountSetup(
-                _database,
-                auth,
-                true
-            )
+            launch {
+                setUserAccountSetup(
+                    _database,
+                    auth,
+                    true
+                )
+            }
     }
 
     suspend fun updateAccount(

@@ -56,6 +56,7 @@ class BandInstrumentedTest {
         this.without_band_ui()
     }
     // Precondition - needs an account that has no band
+    // the admin creates a band
     @Test
     fun band_fragment_create_band() {
         val bandName = ConstantsTest.bandName
@@ -77,6 +78,7 @@ class BandInstrumentedTest {
         onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
     }
     // Precondition - have an account setup already with a band and you are the creator
+    // the admin disbands the band
     @Test
     fun band_fragment_disband_band() {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
@@ -89,7 +91,7 @@ class BandInstrumentedTest {
         this.without_band_ui()
     }
     // Precondition - have an account setup already with a band and a friend
-    // this test invites the new user to the band
+    // the admin invites the new user to the band
     @Test
     fun band_fragment_invite_member() {
         val accountToInvite = ConstantsTest.accountNewName
@@ -157,6 +159,7 @@ class BandInstrumentedTest {
     }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
+    // the user accepts the admin's invitation
     @Test
     fun band_fragment_accept_band_invitation() {
         val bandName = ConstantsTest.bandName
@@ -196,6 +199,7 @@ class BandInstrumentedTest {
     }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
+    // the user rejects the admin's invitation
     @Test
     fun band_fragment_reject_band_invitation() {
         val band = ConstantsTest.bandName
@@ -214,6 +218,7 @@ class BandInstrumentedTest {
         "The name of the band should not be displayed anywhere")
     }
     // Precondition - have an account setup already with a band and you are not the creator
+    // the user quits the band
     @Test
     fun band_fragment_abandon_band() {
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
@@ -227,6 +232,7 @@ class BandInstrumentedTest {
         this.without_band_ui()
     }
     // Precondition - have an account setup already with a band and a member in it
+    // the admin kicks the user from the band
     @Test
     fun band_fragment_kick_member() {
         val accountNickToKick = ConstantsTest.accountNewNickname

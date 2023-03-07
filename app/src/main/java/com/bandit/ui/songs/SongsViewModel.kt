@@ -3,7 +3,6 @@ package com.bandit.ui.songs
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
@@ -94,12 +93,12 @@ class SongsViewModel : ViewModel() {
         this@SongsViewModel.refreshAlbums()
     }
 
-    suspend fun addSongToAlbum(album: Album, song: Song) = viewModelScope.launch {
+    suspend fun addSongToAlbum(album: Album, song: Song) = coroutineScope {
         launch { this@SongsViewModel.editSong(_albumRepository.addSong(album, song)) }.join()
         this@SongsViewModel.refreshAlbums()
     }
 
-    suspend fun removeSongFromAlbum(album: Album, song: Song) = viewModelScope.launch {
+    suspend fun removeSongFromAlbum(album: Album, song: Song) = coroutineScope {
         launch { this@SongsViewModel.editSong(_albumRepository.removeSong(album, song)) }.join()
         this@SongsViewModel.refreshAlbums()
     }

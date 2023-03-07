@@ -34,7 +34,7 @@ class ScheduleInstrumentedTest {
     }
     // Precondition - have a setup account with a band
     @Test
-    fun concerts_fragment_ui() {
+    fun schedule_fragment_ui() {
         // events mode
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
@@ -182,7 +182,10 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_button)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(name))
+            ))
         onView(withText(name)).check(matches(isDisplayed()))
     }
     private fun removeEvent(name: String) {

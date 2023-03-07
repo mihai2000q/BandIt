@@ -4,12 +4,9 @@ import com.bandit.data.db.Database
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.data.template.TemplateRepository
+import com.bandit.util.FilterUtils.filter
 import java.time.Duration
 import java.time.LocalDate
-import com.bandit.util.FilterUtils.filter
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 class AlbumRepository(database: Database? = null)
     : TemplateRepository<Album>(database, database?.albums) {

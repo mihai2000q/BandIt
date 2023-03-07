@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.constant.Constants
 import com.bandit.data.model.Note
 import com.bandit.databinding.DialogFragmentEditPersonalNoteBinding
@@ -55,7 +56,7 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        AndroidUtils.loadDialogFragment(this) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
             viewModel.editNote(
                 Note(
                     title = binding.personalNotesEtTitle.text.toString(),

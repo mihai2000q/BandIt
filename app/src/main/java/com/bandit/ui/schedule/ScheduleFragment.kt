@@ -9,6 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
@@ -58,7 +59,8 @@ class ScheduleFragment : Fragment(),
                 viewModel.calendarMode.value = isChecked
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
-                AndroidUtils.loadDialogFragment(this@ScheduleFragment) {
+                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                    this@ScheduleFragment) {
                     if(it) calendarMode() else listMode()
                 }
             }
@@ -71,7 +73,6 @@ class ScheduleFragment : Fragment(),
     }
 
     private suspend fun calendarMode() {
-        delay(700) // the Calendar Widget takes some time to load, so I delay here
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleCalendarView.visibility = View.VISIBLE
@@ -83,7 +84,7 @@ class ScheduleFragment : Fragment(),
                 cal.setDate(this.year, this.month.ordinal, this.dayOfMonth)
                 scheduleCalendarView.setDate(cal.build())
             }
-            highlightDays()
+            this@ScheduleFragment.highlightDays()
             scheduleCalendarView.setOnDayClickListener(this@ScheduleFragment)
             viewModel.currentDate.observe(viewLifecycleOwner) {
                 viewModel.filterEvents(date = it)

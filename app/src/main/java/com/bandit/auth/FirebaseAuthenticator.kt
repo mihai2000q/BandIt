@@ -10,9 +10,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthenticator : Authenticator {
+    override val currentUser get() = _currentUser
     private val _auth = Firebase.auth
     private var _currentUser = _auth.currentUser
-    override val currentUser get() = _currentUser
 
     override suspend fun signInWithEmailAndPassword(email: String, password: String): Boolean? =
     coroutineScope {
@@ -24,8 +24,7 @@ class FirebaseAuthenticator : Authenticator {
                     .user
                 if(_currentUser != null) {
                     Log.i(
-                        Constants.Firebase.Auth.TAG,
-                        "sign in with email and password: success"
+                        Constants.Firebase.Auth.TAG, "Sign in with email and password: success"
                     )
                     result = true
                 }
@@ -33,8 +32,7 @@ class FirebaseAuthenticator : Authenticator {
             // Incorrect combination throws an exception
             catch (_: FirebaseAuthInvalidCredentialsException) {
                 Log.w(
-                    Constants.Firebase.Auth.TAG,
-                    "Sign in with email and password: failed"
+                    Constants.Firebase.Auth.TAG, "Sign in with email and password: failed"
                 )
                 result = false
             }
@@ -48,7 +46,7 @@ class FirebaseAuthenticator : Authenticator {
             var result: Boolean? = null
             _currentUser = _auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    Log.d(Constants.Firebase.Auth.TAG, "create user: success")
+                    Log.i(Constants.Firebase.Auth.TAG, "create user: success")
                     _currentUser?.sendEmailVerification()
                     result = true
                 }

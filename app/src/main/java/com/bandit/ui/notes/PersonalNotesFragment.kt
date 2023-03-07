@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
@@ -49,7 +50,7 @@ class PersonalNotesFragment : Fragment() {
     }
 
     private fun addNote() {
-        AndroidUtils.loadDialogFragment(this) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
             viewModel.addNote(
                 Note(
                     resources.getString(R.string.et_title),

@@ -13,15 +13,19 @@ where T : Item
 {
     private val _list: MutableList<T> = databaseList?.toMutableList() ?: mutableListOf()
     val list: List<T> get() = _list
-    suspend fun add(item: T) {
-        val newItem = reassignId(item)
-        _database?.add(newItem)
-        _list.add(newItem)
-    }
-    suspend fun remove(item: T) {
-        _database?.remove(item)
-        _list.remove(item)
-    }
+    suspend fun add(item: T) = coroutineScope {
+        async {
+            val newItem = reassignId(item)
+            launch { _database?.add(newItem) }
+            _list.add(newItem)
+        }
+    }.await()
+    suspend fun remove(item: T) = coroutineScope {
+        async {
+            launch { _database?.remove(item) }
+            _list.remove(item)
+        }
+    }.await()
     suspend fun edit(item: T) = coroutineScope {
         async {
             _list.asSequence()

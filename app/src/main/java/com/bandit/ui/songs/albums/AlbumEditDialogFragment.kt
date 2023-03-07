@@ -3,6 +3,7 @@ package com.bandit.ui.songs.albums
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -24,7 +25,8 @@ class AlbumEditDialogFragment : AlbumDialogFragment() {
             }
             albumButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@AlbumEditDialogFragment) { editAlbum() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@AlbumEditDialogFragment) { editAlbum() }
             }
         }
     }

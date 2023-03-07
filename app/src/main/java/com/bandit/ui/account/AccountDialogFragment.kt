@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
@@ -69,7 +70,8 @@ class AccountDialogFragment : DialogFragment(), OnItemSelectedListener {
             }
             accountBtSave.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@AccountDialogFragment) { updateAccount() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@AccountDialogFragment) { updateAccount() }
             }
             val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {
                 viewModel.saveProfilePicture(it)

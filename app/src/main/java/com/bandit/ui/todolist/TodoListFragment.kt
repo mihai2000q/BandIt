@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.component.TypingBottomSheetDialogFragment
@@ -34,7 +35,7 @@ class TodoListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val typingBottomSheetDialogFragment = TypingBottomSheetDialogFragment {
             if(it.text.isNullOrEmpty()) return@TypingBottomSheetDialogFragment
-            AndroidUtils.loadDialogFragment(this) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
                 viewModel.addTask(
                     Task(
                         checked = false,

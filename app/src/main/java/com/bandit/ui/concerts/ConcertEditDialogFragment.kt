@@ -2,6 +2,7 @@ package com.bandit.ui.concerts
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
@@ -32,7 +33,8 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
 
             concertButton.setOnClickListener {
                 if(validateFields())
-                    AndroidUtils.loadDialogFragment(this@ConcertEditDialogFragment) { editConcert() }
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@ConcertEditDialogFragment) { editConcert() }
             }
         }
 

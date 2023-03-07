@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
@@ -51,7 +52,7 @@ class TaskAdapter(
                 else
                     taskTvMessage.paintFlags = taskTvMessage.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 taskCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    AndroidUtils.loadDialogFragment(fragment) {
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope, fragment) {
                         viewModel.editTask(
                             Task(
                                 isChecked,
@@ -100,7 +101,8 @@ class TaskAdapter(
             holder.binding.root.resources.getString(R.string.alert_dialog_positive),
             holder.binding.root.resources.getString(R.string.alert_dialog_negative)
         ) {
-            AndroidUtils.loadDialogFragment(fragment) { viewModel.removeTask(task) }
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                fragment) { viewModel.removeTask(task) }
             AndroidComponents.toastNotification(
                 holder.binding.root.context,
                 holder.binding.root.resources.getString(R.string.task_remove_toast)
@@ -114,7 +116,7 @@ class TaskAdapter(
             taskEtMessage.setText(task.message)
             taskEtMessage.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    AndroidUtils.loadDialogFragment(fragment) {
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope, fragment) {
                         viewModel.editTask(
                             Task(
                                 checked = task.checked,
