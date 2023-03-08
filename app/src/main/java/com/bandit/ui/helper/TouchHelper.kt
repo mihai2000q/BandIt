@@ -15,8 +15,8 @@ class TouchHelper<T: Item>(
     private val context: Context,
     private val recyclerView: RecyclerView,
     private val items: List<T>,
-    private val onEditEvent: (T) -> Unit,
-    private val onDeleteEvent: (T) -> Unit
+    private val onDeleteItem: (T) -> Unit,
+    private val onEditItem: (T) -> Unit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
     override fun onMove(
         recyclerView: RecyclerView,
@@ -26,12 +26,12 @@ class TouchHelper<T: Item>(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        if(direction == ItemTouchHelper.RIGHT) {
-            onDeleteEvent(items[position])
+        if(direction == ItemTouchHelper.LEFT) {
+            onDeleteItem(items[position])
             recyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
         }
-        if(direction == ItemTouchHelper.LEFT) {
-            onEditEvent(items[position])
+        if(direction == ItemTouchHelper.RIGHT) {
+            onEditItem(items[position])
             recyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
         }
     }
