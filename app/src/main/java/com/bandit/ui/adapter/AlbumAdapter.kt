@@ -4,23 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Album
 import com.bandit.databinding.ModelAlbumBinding
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
-import com.bandit.ui.songs.albums.AlbumEditDialogFragment
 import com.bandit.util.AndroidUtils
 
 data class AlbumAdapter(
     private val fragment: Fragment,
     private val albums: List<Album>,
-    private val viewModel: SongsViewModel
+    private val viewModel: SongsViewModel,
+    private val onDeleteAlbum: (Album) -> Unit,
+    private val onEditAlbum: (Album) -> Unit,
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
-    private val albumEditDialogFragment = AlbumEditDialogFragment()
     private val albumDetailDialogFragment = AlbumDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
@@ -64,7 +62,7 @@ data class AlbumAdapter(
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
-                R.id.popup_menu_delete -> onDelete(holder, album)
+                R.id.popup_menu_delete -> onDelete(album)
                 else -> onEdit(album)
             }
         }
@@ -84,34 +82,15 @@ data class AlbumAdapter(
             isPopupShown = true
             popupMenu.show()
         }
-        viewModel.selectedAlbum.value = album
         return true
     }
 
-    private fun onDelete(holder: ViewHolder, album: Album): Boolean {
-        AndroidComponents.alertDialog(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.album_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.album_alert_dialog_message),
-            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
-            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
-        ) {
-            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                    fragment) { viewModel.removeAlbum(album) }
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.album_remove_toast),
-            )
-        }
+    private fun onDelete(album: Album): Boolean {
+        onDeleteAlbum(album)
         return true
     }
 
     private fun onEdit(album: Album): Boolean {
-        viewModel.selectedAlbum.value = album
-        AndroidUtils.showDialogFragment(
-            albumEditDialogFragment,
-            fragment.childFragmentManager
-        )
         return true
     }
 

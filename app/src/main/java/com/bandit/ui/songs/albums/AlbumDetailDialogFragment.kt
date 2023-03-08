@@ -70,6 +70,7 @@ class AlbumDetailDialogFragment : DialogFragment() {
                             }
                             return@SongAdapter true
                         },
+                        {},
                         resources.getString(R.string.album_remove_from_album)
                     )
             }
