@@ -8,12 +8,16 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
+import com.bandit.data.model.Account
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentFriendsBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
 
@@ -71,6 +75,13 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 friendsRvList,
                 friendsRvEmpty
             ) {
+                ItemTouchHelper(TouchHelper(
+                    super.requireContext(),
+                    friendsRvList,
+                    it.sorted(),
+                    { account -> onUnfriend(account) },
+                    { account -> onAddToBand(account) }
+                )).attachToRecyclerView(friendsRvList)
                 return@setRecyclerViewEmpty PeopleAdapter(
                     this@FriendsFragment,
                     it.sorted(),
@@ -85,6 +96,48 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun onAddToBand(account: Account): Boolean {
+        if(bandViewModel.band.value!!.members.containsKey(account)) {
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_member_same_band_toast)
+            )
+            return true
+        }
+        else if(account.bandId != null) {
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_member_in_band_toast)
+            )
+            return true
+        }
+        AndroidUtils.loadDialogFragment(bandViewModel.viewModelScope, this) {
+            bandViewModel.sendBandInvitation(account)
+        }
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.band_invitation_sent_toast),
+        )
+        return true
+    }
+
+    private fun onUnfriend(account: Account) {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.friend_alert_dialog_title),
+            resources.getString(R.string.friend_alert_dialog_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                this) { viewModel.unfriend(account) }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.friend_unfriended_toast),
+            )
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

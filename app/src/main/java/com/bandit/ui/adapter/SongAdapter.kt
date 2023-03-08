@@ -11,7 +11,6 @@ import com.bandit.data.model.Song
 import com.bandit.databinding.ModelSongBinding
 import com.bandit.extension.print
 import com.bandit.ui.songs.SongDetailDialogFragment
-import com.bandit.ui.songs.SongEditDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -19,12 +18,12 @@ data class SongAdapter(
     private val fragment: Fragment,
     private val songs: List<Song>,
     private val viewModel: SongsViewModel,
-    private val onDelete: (Song) -> Boolean,
+    private val onDeleteSong: (Song) -> Boolean,
+    private val onEditSong: (Song) -> Unit,
     private val deleteText: String? = null,
     private val isLongClickable: Boolean = true,
     private val onClick: ((Song) -> Unit)? = null
 ) : RecyclerView.Adapter<SongAdapter.ViewHolder>() {
-    private val songEditDialogFragment = SongEditDialogFragment()
     private val songDetailDialogFragment = SongDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
@@ -80,7 +79,7 @@ data class SongAdapter(
             when (it.itemId) {
                 R.id.popup_menu_delete -> {
                     popupMenu(holder, song)
-                    onDelete(song)
+                    onDeleteSong(song)
                 }
                 else -> onEdit(song)
             }
@@ -101,16 +100,11 @@ data class SongAdapter(
             popupMenu.show()
             isPopupShown = true
         }
-        viewModel.selectedSong.value = song
         return true
     }
 
     private fun onEdit(song: Song): Boolean {
-        viewModel.selectedSong.value = song
-        AndroidUtils.showDialogFragment(
-            songEditDialogFragment,
-            fragment.childFragmentManager
-        )
+        onEditSong(song)
         return true
     }
 

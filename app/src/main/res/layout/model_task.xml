@@ -31,9 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:maxLength="@string/max_length_bottom_shelf"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:text="@string/default_task_message"
             tools:ignore="LabelFor" />
 

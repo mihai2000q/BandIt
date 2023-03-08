@@ -126,10 +126,6 @@ class TaskAdapter(
                                 id = task.id
                             )
                         )
-                        AndroidComponents.toastNotification(
-                            holder.binding.root.context,
-                            holder.binding.root.resources.getString(R.string.task_edit_toast)
-                        )
                         taskEtMessage.clearFocus()
                         AndroidUtils.hideKeyboard(
                             fragment.requireActivity(),
@@ -137,6 +133,10 @@ class TaskAdapter(
                             taskEtMessage
                         )
                         taskViewSwitcher.showNext()
+                        AndroidComponents.toastNotification(
+                            holder.binding.root.context,
+                            holder.binding.root.resources.getString(R.string.task_edit_toast)
+                        )
                     }
                     return@setOnKeyListener true
                 }

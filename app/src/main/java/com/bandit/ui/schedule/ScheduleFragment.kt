@@ -11,17 +11,19 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
+import com.bandit.data.model.Event
 import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.ui.adapter.EventAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
-import kotlinx.coroutines.delay
 import java.util.*
 
 
@@ -35,6 +37,7 @@ class ScheduleFragment : Fragment(),
     private val bandViewModel: BandViewModel by activityViewModels()
     private var viewTypeIndex = MutableLiveData(0)
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
+    private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +75,7 @@ class ScheduleFragment : Fragment(),
         _binding = null
     }
 
-    private suspend fun calendarMode() {
+    private fun calendarMode() {
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleCalendarView.visibility = View.VISIBLE
@@ -98,10 +101,19 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        scheduleRvEventsView,
+                        it.sorted(),
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
+                    )).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
-                        viewModel
+                        viewModel,
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
                     )
                 }
             ) {
@@ -138,10 +150,19 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        scheduleRvEventsView,
+                        it.sorted(),
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
+                    )).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
-                        viewModel
+                        viewModel,
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
                     )
                 }
             ) {
@@ -174,6 +195,31 @@ class ScheduleFragment : Fragment(),
             days.add(day)
         }
         binding.scheduleCalendarView.setCalendarDays(days)
+    }
+
+    private fun onDeleteEvent(event: Event) {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.event_alert_dialog_title),
+            resources.getString(R.string.event_alert_dialog_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                this) { viewModel.removeEvent(event) }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.event_remove_toast)
+            )
+        }
+    }
+
+    private fun onEditEvent(event: Event) {
+        viewModel.selectedEvent.value = event
+        AndroidUtils.showDialogFragment(
+            scheduleEditDialogFragment,
+            childFragmentManager
+        )
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

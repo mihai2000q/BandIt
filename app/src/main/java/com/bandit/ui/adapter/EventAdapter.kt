@@ -18,10 +18,11 @@ import com.bandit.util.AndroidUtils
 class EventAdapter(
     private val fragment: Fragment,
     private val events: List<Event>,
-    private val viewModel: ScheduleViewModel
+    private val viewModel: ScheduleViewModel,
+    private val onDeleteEvent: (Event) -> Unit,
+    private val onEditEvent: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
     private val scheduleDetailDialogFragment = ScheduleDetailDialogFragment()
-    private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 
@@ -62,7 +63,7 @@ class EventAdapter(
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
-                R.id.popup_menu_delete -> onDelete(holder, event)
+                R.id.popup_menu_delete -> onDelete(event)
                 else -> onEdit(event)
             }
         }
@@ -85,29 +86,12 @@ class EventAdapter(
         return true
     }
 
-    private fun onDelete(holder: ViewHolder, event: Event): Boolean {
-        AndroidComponents.alertDialog(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.event_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.event_alert_dialog_message),
-            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
-            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
-        ) {
-            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                fragment) { viewModel.removeEvent(event) }
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.event_remove_toast)
-            )
-        }
+    private fun onDelete(event: Event): Boolean {
+        onDeleteEvent(event)
         return true
     }
     private fun onEdit(event: Event): Boolean {
-        viewModel.selectedEvent.value = event
-        AndroidUtils.showDialogFragment(
-            scheduleEditDialogFragment,
-            fragment.childFragmentManager
-        )
+        onEditEvent(event)
         return true
     }
 

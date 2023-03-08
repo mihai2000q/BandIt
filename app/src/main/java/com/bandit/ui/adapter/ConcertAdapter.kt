@@ -6,25 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.ui.concerts.ConcertDetailDialogFragment
-import com.bandit.ui.concerts.ConcertEditDialogFragment
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.util.AndroidUtils
 
 data class ConcertAdapter(
     private val fragment: Fragment,
     private val concerts: List<Concert>,
-    private val viewModel: ConcertsViewModel
+    private val viewModel: ConcertsViewModel,
+    private val onDeleteConcert: (Concert) -> Unit,
+    private val onEditConcert: (Concert) -> Unit
 ) : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
-    private val concertEditDialogFragment = ConcertEditDialogFragment()
     private val concertDetailDialogFragment = ConcertDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
@@ -80,7 +78,7 @@ data class ConcertAdapter(
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
-                R.id.popup_menu_delete -> onDelete(holder, concert)
+                R.id.popup_menu_delete -> onDelete(concert)
                 else -> onEdit(concert)
             }
         }
@@ -104,34 +102,16 @@ data class ConcertAdapter(
             isPopupShown = true
             popupMenu.show()
         }
-        viewModel.selectedConcert.value = concert
         return true
     }
 
-    private fun onDelete(holder: ConcertAdapter.ViewHolder, concert: Concert): Boolean {
-        AndroidComponents.alertDialog(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.concert_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.concert_alert_dialog_message),
-            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
-            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
-        ) {
-            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                fragment) { viewModel.removeConcert(concert) }
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.concert_remove_toast),
-            )
-        }
+    private fun onDelete(concert: Concert): Boolean {
+        onDeleteConcert(concert)
         return true
     }
 
     private fun onEdit(concert: Concert): Boolean {
-        viewModel.selectedConcert.value = concert
-        AndroidUtils.showDialogFragment(
-            concertEditDialogFragment,
-            fragment.childFragmentManager
-        )
+        onEditConcert(concert)
         return true
     }
 }

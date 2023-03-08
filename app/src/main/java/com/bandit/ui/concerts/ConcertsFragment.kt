@@ -8,11 +8,15 @@ import android.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
+import com.bandit.data.model.Concert
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
 
@@ -36,6 +40,30 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         val concertAddDialogFragment = ConcertAddDialogFragment()
         val badgeDrawable = BadgeDrawable.create(super.requireContext())
         val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
+        val concertEditDialogFragment = ConcertEditDialogFragment()
+        val onDeleteConcert = { concert: Concert ->
+            AndroidComponents.alertDialog(
+                super.requireContext(),
+                resources.getString(R.string.concert_alert_dialog_title),
+                resources.getString(R.string.concert_alert_dialog_message),
+                resources.getString(R.string.alert_dialog_positive),
+                resources.getString(R.string.alert_dialog_negative)
+            ) {
+                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                    this@ConcertsFragment) { viewModel.removeConcert(concert) }
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.concert_remove_toast),
+                )
+            }
+        }
+        val onEditConcert = { concert: Concert ->
+            viewModel.selectedConcert.value = concert
+            AndroidUtils.showDialogFragment(
+                concertEditDialogFragment,
+                childFragmentManager
+            )
+        }
         with(binding) {
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             bandViewModel.band.observe(viewLifecycleOwner) {
@@ -68,10 +96,19 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        concertsRvList,
+                        it.sorted(),
+                        onDeleteConcert,
+                        onEditConcert
+                    )).attachToRecyclerView(concertsRvList)
                     return@setRecyclerViewEmpty ConcertAdapter(
                         this@ConcertsFragment,
                         it.sorted(),
-                        viewModel
+                        viewModel,
+                        onDeleteConcert,
+                        onEditConcert
                     )
                 }
             )
