@@ -50,15 +50,14 @@ class SongsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             badgeDrawable = BadgeDrawable.create(super.requireContext())
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtAlbumMode
-                ) {
-                    songsSearchView.setQuery("", false)
-                    viewModel.albumMode.value = !viewModel.albumMode.value!!
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtAlbumMode
+            ) {
+                songsSearchView.setQuery("", false)
+                viewModel.albumMode.value = !viewModel.albumMode.value!!
             }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
@@ -230,27 +229,27 @@ class SongsFragment : Fragment() {
                     drawableIcon
                 )
             )
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtAdd
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        addDialogFragment,
-                        childFragmentManager
-                    )
-                }
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtFilter
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        filterDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtAdd
+            ) {
+                AndroidUtils.showDialogFragment(
+                    addDialogFragment,
+                    childFragmentManager
+                )
+            }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtFilter
+            ) {
+                AndroidUtils.showDialogFragment(
+                    filterDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }

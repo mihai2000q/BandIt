@@ -66,27 +66,27 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         }
         with(binding) {
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    concertsBtAdd
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        concertAddDialogFragment,
-                        childFragmentManager
-                    )
-                }
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    concertsBtFilter
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        concertFilterDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                concertsBtAdd
+            ) {
+                AndroidUtils.showDialogFragment(
+                    concertAddDialogFragment,
+                    childFragmentManager
+                )
+            }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                concertsBtFilter
+            ) {
+                AndroidUtils.showDialogFragment(
+                    concertFilterDialogFragment,
+                    childFragmentManager
+                )
             }
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
