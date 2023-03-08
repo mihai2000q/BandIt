@@ -254,7 +254,7 @@ class SongsFragment : Fragment() {
         }
     }
 
-    private fun onDeleteSong(song: Song): Boolean {
+    private fun onDeleteSong(song: Song) {
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.song_alert_dialog_title),
@@ -270,7 +270,6 @@ class SongsFragment : Fragment() {
                 resources.getString(R.string.song_remove_toast),
             )
         }
-        return true
     }
 
     private fun onEditSong(song: Song) {
