@@ -67,13 +67,6 @@ class ScheduleFragment : Fragment(),
                     if(it) calendarMode() else listMode()
                 }
             }
-            ItemTouchHelper(TouchHelper(
-                super.requireContext(),
-                scheduleRvEventsView,
-                viewModel.events.value!!,
-                { onDeleteEvent(it) },
-                { onEditEvent(it) }
-            )).attachToRecyclerView(scheduleRvEventsView)
         }
     }
 
@@ -108,6 +101,13 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        scheduleRvEventsView,
+                        it.sorted(),
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
+                    )).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -150,6 +150,13 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        scheduleRvEventsView,
+                        it.sorted(),
+                        { event -> onDeleteEvent(event) },
+                        { event -> onEditEvent(event) }
+                    )).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),

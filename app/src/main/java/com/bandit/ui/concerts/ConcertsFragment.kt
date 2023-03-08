@@ -96,22 +96,22 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsRvBandEmpty,
                 bandViewModel.band,
                 {
+                    ItemTouchHelper(TouchHelper(
+                        super.requireContext(),
+                        concertsRvList,
+                        it.sorted(),
+                        onDeleteConcert,
+                        onEditConcert
+                    )).attachToRecyclerView(concertsRvList)
                     return@setRecyclerViewEmpty ConcertAdapter(
                         this@ConcertsFragment,
-                        it.sorted<Concert>(),
+                        it.sorted(),
                         viewModel,
                         onDeleteConcert,
                         onEditConcert
                     )
                 }
             )
-            ItemTouchHelper(TouchHelper(
-                super.requireContext(),
-                concertsRvList,
-                viewModel.concerts.value!!,
-                onDeleteConcert,
-                onEditConcert
-            )).attachToRecyclerView(concertsRvList)
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 concertsBtFilter,
