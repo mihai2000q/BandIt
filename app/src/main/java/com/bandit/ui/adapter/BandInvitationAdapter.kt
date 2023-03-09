@@ -13,9 +13,9 @@ import com.bandit.ui.band.BandViewModel
 import com.bandit.util.AndroidUtils
 
 class BandInvitationAdapter(
-    private val dialogFragment: DialogFragment,
     private val bandInvitations: List<BandInvitation>,
-    private val viewModel: BandViewModel
+    private val onAcceptBandInvitation: (BandInvitation) -> Unit,
+    private val onRejectBandInvitation: (BandInvitation) -> Unit
 ) : RecyclerView.Adapter<BandInvitationAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ModelBandInvitationBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -38,30 +38,8 @@ class BandInvitationAdapter(
 
         with(holder.binding) {
             bandInvitationTvBandName.text = bandInvitation.band.name
-            bandInvitationBtAccept.setOnClickListener { onAccept(holder, bandInvitation) }
-            bandInvitationBtReject.setOnClickListener { onReject(holder, bandInvitation) }
-        }
-    }
-
-    private fun onAccept(holder: ViewHolder, bandInvitation: BandInvitation) {
-        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, dialogFragment) {
-            viewModel.acceptBandInvitation(bandInvitation)
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.band_invitation_accepted_toast)
-            )
-            dialogFragment.dismiss()
-        }
-    }
-
-    private fun onReject(holder: ViewHolder, bandInvitation: BandInvitation) {
-        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, dialogFragment) {
-            viewModel.rejectBandInvitation(bandInvitation)
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.band_invitation_rejected_toast)
-            )
-            dialogFragment.dismiss()
+            bandInvitationBtAccept.setOnClickListener { onAcceptBandInvitation(bandInvitation) }
+            bandInvitationBtReject.setOnClickListener { onRejectBandInvitation(bandInvitation) }
         }
     }
 }
