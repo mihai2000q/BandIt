@@ -298,6 +298,55 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withText(songName)).check(matches(isDisplayed()))
+
+        this.removeSongOrAlbum(songName)
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.removeSongOrAlbum(albumName)
+    }
+    // Condition - there is no other album or song with these names
+    // same as above
+    @Test
+    @Ignore("fails")
+    fun songs_fragment_edit_song_from_album() {
+        val songName = "Raimond The Wind Walker"
+        val newSongName = "The Fire Tail"
+        val albumName = "Raimond's Album"
+        this.addSong(songName)
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.addAlbum(albumName)
+        // add song to album
+        onView(withText(albumName)).perform(click())
+        onView(withId(R.id.album_detail_bt_add_songs)).perform(click())
+        onView(withText(songName)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        // edit song from album
+        onView(withText(songName)).perform(longClick())
+        onView(withText(R.string.bt_edit)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.song_et_name))
+            .perform(clearText(), typeText(newSongName), closeSoftKeyboard())
+
+        onView(withId(R.id.song_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been edited from the album")
+        onView(withText(newSongName)).check(matches(isDisplayed()))
+
+        onView(isRoot()).perform(pressBack())
+
+        // check if the song changed in the song list too
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been edited from the album")
+        onView(withText(newSongName)).check(matches(isDisplayed()))
+
+        this.removeSongOrAlbum(songName)
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.removeSongOrAlbum(albumName)
     }
     private fun addSong(name: String) {
         onView(withId(R.id.songs_bt_add)).perform(click())
