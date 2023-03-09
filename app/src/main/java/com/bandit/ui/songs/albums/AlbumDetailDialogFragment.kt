@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.ui.adapter.SongAdapter
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.SongEditDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
@@ -42,6 +45,24 @@ class AlbumDetailDialogFragment : DialogFragment() {
         val album = viewModel.selectedAlbum.value!!
         val albumAddSongDialogFragment = AlbumAddSongDialogFragment()
         with(binding) {
+            val onRemoveFromAlbum = { song: Song ->
+                AndroidComponents.alertDialog(
+                    super.requireContext(),
+                    resources.getString(R.string.song_from_album_alert_dialog_title),
+                    resources.getString(R.string.song_from_album_alert_dialog_message),
+                    resources.getString(R.string.alert_dialog_positive),
+                    resources.getString(R.string.alert_dialog_negative)
+                ) {
+                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                        this@AlbumDetailDialogFragment) {
+                        viewModel.removeSongFromAlbum(album, song)
+                    }
+                    AndroidComponents.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.album_remove_song_toast),
+                    )
+                }
+            }
             albumDetailTvAlbumName.text = album.name
             albumDetailBtAddSongs.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -50,28 +71,19 @@ class AlbumDetailDialogFragment : DialogFragment() {
                 )
             }
             viewModel.albums.observe(viewLifecycleOwner) {
-                albumDetailSongList.adapter =
+                ItemTouchHelper(TouchHelper(
+                    super.requireContext(),
+                    albumDetailRvSongList,
+                    album.songs.sorted().reversed(),
+                    onRemoveFromAlbum
+                ) { onEditSong(it) }
+                ).attachToRecyclerView(albumDetailRvSongList)
+                albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,
                         album.songs.sorted().reversed(),
                         viewModel,
-                        { song ->
-                            AndroidComponents.alertDialog(
-                                super.requireContext(),
-                                resources.getString(R.string.song_from_album_alert_dialog_title),
-                                resources.getString(R.string.song_from_album_alert_dialog_message),
-                                resources.getString(R.string.alert_dialog_positive),
-                                resources.getString(R.string.alert_dialog_negative)
-                            ) {
-                                AndroidUtils.loadIntent(this@AlbumDetailDialogFragment) {
-                                    viewModel.removeSongFromAlbum(album, song)
-                                }
-                                AndroidComponents.toastNotification(
-                                    super.requireContext(),
-                                    resources.getString(R.string.album_remove_song_toast),
-                                )
-                            }
-                        },
+                        onRemoveFromAlbum,
                         { onEditSong(it) },
                         resources.getString(R.string.album_remove_from_album)
                     )

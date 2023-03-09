@@ -142,6 +142,13 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
+            ItemTouchHelper(TouchHelper(
+                super.requireContext(),
+                songsRvList,
+                viewModel.albums.value!!.sorted().reversed(),
+                { album -> onDeleteAlbum(album) },
+                { album -> onEditAlbum(album) }
+            )).attachToRecyclerView(songsRvList)
         }
     }
 
@@ -214,6 +221,13 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
+            ItemTouchHelper(TouchHelper(
+                super.requireContext(),
+                songsRvList,
+                viewModel.songs.value!!.sorted().reversed(),
+                { song -> onDeleteSong(song) },
+                { song -> onEditSong(song) }
+            )).attachToRecyclerView(songsRvList)
         }
     }
 
