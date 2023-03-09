@@ -2,15 +2,9 @@ package com.bandit.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
-import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.BandInvitation
 import com.bandit.databinding.ModelBandInvitationBinding
-import com.bandit.ui.band.BandViewModel
-import com.bandit.util.AndroidUtils
 
 class BandInvitationAdapter(
     private val bandInvitations: List<BandInvitation>,

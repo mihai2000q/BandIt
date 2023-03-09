@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Album
 import com.bandit.ui.component.AndroidComponents
@@ -91,13 +92,17 @@ class SongsFragment : Fragment() {
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object : TouchHelper<Album>(
                         super.requireContext(),
                         songsRvList,
-                        it.sorted().reversed(),
                         { album -> onDeleteAlbum(album) },
                         { album -> onEditAlbum(album) }
-                    )).attachToRecyclerView(songsRvList)
+                    ){
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted().reversed()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(songsRvList)
                     return@setRecyclerViewEmpty AlbumAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),
@@ -145,13 +150,17 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
-            ItemTouchHelper(TouchHelper(
+            ItemTouchHelper(object : TouchHelper<Album>(
                 super.requireContext(),
                 songsRvList,
-                viewModel.albums.value!!.sorted().reversed(),
                 { album -> onDeleteAlbum(album) },
                 { album -> onEditAlbum(album) }
-            )).attachToRecyclerView(songsRvList)
+            ) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    items = viewModel.albums.value!!.sorted().reversed()
+                    super.onSwiped(viewHolder, direction)
+                }
+            }).attachToRecyclerView(songsRvList)
         }
     }
 
@@ -174,13 +183,17 @@ class SongsFragment : Fragment() {
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object: TouchHelper<Song>(
                         super.requireContext(),
                         songsRvList,
-                        it.sorted().reversed(),
                         { song -> onDeleteSong(song) },
                         { song -> onEditSong(song) }
-                    )).attachToRecyclerView(songsRvList)
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted().reversed()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(songsRvList)
                     return@setRecyclerViewEmpty SongAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),
@@ -224,13 +237,17 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
-            ItemTouchHelper(TouchHelper(
+            ItemTouchHelper(object : TouchHelper<Song>(
                 super.requireContext(),
                 songsRvList,
-                viewModel.songs.value!!.sorted().reversed(),
                 { song -> onDeleteSong(song) },
                 { song -> onEditSong(song) }
-            )).attachToRecyclerView(songsRvList)
+            ) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    items = viewModel.songs.value!!.sorted().reversed()
+                    super.onSwiped(viewHolder, direction)
+                }
+            }).attachToRecyclerView(songsRvList)
         }
     }
 

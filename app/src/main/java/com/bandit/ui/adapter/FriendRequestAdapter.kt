@@ -2,12 +2,8 @@ package com.bandit.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
-import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendRequestBinding
 import com.bandit.ui.friends.FriendsViewModel

@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.template.Item
 
-class TouchHelper<T: Item>(
+open class TouchHelper<T: Item>(
     private val context: Context,
     private val recyclerView: RecyclerView,
-    private val items: List<T>,
     private val onLeftAction: (T) -> Unit,
     private val onRightAction: (T) -> Unit,
     private val drawableIdRightAction: Int = R.drawable.ic_edit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+    // has to extend this class to populate this list
+    lateinit var items: List<T>
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -29,11 +30,11 @@ class TouchHelper<T: Item>(
         val position = viewHolder.adapterPosition
         if(direction == ItemTouchHelper.LEFT) {
             onLeftAction(items[position])
-            recyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
+            recyclerView.adapter?.notifyItemChanged(position)
         }
-        if(direction == ItemTouchHelper.RIGHT) {
+        else if(direction == ItemTouchHelper.RIGHT) {
             onRightAction(items[position])
-            recyclerView.adapter?.notifyItemChanged(viewHolder.adapterPosition)
+            recyclerView.adapter?.notifyItemChanged(position)
         }
     }
 

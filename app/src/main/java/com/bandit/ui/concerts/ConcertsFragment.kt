@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.ui.component.AndroidComponents
@@ -96,13 +97,17 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object : TouchHelper<Concert>(
                         super.requireContext(),
                         concertsRvList,
-                        it.sorted(),
                         onDeleteConcert,
                         onEditConcert
-                    )).attachToRecyclerView(concertsRvList)
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(concertsRvList)
                     return@setRecyclerViewEmpty ConcertAdapter(
                         this@ConcertsFragment,
                         it.sorted(),
