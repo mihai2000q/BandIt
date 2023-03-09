@@ -167,7 +167,7 @@ class SongsFragment : Fragment() {
                     ItemTouchHelper(TouchHelper(
                         super.requireContext(),
                         songsRvList,
-                        viewModel.songs.value!!,
+                        it.sorted().reversed(),
                         { song -> onDeleteSong(song) },
                         { song -> onEditSong(song) }
                     )).attachToRecyclerView(songsRvList)

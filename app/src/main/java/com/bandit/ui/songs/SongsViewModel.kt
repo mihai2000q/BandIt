@@ -47,10 +47,13 @@ class SongsViewModel : ViewModel() {
     }
     suspend fun editSong(song: Song) = coroutineScope {
         launch { _songRepository.edit(song) }.join()
-        if(song.albumId != null)
-            this@SongsViewModel.editSongFromAlbum(_albums.value!!
-                .first { it.id == song.albumId }, song)
         this@SongsViewModel.refreshSongs()
+        if(song.albumId != null) {
+            this@SongsViewModel.editSongFromAlbum(_albums.value!!
+                .first { it.id == song.albumId }, song
+            )
+            this@SongsViewModel.refreshAlbums()
+        }
     }
     fun filterSongs(
         name: String?,
