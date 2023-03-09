@@ -17,6 +17,7 @@ import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.not
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -157,6 +158,41 @@ class BandInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToInvite),
             "This account should have been invited, and therefore, removed from this list")
     }
+    // same as above
+    // it cannot swipe as it swipes the tab instead
+    @Test
+    @Ignore("fails on line 174")
+    fun band_fragment_invite_member_from_friends_swipe() {
+        val accountToInvite = ConstantsTest.accountNewName
+        beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        // look for him and invite him
+        onView(withText(R.string.social_friends_tab)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.friends_rv_list))
+            .perform(RecyclerViewActions.scrollTo<PeopleAdapter.ViewHolder>(
+                    hasDescendant(withText(accountToInvite))))
+            .perform(RecyclerViewActions.actionOnItem<PeopleAdapter.ViewHolder>(
+                    hasDescendant(withText(accountToInvite)), swipeRight()))
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(R.string.social_band_tab)).perform(click())
+
+        // check if he is added as a pending member
+        onView(withId(R.id.band_search_view))
+            .perform(typeText(accountToInvite.dropLast(1)), closeSoftKeyboard())
+        onView(withText(ConstantsTest.accountNewNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_accepted_false)).check(matches(isDisplayed()))
+
+        // check if he still is on the add members dialog
+        onView(withId(R.id.band_bt_add)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.band_add_member_search))
+            .perform(typeText(accountToInvite.dropLast(1)), closeSoftKeyboard())
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToInvite),
+            "This account should have been invited, and therefore, removed from this list")
+    }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
     // the user accepts the admin's invitation
@@ -197,6 +233,44 @@ class BandInstrumentedTest {
         onView(withId(R.id.action_bar_profile)).perform(click())
         onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
     }
+    // same as above
+    @Test
+    fun band_fragment_accept_band_invitation_swipe() {
+        val bandName = ConstantsTest.bandName
+        beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+        // accept the invitation
+        onView(withId(R.id.band_bt_invitations)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.band_invitation_search_view))
+            .perform(typeText(bandName.dropLast(1)), closeSoftKeyboard())
+        onView(withId(R.id.band_invitation_tv_band_name)).check(matches(withText(bandName)))
+        onView(withText(bandName)).perform(swipeRight())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withId(R.id.band_tv_name)).check(matches(withText(bandName)))
+        onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
+
+        onView(withText(ConstantsTest.accountNewNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.band_bt_invitations)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+            "The band invitation has already been accepted")
+        onView(isRoot()).perform(pressBack())
+
+        onView(withId(R.id.band_bt_add)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+            "The admin's nickname should not be displayed as he cannot be invited in its own band")
+        onView(isRoot()).perform(pressBack())
+
+        // check my profile's band
+        onView(withId(R.id.action_bar_profile)).perform(click())
+        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+    }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
     // the user rejects the admin's invitation
@@ -216,6 +290,24 @@ class BandInstrumentedTest {
 
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(band),
         "The name of the band should not be displayed anywhere")
+    }
+    // same as above
+    @Test
+    fun band_fragment_reject_band_invitation_swipe() {
+        val bandName = ConstantsTest.bandName
+        beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+        onView(withId(R.id.band_bt_invitations)).perform(click())
+        onView(withId(R.id.band_invitation_search_view))
+            .perform(typeText(bandName.dropLast(1)), closeSoftKeyboard())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.band_invitation_tv_band_name)).check(matches(withText(bandName)))
+        onView(withText(bandName)).perform(swipeLeft())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(bandName),
+            "The name of the band should not be displayed anywhere")
     }
     // Precondition - have an account setup already with a band and you are not the creator
     // the user quits the band
