@@ -59,6 +59,42 @@ class ConcertsInstrumentedTest {
     }
     // Condition - there is only one concert with these properties
     @Test
+    fun concerts_fragment_edit_remove_concert_swipe_gestures() {
+        val concertName = "Romexpo Concert"
+        val concertCity = "Vienna"
+        val concertCountry = "Austria"
+        val concertPlace = "Romexpo"
+        val newName = "Concert in Austria"
+        this.addConcert(concertName, concertCity, concertCountry, concertPlace)
+
+        // edit concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(concertName)), swipeRight()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.concert_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.concert_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(concertName),
+            "This concert should have been renamed")
+
+        // remove concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), swipeLeft()))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newName),
+            "This concert should have been deleted")
+    }
+    // Condition - there is only one concert with these properties
+    @Test
     fun concerts_fragment_edit_concert() {
         val concertName = "Concert in Berlin"
         val concertCity = "Berlin"

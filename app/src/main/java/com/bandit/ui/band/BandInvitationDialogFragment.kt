@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.BandInvitation
 import com.bandit.ui.component.AndroidComponents
@@ -40,14 +41,18 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
         )
         binding.bandInvitationSearchView.setOnQueryTextListener(this)
         viewModel.bandInvitations.observe(viewLifecycleOwner) {
-            ItemTouchHelper(TouchHelper(
+            ItemTouchHelper(object : TouchHelper<BandInvitation>(
                 super.requireContext(),
                 binding.bandInvitationRvList,
-                it.sorted(),
                 { bandInvitation -> onRejectBandInvitation(bandInvitation) },
                 { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
                 R.drawable.ic_check_circle_outline_white
-            )).attachToRecyclerView(binding.bandInvitationRvList)
+            ) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    items = it.sorted()
+                    super.onSwiped(viewHolder, direction)
+                }
+            }).attachToRecyclerView(binding.bandInvitationRvList)
             binding.bandInvitationRvList.adapter = BandInvitationAdapter(
                 it.sorted(),
                 { bandInvitation -> onAcceptBandInvitation(bandInvitation) },

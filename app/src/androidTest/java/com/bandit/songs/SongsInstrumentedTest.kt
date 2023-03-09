@@ -8,14 +8,15 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.bandit.MainActivity
 import com.bandit.R
+import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.ConcertAdapter
+import com.bandit.ui.adapter.SongAdapter
 import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -50,7 +51,7 @@ class SongsInstrumentedTest {
     fun songs_fragment_add_remove_song() {
         val songName = "The Warrior"
         this.addSong(songName)
-        this.removeSongOrAlbum(songName)
+        this.removeSong(songName)
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
         "This song should have been deleted")
     }
@@ -61,7 +62,40 @@ class SongsInstrumentedTest {
         val newName = "The Fallen Warrior"
         this.addSong(songName)
         this.editSong(songName, newName)
-        this.removeSongOrAlbum(newName)
+        this.removeSong(newName)
+    }
+    // Condition - there is only one song with these properties
+    @Test
+    fun songs_fragment_edit_remove_song_swipe_gestures() {
+        val songName = "The Slayer"
+        val newName = "Bulking"
+        this.addSong(songName)
+
+        // edit song
+        onView(withId(R.id.songs_rv_list))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(songName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                    hasDescendant(withText(songName)), swipeRight()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.song_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+        onView(withId(R.id.song_button)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withId(R.id.songs_rv_list))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                    hasDescendant(withText(newName)), swipeLeft()))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+            "This song should have been deleted")
     }
     // Condition - there is only one song with these properties
     @Test
@@ -86,7 +120,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
-        this.removeSongOrAlbum(songName)
+        this.removeSong(songName)
     }
     // Condition - there is only one song with these properties
     @Test
@@ -114,7 +148,7 @@ class SongsInstrumentedTest {
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
-        this.removeSongOrAlbum(songName)
+        this.removeSong(songName)
     }
     // Condition - there is only one album with these properties
     @Test
@@ -122,7 +156,7 @@ class SongsInstrumentedTest {
         val albumName = "Debut Album"
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
-        this.removeSongOrAlbum(albumName)
+        this.removeAlbum(albumName)
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
             "This album should have been deleted")
     }
@@ -134,7 +168,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         this.editAlbum(albumName, newName)
-        this.removeSongOrAlbum(newName)
+        this.removeAlbum(newName)
     }
     // Condition - there is only one album with these properties
     @Test
@@ -160,7 +194,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(AndroidTestUtil.clearText(), typeText(searchValue), closeSoftKeyboard())
 
-        this.removeSongOrAlbum(albumName)
+        this.removeAlbum(albumName)
     }
     // Condition - there is only one album with these properties
     @Test
@@ -189,7 +223,7 @@ class SongsInstrumentedTest {
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.album_button)).perform(click())
 
-        this.removeSongOrAlbum(albumName)
+        this.removeAlbum(albumName)
     }
     // Condition - there is no other album or song with these names
     @Test
@@ -247,11 +281,13 @@ class SongsInstrumentedTest {
         this.editSong(songName, newSongName)
 
         // delete the other
-        this.removeSongOrAlbum(songName2)
+        this.removeSong(songName2)
 
         // check if the displayed name on the album changed
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        onView(withText(newAlbumName)).perform(click())
+        // index 1 because even though the song is not visible it is still being selected
+        // Espresso :thumbs_down: :(
+        onView(withIndex(withText(newAlbumName), 1)).perform(click())
         onView(withText(newSongName)).check(matches(isDisplayed()))
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
             "This song should have been edited")
@@ -260,19 +296,15 @@ class SongsInstrumentedTest {
 
         // delete album
         onView(isRoot()).perform(pressBack())
-        this.removeSongOrAlbum(newAlbumName)
+        this.removeAlbum(newAlbumName)
 
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(newAlbumName),
             "This album should have been deleted")
-        this.removeSongOrAlbum(newSongName)
+        this.removeSong(newSongName)
     }
     // Condition - there is no other album or song with these names
-    // FAILING - due to unknown reasons - replaced with manual testing
-    // the official reason: on line 289, the layout loses its focus and never regains it
-    // therefore, it crashes after a timeout
     @Test
-    @Ignore("Because it will fail on line 317")
     fun songs_fragment_remove_song_from_album() {
         val songName = "Raimond The Wind Walker"
         val albumName = "Raimond's Album"
@@ -287,8 +319,7 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         // delete song from album
-        onView(withText(songName)).perform(longClick())
-        onView(withText(R.string.album_remove_from_album)).perform(click())
+        onView(withText(songName)).perform(swipeLeft())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
@@ -299,14 +330,12 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withText(songName)).check(matches(isDisplayed()))
 
-        this.removeSongOrAlbum(songName)
+        this.removeSong(songName)
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        this.removeSongOrAlbum(albumName)
+        this.removeAlbum(albumName)
     }
     // Condition - there is no other album or song with these names
-    // same as above
     @Test
-    @Ignore("fails")
     fun songs_fragment_edit_song_from_album() {
         val songName = "Raimond The Wind Walker"
         val newSongName = "The Fire Tail"
@@ -322,8 +351,7 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         // edit song from album
-        onView(withText(songName)).perform(longClick())
-        onView(withText(R.string.bt_edit)).perform(click())
+        onView(withText(songName)).perform(swipeRight())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         onView(withId(R.id.song_et_name))
@@ -341,12 +369,12 @@ class SongsInstrumentedTest {
         // check if the song changed in the song list too
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
-            "This song should have been edited from the album")
+            "This song should have been edited from the song list")
         onView(withText(newSongName)).check(matches(isDisplayed()))
 
-        this.removeSongOrAlbum(songName)
+        this.removeSong(newSongName)
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        this.removeSongOrAlbum(albumName)
+        this.removeAlbum(albumName)
     }
     private fun addSong(name: String) {
         onView(withId(R.id.songs_bt_add)).perform(click())
@@ -359,10 +387,24 @@ class SongsInstrumentedTest {
 
         onView(withText(name)).check(matches(isDisplayed()))
     }
-    private fun removeSongOrAlbum(name: String) {
+    private fun removeSong(name: String) {
         onView(withId(R.id.songs_rv_list))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
             .perform(
-                RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                    hasDescendant(withText(name)), longClick()))
+        onView(withText(R.string.bt_delete)).perform(click())
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+    }
+    private fun removeAlbum(name: String) {
+        onView(withId(R.id.songs_rv_albums))
+            .perform(RecyclerViewActions.scrollTo<AlbumAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(
+                RecyclerViewActions.actionOnItem<AlbumAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
@@ -371,8 +413,9 @@ class SongsInstrumentedTest {
     }
     private fun editSong(name: String, newName: String) {
         onView(withId(R.id.songs_rv_list))
-            .perform(
-                RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 
@@ -383,9 +426,10 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
     }
     private fun editAlbum(name: String, newName: String) {
-        onView(withId(R.id.songs_rv_list))
-            .perform(
-                RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+        onView(withId(R.id.songs_rv_albums))
+            .perform(RecyclerViewActions.scrollTo<AlbumAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<AlbumAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 

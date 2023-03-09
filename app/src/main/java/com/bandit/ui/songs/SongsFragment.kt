@@ -10,16 +10,16 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Album
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Song
 import com.bandit.databinding.FragmentSongsBinding
 import com.bandit.ui.adapter.AlbumAdapter
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
 import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
@@ -76,8 +76,8 @@ class SongsFragment : Fragment() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
         val albumFilterDialogFragment = AlbumFilterDialogFragment(badgeDrawable)
         with(binding) {
+            songsRvAlbums.visibility = View.VISIBLE
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
-            songsRvList.layoutManager = GridLayoutManager(context, 2)
             mode(
                 R.drawable.ic_list,
                 albumAddDialogFragment,
@@ -86,18 +86,11 @@ class SongsFragment : Fragment() {
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.albums,
-                songsRvList,
+                songsRvAlbums,
                 songsRvEmpty,
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
-                        super.requireContext(),
-                        songsRvList,
-                        it.sorted().reversed(),
-                        { album -> onDeleteAlbum(album) },
-                        { album -> onEditAlbum(album) }
-                    )).attachToRecyclerView(songsRvList)
                     return@setRecyclerViewEmpty AlbumAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),
@@ -108,6 +101,7 @@ class SongsFragment : Fragment() {
                     )
                 }
             ) {
+                songsRvList.visibility = View.GONE
                 if(viewModel.albumMode.value == false) return@setRecyclerViewEmpty
             }
             songsSearchView.setOnQueryTextListener(
@@ -145,13 +139,6 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
-            ItemTouchHelper(TouchHelper(
-                super.requireContext(),
-                songsRvList,
-                viewModel.albums.value!!.sorted().reversed(),
-                { album -> onDeleteAlbum(album) },
-                { album -> onEditAlbum(album) }
-            )).attachToRecyclerView(songsRvList)
         }
     }
 
@@ -159,8 +146,8 @@ class SongsFragment : Fragment() {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment(badgeDrawable)
         with(binding) {
+            songsRvList.visibility = View.VISIBLE
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
-            songsRvList.layoutManager = GridLayoutManager(context, 1)
             mode(
                 R.drawable.ic_album_view,
                 songAddDialogFragment,
@@ -174,13 +161,17 @@ class SongsFragment : Fragment() {
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object: TouchHelper<Song>(
                         super.requireContext(),
                         songsRvList,
-                        it.sorted().reversed(),
                         { song -> onDeleteSong(song) },
                         { song -> onEditSong(song) }
-                    )).attachToRecyclerView(songsRvList)
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted().reversed()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(songsRvList)
                     return@setRecyclerViewEmpty SongAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),
@@ -190,6 +181,7 @@ class SongsFragment : Fragment() {
                     )
                 }
             ) {
+                songsRvAlbums.visibility = View.GONE
                 if(viewModel.albumMode.value == true) return@setRecyclerViewEmpty
             }
             songsSearchView.setOnQueryTextListener(
@@ -224,13 +216,6 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
-            ItemTouchHelper(TouchHelper(
-                super.requireContext(),
-                songsRvList,
-                viewModel.songs.value!!.sorted().reversed(),
-                { song -> onDeleteSong(song) },
-                { song -> onEditSong(song) }
-            )).attachToRecyclerView(songsRvList)
         }
     }
 

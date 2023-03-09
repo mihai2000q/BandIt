@@ -49,10 +49,14 @@ class SongsViewModel : ViewModel() {
         launch { _songRepository.edit(song) }.join()
         this@SongsViewModel.refreshSongs()
         if(song.albumId != null) {
-            this@SongsViewModel.editSongFromAlbum(_albums.value!!
-                .first { it.id == song.albumId }, song
+            _albumRepository.editSong(
+                _albums.value!!
+                    .first { it.id == song.albumId },
+                song
             )
             this@SongsViewModel.refreshAlbums()
+            if(!albumMode.value!!)
+                this@SongsViewModel.refreshSongs()
         }
     }
     fun filterSongs(
@@ -84,13 +88,14 @@ class SongsViewModel : ViewModel() {
     }
 
     suspend fun editAlbum(album: Album) = coroutineScope {
-        launch { _albumRepository.edit(album)
+        launch {
+            _albumRepository.edit(album)
             if(didAlbumChangeName(album))
                 _songs.value!!
                     .filter { it.albumId == album.id }
                     .forEach {
                         it.albumName = album.name
-                        this@SongsViewModel.editSong(it)
+                        _songRepository.edit(it)
                     }
         }.join()
         this@SongsViewModel.refreshAlbums()
@@ -120,10 +125,6 @@ class SongsViewModel : ViewModel() {
     fun getSongFiltersOn() = songFilters.value?.filter { it.value.isNotBlank() }!!.size
 
     fun getAlbumFiltersOn() = albumFilters.value?.filter { it.value.isNotBlank() }!!.size
-
-    private fun editSongFromAlbum(album: Album, song: Song) {
-        _albumRepository.editSong(album, song)
-    }
 
     private fun didAlbumChangeName(album: Album) = _albums.value!!.first{ it.id == album.id }.name == album.name
 

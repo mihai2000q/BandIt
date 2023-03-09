@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -44,13 +45,17 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
             friendsDialogTvTitle.setText(R.string.friends_requests_dialog_title)
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
             viewModel.friendRequests.observe(viewLifecycleOwner) {
-                ItemTouchHelper(TouchHelper(
+                ItemTouchHelper(object : TouchHelper<Account>(
                     super.requireContext(),
                     friendsDialogRvList,
-                    it.sorted(),
                     { req -> onRejectFriendRequest(req) },
                     { req -> onAcceptFriendRequest(req) }
-                )).attachToRecyclerView(friendsDialogRvList)
+                ) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        items = it.sorted()
+                        super.onSwiped(viewHolder, direction)
+                    }
+                }).attachToRecyclerView(friendsDialogRvList)
                 friendsDialogRvList.adapter = FriendRequestAdapter(
                     this@FriendsRequestsDialogFragment,
                     it.sorted(),

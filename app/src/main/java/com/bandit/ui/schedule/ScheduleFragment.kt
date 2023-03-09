@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
@@ -101,13 +102,17 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object : TouchHelper<Event>(
                         super.requireContext(),
                         scheduleRvEventsView,
-                        it.sorted(),
                         { event -> onDeleteEvent(event) },
                         { event -> onEditEvent(event) }
-                    )).attachToRecyclerView(scheduleRvEventsView)
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -149,13 +154,17 @@ class ScheduleFragment : Fragment(),
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(TouchHelper(
+                    ItemTouchHelper(object : TouchHelper<Event>(
                         super.requireContext(),
                         scheduleRvEventsView,
-                        it.sorted(),
                         { event -> onDeleteEvent(event) },
                         { event -> onEditEvent(event) }
-                    )).attachToRecyclerView(scheduleRvEventsView)
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(scheduleRvEventsView)
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),

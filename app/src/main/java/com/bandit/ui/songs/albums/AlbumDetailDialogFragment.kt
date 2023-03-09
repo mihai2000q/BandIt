@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -69,13 +70,17 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                 )
             }
             viewModel.albums.observe(viewLifecycleOwner) {
-                ItemTouchHelper(TouchHelper(
+                ItemTouchHelper(object : TouchHelper<Song>(
                     super.requireContext(),
                     albumDetailRvSongList,
-                    album.songs.sorted().reversed(),
-                    onRemoveFromAlbum
-                ) { onEditSong(it) }
-                ).attachToRecyclerView(albumDetailRvSongList)
+                    onRemoveFromAlbum,
+                    { onEditSong(it) }
+                ) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        items = album.songs.sorted().reversed()
+                        super.onSwiped(viewHolder, direction)
+                    }
+                }).attachToRecyclerView(albumDetailRvSongList)
                 albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,
