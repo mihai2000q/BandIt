@@ -118,19 +118,18 @@ class ScheduleFragment : Fragment(),
                 }
             ) {
                 if(viewModel.calendarMode.value == false) return@setRecyclerViewEmpty
-                highlightDays()
+                this@ScheduleFragment.highlightDays()
             }
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    scheduleBtAdd
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        scheduleAddDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                scheduleBtAdd
+            ) {
+                AndroidUtils.showDialogFragment(
+                    scheduleAddDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }
@@ -168,18 +167,17 @@ class ScheduleFragment : Fragment(),
             ) {
                 if(viewModel.calendarMode.value == true) return@setRecyclerViewEmpty
             }
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    scheduleBtAdd
-                ) {
-                    scheduleAddDialogFragment.date.value = null
-                    AndroidUtils.showDialogFragment(
-                        scheduleAddDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                scheduleBtAdd
+            ) {
+                scheduleAddDialogFragment.date.value = null
+                AndroidUtils.showDialogFragment(
+                    scheduleAddDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }

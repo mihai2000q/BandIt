@@ -16,7 +16,9 @@ import com.bandit.util.AndroidUtils
 class FriendRequestAdapter(
     private val fragment: DialogFragment,
     private val friendRequests: List<Account>,
-    private val viewModel: FriendsViewModel
+    private val viewModel: FriendsViewModel,
+    private val onAcceptRequest: (Account) -> Unit,
+    private val onRejectRequest: (Account) -> Unit
 ) : RecyclerView.Adapter<FriendRequestAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ModelFriendRequestBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -40,31 +42,9 @@ class FriendRequestAdapter(
         with(holder.binding) {
             friendRqName.text = friendRequest.name
             friendRqNickname.text = friendRequest.nickname
-            friendRqBtAccept.setOnClickListener { accept(holder, friendRequest) }
-            friendRqBtReject.setOnClickListener { reject(holder, friendRequest) }
+            friendRqBtAccept.setOnClickListener { onAcceptRequest(friendRequest) }
+            friendRqBtReject.setOnClickListener { onRejectRequest(friendRequest) }
             AndroidUtils.setProfilePicture(fragment, viewModel, friendRqProfilePicture, friendRequest.userUid)
-        }
-    }
-
-    private fun accept(holder: ViewHolder, friendRequest: Account) {
-        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, fragment) {
-            viewModel.acceptFriendRequest(friendRequest)
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.friend_request_accepted_toast)
-            )
-            fragment.dismiss()
-        }
-    }
-
-    private fun reject(holder: ViewHolder, friendRequest: Account) {
-        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, fragment) {
-            viewModel.rejectFriendRequest(friendRequest)
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.friend_request_rejected_toast)
-            )
-            fragment.dismiss()
         }
     }
 }

@@ -22,6 +22,7 @@ import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
+import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
 import com.bandit.ui.songs.albums.AlbumEditDialogFragment
 import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
@@ -36,6 +37,7 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment { onEditSong(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,15 +52,14 @@ class SongsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             badgeDrawable = BadgeDrawable.create(super.requireContext())
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtAlbumMode
-                ) {
-                    songsSearchView.setQuery("", false)
-                    viewModel.albumMode.value = !viewModel.albumMode.value!!
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtAlbumMode
+            ) {
+                songsSearchView.setQuery("", false)
+                viewModel.albumMode.value = !viewModel.albumMode.value!!
             }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
@@ -102,7 +103,8 @@ class SongsFragment : Fragment() {
                         it.sorted().reversed(),
                         viewModel,
                         { album -> onDeleteAlbum(album) },
-                        { album -> onEditAlbum(album) }
+                        { album -> onEditAlbum(album) },
+                        { album -> onClickAlbum(album) }
                     )
                 }
             ) {
@@ -143,6 +145,13 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
+            ItemTouchHelper(TouchHelper(
+                super.requireContext(),
+                songsRvList,
+                viewModel.albums.value!!.sorted().reversed(),
+                { album -> onDeleteAlbum(album) },
+                { album -> onEditAlbum(album) }
+            )).attachToRecyclerView(songsRvList)
         }
     }
 
@@ -168,7 +177,7 @@ class SongsFragment : Fragment() {
                     ItemTouchHelper(TouchHelper(
                         super.requireContext(),
                         songsRvList,
-                        viewModel.songs.value!!,
+                        it.sorted().reversed(),
                         { song -> onDeleteSong(song) },
                         { song -> onEditSong(song) }
                     )).attachToRecyclerView(songsRvList)
@@ -215,6 +224,13 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
+            ItemTouchHelper(TouchHelper(
+                super.requireContext(),
+                songsRvList,
+                viewModel.songs.value!!.sorted().reversed(),
+                { song -> onDeleteSong(song) },
+                { song -> onEditSong(song) }
+            )).attachToRecyclerView(songsRvList)
         }
     }
 
@@ -230,32 +246,32 @@ class SongsFragment : Fragment() {
                     drawableIcon
                 )
             )
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtAdd
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        addDialogFragment,
-                        childFragmentManager
-                    )
-                }
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    songsBtFilter
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        filterDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtAdd
+            ) {
+                AndroidUtils.showDialogFragment(
+                    addDialogFragment,
+                    childFragmentManager
+                )
+            }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                songsBtFilter
+            ) {
+                AndroidUtils.showDialogFragment(
+                    filterDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }
 
-    private fun onDeleteSong(song: Song): Boolean {
+    private fun onDeleteSong(song: Song) {
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.song_alert_dialog_title),
@@ -271,7 +287,6 @@ class SongsFragment : Fragment() {
                 resources.getString(R.string.song_remove_toast),
             )
         }
-        return true
     }
 
     private fun onEditSong(song: Song) {
@@ -304,6 +319,14 @@ class SongsFragment : Fragment() {
         viewModel.selectedAlbum.value = album
         AndroidUtils.showDialogFragment(
             albumEditDialogFragment,
+            childFragmentManager
+        )
+    }
+
+    private fun onClickAlbum(album: Album) {
+        viewModel.selectedAlbum.value = album
+        AndroidUtils.showDialogFragment(
+            albumDetailDialogFragment,
             childFragmentManager
         )
     }

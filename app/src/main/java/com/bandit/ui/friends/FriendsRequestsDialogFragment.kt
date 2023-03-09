@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentFriendsBinding
 import com.bandit.ui.adapter.FriendRequestAdapter
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 
 class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
@@ -40,10 +44,19 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
             friendsDialogTvTitle.setText(R.string.friends_requests_dialog_title)
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
             viewModel.friendRequests.observe(viewLifecycleOwner) {
+                ItemTouchHelper(TouchHelper(
+                    super.requireContext(),
+                    friendsDialogRvList,
+                    it.sorted(),
+                    { req -> onRejectFriendRequest(req) },
+                    { req -> onAcceptFriendRequest(req) }
+                )).attachToRecyclerView(friendsDialogRvList)
                 friendsDialogRvList.adapter = FriendRequestAdapter(
                     this@FriendsRequestsDialogFragment,
                     it.sorted(),
-                    viewModel
+                    viewModel,
+                    { req -> onAcceptFriendRequest(req) },
+                    { req -> onRejectFriendRequest(req) }
                 )
             }
         }
@@ -57,6 +70,28 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         binding.friendsDialogSearchView.setQuery("", false)
+    }
+
+    private fun onAcceptFriendRequest(account: Account) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
+            viewModel.acceptFriendRequest(account)
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.friend_request_accepted_toast)
+            )
+            super.dismiss()
+        }
+    }
+
+    private fun onRejectFriendRequest(account: Account) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
+            viewModel.rejectFriendRequest(account)
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.friend_request_rejected_toast)
+            )
+            super.dismiss()
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

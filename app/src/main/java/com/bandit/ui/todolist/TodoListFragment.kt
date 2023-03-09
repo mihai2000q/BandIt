@@ -62,17 +62,16 @@ class TodoListFragment : Fragment() {
                         this@TodoListFragment, it.sorted().asReversed(), viewModel)
                 }
             )
-            bandViewModel.band.observe(viewLifecycleOwner) {
-                AndroidUtils.disableIfBandNull(
-                    resources,
-                    it,
-                    todolistBtAdd
-                ) {
-                    AndroidUtils.showDialogFragment(
-                        typingBottomSheetDialogFragment,
-                        childFragmentManager
-                    )
-                }
+            AndroidUtils.disableIfBandEmpty(
+                viewLifecycleOwner,
+                resources,
+                bandViewModel.band,
+                todolistBtAdd
+            ) {
+                AndroidUtils.showDialogFragment(
+                    typingBottomSheetDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }

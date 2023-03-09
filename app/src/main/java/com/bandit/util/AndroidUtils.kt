@@ -26,7 +26,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -241,21 +240,24 @@ object AndroidUtils {
         }
     }
 
-    fun disableIfBandNull(
+    fun disableIfBandEmpty(
+        viewLifecycleOwner: LifecycleOwner,
         resources: Resources,
-        band: Band,
+        bandLiveData: LiveData<Band>,
         view: View,
         normalAction: () -> Unit
     ) {
-        view.setOnClickListener {
-            if(band.isEmpty())
-                AndroidComponents.snackbarNotification(
-                    view,
-                    resources.getString(R.string.empty_band_snackbar),
-                    resources.getString(R.string.bt_okay)
-                ).show()
-            else
-                normalAction()
+        bandLiveData.observe(viewLifecycleOwner) { band ->
+            view.setOnClickListener {
+                if(band.isEmpty())
+                    AndroidComponents.snackbarNotification(
+                        view,
+                        resources.getString(R.string.empty_band_snackbar),
+                        resources.getString(R.string.bt_okay)
+                    ).show()
+                else
+                    normalAction()
+            }
         }
     }
 

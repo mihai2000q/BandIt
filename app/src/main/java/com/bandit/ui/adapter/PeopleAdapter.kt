@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelFriendBinding
 import com.bandit.ui.band.BandViewModel
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -18,6 +16,8 @@ class PeopleAdapter(
     private val fragment: Fragment,
     private val accounts: List<Account>,
     private val viewModel: FriendsViewModel,
+    private val onAddToBand: ((Account) -> Unit)?,
+    private val onUnfriend: ((Account) -> Unit)?,
     private val bandViewModel: BandViewModel? = null,
     private val myAccount: Account? = null,
     private val onClick: ((Account) -> Unit)? = null,
@@ -70,52 +70,19 @@ class PeopleAdapter(
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
-                R.id.friend_popup_menu_add_to_band -> onAddToBand(holder, account)
-                else -> onUnfriend(holder, account)
+                R.id.friend_popup_menu_add_to_band -> addToBand(account)
+                else -> unfriend(account)
             }
         }
     }
 
-    private fun onAddToBand(holder: ViewHolder, account: Account): Boolean {
-        if(bandViewModel?.band?.value!!.members.containsKey(account)) {
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.band_member_same_band_toast)
-            )
-            return true
-        }
-        else if(account.bandId != null) {
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.band_member_in_band_toast)
-            )
-            return true
-        }
-        AndroidUtils.loadDialogFragment(bandViewModel.viewModelScope, fragment) {
-            bandViewModel.sendBandInvitation(account)
-        }
-        AndroidComponents.toastNotification(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.band_invitation_sent_toast),
-        )
+    private fun addToBand(account: Account): Boolean {
+        onAddToBand?.invoke(account)
         return true
     }
 
-    private fun onUnfriend(holder: ViewHolder, account: Account): Boolean {
-        AndroidComponents.alertDialog(
-            holder.binding.root.context,
-            holder.binding.root.resources.getString(R.string.friend_alert_dialog_title),
-            holder.binding.root.resources.getString(R.string.friend_alert_dialog_message),
-            holder.binding.root.resources.getString(R.string.alert_dialog_positive),
-            holder.binding.root.resources.getString(R.string.alert_dialog_negative)
-        ) {
-            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                fragment) { viewModel.unfriend(account) }
-            AndroidComponents.toastNotification(
-                holder.binding.root.context,
-                holder.binding.root.resources.getString(R.string.friend_unfriended_toast),
-            )
-        }
+    private fun unfriend(account: Account): Boolean {
+        onUnfriend?.invoke(account)
         return true
     }
 

@@ -18,9 +18,9 @@ data class SongAdapter(
     private val fragment: Fragment,
     private val songs: List<Song>,
     private val viewModel: SongsViewModel,
-    private val onDeleteSong: (Song) -> Boolean,
-    private val onEditSong: (Song) -> Unit,
-    private val deleteText: String? = null,
+    private val onDeleteSong: ((Song) -> Unit)?,
+    private val onEditSong: ((Song) -> Unit)?,
+    private val deleteText: String = "",
     private val isLongClickable: Boolean = true,
     private val onClick: ((Song) -> Unit)? = null
 ) : RecyclerView.Adapter<SongAdapter.ViewHolder>() {
@@ -71,16 +71,13 @@ data class SongAdapter(
     private fun popupMenu(holder: SongAdapter.ViewHolder, song: Song) {
         popupMenu = PopupMenu(holder.binding.root.context, holder.itemView)
         popupMenu.inflate(R.menu.item_popup_menu)
-        if(deleteText != null)
+        if(deleteText.isNotBlank())
             popupMenu.menu[1].title = deleteText
         popupMenu.setOnDismissListener { isPopupShown = false }
         popupMenu.setOnMenuItemClickListener {
             popupMenu.dismiss()
             when (it.itemId) {
-                R.id.popup_menu_delete -> {
-                    popupMenu(holder, song)
-                    onDeleteSong(song)
-                }
+                R.id.popup_menu_delete -> onDelete(song)
                 else -> onEdit(song)
             }
         }
@@ -103,8 +100,13 @@ data class SongAdapter(
         return true
     }
 
+    private fun onDelete(song: Song): Boolean {
+        onDeleteSong?.invoke(song)
+        return true
+    }
+
     private fun onEdit(song: Song): Boolean {
-        onEditSong(song)
+        onEditSong?.invoke(song)
         return true
     }
 

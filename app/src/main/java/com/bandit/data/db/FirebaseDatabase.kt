@@ -494,8 +494,9 @@ class FirebaseDatabase : Database {
     private suspend fun readBandItems() = coroutineScope {
         async {
             launch { readConcerts() }
-            launch { readSongs() }
-            launch { readAlbums() }
+            launch { readSongs() }.invokeOnCompletion {
+                launch { readAlbums() }
+            }
             launch { readEvents() }
             launch { readTasks() }
         }

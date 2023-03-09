@@ -8,10 +8,14 @@ import android.widget.SearchView.OnQueryTextListener
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
+import com.bandit.data.model.BandInvitation
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.ui.adapter.BandInvitationAdapter
+import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 
 class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
@@ -36,10 +40,18 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
         )
         binding.bandInvitationSearchView.setOnQueryTextListener(this)
         viewModel.bandInvitations.observe(viewLifecycleOwner) {
-            binding.bandInvitationRvList.adapter = BandInvitationAdapter(
-                this,
+            ItemTouchHelper(TouchHelper(
+                super.requireContext(),
+                binding.bandInvitationRvList,
                 it.sorted(),
-                viewModel
+                { bandInvitation -> onRejectBandInvitation(bandInvitation) },
+                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                R.drawable.ic_check_circle_outline_white
+            )).attachToRecyclerView(binding.bandInvitationRvList)
+            binding.bandInvitationRvList.adapter = BandInvitationAdapter(
+                it.sorted(),
+                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                { bandInvitation -> onRejectBandInvitation(bandInvitation) }
             )
         }
     }
@@ -49,6 +61,28 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
         binding.bandInvitationSearchView.setQuery("", false)
         _binding = null
         viewModel.refresh()
+    }
+
+    private fun onAcceptBandInvitation(bandInvitation: BandInvitation) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
+            viewModel.acceptBandInvitation(bandInvitation)
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_invitation_accepted_toast)
+            )
+            super.dismiss()
+        }
+    }
+
+    private fun onRejectBandInvitation(bandInvitation: BandInvitation) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
+            viewModel.rejectBandInvitation(bandInvitation)
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_invitation_rejected_toast)
+            )
+            super.dismiss()
+        }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
