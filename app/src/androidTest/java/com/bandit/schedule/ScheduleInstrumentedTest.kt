@@ -98,6 +98,40 @@ class ScheduleInstrumentedTest {
 
         this.removeEvent(newName)
     }
+    @Test
+    fun schedule_fragment_edit_remove_event_swipe_gestures() {
+        val eventName = "New Event"
+        val newName = "Weekly Training Session"
+        this.addEvent(eventName)
+
+        // edit event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(eventName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(eventName)), swipeRight()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
+
+        // remove event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                    hasDescendant(withText(newName)), swipeLeft()))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newName),
+            "This event should have been deleted")
+    }
     // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_search_view_filter() {
@@ -146,6 +180,54 @@ class ScheduleInstrumentedTest {
         onView(withText(eventName)).check(matches(isDisplayed()))
 
         this.removeEvent(eventName)
+    }
+    @Test
+    fun schedule_fragment_calendar_mode_swipe_gestures() {
+        val eventName = "New Event Today"
+        val newName = "Training Session"
+        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.schedule_bt_add)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withText(LocalDate.now().toString())).check(matches(isDisplayed()))
+
+        onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
+        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withText("OK")).perform(click())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(eventName)).check(matches(isDisplayed()))
+
+        // edit event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(eventName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(eventName)), swipeRight()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
+
+        // remove event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), swipeLeft()))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newName),
+            "This event should have been deleted")
     }
     // Condition - there is only one event with these properties
     @Test
