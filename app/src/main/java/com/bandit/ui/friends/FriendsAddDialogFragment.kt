@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentFriendsBinding
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.util.AndroidUtils
@@ -43,19 +44,11 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
                 friendsDialogRvList.adapter = PeopleAdapter(
                     this@FriendsAddDialogFragment,
                     it.sorted(),
-                    viewModel
+                    viewModel,
+                    null,
+                    null
                 )
-                { acc ->
-                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                        this@FriendsAddDialogFragment) {
-                        viewModel.sendFriendRequest(acc)
-                    }
-                    AndroidComponents.toastNotification(
-                        super.requireContext(),
-                        resources.getString(R.string.friend_request_sent_toast)
-                    )
-                    super.dismiss()
-                }
+                { acc -> onClick(acc) }
             }
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsAddDialogFragment)
         }
@@ -69,6 +62,18 @@ class FriendsAddDialogFragment : DialogFragment(), OnQueryTextListener {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         binding.friendsDialogSearchView.setQuery("", false)
+    }
+
+    private fun onClick(account: Account) {
+        AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+            this@FriendsAddDialogFragment) {
+            viewModel.sendFriendRequest(account)
+        }
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.friend_request_sent_toast)
+        )
+        super.dismiss()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

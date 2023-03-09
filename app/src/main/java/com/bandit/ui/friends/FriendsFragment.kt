@@ -86,6 +86,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     this@FriendsFragment,
                     it.sorted(),
                     viewModel,
+                    { acc -> onAddToBand(acc) },
+                    { acc -> onUnfriend(acc) },
                     bandViewModel,
                     accountViewModel.account.value!!
                 )
@@ -98,20 +100,20 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
         _binding = null
     }
 
-    private fun onAddToBand(account: Account): Boolean {
+    private fun onAddToBand(account: Account) {
         if(bandViewModel.band.value!!.members.containsKey(account)) {
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_member_same_band_toast)
             )
-            return true
+            return
         }
         else if(account.bandId != null) {
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_member_in_band_toast)
             )
-            return true
+            return
         }
         AndroidUtils.loadDialogFragment(bandViewModel.viewModelScope, this) {
             bandViewModel.sendBandInvitation(account)
@@ -120,7 +122,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             super.requireContext(),
             resources.getString(R.string.band_invitation_sent_toast),
         )
-        return true
+        return
     }
 
     private fun onUnfriend(account: Account) {

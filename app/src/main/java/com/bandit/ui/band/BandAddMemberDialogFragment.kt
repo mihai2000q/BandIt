@@ -47,20 +47,10 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
                 bandRvAddMemberFriends.adapter = PeopleAdapter(
                     this@BandAddMemberDialogFragment,
                     accounts.filter { acc -> acc.bandId == null },
-                    friendsViewModel
-                ) { acc ->
-                    AndroidUtils.loadDialogFragment(
-                        viewModel.viewModelScope,
-                        this@BandAddMemberDialogFragment
-                    ) {
-                        viewModel.sendBandInvitation(acc)
-                    }
-                    AndroidComponents.toastNotification(
-                        super.requireContext(),
-                        resources.getString(R.string.band_invitation_sent_toast)
-                    )
-                    super.dismiss()
-                }
+                    friendsViewModel,
+                    null,
+                    null,
+                ) { acc -> onClickFriend(acc) }
             }
         }
     }
@@ -74,6 +64,20 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun onClickFriend(account: Account) {
+        AndroidUtils.loadDialogFragment(
+            viewModel.viewModelScope,
+            this@BandAddMemberDialogFragment
+        ) {
+            viewModel.sendBandInvitation(account)
+        }
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.band_invitation_sent_toast)
+        )
+        super.dismiss()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
