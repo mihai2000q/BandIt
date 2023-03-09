@@ -57,7 +57,22 @@
         android:clipToPadding="false"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
-        tools:listitem="@layout/model_song"/>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="1"
+        tools:listitem="@layout/model_song" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/songs_rv_albums"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/model_album" />
 
     <LinearLayout
         android:id="@+id/songs_rv_empty"
