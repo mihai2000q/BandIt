@@ -22,6 +22,7 @@ import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.albums.AlbumAddDialogFragment
+import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
 import com.bandit.ui.songs.albums.AlbumEditDialogFragment
 import com.bandit.ui.songs.albums.AlbumFilterDialogFragment
 import com.bandit.util.AndroidUtils
@@ -36,6 +37,7 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment { onEditSong(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -101,7 +103,8 @@ class SongsFragment : Fragment() {
                         it.sorted().reversed(),
                         viewModel,
                         { album -> onDeleteAlbum(album) },
-                        { album -> onEditAlbum(album) }
+                        { album -> onEditAlbum(album) },
+                        { album -> onClickAlbum(album) }
                     )
                 }
             ) {
@@ -316,6 +319,14 @@ class SongsFragment : Fragment() {
         viewModel.selectedAlbum.value = album
         AndroidUtils.showDialogFragment(
             albumEditDialogFragment,
+            childFragmentManager
+        )
+    }
+
+    private fun onClickAlbum(album: Album) {
+        viewModel.selectedAlbum.value = album
+        AndroidUtils.showDialogFragment(
+            albumDetailDialogFragment,
             childFragmentManager
         )
     }

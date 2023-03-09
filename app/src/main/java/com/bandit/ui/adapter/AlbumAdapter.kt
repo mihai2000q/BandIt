@@ -9,7 +9,6 @@ import com.bandit.R
 import com.bandit.data.model.Album
 import com.bandit.databinding.ModelAlbumBinding
 import com.bandit.ui.songs.SongsViewModel
-import com.bandit.ui.songs.albums.AlbumDetailDialogFragment
 import com.bandit.util.AndroidUtils
 
 data class AlbumAdapter(
@@ -18,8 +17,8 @@ data class AlbumAdapter(
     private val viewModel: SongsViewModel,
     private val onDeleteAlbum: (Album) -> Unit,
     private val onEditAlbum: (Album) -> Unit,
+    private val onClickAlbum: (Album) -> Unit
 ) : RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
-    private val albumDetailDialogFragment = AlbumDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 
@@ -47,7 +46,7 @@ data class AlbumAdapter(
                 AndroidUtils.getScreenWidth(fragment.requireActivity()) * 7 / 16
             itemView.layoutParams.height =
                 AndroidUtils.getScreenHeight(fragment.requireActivity()) / 4
-            itemView.setOnClickListener { onClick(album) }
+            itemView.setOnClickListener { onClickAlbum(album) }
             itemView.setOnLongClickListener { onLongClick(holder, album) }
             with(binding) {
                 albumName.text = album.name
@@ -68,14 +67,6 @@ data class AlbumAdapter(
         }
     }
 
-    private fun onClick(album: Album) {
-        viewModel.selectedAlbum.value = album
-        AndroidUtils.showDialogFragment(
-            albumDetailDialogFragment,
-            fragment.childFragmentManager
-        )
-    }
-
     private fun onLongClick(holder: AlbumAdapter.ViewHolder, album: Album): Boolean {
         popupMenu(holder, album)
         if(!isPopupShown) {
@@ -91,7 +82,7 @@ data class AlbumAdapter(
     }
 
     private fun onEdit(album: Album): Boolean {
+        onEditAlbum(album)
         return true
     }
-
 }

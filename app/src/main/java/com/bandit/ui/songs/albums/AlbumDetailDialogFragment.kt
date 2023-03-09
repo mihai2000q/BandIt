@@ -16,16 +16,14 @@ import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.helper.TouchHelper
-import com.bandit.ui.songs.SongEditDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
-class AlbumDetailDialogFragment : DialogFragment() {
+class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : DialogFragment() {
 
     private var _binding: DialogFragmentAlbumDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
-    private val songEditDialogFragment = SongEditDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,14 +92,6 @@ class AlbumDetailDialogFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    private fun onEditSong(song: Song) {
-        viewModel.selectedSong.value = song
-        AndroidUtils.showDialogFragment(
-            songEditDialogFragment,
-            childFragmentManager
-        )
     }
 
     companion object {
