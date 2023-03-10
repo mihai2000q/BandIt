@@ -13,6 +13,7 @@ import com.bandit.constant.BandItEnums
 import com.bandit.databinding.FragmentHomeBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.HomeButtonAdapter
+import com.bandit.util.AndroidUtils
 
 class HomeFragment : Fragment() {
 
@@ -38,6 +39,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@HomeFragment, homeRvButtons)
             homeRvButtons.adapter = HomeButtonAdapter(
                 this@HomeFragment,
                 _buttons,

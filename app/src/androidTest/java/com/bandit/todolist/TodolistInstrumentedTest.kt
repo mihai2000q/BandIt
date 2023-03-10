@@ -49,7 +49,7 @@ class TodolistInstrumentedTest {
         val taskName = "I should test at some point"
         this.addTask(taskName)
         this.removeFirstTask()
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(taskName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(taskName,
         "The task should have been deleted")
     }
     @Test

@@ -43,6 +43,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@FriendsFragment, friendsRvList)
             viewModel.friendsTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(

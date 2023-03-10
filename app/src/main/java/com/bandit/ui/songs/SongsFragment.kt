@@ -51,6 +51,8 @@ class SongsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@SongsFragment, songsRvList)
+            AndroidUtils.setupRefreshLayout(this@SongsFragment, songsRvAlbums)
             badgeDrawable = BadgeDrawable.create(super.requireContext())
             AndroidUtils.disableIfBandEmpty(
                 viewLifecycleOwner,

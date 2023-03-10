@@ -32,15 +32,29 @@ object EventMapper : MapperB<Event, EventDto> {
 
     fun fromEventToConcert(event: Event): Concert {
         return Concert(
-            event.name,
-            event.dateTime,
-            event.duration,
-            event.bandId,
-            null,
-            null,
-            null,
-            null,
-            event.id
+            name = event.name,
+            dateTime = event.dateTime,
+            duration = event.duration,
+            bandId = event.bandId,
+            city = null,
+            country = null,
+            place = null,
+            concertType = null,
+            id = event.id
+        )
+    }
+
+    fun editEventToConcert(event: Event, concert: Concert): Concert {
+        return Concert(
+            name = event.name,
+            dateTime = event.dateTime,
+            duration = event.duration,
+            bandId = event.bandId,
+            city = concert.city,
+            country = concert.country,
+            place = concert.place,
+            concertType = concert.concertType,
+            id = event.id
         )
     }
 

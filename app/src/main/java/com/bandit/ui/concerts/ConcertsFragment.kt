@@ -18,14 +18,19 @@ import com.bandit.databinding.FragmentConcertsBinding
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.helper.TouchHelper
+import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var _binding: FragmentConcertsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ConcertsViewModel by activityViewModels()
+    private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -42,22 +47,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         val badgeDrawable = BadgeDrawable.create(super.requireContext())
         val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
         val concertEditDialogFragment = ConcertEditDialogFragment()
-        val onDeleteConcert = { concert: Concert ->
-            AndroidComponents.alertDialog(
-                super.requireContext(),
-                resources.getString(R.string.concert_alert_dialog_title),
-                resources.getString(R.string.concert_alert_dialog_message),
-                resources.getString(R.string.alert_dialog_positive),
-                resources.getString(R.string.alert_dialog_negative)
-            ) {
-                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                    this@ConcertsFragment) { viewModel.removeConcert(concert) }
-                AndroidComponents.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.concert_remove_toast),
-                )
-            }
-        }
         val onEditConcert = { concert: Concert ->
             viewModel.selectedConcert.value = concert
             AndroidUtils.showDialogFragment(
@@ -66,6 +55,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
             )
         }
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@ConcertsFragment, concertsRvList)
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             AndroidUtils.disableIfBandEmpty(
                 viewLifecycleOwner,
@@ -100,7 +90,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     ItemTouchHelper(object : TouchHelper<Concert>(
                         super.requireContext(),
                         concertsRvList,
-                        onDeleteConcert,
+                        { concert -> onDeleteConcert(concert) },
                         onEditConcert
                     ) {
                         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -112,7 +102,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                         this@ConcertsFragment,
                         it.sorted(),
                         viewModel,
-                        onDeleteConcert,
+                        { concert -> onDeleteConcert(concert) },
                         onEditConcert
                     )
                 }
@@ -134,6 +124,36 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onDeleteConcert(concert: Concert) {
+        AndroidComponents.alertDialog(
+            super.requireContext(),
+            resources.getString(R.string.concert_alert_dialog_title),
+            resources.getString(R.string.concert_alert_dialog_message),
+            resources.getString(R.string.alert_dialog_positive),
+            resources.getString(R.string.alert_dialog_negative)
+        ) {
+            AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                this@ConcertsFragment) {
+                coroutineScope {
+                    async {
+                        launch { viewModel.removeConcert(concert) }
+                        launch {
+                            val events = scheduleViewModel.events.value!!.filter {
+                                it.id == concert.id && it.name == concert.name
+                            }
+                            if(events.isNotEmpty())
+                                scheduleViewModel.removeEvent(events.first())
+                        }
+                    }
+                }.await()
+            }
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.concert_remove_toast),
+            )
+        }
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {

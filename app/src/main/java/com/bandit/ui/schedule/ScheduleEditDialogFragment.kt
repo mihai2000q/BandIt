@@ -3,18 +3,25 @@ package com.bandit.ui.schedule
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
+import com.bandit.data.mapper.EventMapper
 import com.bandit.data.model.Event
 import com.bandit.extension.print
+import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class ScheduleEditDialogFragment : ScheduleDialogFragment() {
+    private val concertViewModel: ConcertsViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -59,16 +66,33 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 Context.INPUT_METHOD_SERVICE,
                 scheduleButton
             )
-            viewModel.editEvent(
-                Event(
-                    scheduleEtName.text.toString(),
-                    ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
-                    ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
-                    BandItEnums.Event.Type.values()[typeIndex],
-                    viewModel.selectedEvent.value!!.bandId,
-                    viewModel.selectedEvent.value!!.id
-                )
+            val newEvent = Event(
+                scheduleEtName.text.toString(),
+                ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
+                ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
+                BandItEnums.Event.Type.values()[typeIndex],
+                viewModel.selectedEvent.value!!.bandId,
+                viewModel.selectedEvent.value!!.id
             )
+            coroutineScope {
+                async {
+                    launch {
+                        viewModel.editEvent(newEvent)
+                    }
+                    if(BandItEnums.Event.Type.values()[typeIndex] == BandItEnums.Event.Type.Concert &&
+                            viewModel.selectedEvent.value!!.type == BandItEnums.Event.Type.Concert)
+                        launch {
+                            val concerts = concertViewModel.concerts.value!!
+                                .filter { it.id == viewModel.selectedEvent.value!!.id }
+                            if(concerts.isNotEmpty())
+                                concertViewModel.editConcert(
+                                    EventMapper.editEventToConcert(newEvent, concerts.first())
+                                )
+                        }
+
+                }
+            }.await()
+
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.event_edit_toast)

@@ -96,8 +96,7 @@ class FirstLoginInstrumentedTest {
 
         // congratulations
         onView(withId(R.id.first_login_tv_congrats)).check(matches(isDisplayed()))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.first_login_bt_cancel),
-            "This button should have been removed from the view")
+        onView(withId(R.id.first_login_bt_cancel)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_bt_next)).check(matches(withText(R.string.first_login_bt_next_last)))
         onView(withId(R.id.first_login_bt_next)).perform(click())
 
