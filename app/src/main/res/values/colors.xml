@@ -2,7 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="sap_green">#4E7A2A</color>
     <color name="hookers_green">#426A5A</color>
     <color name="dark_spring_green">#297045</color>
     <color name="rich_dark_green">#183A37</color>
@@ -13,6 +12,8 @@
     <color name="maximum_blue_green">#06BCC1</color>
     <color name="eton_blue">#77BFA3</color>
 
+    <color name="teal_green">#006D5B</color>
+    <color name="ash_gray">#b2beb5</color>
     <color name="dark_gray">#5A5A5A</color>
     <color name="light_gray">#808080</color>
     <color name="red">#BA0000</color>

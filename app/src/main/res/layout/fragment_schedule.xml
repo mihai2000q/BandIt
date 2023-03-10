@@ -26,13 +26,6 @@
             android:inputType="textPersonName"
             android:queryHint="@string/search_view" />
 
-        <Spinner
-            android:id="@+id/schedule_spinner_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:autofillHints="@string/et_type"
-            tools:visibility="gone" />
-
         <ImageButton
             android:id="@+id/schedule_bt_add"
             android:layout_width="wrap_content"

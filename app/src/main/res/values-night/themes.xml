@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/dark_spring_green</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/sap_green</item>
+        <item name="colorSecondary">@color/rich_dark_green</item>
         <item name="colorSecondaryVariant">@color/hookers_green</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
