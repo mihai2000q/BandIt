@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bandit.LoadingActivity
 import com.bandit.MainActivity
 import com.bandit.R
@@ -340,5 +341,15 @@ object AndroidUtils {
         val fragmentId = navController.currentDestination?.id
         navController.popBackStack(fragmentId!!,true)
         navController.navigate(fragmentId)
+    }
+
+    fun setupRefreshLayout(
+        fragment: Fragment,
+        rvList: RecyclerView
+    ) {
+        rvList.setOnScrollChangeListener { _, scrollX, scrollY, _, _ ->
+            fragment.requireActivity().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
+                .isEnabled = scrollX == 0 && scrollY == 0
+        }
     }
 }

@@ -50,6 +50,7 @@ class TodoListFragment : Fragment() {
             }
         }
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@TodoListFragment, todolistRvTasks)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.tasks,

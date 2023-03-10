@@ -55,6 +55,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
             )
         }
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@ConcertsFragment, concertsRvList)
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
             AndroidUtils.disableIfBandEmpty(
                 viewLifecycleOwner,

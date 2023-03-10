@@ -37,6 +37,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@BandFragment, bandRvMemberList)
             val bandAddMemberDialogFragment = BandAddMemberDialogFragment()
             val bandCreateBandDialogFragment = BandCreateDialogFragment()
             val bandInvitationDialogFragment = BandInvitationDialogFragment()

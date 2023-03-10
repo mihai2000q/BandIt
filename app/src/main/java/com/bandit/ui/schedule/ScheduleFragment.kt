@@ -56,6 +56,7 @@ class ScheduleFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            AndroidUtils.setupRefreshLayout(this@ScheduleFragment, scheduleRvEventsView)
             scheduleRvEventsView.layoutManager = GridLayoutManager(context, 1)
             AndroidComponents.spinner(
                 super.requireContext(),
