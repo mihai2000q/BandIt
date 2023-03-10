@@ -35,6 +35,11 @@ class ImagePickerDialog(
     private lateinit var galleryPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var permissionService: IPermissionService
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        this.setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -14,5 +14,12 @@
         <!-- Customize your theme here. -->
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:fontFamily">@font/futur</item>
+        <item name="android:dialogCornerRadius">20dp</item>
+    </style>
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
     </style>
 </resources>
