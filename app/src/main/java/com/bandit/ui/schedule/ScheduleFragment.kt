@@ -23,8 +23,12 @@ import com.bandit.databinding.FragmentScheduleBinding
 import com.bandit.ui.adapter.EventAdapter
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -35,6 +39,7 @@ class ScheduleFragment : Fragment(),
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleViewModel by activityViewModels()
+    private val concertViewModel: ConcertsViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
     private var viewTypeIndex = MutableLiveData(0)
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
@@ -213,7 +218,21 @@ class ScheduleFragment : Fragment(),
             resources.getString(R.string.alert_dialog_negative)
         ) {
             AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                this) { viewModel.removeEvent(event) }
+                this) {
+                coroutineScope {
+                    async {
+                        launch { viewModel.removeEvent(event) }
+                        if(event.type == BandItEnums.Event.Type.Concert)
+                            launch {
+                                val concerts = concertViewModel.concerts.value!!.filter {
+                                    it.id == event.id && it.name == event.name
+                                }
+                                if(concerts.isNotEmpty())
+                                    concertViewModel.removeConcert(concerts.first())
+                            }
+                    }
+                }.await()
+            }
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.event_remove_toast)
