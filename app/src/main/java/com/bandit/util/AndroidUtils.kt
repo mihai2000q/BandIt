@@ -21,6 +21,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
@@ -347,6 +348,10 @@ object AndroidUtils {
         fragment: Fragment,
         rvList: RecyclerView
     ) {
+        fragment.requireActivity().findViewById<Toolbar>(R.id.main_toolbar)
+            .setOnClickListener {
+                rvList.smoothScrollToPosition(0)
+            }
         rvList.setOnScrollChangeListener { _, scrollX, scrollY, _, _ ->
             fragment.requireActivity().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
                 .isEnabled = scrollX == 0 && scrollY == 0
