@@ -52,7 +52,7 @@ class SongsInstrumentedTest {
         val songName = "The Warrior"
         this.addSong(songName)
         this.removeSong(songName)
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
         "This song should have been deleted")
     }
     // Condition - there is only one song with these properties
@@ -94,7 +94,7 @@ class SongsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been deleted")
     }
     // Condition - there is only one song with these properties
@@ -112,7 +112,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(typeText("2323"), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -138,7 +138,7 @@ class SongsInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.song_button)).perform(click())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been filtered out")
 
         onView(withId(R.id.songs_bt_filter)).perform(click())
@@ -157,7 +157,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         this.removeAlbum(albumName)
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(albumName,
             "This album should have been deleted")
     }
     // Condition - there is only one album with these properties
@@ -186,7 +186,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_search_view))
             .perform(typeText("2323"), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(albumName,
             "This album should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -213,7 +213,7 @@ class SongsInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.album_button)).perform(click())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(albumName,
             "This album should have been filtered out")
 
         onView(withId(R.id.songs_bt_filter)).perform(click())
@@ -247,7 +247,7 @@ class SongsInstrumentedTest {
         // check if the added song is still available
         onView(withId(R.id.album_detail_bt_add_songs)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(albumName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(albumName,
             "This song should have been added to the album")
 
         // add second song to album
@@ -289,9 +289,9 @@ class SongsInstrumentedTest {
         // Espresso :thumbs_down: :(
         onView(withIndex(withText(newAlbumName), 1)).perform(click())
         onView(withText(newSongName)).check(matches(isDisplayed()))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been edited")
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName2),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName2,
             "This song should have been removed")
 
         // delete album
@@ -299,7 +299,7 @@ class SongsInstrumentedTest {
         this.removeAlbum(newAlbumName)
 
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newAlbumName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(newAlbumName,
             "This album should have been deleted")
         this.removeSong(newSongName)
     }
@@ -322,7 +322,7 @@ class SongsInstrumentedTest {
         onView(withText(songName)).perform(swipeLeft())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been removed from the album")
 
         // check if the song is still on the songs list
@@ -360,7 +360,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.song_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been edited from the album")
         onView(withText(newSongName)).check(matches(isDisplayed()))
 
@@ -368,7 +368,7 @@ class SongsInstrumentedTest {
 
         // check if the song changed in the song list too
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(songName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been edited from the song list")
         onView(withText(newSongName)).check(matches(isDisplayed()))
 

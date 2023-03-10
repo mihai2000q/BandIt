@@ -16,6 +16,7 @@ import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,10 +39,8 @@ class ScheduleInstrumentedTest {
         // events mode
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_spinner_mode),
-            "The Schedule Spinner 'Day/Week/Month' View should be invisible")
-        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_calendar_view),
-            "The Schedule Calendar View should be invisible")
+        onView(withId(R.id.schedule_spinner_mode)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.schedule_calendar_view)).check(matches(not(isDisplayed())))
         try {
             // if there is a concert, then check this
             onView(withId(R.id.schedule_rv_events_view)).check(matches(isDisplayed()))
@@ -58,8 +57,7 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_spinner_mode)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_calendar_view)).check(matches(isDisplayed()))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withId(R.id.schedule_search_view),
-            "The Schedule Search View should be invisible")
+        onView(withId(R.id.schedule_search_view)).check(matches(not(isDisplayed())))
         try {
             // if there is a concert, then check this
             onView(withId(R.id.schedule_rv_events_view)).check(matches(isDisplayed()))
@@ -129,7 +127,7 @@ class ScheduleInstrumentedTest {
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
             "This event should have been deleted")
     }
     // Condition - there is only one event with these properties
@@ -147,7 +145,7 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_search_view))
             .perform(typeText("2"), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(eventName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
             "This event should have been filtered out")
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -226,7 +224,7 @@ class ScheduleInstrumentedTest {
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(newName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
             "This event should have been deleted")
     }
     // Condition - there is only one event with these properties
@@ -243,7 +241,7 @@ class ScheduleInstrumentedTest {
         onView(withIndex(withText(nextDay.toString()), 0)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(eventName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
             "It should have been filtered out")
 
         onView(withIndex(withText(todayDate.dayOfMonth.toString()), 0)).perform(click())
@@ -279,7 +277,7 @@ class ScheduleInstrumentedTest {
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(name),
+        AndroidTestUtil.checkIfItIsNotDisplayed(name,
             "This event should have been deleted")
     }
 }

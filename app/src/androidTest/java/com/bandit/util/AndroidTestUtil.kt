@@ -14,6 +14,7 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -23,9 +24,9 @@ import org.junit.Assert
 
 
 object AndroidTestUtil {
-    fun checkIfItIsNotDisplayed(matcher: Matcher<View?>, errorMessage: String) {
+    fun checkIfItIsNotDisplayed(string: String, errorMessage: String) {
         try {
-            Espresso.onView(matcher).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            Espresso.onView(withText(string)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             Assert.fail(errorMessage)
         } catch (_: AssertionError) {}
         catch (_: NoMatchingViewException) {}

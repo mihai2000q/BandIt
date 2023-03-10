@@ -60,7 +60,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed anymore in add friends")
     }
     // Precondition - the user sent the admin a friend request
@@ -74,7 +74,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
@@ -86,13 +86,13 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friend_rq_bt_reject)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friends fragment")
 
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friend requests")
 
         onView(isRoot()).perform(pressBack())
@@ -115,7 +115,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
@@ -127,13 +127,13 @@ class FriendsInstrumentedTest {
         onView(withText(accountToBefriend)).perform(swipeLeft())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friends fragment")
 
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friend requests")
 
         onView(isRoot()).perform(pressBack())
@@ -157,7 +157,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
 
         onView(isRoot()).perform(pressBack())
@@ -175,14 +175,14 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friend requests")
     }
     @Test
@@ -194,7 +194,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
 
         onView(isRoot()).perform(pressBack())
@@ -212,14 +212,14 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToBefriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friend requests")
     }
     // Precondition - the user must be friends with the admin
@@ -236,7 +236,7 @@ class FriendsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToUnfriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToUnfriend,
             "This account should not be displayed in friends fragment")
 
         // check if it is displayed again in people
@@ -257,7 +257,7 @@ class FriendsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToUnfriend),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToUnfriend,
             "This account should not be displayed in friends fragment")
 
         // check if it is displayed again in people

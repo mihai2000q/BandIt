@@ -50,7 +50,8 @@ class PersonalNotesInstrumentedTest {
     fun personal_notes_fragment_add_and_remove_note() {
         this.addNote()
         this.removeFirstNote()
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(R.string.default_note_message),
+        AndroidTestUtil.checkIfItIsNotDisplayed(
+            AndroidTestUtil.getResourceString(R.string.default_note_message),
             "This note should have been deleted")
     }
     @Test
@@ -102,7 +103,7 @@ class PersonalNotesInstrumentedTest {
         this.removeFirstNote()
     }
     private fun addNote() {
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(R.string.default_note_message),
+        AndroidTestUtil.checkIfItIsNotDisplayed(AndroidTestUtil.getResourceString(R.string.default_note_message),
             "This note shouldn't be here before adding")
         onView(withId(R.id.personal_notes_bt_add)).perform(click())
 

@@ -87,7 +87,7 @@ class BandInstrumentedTest {
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.bandName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.bandName,
         "This text should not be visible anymore")
         this.without_band_ui()
     }
@@ -117,7 +117,7 @@ class BandInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
             .perform(typeText(accountToInvite.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToInvite),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToInvite,
         "This account should have been invited, and therefore, removed from this list")
     }
     // same as above
@@ -155,7 +155,7 @@ class BandInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
             .perform(typeText(accountToInvite.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToInvite),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToInvite,
             "This account should have been invited, and therefore, removed from this list")
     }
     // same as above
@@ -190,7 +190,7 @@ class BandInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
             .perform(typeText(accountToInvite.dropLast(1)), closeSoftKeyboard())
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountToInvite),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountToInvite,
             "This account should have been invited, and therefore, removed from this list")
     }
     // Precondition - have an account setup already with a band
@@ -219,13 +219,13 @@ class BandInstrumentedTest {
 
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
             "The band invitation has already been accepted")
         onView(isRoot()).perform(pressBack())
 
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
         "The admin's nickname should not be displayed as he cannot be invited in its own band")
         onView(isRoot()).perform(pressBack())
 
@@ -257,13 +257,13 @@ class BandInstrumentedTest {
 
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
             "The band invitation has already been accepted")
         onView(isRoot()).perform(pressBack())
 
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.adminNickname),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
             "The admin's nickname should not be displayed as he cannot be invited in its own band")
         onView(isRoot()).perform(pressBack())
 
@@ -288,7 +288,7 @@ class BandInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(band),
+        AndroidTestUtil.checkIfItIsNotDisplayed(band,
         "The name of the band should not be displayed anywhere")
     }
     // same as above
@@ -306,7 +306,7 @@ class BandInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(bandName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(bandName,
             "The name of the band should not be displayed anywhere")
     }
     // Precondition - have an account setup already with a band and you are not the creator
@@ -319,7 +319,7 @@ class BandInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(ConstantsTest.bandName),
+        AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.bandName,
         "The account should have abandoned the band")
         this.without_band_ui()
     }
@@ -343,7 +343,7 @@ class BandInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         // check if the member is still there
-        AndroidTestUtil.checkIfItIsNotDisplayed(withText(accountNickToKick),
+        AndroidTestUtil.checkIfItIsNotDisplayed(accountNickToKick,
         "This account should have been kicked")
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
