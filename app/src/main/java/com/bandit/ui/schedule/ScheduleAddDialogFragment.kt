@@ -17,6 +17,9 @@ import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class ScheduleAddDialogFragment : ScheduleDialogFragment() {
 
@@ -51,9 +54,15 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
                 type = BandItEnums.Event.Type.values()[typeIndex],
                 bandId = bandViewModel.band.value!!.id
             )
-            viewModel.addEvent(event)
-            if(event.type == BandItEnums.Event.Type.Concert)
-                concertViewModel.addConcert(EventMapper.fromEventToConcert(event))
+            coroutineScope {
+                async {
+                    launch { viewModel.addEvent(event) }
+                    launch {
+                        if (event.type == BandItEnums.Event.Type.Concert)
+                            concertViewModel.addConcert(EventMapper.fromEventToConcert(event))
+                    }
+                }
+            }.await()
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.event_add_toast)
