@@ -169,6 +169,31 @@ class ConcertsInstrumentedTest {
 
         this.removeConcert(concertName)
     }
+    // Condition - there is only one concert and even with these properties
+    @Test
+    fun concerts_fragment_manipulate_concert_linked_to_events() {
+        val name = "Awesome Concert"
+        val city = "Rome"
+        val country = "Italy"
+        val place = "Colosseum"
+        this.addConcert(name, city, country, place)
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        onView(withText(name)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation_concerts)).perform(click())
+
+        val newName = "Worst Concert"
+        this.editConcert(name, newName, "Milano", "Italia", "Berg")
+
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        AndroidTestUtil.checkIfItIsNotDisplayed(name, "This event should have been edited")
+        onView(withText(newName)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.navigation_concerts)).perform(click())
+        this.removeConcert(newName)
+
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName, "This event should have been removed")
+    }
     private fun addConcert(
         name: String,
         city: String = "",

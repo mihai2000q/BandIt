@@ -4,19 +4,20 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.ui.adapter.ConcertAdapter
+import com.bandit.ui.adapter.EventAdapter
 import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -79,21 +80,7 @@ class ScheduleInstrumentedTest {
         val eventName = "Training Session"
         val newName = "Weekly Training Session"
         this.addEvent(eventName)
-
-        onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
-                hasDescendant(withText(eventName)), longClick()))
-        onView(withText(R.string.bt_edit)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-
-        onView(withId(R.id.schedule_et_name))
-            .perform(clearText(), typeText(newName), closeSoftKeyboard())
-
-        onView(withId(R.id.schedule_button)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-
-        onView(withText(newName)).check(matches(isDisplayed()))
-
+        this.editEvent(eventName, newName)
         this.removeEvent(newName)
     }
     @Test
@@ -104,9 +91,9 @@ class ScheduleInstrumentedTest {
 
         // edit event
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
                 hasDescendant(withText(eventName))))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
                 hasDescendant(withText(eventName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -120,9 +107,9 @@ class ScheduleInstrumentedTest {
 
         // remove event
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
                 hasDescendant(withText(newName))))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
                     hasDescendant(withText(newName)), swipeLeft()))
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -201,9 +188,9 @@ class ScheduleInstrumentedTest {
 
         // edit event
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
                 hasDescendant(withText(eventName))))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
                 hasDescendant(withText(eventName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -217,9 +204,9 @@ class ScheduleInstrumentedTest {
 
         // remove event
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
                 hasDescendant(withText(newName))))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
                 hasDescendant(withText(newName)), swipeLeft()))
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -249,6 +236,46 @@ class ScheduleInstrumentedTest {
 
         this.removeEvent(eventName)
     }
+    @Test
+    fun schedule_fragment_manipulate_event_linked_to_concert() {
+        val eventName = "New Concert in April"
+        val newName = "New Concert in May"
+        onView(withId(R.id.schedule_bt_add)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
+        onView(withId(R.id.schedule_et_date)).perform(click())
+        onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_spinner_type)).perform(click())
+        onView(withText("Concert")).inRoot(isPlatformPopup())
+            .perform(click())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(eventName))))
+        onView(withText(eventName)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.navigation_concerts)).perform(click())
+        onView(withText(eventName)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        
+        this.editEvent(eventName, newName)
+        onView(withId(R.id.navigation_concerts)).perform(click())
+        onView(withText(newName)).check(matches(isDisplayed()))
+        AndroidTestUtil.checkIfItIsNotDisplayed(eventName, 
+            "This concert should have been edited")
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        
+        this.removeEvent(newName)
+        onView(withId(R.id.navigation_concerts)).perform(click())
+        AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
+            "This concert should have been removed")
+    }
     private fun addEvent(name: String) {
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -263,15 +290,32 @@ class ScheduleInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
-                hasDescendant(withText(name))
-            ))
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
         onView(withText(name)).check(matches(isDisplayed()))
+    }
+    private fun editEvent(oldName: String, newName: String) {
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(oldName))))
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
+                hasDescendant(withText(oldName)), longClick()))
+        onView(withText(R.string.bt_edit)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
     }
     private fun removeEvent(name: String) {
         onView(withId(R.id.schedule_rv_events_view))
-            .perform(
-                RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
                 hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
