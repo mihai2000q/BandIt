@@ -19,6 +19,7 @@
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:dialogCornerRadius">20dp</item>
         <item name="cardViewStyle">@style/AppCardViewTheme</item>
+        <item name="itemActiveIndicatorStyle">@style/AppBottomNavigationViewActiveIndicator</item>
     </style>
     <style name="AppCardViewTheme" parent="Widget.Material3.CardView.Elevated">
         <item name="android:layout_row">0</item>
@@ -28,5 +29,10 @@
         <item name="android:layout_gravity">fill</item>
         <item name="android:layout_marginHorizontal">12dp</item>
         <item name="android:layout_marginVertical">8dp</item>
+    </style>
+    <style name="AppBottomNavigationViewActiveIndicator"
+        parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator</item>
+        <item name="android:color">?attr/colorTertiary</item>
     </style>
 </resources>
