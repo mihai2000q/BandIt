@@ -39,13 +39,11 @@ open class Event(
         return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
     }
 
-    fun printExplicitDateTime() =
+    fun printExplicitDate() =
         when {
             this.isOutdated() -> "Outdated"
             this.isInTheSameDay() -> "Today"
             this.is24HoursApart() -> "Next Day"
-            //this.is24HoursApart() -> "${this.dateTime.hour.toString().get2Characters()}:" +
-            //        this.dateTime.minute.toString().get2Characters()
             this.is7DaysApart() -> this.dateTime.dayOfWeek.name.normalizeWord()
             this.isOneYearApart() -> "${this.dateTime.dayOfMonth} " +
                     this.dateTime.month.name.substring(0..2).normalizeWord() +

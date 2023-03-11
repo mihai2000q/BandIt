@@ -7,88 +7,85 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <SearchView
+        android:id="@+id/concerts_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:orientation="horizontal">
+        android:iconifiedByDefault="false"
+        android:inputType="textPersonName"
+        android:queryHint="@string/search_view" />
 
-        <SearchView
-            android:id="@+id/concerts_search_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:iconifiedByDefault="false"
-            android:inputType="textPersonName"
-            android:queryHint="@string/search_view" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/concerts_bt_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_filter"
-            app:srcCompat="@drawable/ic_filter"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/concerts_bt_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_add"
-            android:minWidth="48dp"
-            app:srcCompat="@drawable/ic_add_circle"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:contentDescription="@string/content_description_bt_floating_add"
+            app:backgroundTint="@color/dark_sea_green"
+            app:srcCompat="@drawable/ic_add_white" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/concerts_rv_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:padding="10dp"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:spanCount="1"
-        tools:listitem="@layout/model_concert">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:id="@+id/concerts_rv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView3"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/concerts_bt_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/recycler_view_concerts_empty"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_gravity="bottom|start"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:contentDescription="@string/content_description_bt_filter"
+            app:backgroundTint="@color/purple"
+            app:srcCompat="@drawable/ic_filter" />
 
-    <LinearLayout
-        android:id="@+id/concerts_rv_band_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/concerts_rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:listitem="@layout/model_concert">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/recycler_view_empty_band"
-            android:textSize="16sp" />
-    </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/concerts_rv_band_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_empty_band"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/concerts_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_concerts_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

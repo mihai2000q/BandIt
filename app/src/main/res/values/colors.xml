@@ -12,12 +12,18 @@
     <color name="maximum_blue_green">#06BCC1</color>
     <color name="eton_blue">#77BFA3</color>
 
-    <color name="gradient_start_color">#FFFFFF</color>
-    <color name="gradient_end_color">#E8F5E9</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="purple">#A388BB</color>
     <color name="teal_green">#006D5B</color>
     <color name="ash_gray">#b2beb5</color>
     <color name="dark_gray">#5A5A5A</color>
     <color name="light_gray">#808080</color>
     <color name="red">#BA0000</color>
     <color name="blue">#083EC5</color>
+
+    <color name="faded_light_gray">#EAEAEA</color>
+    <color name="faded_red">#EED4D7</color>
+    <color name="faded_green">#D2EDCE</color>
+    <color name="faded_blue_to_green">#C5EBDE</color>
+    <color name="faded_purple_to_blue">#D6CBEB</color>
 </resources>

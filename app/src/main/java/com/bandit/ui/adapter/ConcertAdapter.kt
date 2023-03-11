@@ -1,17 +1,16 @@
 package com.bandit.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Concert
 import com.bandit.databinding.ModelConcertBinding
-import com.bandit.extension.normalizeWord
+import com.bandit.extension.print
 import com.bandit.ui.concerts.ConcertDetailDialogFragment
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.util.AndroidUtils
@@ -47,26 +46,23 @@ data class ConcertAdapter(
             itemView.setOnLongClickListener { onLongClick(holder, concert) }
 
             with(binding) {
-                val color: Int = if(concert.isOutdated())
-                    Color.RED
+                val color = if(concert.isOutdated())
+                    R.color.faded_red
                 else
                     when(concert.concertType) {
-                        BandItEnums.Concert.Type.Simple -> Color.CYAN
-                        BandItEnums.Concert.Type.Tournament -> Color.GRAY
-                        BandItEnums.Concert.Type.Festival -> Color.GREEN
-                        else -> Color.LTGRAY
+                        BandItEnums.Concert.Type.Simple -> R.color.faded_green
+                        BandItEnums.Concert.Type.Tournament -> R.color.faded_blue_to_green
+                        BandItEnums.Concert.Type.Festival -> R.color.faded_purple_to_blue
                     }
-                concertLayout.setBackgroundColor(color)
+                concertCard.setCardBackgroundColor(ContextCompat.getColor(
+                    holder.binding.root.context, color))
                 concertTitle.text = concert.name
-                if(!concert.city.isNullOrEmpty() || !concert.country.isNullOrEmpty())
-                    concertCityCountry.text = buildString {
-                        append("${concert.city?.normalizeWord()}, ")
-                        append(concert.country?.normalizeWord())
-                    }
-                else
-                    concertCityCountry.visibility = View.GONE
+                concertDate.text = concert.printExplicitDate()
+                concertTime.text = concert.dateTime.toLocalTime().print()
+                AndroidUtils.ifNullHide(concertCity, concert.city)
+                AndroidUtils.ifNullHide(concertCountry, concert.country)
                 AndroidUtils.ifNullHide(concertPlace, concert.place)
-                concertDate.text = concert.printExplicitDateTime()
+                AndroidUtils.ifNullHide(concertDuration, concert.duration.print())
             }
         }
     }

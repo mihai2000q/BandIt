@@ -39,7 +39,7 @@ object EventMapper : MapperB<Event, EventDto> {
             city = null,
             country = null,
             place = null,
-            concertType = null,
+            concertType = BandItEnums.Concert.Type.Simple,
             id = event.id
         )
     }

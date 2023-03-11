@@ -18,9 +18,5 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:dialogCornerRadius">20dp</item>
-        <item name="floatingActionButtonStyle">@style/FloatingActionButtonTheme</item>
-    </style>
-    <style name="FloatingActionButtonTheme" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="android:backgroundTint">@color/dark_spring_green</item>
     </style>
 </resources>
