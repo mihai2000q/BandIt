@@ -26,7 +26,7 @@ class SignupInstrumentedTest {
     var activityTestRule = ActivityScenarioRule(MainActivity::class.java)
     @Before
     fun setup() {
-        onView(withId(R.id.login_bt_signup)).perform(click())
+        onView(withId(R.id.login_bt_login)).perform(click())
     }
     @Test
     fun signup_fragment_ui() {
