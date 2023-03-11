@@ -13,7 +13,7 @@ data class Concert(
     val city: String?,
     val country: String?,
     val place: String?,
-    val concertType: BandItEnums.Concert.Type?,
+    val concertType: BandItEnums.Concert.Type,
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : Event(name, dateTime, duration, BandItEnums.Event.Type.Concert, bandId, id) {
     companion object {

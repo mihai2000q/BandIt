@@ -53,7 +53,7 @@ class EventAdapter(
                 if(position > 0)
                     if(event.dateTime.toLocalDate() == events[position - 1].dateTime.toLocalDate())
                         eventDateLayout.visibility = View.GONE
-                eventDate.text = event.printExplicitDateTime()
+                eventDate.text = event.printExplicitDate()
                 eventTime.text = event.dateTime.toLocalTime().toString()
                 eventName.text = event.name
                 eventDuration.text = event.duration.print()
