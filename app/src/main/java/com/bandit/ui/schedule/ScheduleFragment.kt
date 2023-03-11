@@ -190,8 +190,8 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             val cal = Calendar.Builder()
             cal.setDate(it.year, it.month.ordinal, it.dayOfMonth)
             val day = CalendarDay(cal.build())
-            day.labelColor = R.color.white
-            day.backgroundResource = R.color.dark_spring_green
+            day.labelColor = R.color.calendar_day_label
+            day.backgroundResource = R.color.calendar_day_background
             days.add(day)
         }
         binding.scheduleCalendarView.setCalendarDays(days)

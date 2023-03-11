@@ -5,13 +5,15 @@
     <color name="hookers_green">#426A5A</color>
     <color name="dark_spring_green">#297045</color>
     <color name="rich_dark_green">#183A37</color>
-    
+
     <color name="magic_mint">#A0ECD0</color>
     <color name="turquoise_green">#94DDBC</color>
     <color name="dark_sea_green">#88BB92</color>
     <color name="maximum_blue_green">#06BCC1</color>
     <color name="eton_blue">#77BFA3</color>
 
+    <color name="gradient_start_color">#FFFFFF</color>
+    <color name="gradient_end_color">#E8F5E9</color>
     <color name="teal_green">#006D5B</color>
     <color name="ash_gray">#b2beb5</color>
     <color name="dark_gray">#5A5A5A</color>

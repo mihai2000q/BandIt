@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
 import com.bandit.ui.schedule.ScheduleDetailDialogFragment
@@ -53,6 +55,14 @@ class EventAdapter(
                 eventDate.text = event.printExplicitDateTime()
                 eventTime.text = event.dateTime.toLocalTime().toString()
                 eventName.text = event.name
+                eventName.background = ContextCompat.getDrawable(holder.binding.root.context,
+                    when(event.type) {
+                        BandItEnums.Event.Type.Simple -> R.color.event_name_layout
+                        BandItEnums.Event.Type.Training -> R.color.event_training
+                        BandItEnums.Event.Type.Concert -> R.color.event_concert
+                        BandItEnums.Event.Type.Composing -> R.color.event_composing
+                    }
+                )
             }
         }
     }
