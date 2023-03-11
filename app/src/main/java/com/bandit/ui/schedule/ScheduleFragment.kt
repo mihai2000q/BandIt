@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -32,8 +30,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-class ScheduleFragment : Fragment(),
-    AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener,
+class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     OnDayClickListener {
 
     private var _binding: FragmentScheduleBinding? = null
@@ -41,7 +38,6 @@ class ScheduleFragment : Fragment(),
     private val viewModel: ScheduleViewModel by activityViewModels()
     private val concertViewModel: ConcertsViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
-    private var viewTypeIndex = MutableLiveData(0)
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
     private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
 
@@ -58,12 +54,6 @@ class ScheduleFragment : Fragment(),
         with(binding) {
             AndroidUtils.setupRefreshLayout(this@ScheduleFragment, scheduleRvEventsView)
             scheduleRvEventsView.layoutManager = GridLayoutManager(context, 1)
-            AndroidComponents.spinner(
-                super.requireContext(),
-                scheduleSpinnerMode,
-                this@ScheduleFragment,
-                BandItEnums.Schedule.ViewType.values()
-            )
             scheduleSearchView.setOnQueryTextListener(this@ScheduleFragment)
             scheduleSwitchView.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.calendarMode.value = isChecked
@@ -87,8 +77,6 @@ class ScheduleFragment : Fragment(),
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleCalendarView.visibility = View.VISIBLE
             scheduleSearchView.visibility = View.INVISIBLE
-            scheduleSpinnerMode.visibility = View.VISIBLE
-
             with(viewModel.currentDate.value!!) {
                 val cal = Calendar.Builder()
                 cal.setDate(this.year, this.month.ordinal, this.dayOfMonth)
@@ -149,7 +137,6 @@ class ScheduleFragment : Fragment(),
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
             scheduleCalendarView.visibility = View.GONE
-            scheduleSpinnerMode.visibility = View.GONE
             scheduleSearchView.visibility = View.VISIBLE
             viewModel.removeFilters()
             AndroidUtils.setRecyclerViewEmpty(
@@ -203,8 +190,8 @@ class ScheduleFragment : Fragment(),
             val cal = Calendar.Builder()
             cal.setDate(it.year, it.month.ordinal, it.dayOfMonth)
             val day = CalendarDay(cal.build())
-            day.labelColor = R.color.white
-            day.backgroundResource = R.color.dark_spring_green
+            day.labelColor = R.color.calendar_day_label
+            day.backgroundResource = R.color.calendar_day_background
             days.add(day)
         }
         binding.scheduleCalendarView.setCalendarDays(days)
@@ -248,12 +235,6 @@ class ScheduleFragment : Fragment(),
             childFragmentManager
         )
     }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        viewTypeIndex.value = position
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         AndroidComponents.toastNotification(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -10,15 +11,18 @@
 
     <Button
         android:id="@+id/note_message"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#000000"
+        android:fontFamily="@font/poppins_regular"
         android:gravity="top|start"
         android:text="@string/default_note_message"
         android:textAlignment="gravity"
         android:textAllCaps="false"
         android:textSize="11sp"
+        app:cornerRadius="15dp"
         tools:layout_height="150dp"
         tools:layout_width="150dp" />
 
@@ -28,10 +32,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:fontFamily="@font/poppins_bold"
         android:text="@string/et_title"
         android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/note_date"

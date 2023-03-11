@@ -1,17 +1,17 @@
 package com.bandit.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
+import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
 import com.bandit.ui.schedule.ScheduleDetailDialogFragment
-import com.bandit.ui.schedule.ScheduleEditDialogFragment
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 
@@ -49,9 +49,20 @@ class EventAdapter(
             itemView.setOnClickListener { onClick(event) }
             itemView.setOnLongClickListener { onLongClick(holder, event) }
             with(binding) {
+                if(position > 0)
+                    if(event.dateTime.toLocalDate() == events[position - 1].dateTime.toLocalDate())
+                        eventDateLayout.visibility = View.GONE
                 eventDate.text = event.printExplicitDateTime()
                 eventTime.text = event.dateTime.toLocalTime().toString()
                 eventName.text = event.name
+                eventName.background = ContextCompat.getDrawable(holder.binding.root.context,
+                    when(event.type) {
+                        BandItEnums.Event.Type.Simple -> R.color.event_name_layout
+                        BandItEnums.Event.Type.Training -> R.color.event_training
+                        BandItEnums.Event.Type.Concert -> R.color.event_concert
+                        BandItEnums.Event.Type.Composing -> R.color.event_composing
+                    }
+                )
             }
         }
     }

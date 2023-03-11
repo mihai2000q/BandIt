@@ -8,4 +8,15 @@
     <string name="event_edit_toast">Event Edited</string>
     <string name="event_remove_toast">Event Removed</string>
     <string name="event_filter_toast">Events Filtered</string>
+
+    <color name="event_date_layout">@color/ash_gray</color>
+    <color name="event_time_layout">@color/white</color>
+    <color name="event_name_layout">@color/dark_sea_green</color>
+
+    <color name="calendar_day_label">@color/white</color>
+    <color name="calendar_day_background">@color/dark_sea_green</color>
+    
+    <color name="event_training">@color/teal_green</color>
+    <color name="event_concert">@color/turquoise_green</color>
+    <color name="event_composing">@color/magic_mint</color>
 </resources>

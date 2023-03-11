@@ -1,18 +1,26 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.BandIt" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.BandIt" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/dark_spring_green</item>
         <item name="colorPrimaryVariant">@color/hookers_green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/sap_green</item>
-        <item name="colorSecondaryVariant">@color/turquoise_green</item>
+        <item name="colorSecondary">@color/hookers_green</item>
+        <item name="colorSecondaryVariant">@color/rich_dark_green</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <!-- Tertiary brand color -->
+        <item name="colorTertiary">@color/dark_sea_green</item>
+        <item name="colorOnTertiary">@color/white</item>
+
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
         <item name="android:textColor">?attr/colorOnSecondary</item>
-        <item name="android:fontFamily">@font/futur</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:dialogCornerRadius">20dp</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonTheme</item>
+    </style>
+    <style name="FloatingActionButtonTheme" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:backgroundTint">@color/dark_spring_green</item>
     </style>
 </resources>

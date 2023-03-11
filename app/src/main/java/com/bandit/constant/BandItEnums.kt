@@ -24,7 +24,8 @@ object BandItEnums {
     object Schedule {
         enum class ViewType {
             Month,
-            Week
+            Week,
+            Day
         }
     }
     object Event {
