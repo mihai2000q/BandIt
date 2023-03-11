@@ -12,6 +12,7 @@
     <color name="maximum_blue_green">#06BCC1</color>
     <color name="eton_blue">#77BFA3</color>
 
+    <color name="transparent">@android:color/transparent</color>
     <color name="gradient_start_color">#FFFFFF</color>
     <color name="gradient_end_color">#E8F5E9</color>
     <color name="teal_green">#006D5B</color>
