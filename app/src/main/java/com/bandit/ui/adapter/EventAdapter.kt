@@ -11,7 +11,6 @@ import com.bandit.R
 import com.bandit.constant.BandItEnums
 import com.bandit.data.model.Event
 import com.bandit.databinding.ModelEventBinding
-import com.bandit.extension.print
 import com.bandit.ui.schedule.ScheduleDetailDialogFragment
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
@@ -56,7 +55,6 @@ class EventAdapter(
                 eventDate.text = event.printExplicitDate()
                 eventTime.text = event.dateTime.toLocalTime().toString()
                 eventName.text = event.name
-                eventDuration.text = event.duration.print()
                 eventName.background = ContextCompat.getDrawable(holder.binding.root.context,
                     when(event.type) {
                         BandItEnums.Event.Type.Simple -> R.color.event_name_layout

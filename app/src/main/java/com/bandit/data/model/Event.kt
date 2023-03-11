@@ -36,7 +36,7 @@ open class Event(
     }
 
     fun isOneYearApart(): Boolean {
-        return LocalDateTime.now().isBefore(this.dateTime.minusYears(1))
+        return LocalDateTime.now().year != dateTime.year
     }
 
     fun printExplicitDate() =
