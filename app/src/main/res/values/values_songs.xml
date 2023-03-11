@@ -18,6 +18,9 @@
     <string name="album_add_song_toast">Song Added To Album</string>
     <string name="album_remove_song_toast">Song Removed From Album</string>
 
-    <color name="model_song">@color/faded_green</color>
+    <color name="model_song">@color/faded_purple_to_blue</color>
     <color name="model_song_label">@color/model_label</color>
+
+    <color name="model_album">@color/faded_green</color>
+    <color name="model_album_label">@color/model_label</color>
 </resources>
