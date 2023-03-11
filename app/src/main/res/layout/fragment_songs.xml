@@ -7,102 +7,106 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <SearchView
+        android:id="@+id/songs_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:iconifiedByDefault="false"
+        android:inputType="textPersonName"
+        android:queryHint="@string/search_view" >
 
-        <ImageButton
-            android:id="@+id/songs_bt_album_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_album_view"
-            app:srcCompat="@drawable/ic_album_view"
-            tools:ignore="SpeakableTextPresentCheck" />
+    </SearchView>
 
-        <SearchView
-            android:id="@+id/songs_search_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:iconifiedByDefault="false"
-            android:layout_weight="1"
-            android:inputType="textPersonName"
-            android:queryHint="@string/search_view" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/songs_bt_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_filter"
-            app:srcCompat="@drawable/ic_filter"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/songs_bt_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_add"
-            app:srcCompat="@drawable/ic_add_circle"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            app:backgroundTint="@color/dark_sea_green"
+            app:srcCompat="@drawable/ic_add_white" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/songs_rv_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"
-        tools:listitem="@layout/model_song" >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/songs_rv_albums"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:listitem="@layout/model_album" />
-
-    <LinearLayout
-        android:id="@+id/songs_rv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/songs_tv_rv_empty"
-            android:layout_width="wrap_content"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/songs_bt_filter"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/recycler_view_songs_empty"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_gravity="bottom|start"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            app:backgroundTint="@color/purple"
+            app:srcCompat="@drawable/ic_filter" />
 
-    <LinearLayout
-        android:id="@+id/songs_rv_band_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/recycler_view_empty_band"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_gravity="start|top"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_album_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/songs_rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:listitem="@layout/model_song">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/songs_rv_albums"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/model_album"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/songs_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/songs_tv_rv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_songs_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/songs_rv_band_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_empty_band"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>

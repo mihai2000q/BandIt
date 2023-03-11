@@ -13,8 +13,8 @@
     <string name="concert_remove_toast">Concert Removed</string>
     <string name="concert_filter_toast">Concerts Filtered</string>
 
-    <color name="concert_simple">@color/faded_green</color>
-    <color name="concert_tournament">@color/faded_blue_to_green</color>
-    <color name="concert_festival">@color/faded_purple_to_blue</color>
-    <color name="concert_label">#494949</color>
+    <color name="model_concert_simple">@color/faded_green</color>
+    <color name="model_concert_tournament">@color/faded_blue_to_green</color>
+    <color name="model_concert_festival">@color/faded_purple_to_blue</color>
+    <color name="model_concert_label">@color/model_label</color>
 </resources>

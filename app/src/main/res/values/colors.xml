@@ -26,4 +26,6 @@
     <color name="faded_green">#D2EDCE</color>
     <color name="faded_blue_to_green">#C5EBDE</color>
     <color name="faded_purple_to_blue">#D6CBEB</color>
+
+    <color name="model_label">#494949</color>
 </resources>

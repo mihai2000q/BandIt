@@ -1,46 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/song_card"
+    style="@style/AppCardViewTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    android:background="#AC8989"
-    android:paddingHorizontal="10dp">
+    app:cardBackgroundColor="@color/model_song"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="20dp"
+    app:cardMaxElevation="20dp"
+    app:cardPreventCornerOverlap="true">
 
-    <TextView
-        android:id="@+id/song_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/default_value"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/song_release_date"
-        app:layout_constraintStart_toStartOf="@+id/song_release_date"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
 
-    <TextView
-        android:id="@+id/song_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/default_value"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/song_album_name"
-        app:layout_constraintStart_toStartOf="@+id/song_album_name"
-        app:layout_constraintTop_toBottomOf="@+id/song_name" />
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:text="@string/default_value"
+            android:textColor="@color/model_song_label"
+            android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/song_album_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/default_value"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/song_release_date" />
+        <TextView
+            android:id="@+id/song_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textColor="@color/model_song_label"
+            android:textSize="16sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/song_album_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:fontFamily="@font/poppins_medium_italic"
+            android:text="@string/default_value"
+            android:textColor="@color/model_song_label"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
