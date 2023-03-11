@@ -28,6 +28,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="8dp"
             android:clickable="true"
+            android:contentDescription="@string/content_description_bt_add"
             app:backgroundTint="@color/dark_sea_green"
             app:srcCompat="@drawable/ic_add_white" />
 
@@ -38,15 +39,17 @@
             android:layout_gravity="bottom|start"
             android:layout_margin="8dp"
             android:clickable="true"
+            android:contentDescription="@string/content_description_bt_filter"
             app:backgroundTint="@color/purple"
             app:srcCompat="@drawable/ic_filter" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton3"
+            android:id="@+id/songs_bt_album_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:layout_margin="8dp"
+            android:contentDescription="@string/content_description_bt_album_view"
             android:clickable="true"
             app:srcCompat="@drawable/ic_album_view" />
 

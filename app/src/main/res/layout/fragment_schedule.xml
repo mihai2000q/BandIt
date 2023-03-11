@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:clickable="true"
-            android:contentDescription="@string/content_description_bt_floating_add"
+            android:contentDescription="@string/content_description_bt_add"
             app:backgroundTint="@color/dark_sea_green"
             app:ensureMinTouchTargetSize="false"
             app:fabCustomSize="40dp"
