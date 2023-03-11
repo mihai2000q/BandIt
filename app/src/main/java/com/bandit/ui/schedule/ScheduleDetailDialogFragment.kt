@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import android.widget.TableRow
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
 import com.bandit.data.model.Event
@@ -12,8 +12,10 @@ import com.bandit.databinding.DialogFragmentScheduleDetailBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
 import com.bandit.extension.printName
+import com.bandit.util.AndroidUtils
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ScheduleDetailDialogFragment : DialogFragment() {
+class ScheduleDetailDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: DialogFragmentScheduleDetailBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +32,10 @@ class ScheduleDetailDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         viewModel.selectedEvent.observe(viewLifecycleOwner) { assignEventDetails(it) }
     }
 
