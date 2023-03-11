@@ -71,7 +71,7 @@ class SignupFragment : Fragment() {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
-            binding.signupTitle
+            binding.signupBtSignup
         )
         if (validateFields()) {
             if (!viewModel.database.isEmailInUse(binding.signupEtEmail.text.toString()))

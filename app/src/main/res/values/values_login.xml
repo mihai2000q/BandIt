@@ -5,7 +5,6 @@
     <string name="login_tv_registered">Not Registered Yet?</string>
     <string name="login_tv_forgot_pass">Forgot Password?</string>
 
-    <dimen name="corner_radius_edit_text">25dp</dimen>
     <string name="login_et_email_hint">Enter Email</string>
     <string name="login_et_password_hint">Enter Password</string>
 </resources>

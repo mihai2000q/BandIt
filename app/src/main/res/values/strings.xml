@@ -16,4 +16,6 @@
     <string name="recycler_view_empty_band">Enter a band to add items</string>
     <string name="page_refresh_toast">App Refreshed</string>
     <string name="permission_denied_toast">Permission Denied</string>
+
+    <dimen name="corner_radius_edit_text">25dp</dimen>
 </resources>
