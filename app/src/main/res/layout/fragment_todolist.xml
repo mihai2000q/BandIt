@@ -55,7 +55,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:contentDescription="@string/content_description_bt_floating_add"
+        android:contentDescription="@string/content_description_bt_add"
         android:src="@drawable/ic_add_white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Song
 import com.bandit.databinding.ModelSongBinding
-import com.bandit.extension.print
+import com.bandit.extension.printName
 import com.bandit.ui.songs.SongDetailDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
@@ -62,7 +62,7 @@ data class SongAdapter(
             }
             with(binding) {
                 songName.text = song.name
-                songReleaseDate.text = song.releaseDate.print()
+                songReleaseDate.text = song.releaseDate.printName()
                 AndroidUtils.ifNullHide(songAlbumName, song.albumName)
             }
         }

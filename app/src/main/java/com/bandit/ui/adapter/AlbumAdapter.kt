@@ -1,5 +1,6 @@
 package com.bandit.ui.adapter
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -42,14 +43,14 @@ data class AlbumAdapter(
         val album = albums[position]
 
         with(holder) {
-            itemView.layoutParams.width =
-                AndroidUtils.getScreenWidth(fragment.requireActivity()) * 7 / 16
-            itemView.layoutParams.height =
-                AndroidUtils.getScreenHeight(fragment.requireActivity()) / 4
             itemView.setOnClickListener { onClickAlbum(album) }
             itemView.setOnLongClickListener { onLongClick(holder, album) }
             with(binding) {
                 albumName.text = album.name
+                albumName.minWidth =
+                    AndroidUtils.getScreenWidth(fragment.requireActivity()) * 7 / 16
+                albumName.minimumHeight =
+                    AndroidUtils.getScreenHeight(fragment.requireActivity()) / 4
             }
         }
     }
