@@ -60,7 +60,7 @@ class SongsViewModel : ViewModel() {
         }
     }
     fun filterSongs(
-        name: String?,
+        name: String? = null,
         releaseDate: LocalDate? = null,
         albumName: String? = null,
         duration: Duration? = null

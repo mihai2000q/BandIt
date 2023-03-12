@@ -1,10 +1,12 @@
 package com.bandit.ui.songs.albums
 
 import android.app.ActionBar
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -16,7 +18,7 @@ import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
-class AlbumAddSongDialogFragment : DialogFragment() {
+class AlbumAddSongDialogFragment : DialogFragment(), SearchView.OnQueryTextListener {
 
     private var _binding: DialogFragmentAlbumAddSongBinding? = null
     private val binding get() = _binding!!
@@ -38,28 +40,47 @@ class AlbumAddSongDialogFragment : DialogFragment() {
             ActionBar.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
-            albumRvSongsWithoutAlbum.adapter =
-                SongAdapter(
-                    this@AlbumAddSongDialogFragment,
-                    viewModel.getSongsWithoutAnAlbum().sorted().reversed(),
-                    viewModel,
-                    null,
-                    null,
-                    resources.getString(R.string.album_remove_from_album),
-                    false
-                ) {
-                    AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                        this@AlbumAddSongDialogFragment) {
-                        viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
-                    }
-                    AndroidComponents.toastNotification(
-                        super.requireContext(),
-                        resources.getString(R.string.album_add_song_toast)
-                    )
-                    super.dismiss()
-                    return@SongAdapter
+            binding.albumAddSongSearchView.setOnQueryTextListener(this@AlbumAddSongDialogFragment)
+            viewModel.songs.observe(viewLifecycleOwner) {
+                if (viewModel.getSongsWithoutAnAlbum().isEmpty()) {
+                    albumAddSongRvEmpty.visibility = View.VISIBLE
+                    albumAddSongSearchView.visibility = View.GONE
+                    albumRvSongsWithoutAlbum.visibility = View.GONE
+                } else {
+                    albumAddSongRvEmpty.visibility = View.GONE
+                    albumAddSongSearchView.visibility = View.VISIBLE
+                    albumRvSongsWithoutAlbum.visibility = View.VISIBLE
+                    albumRvSongsWithoutAlbum.adapter = SongAdapter(
+                            this@AlbumAddSongDialogFragment,
+                            viewModel.getSongsWithoutAnAlbum().sorted().reversed(),
+                            viewModel,
+                            null,
+                            null,
+                            resources.getString(R.string.album_remove_from_album),
+                            false
+                        ) {
+                            AndroidUtils.loadDialogFragment(
+                                viewModel.viewModelScope,
+                                this@AlbumAddSongDialogFragment
+                            ) {
+                                viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
+                            }
+                            AndroidComponents.toastNotification(
+                                super.requireContext(),
+                                resources.getString(R.string.album_add_song_toast)
+                            )
+                            super.dismiss()
+                            return@SongAdapter
+                        }
                 }
+            }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        binding.albumAddSongSearchView.setQuery("", false)
+        viewModel.filterSongs()
     }
 
     override fun onDestroy() {
@@ -69,5 +90,19 @@ class AlbumAddSongDialogFragment : DialogFragment() {
 
     companion object {
         const val TAG = Constants.Song.Album.ADD_SONG_TAG
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        AndroidComponents.toastNotification(
+            this@AlbumAddSongDialogFragment.requireContext(),
+            resources.getString(R.string.song_filter_toast)
+        )
+        binding.albumAddSongSearchView.clearFocus()
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        viewModel.filterSongs(name = newText)
+        return false
     }
 }

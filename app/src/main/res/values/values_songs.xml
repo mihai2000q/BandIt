@@ -18,6 +18,8 @@
     <string name="album_add_song_toast">Song Added To Album</string>
     <string name="album_remove_song_toast">Song Removed From Album</string>
 
+    <string name="rv_empty_list_add_song_to_album">There is no song without an album</string>
+
     <color name="model_song">@color/faded_purple_to_blue</color>
     <color name="model_song_label">@color/model_label</color>
 
