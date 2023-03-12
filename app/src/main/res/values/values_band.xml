@@ -24,8 +24,9 @@
     <string name="band_member_in_band_toast">This member is in a band already</string>
     <string name="band_abandoned_toast">Band Abandoned</string>
     <string name="band_disbanded_toast">Band Disbanded</string>
+    <string name="model_band_member_you">You</string>
 
-    <color name="band_member_my_account_color">#ACA2A2</color>
-
+    <color name="band_member_my_account_color">#D1D1D1</color>
+    <color name="band_member_color">#F3F3F3</color>
     <color name="band_invitation_color">@color/faded_yellow</color>
 </resources>

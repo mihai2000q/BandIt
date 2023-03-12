@@ -13,4 +13,6 @@
     <string name="friend_filtered_toast">Friends Filtered</string>
     <string name="people_filtered_toast">People Filtered</string>
     <string name="friend_unfriended_toast">Person Unfriended</string>
+
+    <color name="model_friend_color">@color/faded_light_gray</color>
 </resources>

@@ -2,6 +2,7 @@ package com.bandit.ui.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -46,13 +47,9 @@ data class BandMemberAdapter(
         val hasAccepted = members.values.toList()[position]
         with(holder) {
             itemView.setOnLongClickListener { onLongClick(holder, account) }
-            if(account == myAccount)
-                itemView.background = ContextCompat.getDrawable(
-                    binding.root.context,
-                    R.color.band_member_my_account_color
-                )
-
             with(binding) {
+                AndroidUtils.setProfilePicture(fragment, friendsViewModel,
+                    memberProfilePicture, account.userUid)
                 memberNickname.text = account.nickname
                 memberRole.text = account.printRole()
                 if(viewModel.band.value!!.creator == account.id)
@@ -65,9 +62,16 @@ data class BandMemberAdapter(
                     memberStatus.setText(R.string.band_member_accepted_false)
                     memberStatus.setTextColor(Color.RED)
                 }
-                AndroidUtils.setProfilePicture(fragment, friendsViewModel,
-                    memberProfilePicture, account.userUid)
-
+                if(account == myAccount) {
+                    bandMemberCard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.band_member_my_account_color
+                        )
+                    )
+                    memberRole.visibility = View.GONE
+                    memberNickname.text = holder.binding.root.resources.getString(R.string.model_band_member_you)
+                }
             }
         }
     }
