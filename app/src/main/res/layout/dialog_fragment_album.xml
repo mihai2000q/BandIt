@@ -1,67 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="32dp">
 
-    <EditText
-        android:id="@+id/album_et_name"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/album_et_name_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:maxLength="@string/max_length_name"
-        android:hint="@string/et_name"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/album_et_release_date"
-        app:layout_constraintEnd_toEndOf="@+id/album_et_release_date"
-        app:layout_constraintStart_toStartOf="@+id/album_et_release_date"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="@string/max_length_name"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toTopOf="@+id/album_et_release_date_layout"
+        app:layout_constraintEnd_toEndOf="@+id/album_et_release_date_layout"
+        app:layout_constraintStart_toStartOf="@+id/album_et_release_date_layout"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/album_et_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/et_release_date"
-        android:inputType="date"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/album_et_label"
-        app:layout_constraintEnd_toEndOf="@+id/album_et_label"
-        app:layout_constraintStart_toStartOf="@+id/album_et_label"
-        app:layout_constraintTop_toBottomOf="@+id/album_et_name" />
+        <EditText
+            android:id="@+id/album_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_name"
+            android:inputType="textPersonName"
+            android:maxLength="@string/max_length_name"
+            android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/album_et_label"
-        android:layout_width="wrap_content"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/album_et_release_date_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:endIconDrawable="@drawable/ic_schedule"
+        app:endIconMode="custom"
+        app:layout_constraintBottom_toTopOf="@+id/album_et_label_layout"
+        app:layout_constraintEnd_toEndOf="@+id/album_et_label_layout"
+        app:layout_constraintStart_toStartOf="@+id/album_et_label_layout"
+        app:layout_constraintTop_toBottomOf="@+id/album_et_name_layout">
+
+        <EditText
+            android:id="@+id/album_et_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_release_date"
+            android:inputType="date"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/album_et_label_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:maxLength="@string/max_length_label"
-        android:ems="10"
-        android:hint="@string/et_label"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="@string/max_length_label"
+        app:endIconMode="clear_text"
         app:layout_constraintBottom_toTopOf="@+id/album_button"
         app:layout_constraintEnd_toEndOf="@+id/album_button"
         app:layout_constraintStart_toStartOf="@+id/album_button"
-        app:layout_constraintTop_toBottomOf="@+id/album_et_release_date" />
+        app:layout_constraintTop_toBottomOf="@+id/album_et_release_date_layout">
+
+        <EditText
+            android:id="@+id/album_et_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_label"
+            android:inputType="textPersonName"
+            android:maxLength="@string/max_length_label"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/album_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="8dp"
         android:text="@string/bt_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album_et_label" />
+        app:layout_constraintTop_toBottomOf="@+id/album_et_label_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

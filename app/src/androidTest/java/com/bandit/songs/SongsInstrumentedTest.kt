@@ -79,7 +79,7 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(songName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name))
+        onView(withId(R.id.song_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -132,9 +132,9 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name))
+        onView(withId(R.id.song_et_name_layout))
             .perform(typeText(searchValue + 23), closeSoftKeyboard())
-        onView(withId(R.id.song_et_release_date)).perform(click())
+        onView(withId(R.id.song_et_release_date_layout)).perform(click())
         onView(withText("OK")).perform(click())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -144,7 +144,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name))
+        onView(withId(R.id.song_et_name_layout))
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -207,9 +207,9 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name))
+        onView(withId(R.id.album_et_name_layout))
             .perform(typeText(searchValue + 23), closeSoftKeyboard())
-        onView(withId(R.id.album_et_release_date)).perform(click())
+        onView(withId(R.id.album_et_release_date_layout)).perform(click())
         onView(withText("OK")).perform(click())
         onView(withId(R.id.album_button)).perform(click())
 
@@ -219,7 +219,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name))
+        onView(withId(R.id.album_et_name_layout))
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.album_button)).perform(click())
 
@@ -354,7 +354,7 @@ class SongsInstrumentedTest {
         onView(withText(songName)).perform(swipeRight())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name))
+        onView(withId(R.id.song_et_name_layout))
             .perform(clearText(), typeText(newSongName), closeSoftKeyboard())
 
         onView(withId(R.id.song_button)).perform(click())
@@ -380,7 +380,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name)).perform(typeText(name))
+        onView(withId(R.id.song_et_name_layout)).perform(typeText(name))
 
         onView(withId(R.id.song_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -419,7 +419,7 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 
-        onView(withId(R.id.song_et_name))
+        onView(withId(R.id.song_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -433,7 +433,7 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 
-        onView(withId(R.id.album_et_name))
+        onView(withId(R.id.album_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.album_button)).perform(click())
 
@@ -443,7 +443,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name)).perform(typeText(name))
+        onView(withId(R.id.album_et_name_layout)).perform(typeText(name))
 
         onView(withId(R.id.album_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))

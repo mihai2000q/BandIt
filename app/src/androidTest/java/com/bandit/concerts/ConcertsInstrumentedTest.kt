@@ -73,7 +73,7 @@ class ConcertsInstrumentedTest {
                 hasDescendant(withText(concertName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.concert_et_name))
+        onView(withId(R.id.concert_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
 
         onView(withId(R.id.concert_button)).perform(click())
@@ -145,7 +145,7 @@ class ConcertsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.concert_et_name))
+        onView(withId(R.id.concert_et_name_layout))
             .perform(typeText("2323"), closeSoftKeyboard())
         onView(withId(R.id.concert_button)).perform(click())
 
@@ -159,7 +159,7 @@ class ConcertsInstrumentedTest {
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.concert_et_name))
+        onView(withId(R.id.concert_et_name_layout))
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.concert_button)).perform(click())
 
@@ -203,19 +203,19 @@ class ConcertsInstrumentedTest {
         onView(withId(R.id.concerts_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.concert_et_name)).perform(typeText(name))
-        onView(withId(R.id.concert_et_date)).perform(click())
+        onView(withId(R.id.concert_et_name_layout)).perform(typeText(name))
+        onView(withId(R.id.concert_et_date_layout)).perform(click())
         onView(withText("OK")).perform(click())
 
-        onView(withId(R.id.concert_et_time)).perform(click())
+        onView(withId(R.id.concert_et_time_layout)).perform(click())
         onView(withText("OK")).perform(click())
 
         if(city.isNotBlank())
-            onView(withId(R.id.concert_et_city)).perform(typeText(city))
+            onView(withId(R.id.concert_et_city_layout)).perform(typeText(city))
         if(country.isNotBlank())
-            onView(withId(R.id.concert_et_country)).perform(typeText(country))
+            onView(withId(R.id.concert_et_country_layout)).perform(typeText(country))
         if(place.isNotBlank())
-            onView(withId(R.id.concert_et_place)).perform(typeText(place), closeSoftKeyboard())
+            onView(withId(R.id.concert_et_place_layout)).perform(typeText(place), closeSoftKeyboard())
 
         onView(withId(R.id.concert_button)).perform(click())
 
@@ -249,13 +249,13 @@ class ConcertsInstrumentedTest {
         onView(withText(R.string.bt_edit)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.concert_et_name))
+        onView(withId(R.id.concert_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
-        onView(withId(R.id.concert_et_city))
+        onView(withId(R.id.concert_et_city_layout))
             .perform(clearText(), typeText(newCity), closeSoftKeyboard())
-        onView(withId(R.id.concert_et_country))
+        onView(withId(R.id.concert_et_country_layout))
             .perform(clearText(), typeText(newCountry), closeSoftKeyboard())
-        onView(withId(R.id.concert_et_place))
+        onView(withId(R.id.concert_et_place_layout))
             .perform(clearText(), typeText(newPlace), closeSoftKeyboard())
 
         onView(withId(R.id.concert_button)).perform(click())

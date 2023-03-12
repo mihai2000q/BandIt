@@ -6,63 +6,110 @@
     android:layout_height="wrap_content"
     android:padding="32dp">
 
-    <EditText
-        android:id="@+id/song_et_name"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/song_et_name_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/et_name"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/song_et_release_date"
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="@string/max_length_name"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toTopOf="@+id/song_et_release_date_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/song_et_release_date"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/song_et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_name"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/song_et_release_date_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:maxLength="@string/max_length_name"
-        android:hint="@string/et_release_date"
-        android:inputType="date"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/song_et_duration"
+        android:layout_marginBottom="6dp"
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:endIconDrawable="@drawable/ic_schedule"
+        app:endIconMode="custom"
+        app:layout_constraintBottom_toTopOf="@+id/song_et_duration_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/song_et_name" />
+        app:layout_constraintTop_toBottomOf="@+id/song_et_name_layout">
 
-    <EditText
-        android:id="@+id/song_et_duration"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/song_et_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_release_date"
+            android:inputType="date"
+            android:maxLength="@string/max_length_name"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/song_et_duration_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:maxLength="@string/max_length_duration"
-        android:hint="@string/et_duration"
-        android:inputType="time"
-        android:minHeight="48dp"
+        app:boxBackgroundColor="@color/text_field_background"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="@string/max_length_duration"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_timer"
         app:layout_constraintBottom_toTopOf="@+id/song_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/song_et_release_date" />
+        app:layout_constraintTop_toBottomOf="@+id/song_et_release_date_layout" >
+
+        <EditText
+            android:id="@+id/song_et_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/et_duration"
+            android:inputType="time"
+            android:maxLength="@string/max_length_duration"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/song_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="8dp"
         android:text="@string/bt_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/song_et_duration" />
+        app:layout_constraintTop_toBottomOf="@+id/song_et_duration_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

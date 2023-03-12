@@ -44,7 +44,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="100dp"
             app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
             app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
             app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
@@ -80,7 +79,6 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="100dp"
             app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
             app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
             app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
@@ -126,7 +124,6 @@
             android:id="@+id/login_bt_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="100dp"
             android:fontFamily="@font/poppins_medium"
             android:text="@string/bt_login"
             android:textSize="18sp" />

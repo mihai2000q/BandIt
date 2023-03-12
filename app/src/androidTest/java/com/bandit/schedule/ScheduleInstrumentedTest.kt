@@ -97,7 +97,7 @@ class ScheduleInstrumentedTest {
                 hasDescendant(withText(eventName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.schedule_et_name))
+        onView(withId(R.id.schedule_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())
@@ -154,8 +154,8 @@ class ScheduleInstrumentedTest {
 
         onView(withText(LocalDate.now().toString())).check(matches(isDisplayed()))
 
-        onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
-        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withId(R.id.schedule_et_name_layout)).perform(typeText(eventName))
+        onView(withId(R.id.schedule_et_time_layout)).perform(click())
         onView(withText("OK")).perform(click())
 
         onView(withId(R.id.schedule_button)).perform(click())
@@ -177,8 +177,8 @@ class ScheduleInstrumentedTest {
 
         onView(withText(LocalDate.now().toString())).check(matches(isDisplayed()))
 
-        onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
-        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withId(R.id.schedule_et_name_layout)).perform(typeText(eventName))
+        onView(withId(R.id.schedule_et_time_layout)).perform(click())
         onView(withText("OK")).perform(click())
 
         onView(withId(R.id.schedule_button)).perform(click())
@@ -194,7 +194,7 @@ class ScheduleInstrumentedTest {
                 hasDescendant(withText(eventName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.schedule_et_name))
+        onView(withId(R.id.schedule_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())
@@ -243,10 +243,10 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
-        onView(withId(R.id.schedule_et_date)).perform(click())
+        onView(withId(R.id.schedule_et_name_layout)).perform(typeText(eventName))
+        onView(withId(R.id.schedule_et_date_layout)).perform(click())
         onView(withText("OK")).perform(click())
-        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withId(R.id.schedule_et_time_layout)).perform(click())
         onView(withText("OK")).perform(click())
         onView(withId(R.id.schedule_spinner_type)).perform(click())
         onView(withText("Concert")).inRoot(isPlatformPopup())
@@ -280,10 +280,10 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.schedule_et_name)).perform(typeText(name))
-        onView(withId(R.id.schedule_et_date)).perform(click())
+        onView(withId(R.id.schedule_et_name_layout)).perform(typeText(name))
+        onView(withId(R.id.schedule_et_date_layout)).perform(click())
         onView(withText("OK")).perform(click())
-        onView(withId(R.id.schedule_et_time)).perform(click())
+        onView(withId(R.id.schedule_et_time_layout)).perform(click())
         onView(withText("OK")).perform(click())
 
         onView(withId(R.id.schedule_button)).perform(click())
@@ -303,7 +303,7 @@ class ScheduleInstrumentedTest {
         onView(withText(R.string.bt_edit)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.schedule_et_name))
+        onView(withId(R.id.schedule_et_name_layout))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())

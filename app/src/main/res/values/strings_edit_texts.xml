@@ -2,13 +2,15 @@
 <resources>
     <string name="et_title">Title</string>
     <string name="et_email">Email</string>
-    <string name="et_name">Name*</string>
+    <string name="et_name">Name</string>
     <string name="et_nickname">Nickname</string>
-    <string name="et_name_non_mandatory">Name</string>
     <string name="et_release_date">Release Date</string>
     <string name="et_label">Label</string>
     <string name="et_type">Type</string>
+    <string name="et_date">Date</string>
+    <string name="et_time">Time</string>
     <string name="et_duration">Duration</string>
+
     <string name="max_length_email">64</string>
     <string name="max_length_password">24</string>
     <string name="max_length_name">35</string>

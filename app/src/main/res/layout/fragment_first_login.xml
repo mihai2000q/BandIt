@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/et_name_non_mandatory"
+                android:hint="@string/et_name"
                 android:maxLength="@string/max_length_name"
                 android:inputType="textPersonName"
                 android:minHeight="48dp"

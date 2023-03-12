@@ -28,4 +28,5 @@
     <color name="faded_purple_to_blue">#D6CBEB</color>
 
     <color name="model_label">#494949</color>
+    <color name="text_field_background">#F8F4F4</color>
 </resources>

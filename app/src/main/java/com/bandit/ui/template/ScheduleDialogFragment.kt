@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.bandit.R
@@ -33,6 +34,10 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         with(binding) {
             AndroidComponents.spinner(
                 super.requireContext(),
