@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/task_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="50dp"
+    app:cardElevation="10dp"
+    app:contentPadding="8dp">
 
-    <CheckBox
-        android:id="@+id/task_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="@android:color/holo_green_dark" />
-
-    <ViewSwitcher
-        android:id="@+id/task_view_switcher"
+    <LinearLayout
+        android:id="@+id/task_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="VisualLintBounds">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/task_tv_message"
+        <CheckBox
+            android:id="@+id/task_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@android:color/holo_green_dark" />
+
+        <ViewSwitcher
+            android:id="@+id/task_view_switcher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/default_task_message"
-            android:textSize="16sp" />
+            tools:ignore="VisualLintBounds">
 
-        <EditText
-            android:id="@+id/task_et_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:maxLength="@string/max_length_bottom_shelf"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="text"
-            android:text="@string/default_task_message"
-            tools:ignore="LabelFor" />
+            <TextView
+                android:id="@+id/task_tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/default_task_message"
+                android:textSize="16sp" />
 
-    </ViewSwitcher>
-</LinearLayout>
+            <EditText
+                android:id="@+id/task_et_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="text"
+                android:maxLength="@string/max_length_bottom_shelf"
+                android:text="@string/default_task_message"
+                tools:ignore="LabelFor" />
+
+        </ViewSwitcher>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

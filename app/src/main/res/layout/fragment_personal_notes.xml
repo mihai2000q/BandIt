@@ -38,6 +38,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:contentDescription="@string/content_description_bt_add"
-        android:src="@drawable/ic_add_white" />
+        android:src="@drawable/ic_add_white"
+        app:backgroundTint="@color/dark_sea_green" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

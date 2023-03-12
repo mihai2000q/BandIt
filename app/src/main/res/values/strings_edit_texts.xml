@@ -19,5 +19,5 @@
     <string name="max_length_country">20</string>
     <string name="max_length_place">20</string>
     <string name="max_length_title">16</string>
-    <string name="max_length_bottom_shelf">36</string>
+    <string name="max_length_bottom_shelf">32</string>
 </resources>
