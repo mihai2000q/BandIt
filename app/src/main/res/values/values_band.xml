@@ -26,4 +26,6 @@
     <string name="band_disbanded_toast">Band Disbanded</string>
 
     <color name="band_member_my_account_color">#ACA2A2</color>
+
+    <color name="band_invitation_color">@color/faded_yellow</color>
 </resources>

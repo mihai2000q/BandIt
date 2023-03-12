@@ -26,6 +26,8 @@
     <color name="faded_green">#D2EDCE</color>
     <color name="faded_blue_to_green">#C5EBDE</color>
     <color name="faded_purple_to_blue">#D6CBEB</color>
+    <color name="faded_yellow">#F1EDB8</color>
+    <color name="faded_orange">#ECCDB5</color>
 
     <color name="model_label">#494949</color>
     <color name="text_field_background">#F8F4F4</color>

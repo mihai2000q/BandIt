@@ -15,6 +15,6 @@
 
     <dimen name="friend_pic_dimension_width">80dp</dimen>
     <dimen name="friend_pic_dimension_height">80dp</dimen>
-    <dimen name="friend_pic_border_width">2.5dp</dimen>
-    <color name="friend_pic_border_color">@color/dark_spring_green</color>
+    <dimen name="friend_pic_border_width">2dp</dimen>
+    <color name="friend_pic_border_color">@color/light_gray</color>
 </resources>

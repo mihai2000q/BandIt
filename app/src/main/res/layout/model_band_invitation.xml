@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/band_invitation_card"
+    style="@style/AppCardViewTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F2D6F4"
     android:layout_marginBottom="16dp"
-    android:padding="16dp">
+    app:cardCornerRadius="80dp"
+    app:cardElevation="20dp"
+    app:cardMaxElevation="20dp"
+    app:cardPreventCornerOverlap="true">
 
-    <TextView
-        android:id="@+id/band_invitation_tv_band_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/default_value"
-        android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_faded_yellow"
+        android:padding="16dp">
 
-    <ImageButton
-        android:id="@+id/band_invitation_bt_accept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/content_description_bt_accept"
-        app:srcCompat="@drawable/ic_check_circle_green" />
+        <TextView
+            android:id="@+id/band_invitation_tv_band_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:text="@string/default_value"
+            android:textSize="16sp" />
 
-    <ImageButton
-        android:id="@+id/band_invitation_bt_reject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/content_description_bt_reject"
-        app:srcCompat="@drawable/ic_remove_circle_red" />
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/band_invitation_bt_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_bt_accept"
+            app:srcCompat="@drawable/ic_check_circle_green" />
+
+        <ImageButton
+            android:id="@+id/band_invitation_bt_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/content_description_bt_reject"
+            app:srcCompat="@drawable/ic_remove_circle_red" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
