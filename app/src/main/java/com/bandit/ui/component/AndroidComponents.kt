@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import com.bandit.R
 import com.bandit.extension.get2Characters
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -109,7 +111,7 @@ object AndroidComponents {
         negative: String,
         onPositiveAction: () -> Unit
     ) {
-        val builder = AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setPositiveButton(positive) { _, _ -> onPositiveAction() }

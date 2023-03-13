@@ -23,7 +23,8 @@ abstract class AlbumDialogFragment : DialogFragment() {
     private lateinit var validatorService: IValidatorService
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogFragmentAlbumBinding.inflate(layoutInflater, container, false)

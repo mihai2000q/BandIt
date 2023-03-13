@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_email_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture">
 
-            <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_band_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_name_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_et_band_name_layout">
 
-            <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_nickname_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_et_email_layout">
 
-            <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_bt_update"
             app:layout_constraintTop_toBottomOf="@+id/account_et_name_layout">
 
-            <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

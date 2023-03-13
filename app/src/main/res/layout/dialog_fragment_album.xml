@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@+id/album_et_release_date_layout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/album_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="@+id/album_et_label_layout"
         app:layout_constraintTop_toBottomOf="@+id/album_et_name_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/album_et_release_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="@+id/album_button"
         app:layout_constraintTop_toBottomOf="@+id/album_et_release_date_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/album_et_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

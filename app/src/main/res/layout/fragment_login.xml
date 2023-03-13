@@ -51,7 +51,7 @@
             app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/ic_email">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/ic_lock">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

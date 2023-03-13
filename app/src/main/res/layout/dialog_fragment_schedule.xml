@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@+id/schedule_et_duration_layout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/schedule_et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schedule_et_name_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/schedule_et_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
         app:layout_constraintStart_toEndOf="@+id/schedule_et_date_layout"
         app:layout_constraintTop_toTopOf="@+id/schedule_et_date_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/schedule_et_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
         app:layout_constraintStart_toStartOf="@+id/schedule_spinner_type"
         app:layout_constraintTop_toBottomOf="@+id/schedule_et_date_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/schedule_et_duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
