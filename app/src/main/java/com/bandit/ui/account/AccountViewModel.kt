@@ -13,7 +13,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
 
-class AccountViewModel : ViewModel(), Serializable {
+class AccountViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()
     private val _storage = DILocator.getStorage()
     private val _repository = AccountRepository(DILocator.getDatabase())

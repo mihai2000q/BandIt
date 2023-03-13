@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenStarted
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferencesService: IPreferencesService
     private lateinit var accountActivityLauncher: ActivityResultLauncher<Intent>
-    private val accountViewModel: AccountViewModel by viewModels()
+    private lateinit var accountViewModel: AccountViewModel
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -222,7 +222,10 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.action_bar_profile -> {
                 lifecycleScope.launch {
-                    val accountIntent = Intent(this@MainActivity, AccountActivity::class.java)
+                    accountViewModel = ViewModelProvider(
+                        this@MainActivity)[AccountViewModel::class.java]
+                    val accountIntent = Intent(this@MainActivity,
+                        AccountActivity::class.java)
                     accountIntent.putExtra(
                         Constants.Account.EXTRA,
                         accountViewModel.account.value!!
