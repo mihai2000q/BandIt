@@ -125,6 +125,7 @@
             android:id="@+id/signup_bt_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
             android:text="@string/bt_sign_up"
             android:textSize="18sp"
             tools:ignore="DuplicateSpeakableTextCheck" />

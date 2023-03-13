@@ -9,7 +9,6 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentScheduleBinding

@@ -14,7 +14,7 @@
     <string name="max_length_email">64</string>
     <string name="max_length_password">24</string>
     <string name="max_length_name">35</string>
-    <string name="max_length_nickname">25</string>
+    <string name="max_length_nickname">20</string>
     <string name="max_length_label">20</string>
     <string name="max_length_duration">5</string>
     <string name="max_length_city">20</string>

@@ -34,7 +34,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtCountry.setText(country)
                 concertEtPlace.setText(place)
                 concertEtDuration.setText(duration.print())
-                concertEtSpinnerType.setSelection(concertType?.ordinal ?: 0)
+                concertEtSpinnerType.setSelection(concertType.ordinal)
             }
 
             concertButton.setOnClickListener {

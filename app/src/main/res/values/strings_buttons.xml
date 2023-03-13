@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bt_add">Add</string>
-    <string name="bt_save">Save</string>
     <string name="bt_filter">Filter</string>
     <string name="bt_login">Login</string>
+    <string name="bt_save">Save Changes</string>
     <string name="bt_sign_out">Sign Out</string>
     <string name="bt_sign_up">Sign Up</string>
     <string name="bt_create">Create</string>
