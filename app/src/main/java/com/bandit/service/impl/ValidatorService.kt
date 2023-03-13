@@ -80,7 +80,10 @@ class ValidatorService(
     }
     
     override fun validateDuration(editText: EditText): Boolean {
-        //TODO: not implemented
+        if(editText.text.isNullOrBlank()) {
+            editText.error = activity.resources.getString(R.string.et_duration_validation)
+            return false
+        }
         return true
     }
 }
