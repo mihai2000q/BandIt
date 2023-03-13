@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bandit.LoadingActivity
+import com.bandit.ui.component.LoadingActivity
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.constant.Constants

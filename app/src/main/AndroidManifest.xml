@@ -21,7 +21,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,7 +29,11 @@
             android:screenOrientation="portrait"
             android:exported="true"/>
         <activity
-            android:name="com.bandit.LoadingActivity"
+            android:name="com.bandit.ui.component.LoadingActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"/>
+        <activity
+            android:name="com.bandit.ui.account.AccountActivity"
             android:screenOrientation="portrait"
             android:exported="true"/>
         <meta-data
