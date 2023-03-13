@@ -23,4 +23,5 @@
     <string name="bt_unfriend">Unfriend</string>
     <string name="bt_abandon">Abandon</string>
     <string name="bt_disband">Disband</string>
+    <string name="bt_update_profile">Update Profile</string>
 </resources>

@@ -15,4 +15,8 @@
     <string name="friend_unfriended_toast">Person Unfriended</string>
 
     <color name="model_friend_color">@color/faded_light_gray</color>
+    <dimen name="friend_pic_dimension_width">80dp</dimen>
+    <dimen name="friend_pic_dimension_height">80dp</dimen>
+    <dimen name="friend_pic_border_width">2dp</dimen>
+    <color name="friend_pic_border_color">#0FF3EEEE</color>
 </resources>

@@ -6,7 +6,6 @@ object Constants {
     const val PASSWORD_MIN_CHARACTERS = 8
     const val TIMEOUT_INTERNET_CONNECTION_TEST = 10_000L //ms
     const val ONE_GIGABYTE = 1024 * 1024 * 1024L
-    const val REQUEST_PERMISSION_STATE = 1
     object SafeArgs {
         const val FAIL_LOGIN_NETWORK = "Fail Login Due To Network Connection Missing"
         const val REMEMBER_ME = "Remember Me"
@@ -56,7 +55,12 @@ object Constants {
         const val VIEW_MODEL_TAG = "FirstLoginViewModel"
     }
     object Account {
-        const val TAG = "ACCOUNT DIALOG FRAGMENT"
+        const val RESULT_SIGN_OUT = 123_456
+        const val EXTRA = "Account Extra"
+        const val PROFILE_PIC_EXTRA = "Profile Picture Extra"
+        const val RESULT_ACCOUNT_EXTRA = "Resulting Account"
+        const val RESULT_PROFILE_PIC_CHANGED_EXTRA = "Resulting Profile Picture Changed Boolean"
+        const val RESULT_PROFILE_PIC_EXTRA = "Resulting Profile Picture Extra"
         const val VIEW_MODEL_TAG = "AccountViewModel"
     }
     object Concert {

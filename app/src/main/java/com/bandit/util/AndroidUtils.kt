@@ -161,20 +161,6 @@ object AndroidUtils {
             }
         }
     }
-    suspend fun loadIntent(
-        activity: AppCompatActivity,
-        task: suspend () -> Boolean?
-    ) : Boolean?
-    = coroutineScope {
-        async {
-            var result: Boolean? = null
-            LoadingActivity.finish.value = false
-            activity.startActivity(Intent(activity, LoadingActivity::class.java))
-            launch { result = task() }.join()
-            LoadingActivity.finish.value = true
-            return@async result
-        }
-    }.await()
 
     fun loadIntent(
         fragment: Fragment,
@@ -187,6 +173,21 @@ object AndroidUtils {
             LoadingActivity.finish.value = true
         }
     }
+
+    suspend fun loadIntent(
+        activity: AppCompatActivity,
+        task: suspend () -> Boolean?
+    ) : Boolean?
+            = coroutineScope {
+        async {
+            var result: Boolean? = null
+            LoadingActivity.finish.value = false
+            activity.startActivity(Intent(activity, LoadingActivity::class.java))
+            launch { result = task() }.join()
+            LoadingActivity.finish.value = true
+            return@async result
+        }
+    }.await()
 
     suspend fun loadIntentWithDestination(
         fragment: Fragment,
@@ -222,8 +223,8 @@ object AndroidUtils {
         //TODO: Replace deprecated method for .insertImage()
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val path = MediaStore.Images.Media
+                .insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
 
