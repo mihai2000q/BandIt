@@ -30,6 +30,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     private val accountViewModel: AccountViewModel by activityViewModels()
     private val friendsAddDialogFragment = FriendsAddDialogFragment()
     private val friendsRequestsDialogFragment = FriendsRequestsDialogFragment()
+    private val friendsDetailDialogFragment = FriendsDetailDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,7 +96,14 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     { acc -> onAddToBand(acc) },
                     { acc -> onUnfriend(acc) },
                     bandViewModel,
-                    accountViewModel.account.value!!
+                    accountViewModel.account.value!!,
+                    onClick = { acc ->
+                        viewModel.selectedFriend.value = acc
+                        AndroidUtils.showDialogFragment(
+                            friendsDetailDialogFragment,
+                            childFragmentManager
+                        )
+                    }
                 )
             }
             AndroidUtils.setupFabOptions(

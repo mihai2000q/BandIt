@@ -91,6 +91,7 @@ object Constants {
         }
         object Friends {
             const val ADD_TAG = "ADD FRIEND DIALOG FRAGMENT"
+            const val DETAIL_TAG = "DETAIL FRIEND DIALOG FRAGMENT"
             const val NEW_FRIEND_TAG = "NEW FRIEND DIALOG FRAGMENT"
             const val VIEW_MODEL_TAG = "FriendsViewModel"
         }
