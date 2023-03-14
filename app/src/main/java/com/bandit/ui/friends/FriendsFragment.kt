@@ -63,6 +63,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
+                if(viewModel.badgePreviousSize == badgeDrawable.number) return@observe
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
                 badgeDrawable2.isVisible = it.isNotEmpty()
@@ -78,6 +79,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             friendsBtRequests.setOnClickListener {
                 badgeDrawable.isVisible = false
                 badgeDrawable2.isVisible = false
+                viewModel.badgePreviousSize = badgeDrawable.number
                 AndroidUtils.showDialogFragment(
                     friendsRequestsDialogFragment,
                     childFragmentManager

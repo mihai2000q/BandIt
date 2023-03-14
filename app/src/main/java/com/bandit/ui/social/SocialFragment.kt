@@ -71,6 +71,7 @@ class SocialFragment : Fragment() {
         badge: BadgeDrawable,
         list: List<*>
     ) {
+        if(friendsViewModel.badgePreviousSize == badge.number) return
         badge.isVisible = list.isNotEmpty()
         badge.number = list.size
         badge.maxCharacterCount = 99
