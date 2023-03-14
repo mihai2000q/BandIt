@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -38,7 +37,7 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
-    private val albumDetailDialogFragment = AlbumDetailDialogFragment { onEditSong(it) }
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment ({ onEditSong(it) }) { onDeleteAlbum(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

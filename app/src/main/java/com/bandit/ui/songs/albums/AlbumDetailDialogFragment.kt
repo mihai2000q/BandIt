@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.extension.print
@@ -22,7 +23,10 @@ import com.bandit.ui.songs.SongAddDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
-class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : DialogFragment() {
+class AlbumDetailDialogFragment(
+    private val onEditSong: (Song) -> Unit,
+    private val onRemoveAlbum: (Album) -> Unit
+) : DialogFragment() {
 
     private var _binding: DialogFragmentAlbumDetailBinding? = null
     private val binding get() = _binding!!
@@ -99,6 +103,10 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                     songAddDialogFragment,
                     childFragmentManager
                 )
+            }
+            albumDetailBtDelete.setOnClickListener {
+                onRemoveAlbum.invoke(viewModel.selectedAlbum.value!!)
+                super.dismiss()
             }
         }
     }
