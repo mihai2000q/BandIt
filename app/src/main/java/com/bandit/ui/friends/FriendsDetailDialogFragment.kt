@@ -28,7 +28,7 @@ class FriendsDetailDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
-            AndroidUtils.getScreenHeight(super.requireActivity()) * 3 / 4
+            AndroidUtils.getScreenHeight(super.requireActivity()) / 2
         )
         with(binding) {
             viewModel.selectedFriend.observe(viewLifecycleOwner) {
@@ -38,11 +38,11 @@ class FriendsDetailDialogFragment : DialogFragment() {
                     friendDetailProfilePic,
                     it.userUid
                 )
-                friendDetailTvEmail.text = it.email
-                friendDetailTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
                 friendDetailTvName.text = it.name
                 friendDetailTvNickname.text = it.nickname
+                friendDetailTvEmail.text = it.email
                 friendDetailTvRole.text = it.printRole()
+                friendDetailTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
             }
         }
     }

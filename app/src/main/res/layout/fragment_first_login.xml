@@ -204,6 +204,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/first_login_tv_subject_last"
                 android:textSize="18sp"
+                android:gravity="center"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

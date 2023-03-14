@@ -57,10 +57,10 @@ class EventAdapter(
                 eventName.text = event.name
                 eventName.background = ContextCompat.getDrawable(holder.binding.root.context,
                     when(event.type) {
-                        BandItEnums.Event.Type.Simple -> R.color.event_name_layout
                         BandItEnums.Event.Type.Training -> R.color.event_training
                         BandItEnums.Event.Type.Concert -> R.color.event_concert
                         BandItEnums.Event.Type.Composing -> R.color.event_composing
+                        else -> R.color.event_name_layout
                     }
                 )
             }

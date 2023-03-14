@@ -17,6 +17,6 @@
     <color name="calendar_day_background">@color/dark_sea_green</color>
     
     <color name="event_training">@color/teal_green</color>
-    <color name="event_concert">@color/turquoise_green</color>
+    <color name="event_concert">@color/jungle_green</color>
     <color name="event_composing">@color/magic_mint</color>
 </resources>
