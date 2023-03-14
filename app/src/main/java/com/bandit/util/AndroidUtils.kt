@@ -30,7 +30,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
@@ -429,10 +428,11 @@ object AndroidUtils {
         }
         fabOption.setOnClickListener {
             if(band.value!!.isEmpty())
-                AndroidComponents.toastNotification(
-                    fragment.requireContext(),
-                    fragment.resources.getString(R.string.empty_band_snackbar)
-                )
+                AndroidComponents.snackbarNotification(
+                    fabOption,
+                    fragment.resources.getString(R.string.empty_band_snackbar),
+                    fragment.resources.getString(R.string.bt_okay)
+                ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
                     closeAll()
