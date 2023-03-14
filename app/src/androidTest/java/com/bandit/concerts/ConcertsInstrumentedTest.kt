@@ -153,6 +153,8 @@ class ConcertsInstrumentedTest {
         val searchValue = "Concert To Be"
         this.addConcert(concertName)
         // filter out the concert
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.concerts_bt_filter)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -167,6 +169,8 @@ class ConcertsInstrumentedTest {
             "This concert should have been filtered out")
 
         // filter for the concert to be seen
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.concerts_bt_filter)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))

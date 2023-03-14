@@ -75,7 +75,8 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
     }
 
     protected open fun validateFields(): Boolean {
-        return validatorService.validateName(binding.concertEtName, binding.concertEtNameLayout)
+        return  validatorService.validateName(binding.concertEtName, binding.concertEtNameLayout) &&
+                validatorService.validateDuration(binding.concertEtDuration, binding.concertEtDurationLayout)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
