@@ -15,7 +15,7 @@
         android:clickable="true"
         android:contentDescription="@string/content_description_bt_add"
         android:src="@drawable/ic_add_white"
-        app:backgroundTint="@color/dark_sea_green" />
+        app:backgroundTint="@color/fab_options" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todolist_rv_tasks"

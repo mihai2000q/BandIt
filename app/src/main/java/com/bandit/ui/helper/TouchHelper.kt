@@ -69,7 +69,10 @@ open class TouchHelper<T: Item>(
                 context,
                 R.drawable.ic_delete
             )!!
-            background = ColorDrawable(Color.RED)
+            background = ColorDrawable(ContextCompat.getColor(
+                context,
+                R.color.red
+            ))
         }
 
         val iconMargin = (itemView.height - icon.intrinsicHeight) / 2

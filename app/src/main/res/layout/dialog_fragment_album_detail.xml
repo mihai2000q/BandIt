@@ -37,7 +37,7 @@
             android:contentDescription="@string/content_description_bt_remove"
             android:scaleX="0.75"
             android:scaleY="0.75"
-            app:backgroundTint="@color/red"
+            app:backgroundTint="@color/lighter_red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

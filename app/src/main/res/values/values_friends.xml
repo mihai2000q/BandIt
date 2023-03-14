@@ -4,7 +4,7 @@
     <string name="friends_requests_dialog_title">Friend Requests</string>
     <string name="friend_alert_dialog_title">Unfriend Person</string>
     <string name="friend_alert_dialog_message">Are you sure you want to unfriend this person?</string>
-    <string name="recycler_view_friends_empty">You do not have any friend yet</string>
+    <string name="recycler_view_friends_empty">You do not have any friends, yet</string>
     <string name="friends_search_view_add">Search By Name</string>
     <string name="friend_request_sent_toast">Friend Request Sent</string>
     <string name="friend_request_accepted_toast">Friend Request Accepted</string>
