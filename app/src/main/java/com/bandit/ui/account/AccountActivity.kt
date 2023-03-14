@@ -110,8 +110,8 @@ class AccountActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
     private fun validateFields(): Boolean {
-        return  validatorService.validateName(binding.accountEtName) &&
-                validatorService.validateNickname(binding.accountEtNickname)
+        return  validatorService.validateName(binding.accountEtName, binding.accountEtNameLayout) &&
+                validatorService.validateNickname(binding.accountEtNickname, binding.accountEtNicknameLayout)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

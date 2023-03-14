@@ -55,6 +55,6 @@ abstract class AlbumDialogFragment : DialogFragment() {
     }
 
     protected open fun validateFields(): Boolean {
-        return validatorService.validateName(binding.albumEtName)
+        return validatorService.validateName(binding.albumEtName, binding.albumEtNameLayout)
     }
 }

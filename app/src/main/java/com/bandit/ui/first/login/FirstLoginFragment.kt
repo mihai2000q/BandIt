@@ -123,14 +123,14 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         with(binding) {
             when (phase) {
                 0 -> {
-                    if(!validatorService.validateName(firstLoginEtName))
+                    if(!validatorService.validateName(firstLoginEtName, firstLoginEtNameLayout))
                         return@coroutineScope false
                     viewModel.name.value = firstLoginEtName.text.toString()
                     flip()
                     return@coroutineScope false
                 }
                 1 -> {
-                    if(!validatorService.validateNickname(firstLoginEtNickname))
+                    if(!validatorService.validateNickname(firstLoginEtNickname, firstLoginEtNicknameLayout))
                         return@coroutineScope false
                     viewModel.nickname.value = firstLoginEtNickname.text.toString()
                     flip()

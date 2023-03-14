@@ -60,10 +60,10 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
     }
 
     protected open fun validateFields(): Boolean {
-        return  validatorService.validateName(binding.scheduleEtName) &&
-                validatorService.validateDate(binding.scheduleEtDate) &&
-                validatorService.validateTime(binding.scheduleEtTime) &&
-                validatorService.validateDuration(binding.scheduleEtDuration)
+        return  validatorService.validateName(binding.scheduleEtName, binding.scheduleEtNameLayout) &&
+                validatorService.validateDate(binding.scheduleEtDate, binding.scheduleEtDateLayout) &&
+                validatorService.validateTime(binding.scheduleEtTime, binding.scheduleEtTimeLayout) &&
+                validatorService.validateDuration(binding.scheduleEtDuration, binding.scheduleEtDurationLayout)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

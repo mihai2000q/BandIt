@@ -55,6 +55,6 @@ abstract class SongDialogFragment : DialogFragment() {
     }
 
     protected open fun validateFields(): Boolean {
-        return validatorService.validateName(binding.songEtName)
+        return validatorService.validateName(binding.songEtName, binding.songEtNameLayout)
     }
 }

@@ -7,81 +7,83 @@ import com.bandit.R
 import com.bandit.auth.Authenticator
 import com.bandit.constant.Constants
 import com.bandit.service.IValidatorService
+import com.google.android.material.textfield.TextInputLayout
 
 class ValidatorService(
     private val activity: Activity
 ) : IValidatorService {
-    override fun validateEmail(editText: EditText) : Boolean {
+    override fun validateEmail(editText: EditText, editTextLayout: TextInputLayout) : Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getText(R.string.et_email_validation_empty)
+            editTextLayout.error = activity.resources.getText(R.string.et_email_validation_empty)
             return false
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(editText.text).matches()) {
-            editText.error = activity.resources.getText(R.string.et_email_validation_email)
+            editTextLayout.error = activity.resources.getText(R.string.et_email_validation_email)
             return false
         }
         return true
     }
-    override fun validatePassword(editText: EditText): Boolean {
+    override fun validatePassword(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getText(R.string.et_pass_validation_empty)
+            editTextLayout.error = activity.resources.getText(R.string.et_pass_validation_empty)
             return false
         }
         if(editText.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
-            editText.error = activity.resources.getText(R.string.et_pass_validation_minimum)
+            editTextLayout.error = activity.resources.getText(R.string.et_pass_validation_minimum)
             return false
         }
         return true
     }
     override suspend fun validateEmailVerified(
         editText: EditText,
+        editTextLayout: TextInputLayout,
         login: suspend () -> Boolean?,
         authenticator: Authenticator
     ): Boolean? {
         return if (authenticator.currentUser!!.isEmailVerified)
             login()
         else {
-            editText.error = activity.resources.getString(R.string.et_email_validation_email_verified)
+            editTextLayout.error = activity.resources.getString(R.string.et_email_validation_email_verified)
             authenticator.signOut()
             null
         }
     }
 
-    override fun validateName(editText: EditText): Boolean {
+    override fun validateName(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getString(R.string.et_name_validation)
+            editTextLayout.error = activity.resources.getString(R.string.et_name_validation)
             return false
         }
         return true
     }
 
-    override fun validateNickname(editText: EditText): Boolean {
+    override fun validateNickname(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getString(R.string.et_nickname_validation)
+            editTextLayout.error = activity.resources.getString(R.string.et_nickname_validation)
             return false
         }
         return true
     }
 
-    override fun validateDate(editText: EditText): Boolean {
+    override fun validateDate(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getString(R.string.et_date_validation)
+            editTextLayout.error = activity.resources.getString(R.string.et_date_validation)
             return false
         }
         return true
     }
 
-    override fun validateTime(editText: EditText): Boolean {
+    override fun validateTime(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getString(R.string.et_time_validation)
+            editTextLayout.error = activity.resources.getString(R.string.et_time_validation)
             return false
         }
         return true
     }
     
-    override fun validateDuration(editText: EditText): Boolean {
+    override fun validateDuration(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
-            editText.error = activity.resources.getString(R.string.et_duration_validation)
+            editTextLayout.error = activity.resources.getString(R.string.et_duration_validation)
             return false
         }
         return true

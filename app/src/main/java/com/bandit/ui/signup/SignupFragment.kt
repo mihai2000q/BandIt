@@ -87,8 +87,8 @@ class SignupFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        val result = validatorService.validateEmail(binding.signupEtEmail) &&
-                validatorService.validatePassword(binding.signupEtPassword)
+        val result = validatorService.validateEmail(binding.signupEtEmail, binding.signupEtEmailLayout) &&
+                validatorService.validatePassword(binding.signupEtPassword, binding.signupEtPasswordLayout)
         if(!result)
             return false
         with(binding) {

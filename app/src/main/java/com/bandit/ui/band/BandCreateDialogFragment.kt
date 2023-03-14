@@ -74,7 +74,7 @@ class BandCreateDialogFragment : DialogFragment() {
     }
 
     private fun validateFields(): Boolean {
-        return validatorService.validateName(binding.createBandEtName)
+        return validatorService.validateName(binding.createBandEtName, binding.createBandEtNameLayout)
     }
 
     companion object {

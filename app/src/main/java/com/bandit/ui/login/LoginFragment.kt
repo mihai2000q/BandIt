@@ -97,7 +97,7 @@ class LoginFragment : Fragment() {
                             { result = this@LoginFragment.loginOnSuccess() }
                         ) { this@LoginFragment.onLoginFailure() }
                     } else {
-                        loginEtEmail.error =
+                        loginEtEmailLayout.error =
                             resources.getString(R.string.et_email_validation_email_not_used)
                         loginEtPassword.setText("")
                     }
@@ -113,6 +113,7 @@ class LoginFragment : Fragment() {
         //TODO: Remove comment, but for debugging purposes this will be deactivated
         /*return validatorService.validateEmailVerified(
             binding.loginEtEmail,
+            binding.loginEtEmailLayout
             { login() },
             viewModel.auth
         )*/
@@ -136,8 +137,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        return  validatorService.validateEmail(binding.loginEtEmail) &&
-                validatorService.validatePassword(binding.loginEtPassword)
+        return  validatorService.validateEmail(binding.loginEtEmail, binding.loginEtEmailLayout) &&
+                validatorService.validatePassword(binding.loginEtPassword, binding.loginEtPasswordLayout)
     }
 
     private suspend fun login(): Boolean? = coroutineScope {
