@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver

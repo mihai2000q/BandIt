@@ -12,6 +12,7 @@
     <string name="et_date_validation">You must enter a date</string>
     <string name="et_time_validation">You must enter a time</string>
     <string name="et_duration_validation">You must enter a duration</string>
+    <string name="et_duration_validation_valid">You must enter a valid duration (5 chars)</string>
     <string name="et_nickname_validation">You must enter a nickname</string>
     <string name="cb_terms_validation">You must accept the terms and conditions</string>
     <string name="nothing_changed_validation">You must make a change</string>

@@ -56,7 +56,7 @@ class PersonalNotesInstrumentedTest {
     }
     @Test
     fun personal_notes_fragment_click_edit_note() {
-        val newTitle = "don't forget the lyrics"
+        val newTitle = "the lyrics"
         val newMessage = "I should probably not forget to write the lyrics for my beautiful band"
         this.addNote()
 
@@ -78,7 +78,7 @@ class PersonalNotesInstrumentedTest {
     }
     @Test
     fun personal_notes_fragment_popup_edit_note() {
-        val newTitle = "don't forget the lyrics"
+        val newTitle = "the lyrics"
         val newMessage = "I should probably not forget to write the lyrics for my beautiful band"
         this.addNote()
 

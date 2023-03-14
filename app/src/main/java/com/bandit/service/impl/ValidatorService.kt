@@ -1,8 +1,11 @@
 package com.bandit.service.impl
 
 import android.app.Activity
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import com.bandit.R
 import com.bandit.auth.Authenticator
 import com.bandit.constant.Constants
@@ -15,6 +18,7 @@ class ValidatorService(
     override fun validateEmail(editText: EditText, editTextLayout: TextInputLayout) : Boolean {
         if(editText.text.isNullOrBlank()) {
             editTextLayout.error = activity.resources.getText(R.string.et_email_validation_empty)
+            this.applyEmptyListener(editText, editTextLayout)
             return false
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(editText.text).matches()) {
@@ -26,6 +30,7 @@ class ValidatorService(
     override fun validatePassword(editText: EditText, editTextLayout: TextInputLayout): Boolean {
         if(editText.text.isNullOrBlank()) {
             editTextLayout.error = activity.resources.getText(R.string.et_pass_validation_empty)
+            this.applyEmptyListener(editText, editTextLayout)
             return false
         }
         if(editText.text.length < Constants.PASSWORD_MIN_CHARACTERS) {
@@ -86,6 +91,33 @@ class ValidatorService(
             editTextLayout.error = activity.resources.getString(R.string.et_duration_validation)
             return false
         }
+        if(editText.text.length != 5) {
+            editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)
+            return false
+        }
         return true
+    }
+
+    private fun applyEmptyListener(editText: EditText, editTextLayout: TextInputLayout) {
+        editText.addTextChangedListener {
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    if(s.toString().isNotBlank()) {
+                        editTextLayout.error = null
+                        editText.removeTextChangedListener(this)
+                    }
+                }
+
+            }
+        }
     }
 }
