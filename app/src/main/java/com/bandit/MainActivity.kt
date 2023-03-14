@@ -10,13 +10,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -131,6 +129,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, navController: NavController) {
+        swipeRefreshLayout.setDistanceToTriggerSync(AndroidUtils.getScreenHeight(this) / 4)
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModelStore.clear()
@@ -222,6 +221,14 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.action_bar_profile -> {
                 lifecycleScope.launch {
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                        AndroidComponents.toastNotification(
+                            applicationContext,
+                            resources.getString(R.string.minimum_sdk_too_low),
+                            Toast.LENGTH_LONG
+                        )
+                        return@launch
+                    }
                     accountViewModel = ViewModelProvider(
                         this@MainActivity)[AccountViewModel::class.java]
                     val accountIntent = Intent(this@MainActivity,

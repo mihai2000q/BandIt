@@ -53,13 +53,13 @@ class BandFragment : Fragment(), OnQueryTextListener {
             )
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable2,
-                bandBtInvitations,
+                bandBtOptions,
                 viewModel.bandInvitations.value?.size ?: 0,
                 viewModel.bandInvitations.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
-            // TODO: TEST THIS OUT
             viewModel.bandInvitations.observe(viewLifecycleOwner) {
+                if(viewModel.badgePreviousSize == badgeDrawable.number) return@observe
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
                 badgeDrawable2.isVisible = it.isNotEmpty()
@@ -117,6 +117,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
             bandBtInvitations.setOnClickListener {
                 badgeDrawable.isVisible = false
                 badgeDrawable2.isVisible = false
+                viewModel.badgePreviousSize = badgeDrawable.number
                 AndroidUtils.showDialogFragment(
                     bandInvitationDialogFragment,
                     childFragmentManager

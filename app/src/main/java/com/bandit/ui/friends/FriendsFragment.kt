@@ -137,7 +137,14 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onAddToBand(account: Account) {
-        if(bandViewModel.band.value!!.members.containsKey(account)) {
+        if(bandViewModel.band.value!!.isEmpty()) {
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_invitation_fail)
+            )
+            return
+        }
+        else if(bandViewModel.band.value!!.members.containsKey(account)) {
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_member_same_band_toast)

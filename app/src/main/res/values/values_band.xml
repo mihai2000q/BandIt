@@ -22,6 +22,7 @@
     <string name="band_member_tried_kick_toast">Cannot kick this member</string>
     <string name="band_member_same_band_toast">This member is already in your band</string>
     <string name="band_member_in_band_toast">This member is in a band already</string>
+    <string name="band_invitation_fail">Band Invitation Cannot Be Sent</string>
     <string name="band_abandoned_toast">Band Abandoned</string>
     <string name="band_disbanded_toast">Band Disbanded</string>
     <string name="model_band_member_you">You</string>

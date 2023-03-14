@@ -21,6 +21,7 @@ class SocialFragment : Fragment() {
     private val binding get() = _binding!!
     private val friendsViewModel: FriendsViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
+    var badgePreviousSize = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,7 @@ class SocialFragment : Fragment() {
                             friendsViewModel.friendsTabOpen.observe(viewLifecycleOwner) { value ->
                                 badge.isVisible = !value
                             }
+                            if(friendsViewModel.badgePreviousSize == badge.number) return@observe
                             this@SocialFragment.setTabBadge(badge, it)
                         }
                     }
@@ -54,6 +56,7 @@ class SocialFragment : Fragment() {
                             bandViewModel.bandTabOpen.observe(viewLifecycleOwner) { value ->
                                 badge.isVisible = !value
                             }
+                            if(bandViewModel.badgePreviousSize == badge.number) return@observe
                             this@SocialFragment.setTabBadge(badge, it)
                         }
                     }
@@ -71,7 +74,6 @@ class SocialFragment : Fragment() {
         badge: BadgeDrawable,
         list: List<*>
     ) {
-        if(friendsViewModel.badgePreviousSize == badge.number) return
         badge.isVisible = list.isNotEmpty()
         badge.number = list.size
         badge.maxCharacterCount = 99
