@@ -29,4 +29,7 @@
     <color name="band_member_my_account_color">#D1D1D1</color>
     <color name="band_member_color">#F3F3F3</color>
     <color name="band_invitation_color">@color/faded_yellow</color>
+
+    <color name="band_member_accepted">@color/dark_sea_green</color>
+    <color name="band_member_pending">@color/red</color>
 </resources>

@@ -56,11 +56,21 @@ data class BandMemberAdapter(
                     memberStatus.setText(R.string.band_member_creator)
                 else if(hasAccepted) {
                     memberStatus.setText(R.string.band_member_accepted_true)
-                    memberStatus.setTextColor(Color.GREEN)
+                    memberStatus.setTextColor(
+                        ContextCompat.getColor(
+                            holder.binding.root.context,
+                            R.color.band_member_accepted
+                        )
+                    )
                 }
                 else {
                     memberStatus.setText(R.string.band_member_accepted_false)
-                    memberStatus.setTextColor(Color.RED)
+                    memberStatus.setTextColor(
+                        ContextCompat.getColor(
+                            holder.binding.root.context,
+                            R.color.band_member_pending
+                        )
+                    )
                 }
                 if(account == myAccount) {
                     bandMemberCard.setCardBackgroundColor(

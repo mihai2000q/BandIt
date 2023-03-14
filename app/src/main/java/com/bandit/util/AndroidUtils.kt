@@ -23,6 +23,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
@@ -395,9 +396,21 @@ object AndroidUtils {
         }
         fabOption.setOnClickListener {
             optionButtonOpen = if(optionButtonOpen) {
+                fabOption.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        fragment.requireContext(),
+                        R.drawable.ic_camera
+                    )
+                )
                 closeAll()
                 false
             } else {
+                fabOption.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        fragment.requireContext(),
+                        R.drawable.ic_clear
+                    )
+                )
                 openAll()
                 true
             }
@@ -435,9 +448,21 @@ object AndroidUtils {
                 ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
+                    fabOption.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            fragment.requireContext(),
+                            R.drawable.ic_camera
+                        )
+                    )
                     closeAll()
                     false
                 } else {
+                    fabOption.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            fragment.requireContext(),
+                            R.drawable.ic_clear
+                        )
+                    )
                     openAll()
                     true
                 }
