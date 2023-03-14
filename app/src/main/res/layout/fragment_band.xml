@@ -50,27 +50,13 @@
                 android:layout_marginVertical="8dp"
                 android:clickable="true"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/band_bt_invitations"
-                app:layout_constraintEnd_toEndOf="@+id/band_bt_invitations"
+                app:layout_constraintBottom_toTopOf="@+id/band_bt_add"
+                app:layout_constraintEnd_toEndOf="@+id/band_bt_add"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:srcCompat="@drawable/ic_delete"
                 tools:ignore="ContentDescription" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/band_bt_invitations"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:clickable="true"
-                android:contentDescription="@string/content_description_bt_band_invitations"
-                android:tooltipText="@string/content_description_bt_band_invitations"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/band_bt_add"
-                app:layout_constraintEnd_toEndOf="@+id/band_bt_add"
-                app:layout_constraintTop_toBottomOf="@+id/band_bt_abandon"
-                app:srcCompat="@drawable/ic_mail_outline" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/band_bt_add"
@@ -81,10 +67,24 @@
                 android:contentDescription="@string/content_description_bt_add_band_members"
                 android:tooltipText="@string/content_description_bt_add_band_members"
                 android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/band_bt_invitations"
+                app:layout_constraintEnd_toEndOf="@+id/band_bt_invitations"
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_abandon"
+                app:srcCompat="@drawable/ic_group_add" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/band_bt_invitations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_band_invitations"
+                android:tooltipText="@string/content_description_bt_band_invitations"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/band_bt_options"
                 app:layout_constraintEnd_toEndOf="@+id/band_bt_options"
-                app:layout_constraintTop_toBottomOf="@+id/band_bt_invitations"
-                app:srcCompat="@drawable/ic_group_add" />
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_add"
+                app:srcCompat="@drawable/ic_mail_outline" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/band_bt_options"
@@ -101,7 +101,7 @@
                 app:backgroundTint="@color/dark_sea_green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/band_bt_add"
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_invitations"
                 app:srcCompat="@drawable/ic_camera" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

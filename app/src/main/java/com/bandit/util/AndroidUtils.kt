@@ -373,7 +373,8 @@ object AndroidUtils {
         var optionButtonOpen = false
         rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if(scrollY == oldScrollY)
-                fabOption.startAnimation(slideInAnim)
+                if (oldScrollY != 0)
+                    fabOption.startAnimation(slideInAnim)
             else {
                 if(optionButtonOpen) {
                     optionButtonOpen = false
