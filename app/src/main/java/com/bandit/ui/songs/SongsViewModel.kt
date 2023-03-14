@@ -72,6 +72,8 @@ class SongsViewModel : ViewModel() {
         duration: Duration? = null
     ) {
         _songs.value = _songRepository.filterSongs(name, releaseDate, albumName, duration)
+        if(albumMode.value == true)
+            this.refreshAlbums()
     }
 
     suspend fun addAlbum(album: Album) = coroutineScope {

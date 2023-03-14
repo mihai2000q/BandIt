@@ -16,6 +16,7 @@ import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,9 +35,10 @@ class SongsInstrumentedTest {
     fun songs_fragment_ui() {
         // the songs mode and album share the same UI components
         // therefore, there is no need to check them as well
-        onView(withId(R.id.songs_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.songs_bt_filter)).check(matches(isDisplayed()))
-        onView(withId(R.id.songs_bt_album_mode)).check(matches(isDisplayed()))
+        onView(withId(R.id.songs_bt_options)).check(matches(isDisplayed()))
+        onView(withId(R.id.songs_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.songs_bt_filter)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.songs_bt_album_mode)).check(matches(not(isDisplayed())))
         onView(withId(R.id.songs_search_view)).check(matches(isDisplayed()))
         try {
             // if there is a concert, then check this
@@ -45,6 +47,12 @@ class SongsInstrumentedTest {
             // if the above does not work, then check this
             onView(withId(R.id.songs_rv_empty)).check(matches(isDisplayed()))
         }
+
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.songs_bt_filter)).check(matches(isDisplayed()))
+        onView(withId(R.id.songs_bt_album_mode)).check(matches(isDisplayed()))
     }
     // Condition - there is only one song with these properties
     @Test
@@ -79,7 +87,7 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(songName)), swipeRight()))
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name_layout))
+        onView(withId(R.id.song_et_name))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -129,22 +137,26 @@ class SongsInstrumentedTest {
         val searchValue = "catalyst"
         this.addSong(songName)
 
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name_layout))
+        onView(withId(R.id.song_et_name))
             .perform(typeText(searchValue + 23), closeSoftKeyboard())
-        onView(withId(R.id.song_et_release_date_layout)).perform(click())
+        onView(withId(R.id.song_et_release_date)).perform(click())
         onView(withText("OK")).perform(click())
         onView(withId(R.id.song_button)).perform(click())
 
         AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been filtered out")
 
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name_layout))
+        onView(withId(R.id.song_et_name))
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -154,6 +166,8 @@ class SongsInstrumentedTest {
     @Test
     fun songs_fragment_add_remove_album() {
         val albumName = "Debut Album"
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         this.removeAlbum(albumName)
@@ -165,6 +179,8 @@ class SongsInstrumentedTest {
     fun songs_fragment_edit_album() {
         val albumName = "The Vikings"
         val newName = "The Anarchist Vikings"
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         this.editAlbum(albumName, newName)
@@ -173,6 +189,8 @@ class SongsInstrumentedTest {
     // Condition - there is only one album with these properties
     @Test
     fun songs_fragment_search_view_filter_albums() {
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         val albumName = "Working and Drinking"
         val searchValue = "work"
@@ -199,27 +217,33 @@ class SongsInstrumentedTest {
     // Condition - there is only one album with these properties
     @Test
     fun songs_fragment_filter_button_album() {
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         val albumName = "Drinking and Walking"
         val searchValue = "drink"
         this.addAlbum(albumName)
 
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name_layout))
+        onView(withId(R.id.album_et_name))
             .perform(typeText(searchValue + 23), closeSoftKeyboard())
-        onView(withId(R.id.album_et_release_date_layout)).perform(click())
+        onView(withId(R.id.album_et_release_date)).perform(click())
         onView(withText("OK")).perform(click())
         onView(withId(R.id.album_button)).perform(click())
 
         AndroidTestUtil.checkIfItIsNotDisplayed(albumName,
             "This album should have been filtered out")
 
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_filter)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name_layout))
+        onView(withId(R.id.album_et_name))
             .perform(clearText(), typeText(searchValue), closeSoftKeyboard())
         onView(withId(R.id.album_button)).perform(click())
 
@@ -233,6 +257,8 @@ class SongsInstrumentedTest {
         val albumName = "All The Things I Hate"
         this.addSong(songName)
         this.addSong(songName2)
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         // add first song to album
@@ -260,6 +286,8 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // check if the displayable album name is labeled on the songs
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withIndex(withText(albumName), 0)).check(matches(isDisplayed()))
         onView(withIndex(withText(albumName), 1)).check(matches(isDisplayed()))
@@ -267,11 +295,15 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // edit album
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         val newAlbumName = "My Dear Nemesis"
         this.editAlbum(albumName, newAlbumName)
 
         // check if the displayable new album name is labeled on the songs
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withIndex(withText(newAlbumName), 0)).check(matches(isDisplayed()))
         onView(withIndex(withText(newAlbumName), 1)).check(matches(isDisplayed()))
@@ -284,6 +316,8 @@ class SongsInstrumentedTest {
         this.removeSong(songName2)
 
         // check if the displayed name on the album changed
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         // index 1 because even though the song is not visible it is still being selected
         // Espresso :thumbs_down: :(
@@ -298,6 +332,8 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
         this.removeAlbum(newAlbumName)
 
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         AndroidTestUtil.checkIfItIsNotDisplayed(newAlbumName,
             "This album should have been deleted")
@@ -309,6 +345,8 @@ class SongsInstrumentedTest {
         val songName = "Raimond The Wind Walker"
         val albumName = "Raimond's Album"
         this.addSong(songName)
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         // add song to album
@@ -327,10 +365,14 @@ class SongsInstrumentedTest {
 
         // check if the song is still on the songs list
         onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         onView(withText(songName)).check(matches(isDisplayed()))
 
         this.removeSong(songName)
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.removeAlbum(albumName)
     }
@@ -341,6 +383,8 @@ class SongsInstrumentedTest {
         val newSongName = "The Fire Tail"
         val albumName = "Raimond's Album"
         this.addSong(songName)
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.addAlbum(albumName)
         // add song to album
@@ -354,7 +398,7 @@ class SongsInstrumentedTest {
         onView(withText(songName)).perform(swipeRight())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name_layout))
+        onView(withId(R.id.song_et_name))
             .perform(clearText(), typeText(newSongName), closeSoftKeyboard())
 
         onView(withId(R.id.song_button)).perform(click())
@@ -367,20 +411,62 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // check if the song changed in the song list too
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         AndroidTestUtil.checkIfItIsNotDisplayed(songName,
             "This song should have been edited from the song list")
         onView(withText(newSongName)).check(matches(isDisplayed()))
 
         this.removeSong(newSongName)
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.removeAlbum(albumName)
     }
+    @Test
+    fun songs_fragment_add_new_song_to_album() {
+        val songName = "Ping Beer"
+        val albumName = "Beers and pongs"
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.addAlbum(albumName)
+
+        onView(withText(albumName)).perform(click())
+        onView(withId(R.id.album_detail_bt_add_new_song)).perform(click())
+
+        onView(withId(R.id.song_et_name)).perform(typeText(songName))
+
+        onView(withId(R.id.song_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(songName)).check(matches(isDisplayed()))
+
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+
+        onView(withText(songName)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.removeAlbum(albumName)
+
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.removeSong(songName)
+    }
     private fun addSong(name: String) {
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.song_et_name_layout)).perform(typeText(name))
+        onView(withId(R.id.song_et_name)).perform(typeText(name))
 
         onView(withId(R.id.song_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -419,7 +505,7 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 
-        onView(withId(R.id.song_et_name_layout))
+        onView(withId(R.id.song_et_name))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.song_button)).perform(click())
 
@@ -433,17 +519,19 @@ class SongsInstrumentedTest {
                     hasDescendant(withText(name)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
 
-        onView(withId(R.id.album_et_name_layout))
+        onView(withId(R.id.album_et_name))
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.album_button)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
     }
     private fun addAlbum(name: String) {
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
-        onView(withId(R.id.album_et_name_layout)).perform(typeText(name))
+        onView(withId(R.id.album_et_name)).perform(typeText(name))
 
         onView(withId(R.id.album_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))

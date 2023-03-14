@@ -63,6 +63,7 @@ class SongsFragment : Fragment() {
                 songsSearchView.setQuery("", false)
                 viewModel.albumMode.value = !viewModel.albumMode.value!!
                 songsBtOptions.performClick()
+                songsBtOptions.performClick()
             }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()

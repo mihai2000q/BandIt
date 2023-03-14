@@ -73,9 +73,10 @@ class AlbumDetailDialogFragment(
                     childFragmentManager
                 )
             }
-            viewModel.selectedAlbum.observe(viewLifecycleOwner) {
-                albumDetailTvAlbumName.text = it.name
-                albumDetailDuration.text = it.duration.print()
+            viewModel.albums.observe(viewLifecycleOwner) {
+                val album = it.first { a -> viewModel.selectedAlbum.value?.id == a.id }
+                albumDetailTvAlbumName.text = album.name
+                albumDetailDuration.text = album.duration.print()
                 ItemTouchHelper(object : TouchHelper<Song>(
                     super.requireContext(),
                     albumDetailRvSongList,
@@ -83,14 +84,14 @@ class AlbumDetailDialogFragment(
                     { song -> onEditSong(song) }
                 ) {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = it.songs.sorted().reversed()
+                        items = album.songs.sorted().reversed()
                         super.onSwiped(viewHolder, direction)
                     }
                 }).attachToRecyclerView(albumDetailRvSongList)
                 albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,
-                        it.songs.sorted().reversed(),
+                        album.songs.sorted().reversed(),
                         viewModel,
                         onRemoveFromAlbum,
                         { song -> onEditSong(song) },
