@@ -10,7 +10,7 @@
     android:layout_marginBottom="16dp"
     app:cardBackgroundColor="@color/band_member_color"
     app:cardCornerRadius="60dp"
-    app:cardElevation="20dp"
+    app:cardElevation="10dp"
     app:cardMaxElevation="20dp"
     app:cardPreventCornerOverlap="true">
 

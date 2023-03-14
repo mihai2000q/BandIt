@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/model_concert_simple"
     app:cardCornerRadius="30dp"
-    app:cardElevation="20dp"
+    app:cardElevation="10dp"
     app:cardMaxElevation="20dp"
     app:cardPreventCornerOverlap="true">
 
@@ -39,37 +39,22 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/concert_country"
             app:layout_constraintEnd_toStartOf="@+id/concert_time"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/concert_country"
             app:layout_constraintTop_toBottomOf="@+id/concert_title" />
 
         <TextView
             android:id="@+id/concert_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="@string/default_value"
             android:textColor="@color/model_concert_label"
             app:layout_constraintBottom_toBottomOf="@+id/concert_date"
-            app:layout_constraintEnd_toStartOf="@+id/concert_duration"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/concert_date"
             app:layout_constraintTop_toTopOf="@+id/concert_date" />
-
-        <TextView
-            android:id="@+id/concert_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:fontFamily="@font/poppins_light"
-            android:text="@string/default_value"
-            android:textColor="@color/model_concert_label"
-            app:layout_constraintBottom_toBottomOf="@+id/concert_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/concert_time"
-            app:layout_constraintTop_toTopOf="@+id/concert_time" />
 
         <TextView
             android:id="@+id/concert_city"
