@@ -73,6 +73,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     friendsAddDialogFragment,
                     childFragmentManager
                 )
+                friendsBtOptions.performClick()
             }
             friendsBtRequests.setOnClickListener {
                 badgeDrawable.isVisible = false
@@ -81,6 +82,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     friendsRequestsDialogFragment,
                     childFragmentManager
                 )
+                friendsBtOptions.performClick()
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             AndroidUtils.setRecyclerViewEmpty(

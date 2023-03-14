@@ -366,52 +366,28 @@ object AndroidUtils {
         fragment: Fragment,
         rvList: RecyclerView,
         fabOption: FloatingActionButton,
-        vararg buttons: View
+        vararg buttons: FloatingActionButton
     ) {
-        val fabOpenAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
-        val fabCloseAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
         val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
         val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
         var optionButtonOpen = false
-        val closeAll = {
-            buttons.forEach { bt ->
-                bt.startAnimation(fabCloseAnim)
-            }
-        }
-        val openAll = {
-            buttons.forEach { bt ->
-                bt.startAnimation(fabOpenAnim)
-            }
-        }
         rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if(scrollY == oldScrollY)
                 fabOption.startAnimation(slideInAnim)
             else {
                 if(optionButtonOpen) {
                     optionButtonOpen = false
-                    closeAll()
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                 }
                 fabOption.startAnimation(slideOutAnim)
             }
         }
         fabOption.setOnClickListener {
             optionButtonOpen = if(optionButtonOpen) {
-                fabOption.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        fragment.requireContext(),
-                        R.drawable.ic_camera
-                    )
-                )
-                closeAll()
+                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                 false
             } else {
-                fabOption.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        fragment.requireContext(),
-                        R.drawable.ic_clear
-                    )
-                )
-                openAll()
+                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                 true
             }
         }
@@ -422,41 +398,11 @@ object AndroidUtils {
         rvList: RecyclerView?,
         band: LiveData<Band>,
         fabOption: FloatingActionButton,
-        vararg buttons: View
+        vararg buttons: FloatingActionButton
     ) {
-        val fabOpenAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
-        val fabCloseAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
         val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
         val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
         var optionButtonOpen = false
-        val closeAll = {
-            fabOption.setImageDrawable(
-                ContextCompat.getDrawable(
-                    fragment.requireContext(),
-                    R.drawable.ic_camera
-                )
-            )
-            buttons.forEach { bt ->
-                bt.startAnimation(fabCloseAnim)
-                bt.postOnAnimation {
-                    bt.visibility = View.INVISIBLE
-                }
-            }
-        }
-        val openAll = {
-            fabOption.setImageDrawable(
-                ContextCompat.getDrawable(
-                    fragment.requireContext(),
-                    R.drawable.ic_clear
-                )
-            )
-            buttons.forEach { bt ->
-                bt.startAnimation(fabOpenAnim)
-                bt.postOnAnimation {
-                    bt.visibility = View.VISIBLE
-                }
-            }
-        }
         fabOption.setOnClickListener {
             if(band.value!!.isEmpty())
                 AndroidComponents.snackbarNotification(
@@ -466,10 +412,10 @@ object AndroidUtils {
                 ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
-                    closeAll()
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                     false
                 } else {
-                    openAll()
+                    this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                     true
                 }
             }
@@ -482,9 +428,50 @@ object AndroidUtils {
             else {
                 if(optionButtonOpen) {
                     optionButtonOpen = false
-                    closeAll()
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                 }
                 fabOption.startAnimation(slideOutAnim)
+            }
+        }
+    }
+
+    private fun closeAllFAB(
+        context: Context,
+        fabOption: FloatingActionButton,
+        buttons: List<FloatingActionButton>
+    ) {
+        val fabCloseAnim = AnimationUtils.loadAnimation(context, R.anim.fab_close)
+        fabOption.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_camera
+            )
+        )
+        buttons.forEach { bt ->
+            bt.startAnimation(fabCloseAnim)
+            bt.postOnAnimation {
+                bt.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun openAllFAB(
+        context: Context,
+        fabOption: FloatingActionButton,
+        buttons: List<FloatingActionButton>
+    ) {
+        val fabOpenAnim = AnimationUtils.loadAnimation(context, R.anim.fab_open)
+
+        fabOption.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_clear
+            )
+        )
+        buttons.forEach { bt ->
+            bt.startAnimation(fabOpenAnim)
+            bt.postOnAnimation {
+                bt.visibility = View.VISIBLE
             }
         }
     }

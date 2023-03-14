@@ -58,12 +58,10 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             scheduleSearchView.setOnQueryTextListener(this@ScheduleFragment)
             scheduleBtCalendarMode.setOnClickListener {
                 viewModel.calendarMode.value = !viewModel.calendarMode.value!!
+                scheduleBtOptions.performClick()
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
-                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                    this@ScheduleFragment) {
-                    if(it) calendarMode() else listMode()
-                }
+                if(it) calendarMode() else listMode()
             }
             AndroidUtils.setupFabOptionsCheckBand(
                 this@ScheduleFragment,
@@ -141,6 +139,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                     scheduleAddDialogFragment,
                     childFragmentManager
                 )
+                scheduleBtOptions.performClick()
             }
         }
     }

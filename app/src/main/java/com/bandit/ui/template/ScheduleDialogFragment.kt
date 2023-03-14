@@ -63,7 +63,7 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
         return  validatorService.validateName(binding.scheduleEtName, binding.scheduleEtNameLayout) &&
                 validatorService.validateDate(binding.scheduleEtDate, binding.scheduleEtDateLayout) &&
                 validatorService.validateTime(binding.scheduleEtTime, binding.scheduleEtTimeLayout) &&
-                validatorService.validateDuration(binding.scheduleEtDuration, binding.scheduleEtDurationLayout)
+                validatorService.validateStrictDuration(binding.scheduleEtDuration, binding.scheduleEtDurationLayout)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

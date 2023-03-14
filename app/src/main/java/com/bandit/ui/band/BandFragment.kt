@@ -103,6 +103,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
                     bandAddMemberDialogFragment,
                     childFragmentManager
                 )
+                bandBtOptions.performClick()
             }
             bandBtInvitations.setOnClickListener {
                 badgeDrawable.isVisible = false
@@ -111,6 +112,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
                     bandInvitationDialogFragment,
                     childFragmentManager
                 )
+                bandBtOptions.performClick()
             }
             bandBtCreate.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -152,6 +154,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onAbandon() {
+        binding.bandBtOptions.performClick()
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.band_alert_dialog_abandon_title),
@@ -169,6 +172,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onDisband() {
+        binding.bandBtOptions.performClick()
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.band_alert_dialog_disband_title),
