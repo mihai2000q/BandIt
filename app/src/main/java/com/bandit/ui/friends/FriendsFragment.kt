@@ -47,6 +47,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             AndroidUtils.setupRefreshLayout(this@FriendsFragment, friendsRvList)
             viewModel.friendsTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
+            val badgeDrawable2 = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 friendsBtRequests,
@@ -54,9 +55,18 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 viewModel.friendRequests.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable2,
+                friendsBtOptions,
+                viewModel.friendRequests.value?.size ?: 0,
+                viewModel.friendRequests.value?.isNotEmpty() ?: false,
+                ContextCompat.getColor(super.requireContext(), R.color.red)
+            )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
+                badgeDrawable2.isVisible = it.isNotEmpty()
+                badgeDrawable2.number = it.size
             }
             friendsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -65,11 +75,12 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 )
             }
             friendsBtRequests.setOnClickListener {
+                badgeDrawable.isVisible = false
+                badgeDrawable2.isVisible = false
                 AndroidUtils.showDialogFragment(
                     friendsRequestsDialogFragment,
                     childFragmentManager
                 )
-                badgeDrawable.isVisible = false
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             AndroidUtils.setRecyclerViewEmpty(

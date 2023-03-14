@@ -44,6 +44,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
             val bandInvitationDialogFragment = BandInvitationDialogFragment()
             viewModel.bandTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
+            val badgeDrawable2 = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 bandBtInvitations,
@@ -51,9 +52,19 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 viewModel.bandInvitations.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable2,
+                bandBtInvitations,
+                viewModel.bandInvitations.value?.size ?: 0,
+                viewModel.bandInvitations.value?.isNotEmpty() ?: false,
+                ContextCompat.getColor(super.requireContext(), R.color.red)
+            )
+            // TODO: TEST THIS OUT
             viewModel.bandInvitations.observe(viewLifecycleOwner) {
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
+                badgeDrawable2.isVisible = it.isNotEmpty()
+                badgeDrawable2.number = it.size
             }
             viewModel.band.observe(viewLifecycleOwner) {
                 if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
@@ -94,11 +105,12 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 )
             }
             bandBtInvitations.setOnClickListener {
+                badgeDrawable.isVisible = false
+                badgeDrawable2.isVisible = false
                 AndroidUtils.showDialogFragment(
                     bandInvitationDialogFragment,
                     childFragmentManager
                 )
-                badgeDrawable.isVisible = false
             }
             bandBtCreate.setOnClickListener {
                 AndroidUtils.showDialogFragment(
