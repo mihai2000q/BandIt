@@ -194,6 +194,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                     scheduleAddDialogFragment,
                     childFragmentManager
                 )
+                scheduleBtOptions.performClick()
             }
         }
     }
