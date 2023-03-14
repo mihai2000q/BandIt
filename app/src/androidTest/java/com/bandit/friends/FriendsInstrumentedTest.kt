@@ -13,6 +13,7 @@ import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,8 +34,9 @@ class FriendsInstrumentedTest {
     @Test
     fun friends_fragment_ui() {
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
-        onView(withId(R.id.friends_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.friends_bt_requests)).check(matches(isDisplayed()))
+        onView(withId(R.id.friends_bt_options)).check(matches(isDisplayed()))
+        onView(withId(R.id.friends_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.friends_bt_requests)).check(matches(not(isDisplayed())))
         onView(withId(R.id.friends_search_view)).check(matches(isDisplayed()))
         try {
             onView(withId(R.id.friends_rv_list)).check(matches(isDisplayed()))
@@ -42,6 +44,11 @@ class FriendsInstrumentedTest {
             onView(withId(R.id.friends_rv_empty)).check(matches(isDisplayed()))
         }
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.friends_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.friends_bt_requests)).check(matches(isDisplayed()))
     }
     // Condition - the user is not friends with the admin
     // the new user sends a friend request to the admin
@@ -49,6 +56,8 @@ class FriendsInstrumentedTest {
     fun friends_fragment_send_friend_request() {
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
         val accountToBefriend = "Admin"
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
 
         onView(withId(R.id.friends_dialog_search_view))
@@ -57,6 +66,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         // make sure that the admin account is not displayed anymore on the list
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -70,6 +81,8 @@ class FriendsInstrumentedTest {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         val accountToBefriend = ConstantsTest.accountNewName
         // check if the other account is still there
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -79,6 +92,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // reject the request
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -89,6 +104,8 @@ class FriendsInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friends fragment")
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -98,6 +115,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // the account should be displayed in add friends
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -111,6 +130,8 @@ class FriendsInstrumentedTest {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         val accountToBefriend = ConstantsTest.accountNewName
         // check if the other account is still there
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -120,6 +141,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // reject the request
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -130,6 +153,8 @@ class FriendsInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(accountToBefriend,
             "This account should not be displayed in friends fragment")
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -139,6 +164,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // the account should be displayed in add friends
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -153,6 +180,8 @@ class FriendsInstrumentedTest {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         val accountToBefriend = ConstantsTest.accountNewName
         // check if the other account is still there
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -163,6 +192,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // accept the request
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -172,6 +203,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
         onView(withText(accountToBefriend)).check(matches(isDisplayed()))
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -179,6 +212,8 @@ class FriendsInstrumentedTest {
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -190,6 +225,8 @@ class FriendsInstrumentedTest {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         val accountToBefriend = ConstantsTest.accountNewName
         // check if the other account is still there
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -200,6 +237,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(pressBack())
 
         // accept the request
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -209,6 +248,8 @@ class FriendsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
         onView(withText(accountToBefriend)).check(matches(isDisplayed()))
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -216,6 +257,8 @@ class FriendsInstrumentedTest {
             "This account should not be displayed in add friends")
         onView(isRoot()).perform(pressBack())
 
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_requests)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
@@ -240,6 +283,8 @@ class FriendsInstrumentedTest {
             "This account should not be displayed in friends fragment")
 
         // check if it is displayed again in people
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToUnfriend.dropLast(1)), closeSoftKeyboard())
@@ -261,6 +306,8 @@ class FriendsInstrumentedTest {
             "This account should not be displayed in friends fragment")
 
         // check if it is displayed again in people
+        onView(withId(R.id.friends_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.friends_bt_add)).perform(click())
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToUnfriend.dropLast(1)), closeSoftKeyboard())
