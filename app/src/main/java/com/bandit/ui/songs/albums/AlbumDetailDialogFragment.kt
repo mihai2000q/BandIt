@@ -43,7 +43,6 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
             AndroidUtils.getScreenWidth(super.requireActivity()),
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        val album = viewModel.selectedAlbum.value!!
         val albumAddSongDialogFragment = AlbumAddSongDialogFragment()
         with(binding) {
             val onRemoveFromAlbum = { song: Song ->
@@ -56,7 +55,7 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                 ) {
                     AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
                         this@AlbumDetailDialogFragment) {
-                        viewModel.removeSongFromAlbum(album, song)
+                        viewModel.removeSongFromAlbum(viewModel.selectedAlbum.value!!, song)
                     }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
@@ -64,37 +63,37 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                     )
                 }
             }
-            albumDetailTvAlbumName.text = album.name
-            albumDetailDuration.text = album.duration.print()
             albumDetailBtAddSongs.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     albumAddSongDialogFragment,
                     childFragmentManager
                 )
             }
-            viewModel.albums.observe(viewLifecycleOwner) {
+            viewModel.selectedAlbum.observe(viewLifecycleOwner) {
+                albumDetailTvAlbumName.text = it.name
+                albumDetailDuration.text = it.duration.print()
                 ItemTouchHelper(object : TouchHelper<Song>(
                     super.requireContext(),
                     albumDetailRvSongList,
                     onRemoveFromAlbum,
-                    { onEditSong(it) }
+                    { song -> onEditSong(song) }
                 ) {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = album.songs.sorted().reversed()
+                        items = it.songs.sorted().reversed()
                         super.onSwiped(viewHolder, direction)
                     }
                 }).attachToRecyclerView(albumDetailRvSongList)
                 albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,
-                        album.songs.sorted().reversed(),
+                        it.songs.sorted().reversed(),
                         viewModel,
                         onRemoveFromAlbum,
-                        { onEditSong(it) },
+                        { song -> onEditSong(song) },
                         resources.getString(R.string.album_remove_from_album)
                     )
             }
-            val songAddDialogFragment = SongAddDialogFragment(album)
+            val songAddDialogFragment = SongAddDialogFragment(viewModel.selectedAlbum.value!!)
             albumDetailBtAddNewSong.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     songAddDialogFragment,
