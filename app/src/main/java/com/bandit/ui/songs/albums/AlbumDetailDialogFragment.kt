@@ -15,8 +15,10 @@ import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
+import com.bandit.extension.print
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.helper.TouchHelper
+import com.bandit.ui.songs.SongAddDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -63,6 +65,7 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                 }
             }
             albumDetailTvAlbumName.text = album.name
+            albumDetailDuration.text = album.duration.print()
             albumDetailBtAddSongs.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     albumAddSongDialogFragment,
@@ -90,6 +93,13 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                         { onEditSong(it) },
                         resources.getString(R.string.album_remove_from_album)
                     )
+            }
+            val songAddDialogFragment = SongAddDialogFragment(album)
+            albumDetailBtAddNewSong.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    songAddDialogFragment,
+                    childFragmentManager
+                )
             }
         }
     }

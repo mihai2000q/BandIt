@@ -17,7 +17,7 @@
     <string name="bt_cancel">Cancel</string>
     <string name="bt_retry">Retry</string>
     <string name="bt_okay">Okay</string>
-    <string name="bt_add_song">Add Song</string>
+    <string name="bt_add_existing_song">Add Existing Song</string>
     <string name="bt_add_member">Add Friend To Band</string>
     <string name="bt_kick_member">Kick Member</string>
     <string name="bt_unfriend">Unfriend</string>

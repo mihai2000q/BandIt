@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.template.SongDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
 
-class SongAddDialogFragment : SongDialogFragment() {
+class SongAddDialogFragment(private val selectedAlbum: Album = Album.EMPTY) : SongDialogFragment() {
     private val bandViewModel: BandViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class SongAddDialogFragment : SongDialogFragment() {
             songButton.setOnClickListener {
                 if(validateFields())
                     AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
-                        this@SongAddDialogFragment) { addSong() }
+                        this@SongAddDialogFragment) { this@SongAddDialogFragment.addSong() }
             }
         }
     }
@@ -36,14 +37,23 @@ class SongAddDialogFragment : SongDialogFragment() {
                 Context.INPUT_METHOD_SERVICE,
                 songButton
             )
-            viewModel.addSong(
+            val newSong = if(selectedAlbum.isEmpty())
                 Song(
-                    songEtName.text.toString(),
-                    bandViewModel.band.value!!.id,
-                    ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    ParserUtils.parseDurationText(songEtDuration.text.toString())
+                    name = songEtName.text.toString(),
+                    bandId = bandViewModel.band.value!!.id,
+                    releaseDate =  ParserUtils.parseDate(songEtReleaseDate.text.toString()),
+                    duration = ParserUtils.parseDurationText(songEtDuration.text.toString())
                 )
-            )
+            else
+                Song(
+                    name = songEtName.text.toString(),
+                    bandId = bandViewModel.band.value!!.id,
+                    releaseDate = ParserUtils.parseDate(songEtReleaseDate.text.toString()),
+                    duration = ParserUtils.parseDurationText(songEtDuration.text.toString()),
+                    albumName = selectedAlbum.name,
+                    albumId = selectedAlbum.id
+                )
+            viewModel.addSong(newSong)
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.song_add_toast)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -66,6 +67,15 @@ class SongsFragment : Fragment() {
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
+            AndroidUtils.setupFabOptionsCheckBand(
+                this@SongsFragment,
+                songsRvList,
+                bandViewModel.band,
+                songsBtOptions,
+                songsBtAdd,
+                songsBtFilter,
+                songsBtAlbumMode
+            )
         }
     }
 
@@ -141,22 +151,6 @@ class SongsFragment : Fragment() {
             viewModel.albumFilters.observe(viewLifecycleOwner) {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
-            }
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                songsBtOptions
-            ) {
-                AndroidUtils.setupFabOptionsCheckBand(
-                    this@SongsFragment,
-                    songsRvAlbums,
-                    bandViewModel.band,
-                    songsBtOptions,
-                    songsBtAdd,
-                    songsBtFilter,
-                    songsBtAlbumMode
-                )
             }
         }
     }
@@ -236,15 +230,6 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
-            AndroidUtils.setupFabOptionsCheckBand(
-                this@SongsFragment,
-                songsRvList,
-                bandViewModel.band,
-                songsBtOptions,
-                songsBtAdd,
-                songsBtFilter,
-                songsBtAlbumMode
-            )
         }
     }
 
@@ -265,6 +250,7 @@ class SongsFragment : Fragment() {
                    addDialogFragment,
                    childFragmentManager
                )
+
            }
             songsBtFilter.setOnClickListener {
                 AndroidUtils.showDialogFragment(
