@@ -13,7 +13,7 @@ import com.bandit.util.AndroidUtils
 class FriendsDetailDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentFriendDetailBinding? = null
     private val binding get() = _binding!!
-    private val friendsViewModel: FriendsViewModel by activityViewModels()
+    private val viewModel: FriendsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +31,10 @@ class FriendsDetailDialogFragment : DialogFragment() {
             AndroidUtils.getScreenHeight(super.requireActivity()) * 3 / 4
         )
         with(binding) {
-            friendsViewModel.selectedFriend.observe(viewLifecycleOwner) {
+            viewModel.selectedFriend.observe(viewLifecycleOwner) {
                 AndroidUtils.setProfilePicture(
                     this@FriendsDetailDialogFragment,
-                    friendsViewModel,
+                    viewModel,
                     friendDetailProfilePic,
                     it.userUid
                 )

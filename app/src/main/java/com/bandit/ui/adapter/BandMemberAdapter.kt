@@ -1,6 +1,5 @@
 package com.bandit.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelBandMemberBinding
+import com.bandit.ui.band.BandMemberDetailDialogFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
@@ -24,6 +24,7 @@ data class BandMemberAdapter(
     private val friendsViewModel: FriendsViewModel,
     private val myAccount: Account
 ) : RecyclerView.Adapter<BandMemberAdapter.ViewHolder>() {
+    private val bandMemberDetailDialogFragment = BandMemberDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
     inner class ViewHolder(val binding: ModelBandMemberBinding) : RecyclerView.ViewHolder(binding.root)
@@ -46,6 +47,7 @@ data class BandMemberAdapter(
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
         with(holder) {
+            itemView.setOnClickListener { onClick(account) }
             itemView.setOnLongClickListener { onLongClick(holder, account) }
             with(binding) {
                 AndroidUtils.setProfilePicture(fragment, friendsViewModel,
@@ -132,6 +134,14 @@ data class BandMemberAdapter(
             popupMenu.show()
         }
         return true
+    }
+
+    private fun onClick(account: Account) {
+        viewModel.selectedBandMember.value = account
+        AndroidUtils.showDialogFragment(
+            bandMemberDetailDialogFragment,
+            fragment.childFragmentManager
+        )
     }
 
 }

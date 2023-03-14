@@ -98,6 +98,7 @@ object Constants {
         object Band {
             const val CREATE_BAND_TAG = "CREATE BAND DIALOG FRAGMENT"
             const val ADD_MEMBER_TAG = "BAND ADD MEMBER DIALOG FRAGMENT"
+            const val DETAIL_MEMBER_TAG = "BAND DETAIL MEMBER DIALOG FRAGMENT"
             const val VIEW_MODEL_TAG = "BandViewModel"
         }
     }
