@@ -38,7 +38,6 @@ class SignupInstrumentedTest {
         onView(withId(R.id.signup_tv_email)).check(matches(isDisplayed()))
         onView(withId(R.id.signup_tv_password)).check(matches(isDisplayed()))
         onView(withId(R.id.signup_iv_logo)).check(matches(isDisplayed()))
-        onView(withId(R.id.signup_title)).check(matches(isDisplayed()))
         onView(withId(R.id.signup_cb_terms)).check(matches(isNotChecked()))
     }
     @Test

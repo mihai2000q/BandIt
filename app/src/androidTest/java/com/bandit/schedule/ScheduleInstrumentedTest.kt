@@ -40,7 +40,6 @@ class ScheduleInstrumentedTest {
         // events mode
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.schedule_spinner_mode)).check(matches(not(isDisplayed())))
         onView(withId(R.id.schedule_calendar_view)).check(matches(not(isDisplayed())))
         try {
             // if there is a concert, then check this
@@ -50,13 +49,12 @@ class ScheduleInstrumentedTest {
             onView(withId(R.id.schedule_rv_empty)).check(matches(isDisplayed()))
         }
 
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         //calendar mode
         onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.schedule_spinner_mode)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_calendar_view)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(not(isDisplayed())))
         try {
@@ -145,7 +143,7 @@ class ScheduleInstrumentedTest {
     // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_calendar_mode_add_remove_event() {
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         val eventName = "New Event"
 
@@ -170,7 +168,7 @@ class ScheduleInstrumentedTest {
     fun schedule_fragment_calendar_mode_swipe_gestures() {
         val eventName = "New Event Today"
         val newName = "Training Session"
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -217,7 +215,7 @@ class ScheduleInstrumentedTest {
     // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_calendar_mode_filter_event() {
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         val eventName = "New Event Today"

@@ -48,7 +48,7 @@ class BandInstrumentedTest {
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(ConstantsTest.bandName)))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(ConstantsTest.bandName)))
     }
     // Precondition - needs an account that has no band
     @Test
@@ -76,7 +76,7 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // Precondition - have an account setup already with a band and you are the creator
     // the admin disbands the band
@@ -231,7 +231,7 @@ class BandInstrumentedTest {
 
         // check my profile's band
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // same as above
     @Test
@@ -269,7 +269,7 @@ class BandInstrumentedTest {
 
         // check my profile's band
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
@@ -360,6 +360,6 @@ class BandInstrumentedTest {
         onView(withId(R.id.band_bt_add)).check(matches(not(isDisplayed())))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.account_et_band_name)).check(matches(not(isDisplayed())))
     }
 }

@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
@@ -430,13 +431,31 @@ object AndroidUtils {
         val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
         var optionButtonOpen = false
         val closeAll = {
+            fabOption.setImageDrawable(
+                ContextCompat.getDrawable(
+                    fragment.requireContext(),
+                    R.drawable.ic_camera
+                )
+            )
             buttons.forEach { bt ->
                 bt.startAnimation(fabCloseAnim)
+                bt.postOnAnimation {
+                    bt.visibility = View.INVISIBLE
+                }
             }
         }
         val openAll = {
+            fabOption.setImageDrawable(
+                ContextCompat.getDrawable(
+                    fragment.requireContext(),
+                    R.drawable.ic_clear
+                )
+            )
             buttons.forEach { bt ->
                 bt.startAnimation(fabOpenAnim)
+                bt.postOnAnimation {
+                    bt.visibility = View.VISIBLE
+                }
             }
         }
         fabOption.setOnClickListener {
@@ -448,29 +467,19 @@ object AndroidUtils {
                 ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
-                    fabOption.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            fragment.requireContext(),
-                            R.drawable.ic_camera
-                        )
-                    )
                     closeAll()
                     false
                 } else {
-                    fabOption.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            fragment.requireContext(),
-                            R.drawable.ic_clear
-                        )
-                    )
                     openAll()
                     true
                 }
             }
         }
         rvList?.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if(scrollY == oldScrollY)
-                fabOption.startAnimation(slideInAnim)
+            if(scrollY == oldScrollY) {
+                if (oldScrollY != 0)
+                    fabOption.startAnimation(slideInAnim)
+            }
             else {
                 if(optionButtonOpen) {
                     optionButtonOpen = false

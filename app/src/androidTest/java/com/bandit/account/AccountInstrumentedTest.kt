@@ -32,15 +32,15 @@ class AccountInstrumentedTest {
     @Test
     fun account_fragment_ui() {
         onView(withId(R.id.account_iv_profile_picture)).check(matches(isDisplayed()))
-        onView(withId(R.id.account_tv_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.account_tv_nickname)).check(matches(isDisplayed()))
+        onView(withId(R.id.account_et_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.account_et_nickname)).check(matches(isDisplayed()))
         onView(withId(R.id.account_tv_role)).check(matches(isDisplayed()))
         onView(withId(R.id.account_spinner_role)).check(matches(isDisplayed()))
         onView(withId(R.id.account_et_name)).check(matches(withText(ConstantsTest.accountName)))
         onView(withId(R.id.account_et_nickname)).check(matches(withText(ConstantsTest.accountNickname)))
         onView(withText(ConstantsTest.accountRole)).check(matches(isDisplayed()))
         onView(withId(R.id.account_bt_sign_out)).check(matches(withText(R.string.bt_sign_out)))
-        onView(withId(R.id.account_bt_save)).check(matches(withText(R.string.bt_save)))
+        onView(withId(R.id.account_bt_update)).check(matches(withText(R.string.bt_save)))
     }
     // Condition - needs an account already setup
     @Test
@@ -57,7 +57,7 @@ class AccountInstrumentedTest {
             .perform(clearText(), typeText(newName), closeSoftKeyboard())
         onView(withId(R.id.account_et_nickname))
             .perform(clearText(), typeText(newNickname), closeSoftKeyboard())
-        onView(withId(R.id.account_bt_save)).perform(click())
+        onView(withId(R.id.account_bt_update)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 

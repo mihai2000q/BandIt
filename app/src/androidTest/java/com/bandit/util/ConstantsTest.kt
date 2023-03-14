@@ -20,4 +20,5 @@ object ConstantsTest {
     const val maximumDelayLoadingScreen = 7_500L //ms
     const val maximumDelayOperations = 2_000L //ms
     const val smallDelay = 1_000L //ms
+    const val fabAnimationDelay = 300L //ms
 }

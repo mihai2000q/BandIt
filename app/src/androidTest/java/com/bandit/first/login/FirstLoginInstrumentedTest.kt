@@ -35,9 +35,7 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.first_login_bt_next)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_bt_cancel)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.first_login_tv_nickname)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_spinner_role)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_profile_picture)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_tv_congrats)).check(matches(not(isDisplayed())))
@@ -68,7 +66,6 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.first_login_et_name)).check(matches(
             hasErrorText(AndroidTestUtil.getResourceString(R.string.et_name_validation))))
 
-        onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name))
             .perform(typeText(name), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -78,7 +75,6 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.first_login_et_nickname)).check(matches(
             hasErrorText(AndroidTestUtil.getResourceString(R.string.et_nickname_validation))))
 
-        onView(withId(R.id.first_login_tv_nickname)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
             .perform(typeText(nickname), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
