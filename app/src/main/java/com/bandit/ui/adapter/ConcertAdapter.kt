@@ -62,7 +62,6 @@ data class ConcertAdapter(
                 AndroidUtils.ifNullHide(concertCity, concert.city)
                 AndroidUtils.ifNullHide(concertCountry, concert.country)
                 AndroidUtils.ifNullHide(concertPlace, concert.place)
-                AndroidUtils.ifNullHide(concertDuration, concert.duration.print())
             }
         }
     }

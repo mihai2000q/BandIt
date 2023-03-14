@@ -15,6 +15,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -29,18 +30,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bandit.ui.component.LoadingActivity
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.LoadingActivity
 import com.bandit.ui.component.LoadingDialogFragment
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
@@ -48,6 +50,7 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -356,6 +359,100 @@ object AndroidUtils {
         rvList.setOnScrollChangeListener { _, scrollX, scrollY, _, _ ->
             fragment.requireActivity().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
                 .isEnabled = scrollX == 0 && scrollY == 0
+        }
+    }
+
+    fun setupFabOptions(
+        fragment: Fragment,
+        rvList: RecyclerView,
+        fabOption: FloatingActionButton,
+        vararg buttons: View
+    ) {
+        val fabOpenAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
+        val fabCloseAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
+        val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
+        val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
+        var optionButtonOpen = false
+        val closeAll = {
+            buttons.forEach { bt ->
+                bt.startAnimation(fabCloseAnim)
+            }
+        }
+        val openAll = {
+            buttons.forEach { bt ->
+                bt.startAnimation(fabOpenAnim)
+            }
+        }
+        rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if(scrollY == oldScrollY)
+                fabOption.startAnimation(slideInAnim)
+            else {
+                if(optionButtonOpen) {
+                    optionButtonOpen = false
+                    closeAll()
+                }
+                fabOption.startAnimation(slideOutAnim)
+            }
+        }
+        fabOption.setOnClickListener {
+            optionButtonOpen = if(optionButtonOpen) {
+                closeAll()
+                false
+            } else {
+                openAll()
+                true
+            }
+        }
+    }
+
+    fun setupFabOptionsCheckBand(
+        fragment: Fragment,
+        rvList: RecyclerView?,
+        band: LiveData<Band>,
+        fabOption: FloatingActionButton,
+        vararg buttons: View
+    ) {
+        val fabOpenAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
+        val fabCloseAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
+        val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
+        val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
+        var optionButtonOpen = false
+        val closeAll = {
+            buttons.forEach { bt ->
+                bt.startAnimation(fabCloseAnim)
+            }
+        }
+        val openAll = {
+            buttons.forEach { bt ->
+                bt.startAnimation(fabOpenAnim)
+            }
+        }
+        fabOption.setOnClickListener {
+            if(band.value!!.isEmpty())
+                AndroidComponents.toastNotification(
+                    fragment.requireContext(),
+                    fragment.resources.getString(R.string.empty_band_snackbar)
+                )
+            else {
+                optionButtonOpen = if(optionButtonOpen) {
+                    closeAll()
+                    false
+                } else {
+                    openAll()
+                    true
+                }
+            }
+        }
+        rvList?.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if(scrollY == oldScrollY)
+                fabOption.startAnimation(slideInAnim)
+            else {
+                if(optionButtonOpen) {
+                    optionButtonOpen = false
+                    closeAll()
+                }
+                fabOption.startAnimation(slideOutAnim)
+            }
         }
     }
 }

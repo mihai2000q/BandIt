@@ -98,6 +98,13 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     accountViewModel.account.value!!
                 )
             }
+            AndroidUtils.setupFabOptions(
+                this@FriendsFragment,
+                friendsRvList,
+                friendsBtOptions,
+                friendsBtAdd,
+                friendsBtRequests
+            )
         }
     }
 

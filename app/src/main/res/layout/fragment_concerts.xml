@@ -19,28 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/concerts_bt_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="8dp"
-            android:clickable="true"
-            android:contentDescription="@string/content_description_bt_add"
-            app:backgroundTint="@color/dark_sea_green"
-            app:srcCompat="@drawable/ic_add_white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/concerts_bt_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:layout_margin="8dp"
-            android:clickable="true"
-            android:contentDescription="@string/content_description_bt_filter"
-            app:backgroundTint="@color/purple"
-            app:srcCompat="@drawable/ic_filter" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/concerts_rv_list"
             android:layout_width="match_parent"
@@ -85,6 +63,61 @@
                 android:text="@string/recycler_view_concerts_empty"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/concerts_bt_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_filter"
+                android:visibility="invisible"
+                app:backgroundTint="@color/purple"
+                app:layout_constraintBottom_toTopOf="@+id/concerts_bt_add"
+                app:layout_constraintEnd_toEndOf="@+id/concerts_bt_add"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_filter" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/concerts_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_add"
+                android:visibility="invisible"
+                app:backgroundTint="@color/dark_sea_green"
+                app:layout_constraintBottom_toTopOf="@+id/concerts_bt_options"
+                app:layout_constraintEnd_toEndOf="@+id/concerts_bt_options"
+                app:layout_constraintTop_toBottomOf="@+id/concerts_bt_filter"
+                app:srcCompat="@drawable/ic_add_white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/concerts_bt_options"
+                style="@style/Widget.Material3.FloatingActionButton.Large.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_options"
+                android:tooltipText="@string/content_description_bt_options"
+                app:backgroundTint="@color/dark_sea_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/concerts_bt_add"
+                app:srcCompat="@drawable/ic_add_white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

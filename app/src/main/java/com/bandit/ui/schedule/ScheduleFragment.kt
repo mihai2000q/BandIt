@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -55,8 +56,8 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             AndroidUtils.setupRefreshLayout(this@ScheduleFragment, scheduleRvEventsView)
             scheduleRvEventsView.layoutManager = GridLayoutManager(context, 1)
             scheduleSearchView.setOnQueryTextListener(this@ScheduleFragment)
-            scheduleSwitchView.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.calendarMode.value = isChecked
+            scheduleBtCalendarMode.setOnClickListener {
+                viewModel.calendarMode.value = !viewModel.calendarMode.value!!
             }
             viewModel.calendarMode.observe(viewLifecycleOwner) {
                 AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
@@ -64,6 +65,14 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                     if(it) calendarMode() else listMode()
                 }
             }
+            AndroidUtils.setupFabOptionsCheckBand(
+                this@ScheduleFragment,
+                scheduleRvEventsView,
+                bandViewModel.band,
+                scheduleBtOptions,
+                scheduleBtAdd,
+                scheduleBtCalendarMode
+            )
         }
     }
 
@@ -75,8 +84,16 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     private fun calendarMode() {
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
+            scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_calendar_view)
+            scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_calendar_view)
+            scheduleBtCalendarMode.setImageDrawable(
+                ContextCompat.getDrawable(
+                    super.requireContext(),
+                    R.drawable.ic_list
+                )
+            )
             scheduleCalendarView.visibility = View.VISIBLE
-            scheduleSearchView.visibility = View.INVISIBLE
+            scheduleSearchView.visibility = View.GONE
             with(viewModel.currentDate.value!!) {
                 val cal = Calendar.Builder()
                 cal.setDate(this.year, this.month.ordinal, this.dayOfMonth)
@@ -119,12 +136,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 if(viewModel.calendarMode.value == false) return@setRecyclerViewEmpty
                 this@ScheduleFragment.highlightDays()
             }
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                scheduleBtAdd
-            ) {
+            scheduleBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     scheduleAddDialogFragment,
                     childFragmentManager
@@ -136,6 +148,14 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     private fun listMode() {
         with(binding) {
             scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
+            scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_list_events_view)
+            scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_list_events_view)
+            scheduleBtCalendarMode.setImageDrawable(
+                ContextCompat.getDrawable(
+                    super.requireContext(),
+                    R.drawable.ic_schedule
+                )
+            )
             scheduleCalendarView.visibility = View.GONE
             scheduleSearchView.visibility = View.VISIBLE
             viewModel.removeFilters()
@@ -169,12 +189,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             ) {
                 if(viewModel.calendarMode.value == true) return@setRecyclerViewEmpty
             }
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                scheduleBtAdd
-            ) {
+            scheduleBtAdd.setOnClickListener {
                 scheduleAddDialogFragment.date.value = null
                 AndroidUtils.showDialogFragment(
                     scheduleAddDialogFragment,

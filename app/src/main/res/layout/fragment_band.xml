@@ -16,71 +16,112 @@
         android:text="@string/default_value"
         android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/band_bt_abandon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/bt_abandon" />
-
-    <LinearLayout
-        android:id="@+id/band_horizontal_layout"
+    <SearchView
+        android:id="@+id/band_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:orientation="horizontal">
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/search_view">
 
-        <SearchView
-            android:id="@+id/band_search_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/search_view" />
+    </SearchView>
 
-        <ImageButton
-            android:id="@+id/band_bt_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/content_description_bt_add"
-            app:srcCompat="@drawable/ic_group_add" />
-
-        <ImageButton
-            android:id="@+id/band_bt_invitations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/content_description_bt_request"
-            app:srcCompat="@drawable/ic_mail_outline" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/band_rv_member_list"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"
-        tools:listitem="@layout/model_band_member">
+        android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/band_rv_member_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:listitem="@layout/model_band_member">
 
-    <LinearLayout
-        android:id="@+id/layout_band_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        </androidx.recyclerview.widget.RecyclerView>
 
-        <Button
-            android:id="@+id/band_bt_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:text="@string/band_button_create" />
-    </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/band_bt_abandon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/band_bt_invitations"
+                app:layout_constraintEnd_toEndOf="@+id/band_bt_invitations"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_delete"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/band_bt_invitations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_band_invitations"
+                android:tooltipText="@string/content_description_bt_band_invitations"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/band_bt_add"
+                app:layout_constraintEnd_toEndOf="@+id/band_bt_add"
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_abandon"
+                app:srcCompat="@drawable/ic_mail_outline" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/band_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_add_band_members"
+                android:tooltipText="@string/content_description_bt_add_band_members"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/band_bt_options"
+                app:layout_constraintEnd_toEndOf="@+id/band_bt_options"
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_invitations"
+                app:srcCompat="@drawable/ic_group_add" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/band_bt_options"
+                style="@style/Widget.Material3.FloatingActionButton.Large.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_options"
+                android:tooltipText="@string/content_description_bt_options"
+                app:backgroundTint="@color/dark_sea_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/band_bt_add"
+                app:srcCompat="@drawable/ic_add_white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_band_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <Button
+                android:id="@+id/band_bt_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="@string/band_button_create" />
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>

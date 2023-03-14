@@ -57,23 +57,13 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         with(binding) {
             AndroidUtils.setupRefreshLayout(this@ConcertsFragment, concertsRvList)
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                concertsBtAdd
-            ) {
+            concertsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertAddDialogFragment,
                     childFragmentManager
                 )
             }
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                concertsBtFilter
-            ) {
+            concertsBtFilter.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     concertFilterDialogFragment,
                     childFragmentManager
@@ -118,6 +108,14 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 badgeDrawable.number = viewModel.getFiltersOn()
                 badgeDrawable.isVisible = viewModel.getFiltersOn() > 0
             }
+            AndroidUtils.setupFabOptionsCheckBand(
+                this@ConcertsFragment,
+                concertsRvList,
+                bandViewModel.band,
+                concertsBtOptions,
+                concertsBtAdd,
+                concertsBtFilter
+            )
         }
     }
 

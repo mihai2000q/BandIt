@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -56,11 +57,12 @@ class BandFragment : Fragment(), OnQueryTextListener {
             }
             viewModel.band.observe(viewLifecycleOwner) {
                 if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
-                    bandBtAbandon.setText(R.string.bt_disband)
-                    bandBtAbandon.setOnClickListener { onDisband() }
+                    bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_disband_band)
+                    bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_disband_band)
+                    bandBtAbandon.setOnClickListener { this@BandFragment.onDisband() }
                 }
                 else
-                    bandBtAbandon.setOnClickListener { onAbandon() }
+                    bandBtAbandon.setOnClickListener { this@BandFragment.onAbandon() }
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
                     bandBtAbandon.visibility = View.GONE
@@ -105,6 +107,30 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 )
             }
             bandSearchView.setOnQueryTextListener(this@BandFragment)
+            viewModel.band.observe(viewLifecycleOwner) { band ->
+                if(band.isEmpty()) {
+                    AndroidUtils.setupFabOptions(
+                        this@BandFragment,
+                        bandRvMemberList,
+                        bandBtOptions,
+                        bandBtInvitations,
+                        bandBtAbandon
+                    )
+                    val fabCloseAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fab_close)
+                    bandBtAbandon.startAnimation(fabCloseAnim)
+                    bandBtAdd.startAnimation(fabCloseAnim)
+                    bandBtAdd.visibility = View.GONE
+                }
+                else
+                    AndroidUtils.setupFabOptions(
+                        this@BandFragment,
+                        bandRvMemberList,
+                        bandBtOptions,
+                        bandBtAdd,
+                        bandBtInvitations,
+                        bandBtAbandon
+                    )
+            }
         }
     }
 
