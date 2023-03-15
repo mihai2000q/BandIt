@@ -24,4 +24,5 @@
     <string name="content_description_spinner_role">Role</string>
     <string name="content_description_search_view">Search Item</string>
     <string name="content_description_display_options">Display Options</string>
+    <string name="content_description_bt_send">Send</string>
 </resources>

@@ -14,7 +14,7 @@ import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class TypingBottomSheetDialogFragment(
-    private val onDismissEvent: (EditText) -> Unit
+    private val event: (EditText) -> Unit
 ) : BottomSheetDialogFragment() {
     private var _binding: DialogFragmentBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -31,26 +31,29 @@ class TypingBottomSheetDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            AndroidUtils.showKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, bottomSheetDfEditText)
             bottomSheetDfEditText.requestFocus()
+            AndroidUtils.showKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, bottomSheetDfEditText)
             bottomSheetDfEditText.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    super.dismiss()
+                    bottomSheetDfBtSend.performClick()
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false
+            }
+            bottomSheetDfBtSend.setOnClickListener {
+                this@TypingBottomSheetDialogFragment.event.invoke(bottomSheetDfEditText)
+                super.dismiss()
             }
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if(!binding.bottomSheetDfEditText.text.isNullOrBlank())
-            onDismissEvent(binding.bottomSheetDfEditText)
+        binding.bottomSheetDfEditText.setText("")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

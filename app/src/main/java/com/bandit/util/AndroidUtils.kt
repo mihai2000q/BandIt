@@ -1,6 +1,5 @@
 package com.bandit.util
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -96,7 +95,6 @@ object AndroidUtils {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
-    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -110,7 +108,6 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
-    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -475,7 +472,6 @@ object AndroidUtils {
         rvList: RecyclerView,
         fabScrollUp: FloatingActionButton
     ) {
-        val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
         val outAnimDelay = AnimationUtils.loadAnimation(context, R.anim.zoom_out_delay)
         val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
         fabScrollUp.setOnClickListener {
