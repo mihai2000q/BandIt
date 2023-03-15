@@ -13,9 +13,11 @@ interface IValidatorService {
         login: suspend () -> Boolean?,
         authenticator: Authenticator
     ): Boolean?
+
     fun validateName(editText: EditText, editTextLayout: TextInputLayout): Boolean
     fun validateNickname(editText: EditText, editTextLayout: TextInputLayout): Boolean
     fun validateDate(editText: EditText, editTextLayout: TextInputLayout): Boolean
     fun validateTime(editText: EditText, editTextLayout: TextInputLayout): Boolean
+    fun validateStrictDuration(editText: EditText, editTextLayout: TextInputLayout): Boolean
     fun validateDuration(editText: EditText, editTextLayout: TextInputLayout): Boolean
 }

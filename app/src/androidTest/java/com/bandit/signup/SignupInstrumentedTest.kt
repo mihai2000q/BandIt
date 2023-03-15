@@ -44,42 +44,36 @@ class SignupInstrumentedTest {
     fun signup_fragment_validation() {
         // validation empty email field
         onView(withId(R.id.signup_bt_signup)).perform(click())
-        onView(withId(R.id.signup_et_email))
-            .check(matches(hasErrorText(getResourceString(R.string.et_email_validation_empty))))
+        onView(withText(R.string.et_email_validation_empty)).check(matches(isDisplayed()))
 
         // validation for email pattern
         onView(withId(R.id.signup_et_email))
             .perform(typeText("Not An Email"), closeSoftKeyboard())
         onView(withId(R.id.signup_bt_signup)).perform(click())
-        onView(withId(R.id.signup_et_email))
-            .check(matches(hasErrorText(getResourceString(R.string.et_email_validation_email))))
+        onView(withText(R.string.et_email_validation_email)).check(matches(isDisplayed()))
 
         // validation empty password field
         onView(withId(R.id.signup_et_email))
             .perform(clearText(), typeText(ConstantsTest.adminEmail), closeSoftKeyboard())
         onView(withId(R.id.signup_bt_signup)).perform(click())
-        onView(withId(R.id.signup_et_password))
-            .check(matches(hasErrorText(getResourceString(R.string.et_pass_validation_empty))))
+        onView(withText(R.string.et_pass_validation_empty)).check(matches(isDisplayed()))
 
         // validation minimum password
         onView(withId(R.id.signup_et_password))
             .perform(typeText("1234567"), pressImeActionButton())
-        onView(withId(R.id.signup_et_password))
-            .check(matches(hasErrorText(getResourceString(R.string.et_pass_validation_minimum))))
+        onView(withText(R.string.et_pass_validation_minimum)).check(matches(isDisplayed()))
 
         // validation terms and conditions
         onView(withId(R.id.signup_et_password))
             .perform(clearText(), typeText("123456789"), pressImeActionButton())
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText(R.string.cb_terms_validation)))
+        onView(withText(R.string.cb_terms_validation)).check(matches(isDisplayed()))
 
         // validation email already being used
         onView(withId(R.id.signup_cb_terms)).perform(click())
         onView(withId(R.id.signup_et_password))
             .perform(clearText(), typeText("123456789"), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
-        onView(withId(R.id.signup_et_email))
-            .check(matches(hasErrorText(getResourceString(R.string.et_email_validation_email_already_used))))
+        onView(withText(R.string.et_email_validation_email_already_used)).check(matches(isDisplayed()))
     }
     // Condition - there should not be another account with the same email
     @Test
