@@ -122,7 +122,7 @@ class LoginFragment : Fragment() {
 
     private fun onLoginFailure() {
         with(binding) {
-            loginEtPassword.error = resources.getString(R.string.et_pass_validation_incorrect)
+            loginEtPasswordLayout.error = resources.getString(R.string.et_pass_validation_incorrect)
             loginEtPassword.setText("")
         }
     }
