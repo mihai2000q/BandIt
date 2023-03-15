@@ -34,6 +34,7 @@
     <color name="text_field_background">#F8F4F4</color>
 
     <color name="fab_options">@color/dark_sea_green</color>
+    <color name="fab_scroll_up">@color/white</color>
     <color name="fab_add">#99D8D8</color>
     <color name="fab_filter">#B07BDF</color>
     <color name="fab_requests">#CAA8E9</color>

@@ -32,6 +32,13 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/concerts_bt_scroll_up"
+            style="@style/FabScrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
+
         <LinearLayout
             android:id="@+id/concerts_rv_band_empty"
             android:layout_width="match_parent"

@@ -240,6 +240,16 @@ class SongsFragment : Fragment() {
                 songsBtFilter,
                 songsBtAlbumMode
             )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvList,
+                songsBtScroll
+            )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvAlbums,
+                songsBtScrollUpAlbum
+            )
         }
     }
 

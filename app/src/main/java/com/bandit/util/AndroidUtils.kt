@@ -365,34 +365,46 @@ object AndroidUtils {
         fabOption: FloatingActionButton,
         vararg buttons: FloatingActionButton
     ) {
-        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
-        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
         var optionButtonOpen = false
-        rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if(scrollY == oldScrollY)
-                if (oldScrollY != 0)
-                    fabOption.startAnimation(zoomInAnim)
-            else {
-                if(optionButtonOpen) {
-                    optionButtonOpen = false
-                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
-                }
-                fabOption.startAnimation(zoomOutAnim)
+        fabOption.setOnClickListener {
+            optionButtonOpen = if(optionButtonOpen) {
+                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                false
+            } else {
+                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                true
             }
         }
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if(newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    if(optionButtonOpen) {
-                        optionButtonOpen = false
-                        this@AndroidUtils.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        if (optionButtonOpen) {
+                            optionButtonOpen = false
+                            this@AndroidUtils.closeAllFAB(
+                                fragment.requireContext(),
+                                fabOption,
+                                buttons.toList()
+                            )
+                        }
+                        if(fabOption.visibility == View.VISIBLE) {
+                            fabOption.startAnimation(zoomOutAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.INVISIBLE
+                            }
+                        }
+                    } else {
+                        if(fabOption.visibility == View.INVISIBLE) {
+                            fabOption.startAnimation(zoomInAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.VISIBLE
+                            }
+                        }
                     }
-                    fabOption.startAnimation(zoomOutAnim)
-                }
-                else {
-                    fabOption.startAnimation(zoomInAnim)
                 }
             }
         })
@@ -405,8 +417,8 @@ object AndroidUtils {
         fabOption: FloatingActionButton,
         vararg buttons: FloatingActionButton
     ) {
-        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
-        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
         var optionButtonOpen = false
         fabOption.setOnClickListener {
             if(band.value!!.isEmpty())
@@ -429,15 +441,67 @@ object AndroidUtils {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if(newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    if(optionButtonOpen) {
-                        optionButtonOpen = false
-                        this@AndroidUtils.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        if (optionButtonOpen) {
+                            optionButtonOpen = false
+                            this@AndroidUtils.closeAllFAB(
+                                fragment.requireContext(),
+                                fabOption,
+                                buttons.toList()
+                            )
+                        }
+                        if(fabOption.visibility == View.VISIBLE) {
+                            fabOption.startAnimation(zoomOutAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.INVISIBLE
+                            }
+                        }
+                    } else {
+                        if(fabOption.visibility == View.INVISIBLE) {
+                            fabOption.startAnimation(zoomInAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.VISIBLE
+                            }
+                        }
                     }
-                    fabOption.startAnimation(zoomOutAnim)
                 }
-                else {
-                    fabOption.startAnimation(zoomInAnim)
+            }
+        })
+    }
+
+    fun setupFabScrollUp(
+        context: Context,
+        rvList: RecyclerView,
+        fabScrollUp: FloatingActionButton
+    ) {
+        val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
+        val outAnimDelay = AnimationUtils.loadAnimation(context, R.anim.zoom_out_delay)
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
+        fabScrollUp.setOnClickListener {
+            rvList.smoothScrollToPosition(0)
+        }
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if(fabScrollUp.visibility == View.VISIBLE) {
+                            fabScrollUp.startAnimation(outAnimDelay)
+                            fabScrollUp.postOnAnimation {
+                                fabScrollUp.visibility = View.INVISIBLE
+                            }
+                        }
+                    }
+                    else {
+                        if(fabScrollUp.visibility == View.INVISIBLE) {
+                            fabScrollUp.startAnimation(inAnim)
+                            fabScrollUp.postOnAnimation {
+                                fabScrollUp.visibility = View.VISIBLE
+                            }
+                        }
+                    }
                 }
             }
         })
@@ -448,7 +512,7 @@ object AndroidUtils {
         fabOption: FloatingActionButton,
         buttons: List<FloatingActionButton>
     ) {
-        val fabCloseAnim = AnimationUtils.loadAnimation(context, R.anim.fab_close)
+        val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
         fabOption.setImageDrawable(
             ContextCompat.getDrawable(
                 context,
@@ -456,7 +520,7 @@ object AndroidUtils {
             )
         )
         buttons.forEach { bt ->
-            bt.startAnimation(fabCloseAnim)
+            bt.startAnimation(outAnim)
             bt.postOnAnimation {
                 bt.visibility = View.INVISIBLE
             }
@@ -468,7 +532,7 @@ object AndroidUtils {
         fabOption: FloatingActionButton,
         buttons: List<FloatingActionButton>
     ) {
-        val fabOpenAnim = AnimationUtils.loadAnimation(context, R.anim.fab_open)
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
 
         fabOption.setImageDrawable(
             ContextCompat.getDrawable(
@@ -477,7 +541,7 @@ object AndroidUtils {
             )
         )
         buttons.forEach { bt ->
-            bt.startAnimation(fabOpenAnim)
+            bt.startAnimation(inAnim)
             bt.postOnAnimation {
                 bt.visibility = View.VISIBLE
             }

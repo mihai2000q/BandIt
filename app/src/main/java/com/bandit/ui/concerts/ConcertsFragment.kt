@@ -118,6 +118,11 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsBtAdd,
                 concertsBtFilter
             )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                concertsRvList,
+                concertsBtScrollUp
+            )
         }
     }
 

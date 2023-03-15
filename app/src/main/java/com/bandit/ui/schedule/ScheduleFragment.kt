@@ -71,6 +71,11 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleBtAdd,
                 scheduleBtCalendarMode
             )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                scheduleRvEventsView,
+                scheduleBtScrollUp
+            )
         }
     }
 

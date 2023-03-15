@@ -35,4 +35,24 @@
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator</item>
         <item name="android:color">?attr/colorTertiary</item>
     </style>
+    <style name="FabOptions" parent="Widget.Material3.FloatingActionButton.Large.Primary">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="backgroundTint">@color/fab_options</item>
+        <item name="android:contentDescription">@string/content_description_bt_options</item>
+        <item name="android:tooltipText">@string/content_description_bt_options</item>
+        <item name="srcCompat">@drawable/ic_camera</item>
+    </style>
+    <style name="FabScrollUp" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:layout_gravity">bottom|center_horizontal</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="backgroundTint">@color/fab_scroll_up</item>
+        <item name="fabCustomSize">40dp</item>
+        <item name="fabSize">mini</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:contentDescription">@string/content_description_bt_scroll_up</item>
+        <item name="srcCompat">@drawable/ic_arrow_upward</item>
+    </style>
 </resources>

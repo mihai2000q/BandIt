@@ -7,6 +7,7 @@
     <string name="content_description_bt_add">Add Item</string>
     <string name="content_description_bt_remove">Remove Item</string>
     <string name="content_description_bt_options">Display Options</string>
+    <string name="content_description_bt_scroll_up">Scroll Up</string>
     <string name="content_description_bt_album_view">Album View</string>
     <string name="content_description_bt_songs_view">Songs View</string>
     <string name="content_description_bt_calendar_view">Calendar View</string>

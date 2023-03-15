@@ -58,6 +58,11 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 viewModel.bandInvitations.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                bandRvMemberList,
+                bandBtScrollUp
+            )
             viewModel.bandInvitations.observe(viewLifecycleOwner) {
                 if(viewModel.badgePreviousSize == badgeDrawable.number) return@observe
                 badgeDrawable.isVisible = it.isNotEmpty()

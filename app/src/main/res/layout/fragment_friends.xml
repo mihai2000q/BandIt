@@ -20,6 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/friends_bt_scroll_up"
+            style="@style/FabScrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends_rv_list"
             android:layout_width="match_parent"

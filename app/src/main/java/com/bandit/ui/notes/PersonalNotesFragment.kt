@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
@@ -47,6 +49,26 @@ class PersonalNotesFragment : Fragment() {
                     viewModel
                 )
             }
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                personalNotesRvList,
+                personalNotesBtScrollUp
+            )
+            personalNotesRvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                val zoomOutAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom_out)
+                val zoomInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.zoom_in_delay)
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                    if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                            binding.personalNotesBtAdd.startAnimation(zoomOutAnim)
+                        } else {
+                            binding.personalNotesBtAdd.startAnimation(zoomInAnim)
+                        }
+                    }
+                }
+            })
         }
     }
 
