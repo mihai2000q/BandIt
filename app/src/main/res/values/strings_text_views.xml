@@ -3,7 +3,7 @@
     <string name="tv_name">Name:</string>
     <string name="tv_nickname">Nickname:</string>
     <string name="tv_role">Role:</string>
-    <string name="tv_email">Email:</string>
-    <string name="tv_password">Password:</string>
+    <string name="tv_email">Email</string>
+    <string name="tv_password">Password</string>
     <string name="tv_loading_df">Please wait…</string>
 </resources>

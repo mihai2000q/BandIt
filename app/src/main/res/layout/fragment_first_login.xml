@@ -8,9 +8,9 @@
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent">
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/first_login_progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
+        style="@style/Widget.Material3.LinearProgressIndicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
@@ -92,87 +92,66 @@
         android:layout_height="wrap_content"
         android:inAnimation="@android:anim/slide_in_left"
         android:outAnimation="@android:anim/slide_out_right"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/first_login_bt_cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/first_login_et_name_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_name">
 
-            <TextView
-                android:id="@+id/first_login_tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/tv_name"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/first_login_et_name"
-                app:layout_constraintEnd_toStartOf="@+id/first_login_et_name"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/first_login_et_name" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/first_login_et_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="10"
-                android:hint="@string/et_name_non_mandatory"
-                android:maxLength="@string/max_length_name"
+                android:hint="@string/et_name"
                 android:inputType="textPersonName"
+                android:maxLength="@string/max_length_name"
                 android:minHeight="48dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/first_login_tv_name"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/first_login_et_nickname_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_nickname">
 
-            <TextView
-                android:id="@+id/first_login_tv_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/tv_nickname"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/first_login_et_nickname"
-                app:layout_constraintEnd_toStartOf="@+id/first_login_et_nickname"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/first_login_et_nickname" />
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/first_login_et_nickname"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/et_nickname"
-                android:maxLength="@string/max_length_nickname"
                 android:inputType="textPersonName"
+                android:maxLength="@string/max_length_nickname"
                 android:minHeight="48dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/first_login_tv_nickname"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:padding="16dp">
 
             <TextView
@@ -180,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="@string/tv_name"
+                android:text="@string/tv_role"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/first_login_spinner_role"
                 app:layout_constraintEnd_toStartOf="@+id/first_login_spinner_role"
@@ -204,7 +183,21 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:fontFamily="@font/poppins_regular_semi_bold"
+                android:text="@string/first_login_add_profile_picture"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/first_login_profile_picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/first_login_profile_picture"
@@ -213,20 +206,22 @@
                 android:src="@drawable/default_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/first_login_tv_congrats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/first_login_tv_subject_last"
+                android:textAlignment="center"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -241,6 +236,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_semi_bold"
         android:scaleX="1.25"
         android:scaleY="1.25"
         android:text="@string/bt_next"
@@ -253,14 +249,11 @@
 
     <Button
         android:id="@+id/first_login_bt_cancel"
+        style="@style/Widget.Material3.Button.ElevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/eton_blue"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
         android:text="@string/bt_cancel"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/first_login_bt_next"
         app:layout_constraintEnd_toStartOf="@+id/first_login_bt_next"
         app:layout_constraintHorizontal_bias="0.5"

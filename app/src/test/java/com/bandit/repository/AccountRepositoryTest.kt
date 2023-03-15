@@ -24,7 +24,17 @@ class AccountRepositoryTest {
         val newName = "Newish Account-ish"
         val newNickname = "Newer"
         val newRole = BandItEnums.Account.Role.Manager
-        runBlocking { accountRepository.updateAccount(newName, newNickname, newRole) }
+        val newAccount = Account(
+            name = newName,
+            nickname = newNickname,
+            role = newRole,
+            email = accountRepository.currentAccount.email,
+            bandId = accountRepository.currentAccount.bandId,
+            bandName = accountRepository.currentAccount.bandName,
+            id = accountRepository.currentAccount.id,
+            userUid = accountRepository.currentAccount.userUid
+        )
+        runBlocking { accountRepository.updateAccount(newAccount) }
         assertEquals(newName, accountRepository.currentAccount.name)
         assertEquals(newNickname, accountRepository.currentAccount.nickname)
         assertEquals(newRole, accountRepository.currentAccount.role)

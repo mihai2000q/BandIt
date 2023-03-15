@@ -5,6 +5,7 @@ import com.bandit.data.model.Song
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import java.time.Duration
 import java.time.LocalDate
 
 class AlbumTest {
@@ -107,5 +108,50 @@ class AlbumTest {
             )
         )
         assertEquals(expected, outcome)
+    }
+    @Test
+    fun album_duration() {
+        val songs = listOf(
+            Song(
+                "new song 3",
+                -1,
+                LocalDate.of(2011,9,13),
+                Duration.ofSeconds(90),
+                "new album",
+                null
+            ),
+            Song(
+                "new song 4",
+                -1,
+                LocalDate.now(),
+                Duration.ofSeconds(90),
+                "new album",
+                null
+            ),
+            Song(
+                "new song 1",
+                -1,
+                LocalDate.of(2010,9,13),
+                Duration.ofSeconds(90),
+                "new album",
+                null
+            ),
+            Song(
+                "new song 2",
+                -1,
+                LocalDate.of(2010,10,13),
+                Duration.ofSeconds(90),
+                "new album",
+                null
+            )
+        )
+        val album = Album(
+            name = "album",
+            bandId = -1,
+            releaseDate = LocalDate.parse("2002-02-10"),
+            "",
+            songs.toMutableList()
+        )
+        assertEquals(6, album.duration.toMinutes())
     }
 }

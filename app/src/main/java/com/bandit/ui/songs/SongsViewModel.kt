@@ -37,6 +37,12 @@ class SongsViewModel : ViewModel() {
     suspend fun addSong(song: Song) = coroutineScope {
         launch { _songRepository.add(song) }.join()
         this@SongsViewModel.refreshSongs()
+        if(song.albumId != null) {
+            _albumRepository.addSong(_albums.value!!
+                .first { it.id == song.albumId }, song
+            )
+            this@SongsViewModel.refreshAlbums()
+        }
     }
     suspend fun removeSong(song: Song) = coroutineScope {
         launch { _songRepository.remove(song) }.join()
@@ -60,12 +66,14 @@ class SongsViewModel : ViewModel() {
         }
     }
     fun filterSongs(
-        name: String?,
+        name: String? = null,
         releaseDate: LocalDate? = null,
         albumName: String? = null,
         duration: Duration? = null
     ) {
         _songs.value = _songRepository.filterSongs(name, releaseDate, albumName, duration)
+        if(albumMode.value == true)
+            this.refreshAlbums()
     }
 
     suspend fun addAlbum(album: Album) = coroutineScope {

@@ -6,18 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentScheduleBinding
+import com.bandit.di.DILocator
+import com.bandit.service.IValidatorService
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 
 abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener {
 
     private var _binding: DialogFragmentScheduleBinding? = null
+    private lateinit var validatorService: IValidatorService
     protected val binding get() = _binding!!
     protected val viewModel: ScheduleViewModel by activityViewModels()
     protected var typeIndex = 0
@@ -33,6 +36,11 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        validatorService = DILocator.getValidatorService(super.requireActivity())
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         with(binding) {
             AndroidComponents.spinner(
                 super.requireContext(),
@@ -52,21 +60,10 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
     }
 
     protected open fun validateFields(): Boolean {
-        with(binding) {
-            if(scheduleEtName.text.isNullOrEmpty()) {
-                scheduleEtName.error = resources.getString(R.string.et_name_validation)
-                return false
-            }
-            if(scheduleEtDate.text.isNullOrEmpty()) {
-                scheduleEtDate.error = resources.getString(R.string.et_date_validation)
-                return false
-            }
-            if(scheduleEtTime.text.isNullOrEmpty()) {
-                scheduleEtTime.error = resources.getString(R.string.et_time_validation)
-                return false
-            }
-        }
-        return true
+        return  validatorService.validateName(binding.scheduleEtName, binding.scheduleEtNameLayout) &&
+                validatorService.validateDate(binding.scheduleEtDate, binding.scheduleEtDateLayout) &&
+                validatorService.validateTime(binding.scheduleEtTime, binding.scheduleEtTimeLayout) &&
+                validatorService.validateStrictDuration(binding.scheduleEtDuration, binding.scheduleEtDurationLayout)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

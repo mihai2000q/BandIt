@@ -9,7 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
@@ -35,9 +34,7 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.first_login_bt_next)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_bt_cancel)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.first_login_tv_nickname)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_spinner_role)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_profile_picture)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_tv_congrats)).check(matches(not(isDisplayed())))
@@ -65,20 +62,15 @@ class FirstLoginInstrumentedTest {
         val nickname = ConstantsTest.accountNickname
         // first phase - choose the name
         onView(withId(R.id.first_login_bt_next)).perform(click())
-        onView(withId(R.id.first_login_et_name)).check(matches(
-            hasErrorText(AndroidTestUtil.getResourceString(R.string.et_name_validation))))
+        onView(withText(R.string.et_name_validation)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.first_login_tv_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name))
             .perform(typeText(name), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
         onView(withId(R.id.first_login_bt_next)).perform(click())
-        onView(withId(R.id.first_login_et_nickname)).check(matches(
-            hasErrorText(AndroidTestUtil.getResourceString(R.string.et_nickname_validation))))
-
-        onView(withId(R.id.first_login_tv_nickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.et_nickname_validation)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
             .perform(typeText(nickname), pressImeActionButton())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))

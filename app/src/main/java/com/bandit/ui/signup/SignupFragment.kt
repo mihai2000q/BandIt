@@ -71,7 +71,7 @@ class SignupFragment : Fragment() {
         AndroidUtils.hideKeyboard(
             super.requireActivity(),
             Context.INPUT_METHOD_SERVICE,
-            binding.signupTitle
+            binding.signupBtSignup
         )
         if (validateFields()) {
             if (!viewModel.database.isEmailInUse(binding.signupEtEmail.text.toString()))
@@ -87,8 +87,8 @@ class SignupFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        val result = validatorService.validateEmail(binding.signupEtEmail) &&
-                validatorService.validatePassword(binding.signupEtPassword)
+        val result = validatorService.validateEmail(binding.signupEtEmail, binding.signupEtEmailLayout) &&
+                validatorService.validatePassword(binding.signupEtPassword, binding.signupEtPasswordLayout)
         if(!result)
             return false
         with(binding) {

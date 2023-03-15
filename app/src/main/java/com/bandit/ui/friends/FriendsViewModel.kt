@@ -24,6 +24,8 @@ class FriendsViewModel : ViewModel() {
     val friendsFilterName = MutableLiveData("")
     val peopleFilterName = MutableLiveData("")
     val friendRequestsFilterName = MutableLiveData("")
+    val selectedFriend: MutableLiveData<Account> = MutableLiveData()
+    var badgePreviousSize = -1
     suspend fun sendFriendRequest(account: Account) = coroutineScope {
         launch { _repository.sendFriendRequest(account) }.join()
         this@FriendsViewModel.refresh()

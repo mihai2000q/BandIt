@@ -26,6 +26,8 @@ class BandViewModel : ViewModel() {
     val bandTabOpen = MutableLiveData(false)
     val filterBandInvitationsName = MutableLiveData("")
     val filterMembersName = MutableLiveData("")
+    val selectedBandMember = MutableLiveData<Account>()
+    var badgePreviousSize = -1
     suspend fun createBand(creatorId: Long) = coroutineScope {
         launch {
             _repository.createBand(

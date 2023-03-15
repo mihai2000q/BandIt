@@ -2,22 +2,23 @@
 <resources>
     <string name="et_title">Title</string>
     <string name="et_email">Email</string>
-    <string name="et_name">Name*</string>
+    <string name="et_name">Name</string>
     <string name="et_nickname">Nickname</string>
-    <string name="et_name_non_mandatory">Name</string>
     <string name="et_release_date">Release Date</string>
     <string name="et_label">Label</string>
     <string name="et_type">Type</string>
+    <string name="et_date">Date</string>
+    <string name="et_time">Time</string>
     <string name="et_duration">Duration</string>
+
     <string name="max_length_email">64</string>
     <string name="max_length_password">24</string>
     <string name="max_length_name">35</string>
-    <string name="max_length_nickname">25</string>
+    <string name="max_length_nickname">20</string>
     <string name="max_length_label">20</string>
     <string name="max_length_duration">5</string>
     <string name="max_length_city">20</string>
     <string name="max_length_country">20</string>
-    <string name="max_length_place">20</string>
-    <string name="max_length_title">16</string>
-    <string name="max_length_bottom_shelf">36</string>
+    <string name="max_length_place">26</string>
+    <string name="max_length_bottom_shelf">32</string>
 </resources>

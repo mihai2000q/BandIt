@@ -11,6 +11,7 @@ import com.bandit.data.repository.AccountRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class AccountViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()
@@ -26,12 +27,8 @@ class AccountViewModel : ViewModel() {
         launch { _repository.createAccount(name, nickname, role, _auth) }.join()
         this@AccountViewModel.refresh()
     }
-    suspend fun updateAccount(
-        name: String,
-        nickname: String,
-        role: BandItEnums.Account.Role
-    ) = coroutineScope {
-        launch { _repository.updateAccount(name, nickname, role) }.join()
+    suspend fun updateAccount(newAccount: Account) = coroutineScope {
+        launch { _repository.updateAccount(newAccount) }.join()
         this@AccountViewModel.refresh()
     }
 

@@ -5,12 +5,14 @@
     <string name="et_email_validation_email_verified">Please verify your email first</string>
     <string name="et_email_validation_email_already_used">This email is already in use</string>
     <string name="et_email_validation_email_not_used">There is no account linked to this email</string>
-    <string name="et_pass_validation_empty">You must enter your password</string>
+    <string name="et_pass_validation_empty">You must enter a password</string>
     <string name="et_pass_validation_incorrect">Incorrect Password</string>
     <string name="et_pass_validation_minimum">Your password must have at least 8 characters</string>
     <string name="et_name_validation">You must enter a name</string>
     <string name="et_date_validation">You must enter a date</string>
     <string name="et_time_validation">You must enter a time</string>
+    <string name="et_duration_validation">You must enter a duration</string>
+    <string name="et_duration_validation_valid">You must enter a valid duration (5 chars)</string>
     <string name="et_nickname_validation">You must enter a nickname</string>
     <string name="cb_terms_validation">You must accept the terms and conditions</string>
     <string name="nothing_changed_validation">You must make a change</string>

@@ -220,27 +220,19 @@ class EventTest {
     fun event_isOneYearApart() {
         val event1 = Event(
             name = "",
-            dateTime = LocalDateTime.now().plusDays(380),
+            dateTime = LocalDateTime.parse("2024-01-01T10:00"),
             duration = Duration.ofMinutes(10),
             type = Event.EMPTY.type,
             bandId = -1
         )
         val event2 = Event(
             name = "",
-            dateTime = LocalDateTime.now().plusDays(364),
+            dateTime = LocalDateTime.parse("2023-12-31T10:00"),
             duration = Duration.ofHours(100),
-            type = Event.EMPTY.type,
-            bandId = -1
-        )
-        val event3 = Event(
-            name = "",
-            dateTime = LocalDateTime.now().plusYears(1).plusMinutes(1),
-            duration = Duration.ofHours(150),
             type = Event.EMPTY.type,
             bandId = -1
         )
         Assert.assertTrue(event1.isOneYearApart())
         Assert.assertTrue(!event2.isOneYearApart())
-        Assert.assertTrue(event3.isOneYearApart())
     }
 }

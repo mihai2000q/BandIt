@@ -13,10 +13,10 @@ data class Album(
     val songs: MutableList<Song> = mutableListOf(),
     override val id: Long = AndroidUtils.generateRandomLong()
 ) : Item(id), Comparable<Album> {
-    val duration: Duration = Duration.ZERO
-
-    init {
-        songs.forEach { duration.plus(it.duration) }
+    val duration: Duration get() {
+        var d = Duration.ZERO
+        songs.forEach { d = d.plus(it.duration) }
+        return d
     }
 
     override fun compareTo(other: Album): Int {
@@ -51,6 +51,8 @@ data class Album(
     override fun toString(): String {
         return "Album(id=$id, name='$name', bandId=$bandId, releaseDate=$releaseDate, label='$label', duration=$duration)"
     }
+
+    fun isEmpty() = this == EMPTY
 
     companion object {
         val EMPTY = Album("", -1, LocalDate.now())

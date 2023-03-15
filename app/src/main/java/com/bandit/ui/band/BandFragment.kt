@@ -43,6 +43,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
             val bandInvitationDialogFragment = BandInvitationDialogFragment()
             viewModel.bandTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
+            val badgeDrawable2 = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 bandBtInvitations,
@@ -50,33 +51,59 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 viewModel.bandInvitations.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable2,
+                bandBtOptions,
+                viewModel.bandInvitations.value?.size ?: 0,
+                viewModel.bandInvitations.value?.isNotEmpty() ?: false,
+                ContextCompat.getColor(super.requireContext(), R.color.red)
+            )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                bandRvMemberList,
+                bandBtScrollUp
+            )
             viewModel.bandInvitations.observe(viewLifecycleOwner) {
+                if(viewModel.badgePreviousSize == badgeDrawable.number) return@observe
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
+                badgeDrawable2.isVisible = it.isNotEmpty()
+                badgeDrawable2.number = it.size
             }
             viewModel.band.observe(viewLifecycleOwner) {
                 if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
-                    bandBtAbandon.setText(R.string.bt_disband)
-                    bandBtAbandon.setOnClickListener { onDisband() }
+                    bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_disband_band)
+                    bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_disband_band)
+                    bandBtAbandon.setOnClickListener { this@BandFragment.onDisband() }
                 }
                 else
-                    bandBtAbandon.setOnClickListener { onAbandon() }
+                    bandBtAbandon.setOnClickListener { this@BandFragment.onAbandon() }
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
-                    bandBtAbandon.visibility = View.GONE
                     bandTvName.visibility = View.GONE
                     bandRvMemberList.visibility = View.GONE
                     bandSearchView.visibility = View.INVISIBLE
-                    bandBtAdd.visibility = View.INVISIBLE
                     layoutBandEmpty.visibility = View.VISIBLE
+                    AndroidUtils.setupFabOptions(
+                        this@BandFragment,
+                        bandRvMemberList,
+                        bandBtOptions,
+                        bandBtInvitations
+                    )
                 }
                 else {
-                    bandBtAbandon.visibility = View.VISIBLE
                     bandTvName.visibility = View.VISIBLE
                     bandRvMemberList.visibility = View.VISIBLE
                     bandSearchView.visibility = View.VISIBLE
-                    bandBtAdd.visibility = View.VISIBLE
                     layoutBandEmpty.visibility = View.GONE
+                    AndroidUtils.setupFabOptions(
+                        this@BandFragment,
+                        bandRvMemberList,
+                        bandBtOptions,
+                        bandBtInvitations,
+                        bandBtAdd,
+                        bandBtAbandon
+                    )
                 }
             }
             viewModel.members.observe(viewLifecycleOwner) {
@@ -90,13 +117,17 @@ class BandFragment : Fragment(), OnQueryTextListener {
                     bandAddMemberDialogFragment,
                     childFragmentManager
                 )
+                bandBtOptions.performClick()
             }
             bandBtInvitations.setOnClickListener {
+                badgeDrawable.isVisible = false
+                badgeDrawable2.isVisible = false
+                viewModel.badgePreviousSize = badgeDrawable.number
                 AndroidUtils.showDialogFragment(
                     bandInvitationDialogFragment,
                     childFragmentManager
                 )
-                badgeDrawable.isVisible = false
+                bandBtOptions.performClick()
             }
             bandBtCreate.setOnClickListener {
                 AndroidUtils.showDialogFragment(
@@ -114,6 +145,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onAbandon() {
+        binding.bandBtOptions.performClick()
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.band_alert_dialog_abandon_title),
@@ -131,6 +163,7 @@ class BandFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onDisband() {
+        binding.bandBtOptions.performClick()
         AndroidComponents.alertDialog(
             super.requireContext(),
             resources.getString(R.string.band_alert_dialog_disband_title),

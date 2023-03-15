@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:autofillHints=""
-        android:maxLength="@string/max_length_title"
+        android:maxLength="@string/max_length_name"
         android:ems="10"
         android:hint="@string/et_title"
         android:inputType="textPersonName"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="band_button_create">Create A Band</string>
-    <string name="band_member_creator">creator</string>
+    <string name="band_member_creator">admin</string>
     <string name="band_member_accepted_true">accepted</string>
     <string name="band_member_accepted_false">pending</string>
     <string name="band_add_member_tv">Add New Member</string>
@@ -22,8 +22,15 @@
     <string name="band_member_tried_kick_toast">Cannot kick this member</string>
     <string name="band_member_same_band_toast">This member is already in your band</string>
     <string name="band_member_in_band_toast">This member is in a band already</string>
+    <string name="band_invitation_fail">Band Invitation Cannot Be Sent</string>
     <string name="band_abandoned_toast">Band Abandoned</string>
     <string name="band_disbanded_toast">Band Disbanded</string>
+    <string name="model_band_member_you">You</string>
 
-    <color name="band_member_my_account_color">#ACA2A2</color>
+    <color name="band_member_my_account_color">#D1D1D1</color>
+    <color name="band_member_color">#F3F3F3</color>
+    <color name="band_invitation_color">@color/faded_yellow</color>
+
+    <color name="band_member_accepted">@color/dark_sea_green</color>
+    <color name="band_member_pending">@color/red</color>
 </resources>

@@ -1,127 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signup_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5"
     app:layout_constraintStart_toStartOf="parent">
-
-    <TextView
-        android:id="@+id/signup_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:text="@string/sign_up_title"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/signup_iv_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/signup_bt_go_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/eton_blue"
-        android:scaleX="1"
-        android:scaleY="1"
-        android:text="@string/bt_go_back"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_password"
-        app:layout_constraintVertical_bias="0.63"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/signup_bt_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        android:text="@string/bt_sign_up"
-        app:layout_constraintBottom_toTopOf="@+id/signup_bt_go_back"
-        app:layout_constraintEnd_toEndOf="@+id/signup_bt_go_back"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/signup_bt_go_back"
-        app:layout_constraintTop_toBottomOf="@+id/signup_cb_terms"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/signup_tv_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/tv_email"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/signup_tv_password"
-        app:layout_constraintEnd_toEndOf="@+id/signup_tv_password"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/signup_tv_password"
-        app:layout_constraintTop_toBottomOf="@+id/signup_title"
-        app:layout_constraintVertical_bias="0.38"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
-        android:id="@+id/signup_tv_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/tv_password"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/signup_et_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_tv_email" />
-
-    <CheckBox
-        android:id="@+id/signup_cb_terms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:text="@string/signup_checkbox_terms_and_conditions"
-        app:layout_constraintBottom_toTopOf="@+id/signup_bt_signup"
-        app:layout_constraintEnd_toEndOf="@+id/signup_bt_signup"
-        app:layout_constraintStart_toStartOf="@+id/signup_bt_signup"
-        app:layout_constraintTop_toBottomOf="@+id/signup_et_password"
-        app:layout_constraintVertical_bias="0.19"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <EditText
-        android:id="@+id/signup_et_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/signup_tv_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/signup_tv_email"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-
-    <EditText
-        android:id="@+id/signup_et_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/signup_tv_password"
-        app:layout_constraintEnd_toEndOf="@+id/signup_et_email"
-        app:layout_constraintStart_toStartOf="@+id/signup_et_email"
-        app:layout_constraintTop_toTopOf="@+id/signup_tv_password"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/signup_iv_logo"
@@ -130,9 +17,148 @@
         android:contentDescription="@string/content_description_iv_logo"
         android:scaleX="2"
         android:scaleY="2"
-        app:layout_constraintBottom_toTopOf="@+id/signup_et_email"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_title"
-        app:srcCompat="@mipmap/ic_logo_foreground" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:srcCompat="@mipmap/ic_logo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/signup_bt_go_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_iv_logo"
+        app:layout_constraintVertical_bias="0.4">
+
+        <TextView
+            android:id="@+id/signup_tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:text="@string/tv_email" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signup_et_email_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="100dp"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_email"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signup_et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/signup_et_email_hint"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:textColor="@color/black"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck,TextFields" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/signup_tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/tv_password" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signup_et_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="100dp"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_password"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/ic_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signup_et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/signup_et_password_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLength="@string/max_length_password"
+                android:minHeight="48dp"
+                android:textColor="@color/black"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/signup_cb_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="16dp"
+            android:text="@string/signup_checkbox_terms_and_conditions"
+            android:textColor="@color/dark_gray" />
+
+        <Button
+            android:id="@+id/signup_bt_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="@string/bt_sign_up"
+            android:textSize="18sp"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/signup_tv_already_signed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/tv_already_signed_up"
+        app:layout_constraintBottom_toTopOf="@+id/signup_bt_go_back"
+        app:layout_constraintEnd_toEndOf="@+id/signup_bt_go_back"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/signup_bt_go_back"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/signup_bt_go_back"
+        style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:text="@string/bt_go_back"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_tv_already_signed"
+        tools:ignore="TextContrastCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

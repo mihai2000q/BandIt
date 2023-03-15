@@ -12,11 +12,12 @@
         android:id="@+id/image_picker_tv_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/poppins_light"
         android:gravity="center"
         android:text="@string/image_picker_header"
         android:textColor="@color/light_gray"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/image_picker_tv_camera"

@@ -1,7 +1,7 @@
 package com.bandit.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.databinding.ModelBandMemberBinding
+import com.bandit.ui.band.BandMemberDetailDialogFragment
 import com.bandit.ui.band.BandViewModel
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
@@ -23,6 +24,7 @@ data class BandMemberAdapter(
     private val friendsViewModel: FriendsViewModel,
     private val myAccount: Account
 ) : RecyclerView.Adapter<BandMemberAdapter.ViewHolder>() {
+    private val bandMemberDetailDialogFragment = BandMemberDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
     inner class ViewHolder(val binding: ModelBandMemberBinding) : RecyclerView.ViewHolder(binding.root)
@@ -45,29 +47,43 @@ data class BandMemberAdapter(
         val account = members.keys.toList()[position]
         val hasAccepted = members.values.toList()[position]
         with(holder) {
+            itemView.setOnClickListener { onClick(account) }
             itemView.setOnLongClickListener { onLongClick(holder, account) }
-            if(account == myAccount)
-                itemView.background = ContextCompat.getDrawable(
-                    binding.root.context,
-                    R.color.band_member_my_account_color
-                )
-
             with(binding) {
+                AndroidUtils.setProfilePicture(fragment, friendsViewModel,
+                    memberProfilePicture, account.userUid)
                 memberNickname.text = account.nickname
                 memberRole.text = account.printRole()
                 if(viewModel.band.value!!.creator == account.id)
                     memberStatus.setText(R.string.band_member_creator)
                 else if(hasAccepted) {
                     memberStatus.setText(R.string.band_member_accepted_true)
-                    memberStatus.setTextColor(Color.GREEN)
+                    memberStatus.setTextColor(
+                        ContextCompat.getColor(
+                            holder.binding.root.context,
+                            R.color.band_member_accepted
+                        )
+                    )
                 }
                 else {
                     memberStatus.setText(R.string.band_member_accepted_false)
-                    memberStatus.setTextColor(Color.RED)
+                    memberStatus.setTextColor(
+                        ContextCompat.getColor(
+                            holder.binding.root.context,
+                            R.color.band_member_pending
+                        )
+                    )
                 }
-                AndroidUtils.setProfilePicture(fragment, friendsViewModel,
-                    memberProfilePicture, account.userUid)
-
+                if(account == myAccount) {
+                    bandMemberCard.setCardBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.band_member_my_account_color
+                        )
+                    )
+                    memberRole.visibility = View.GONE
+                    memberNickname.text = holder.binding.root.resources.getString(R.string.model_band_member_you)
+                }
             }
         }
     }
@@ -118,6 +134,14 @@ data class BandMemberAdapter(
             popupMenu.show()
         }
         return true
+    }
+
+    private fun onClick(account: Account) {
+        viewModel.selectedBandMember.value = account
+        AndroidUtils.showDialogFragment(
+            bandMemberDetailDialogFragment,
+            fragment.childFragmentManager
+        )
     }
 
 }

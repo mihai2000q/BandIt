@@ -8,21 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
-import com.bandit.MainActivity
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.repository.AccountRepository
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -99,7 +97,7 @@ class LoginFragment : Fragment() {
                             { result = this@LoginFragment.loginOnSuccess() }
                         ) { this@LoginFragment.onLoginFailure() }
                     } else {
-                        loginEtEmail.error =
+                        loginEtEmailLayout.error =
                             resources.getString(R.string.et_email_validation_email_not_used)
                         loginEtPassword.setText("")
                     }
@@ -115,6 +113,7 @@ class LoginFragment : Fragment() {
         //TODO: Remove comment, but for debugging purposes this will be deactivated
         /*return validatorService.validateEmailVerified(
             binding.loginEtEmail,
+            binding.loginEtEmailLayout
             { login() },
             viewModel.auth
         )*/
@@ -123,7 +122,7 @@ class LoginFragment : Fragment() {
 
     private fun onLoginFailure() {
         with(binding) {
-            loginEtPassword.error = resources.getString(R.string.et_pass_validation_incorrect)
+            loginEtPasswordLayout.error = resources.getString(R.string.et_pass_validation_incorrect)
             loginEtPassword.setText("")
         }
     }
@@ -138,8 +137,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateFields(): Boolean {
-        return  validatorService.validateEmail(binding.loginEtEmail) &&
-                validatorService.validatePassword(binding.loginEtPassword)
+        return  validatorService.validateEmail(binding.loginEtEmail, binding.loginEtEmailLayout) &&
+                validatorService.validatePassword(binding.loginEtPassword, binding.loginEtPasswordLayout)
     }
 
     private suspend fun login(): Boolean? = coroutineScope {

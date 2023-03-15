@@ -30,6 +30,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     private val accountViewModel: AccountViewModel by activityViewModels()
     private val friendsAddDialogFragment = FriendsAddDialogFragment()
     private val friendsRequestsDialogFragment = FriendsRequestsDialogFragment()
+    private val friendsDetailDialogFragment = FriendsDetailDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +47,7 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
             AndroidUtils.setupRefreshLayout(this@FriendsFragment, friendsRvList)
             viewModel.friendsTabOpen.value = true
             val badgeDrawable = BadgeDrawable.create(super.requireContext())
+            val badgeDrawable2 = BadgeDrawable.create(super.requireContext())
             AndroidUtils.setBadgeDrawableOnView(
                 badgeDrawable,
                 friendsBtRequests,
@@ -53,22 +55,36 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 viewModel.friendRequests.value?.isNotEmpty() ?: false,
                 ContextCompat.getColor(super.requireContext(), R.color.red)
             )
+            AndroidUtils.setBadgeDrawableOnView(
+                badgeDrawable2,
+                friendsBtOptions,
+                viewModel.friendRequests.value?.size ?: 0,
+                viewModel.friendRequests.value?.isNotEmpty() ?: false,
+                ContextCompat.getColor(super.requireContext(), R.color.red)
+            )
             viewModel.friendRequests.observe(viewLifecycleOwner) {
+                if(viewModel.badgePreviousSize == badgeDrawable.number) return@observe
                 badgeDrawable.isVisible = it.isNotEmpty()
                 badgeDrawable.number = it.size
+                badgeDrawable2.isVisible = it.isNotEmpty()
+                badgeDrawable2.number = it.size
             }
             friendsBtAdd.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     friendsAddDialogFragment,
                     childFragmentManager
                 )
+                friendsBtOptions.performClick()
             }
             friendsBtRequests.setOnClickListener {
+                badgeDrawable.isVisible = false
+                badgeDrawable2.isVisible = false
+                viewModel.badgePreviousSize = badgeDrawable.number
                 AndroidUtils.showDialogFragment(
                     friendsRequestsDialogFragment,
                     childFragmentManager
                 )
-                badgeDrawable.isVisible = false
+                friendsBtOptions.performClick()
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
             AndroidUtils.setRecyclerViewEmpty(
@@ -95,9 +111,28 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                     { acc -> onAddToBand(acc) },
                     { acc -> onUnfriend(acc) },
                     bandViewModel,
-                    accountViewModel.account.value!!
+                    accountViewModel.account.value!!,
+                    onClick = { acc ->
+                        viewModel.selectedFriend.value = acc
+                        AndroidUtils.showDialogFragment(
+                            friendsDetailDialogFragment,
+                            childFragmentManager
+                        )
+                    }
                 )
             }
+            AndroidUtils.setupFabOptions(
+                this@FriendsFragment,
+                friendsRvList,
+                friendsBtOptions,
+                friendsBtAdd,
+                friendsBtRequests
+            )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                friendsRvList,
+                friendsBtScrollUp
+            )
         }
     }
 
@@ -107,7 +142,14 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
     }
 
     private fun onAddToBand(account: Account) {
-        if(bandViewModel.band.value!!.members.containsKey(account)) {
+        if(bandViewModel.band.value!!.isEmpty()) {
+            AndroidComponents.toastNotification(
+                super.requireContext(),
+                resources.getString(R.string.band_invitation_fail)
+            )
+            return
+        }
+        else if(bandViewModel.band.value!!.members.containsKey(account)) {
             AndroidComponents.toastNotification(
                 super.requireContext(),
                 resources.getString(R.string.band_member_same_band_toast)

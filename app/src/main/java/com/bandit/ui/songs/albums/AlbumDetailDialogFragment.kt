@@ -13,14 +13,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
+import com.bandit.extension.print
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.helper.TouchHelper
+import com.bandit.ui.songs.SongAddDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
-class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : DialogFragment() {
+class AlbumDetailDialogFragment(
+    private val onEditSong: (Song) -> Unit,
+    private val onRemoveAlbum: (Album) -> Unit
+) : DialogFragment() {
 
     private var _binding: DialogFragmentAlbumDetailBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +47,6 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
             AndroidUtils.getScreenWidth(super.requireActivity()),
             ActionBar.LayoutParams.WRAP_CONTENT
         )
-        val album = viewModel.selectedAlbum.value!!
         val albumAddSongDialogFragment = AlbumAddSongDialogFragment()
         with(binding) {
             val onRemoveFromAlbum = { song: Song ->
@@ -54,7 +59,7 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                 ) {
                     AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
                         this@AlbumDetailDialogFragment) {
-                        viewModel.removeSongFromAlbum(album, song)
+                        viewModel.removeSongFromAlbum(viewModel.selectedAlbum.value!!, song)
                     }
                     AndroidComponents.toastNotification(
                         super.requireContext(),
@@ -62,7 +67,6 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                     )
                 }
             }
-            albumDetailTvAlbumName.text = album.name
             albumDetailBtAddSongs.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     albumAddSongDialogFragment,
@@ -70,11 +74,14 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                 )
             }
             viewModel.albums.observe(viewLifecycleOwner) {
+                val album = it.first { a -> viewModel.selectedAlbum.value?.id == a.id }
+                albumDetailTvAlbumName.text = album.name
+                albumDetailDuration.text = album.duration.print()
                 ItemTouchHelper(object : TouchHelper<Song>(
                     super.requireContext(),
                     albumDetailRvSongList,
                     onRemoveFromAlbum,
-                    { onEditSong(it) }
+                    { song -> onEditSong(song) }
                 ) {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                         items = album.songs.sorted().reversed()
@@ -87,9 +94,20 @@ class AlbumDetailDialogFragment(private val onEditSong: (Song) -> Unit) : Dialog
                         album.songs.sorted().reversed(),
                         viewModel,
                         onRemoveFromAlbum,
-                        { onEditSong(it) },
+                        { song -> onEditSong(song) },
                         resources.getString(R.string.album_remove_from_album)
                     )
+            }
+            val songAddDialogFragment = SongAddDialogFragment(viewModel.selectedAlbum.value!!)
+            albumDetailBtAddNewSong.setOnClickListener {
+                AndroidUtils.showDialogFragment(
+                    songAddDialogFragment,
+                    childFragmentManager
+                )
+            }
+            albumDetailBtDelete.setOnClickListener {
+                onRemoveAlbum.invoke(viewModel.selectedAlbum.value!!)
+                super.dismiss()
             }
         }
     }

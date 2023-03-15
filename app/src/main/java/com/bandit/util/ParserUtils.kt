@@ -12,7 +12,7 @@ object ParserUtils {
         textTime: String?
     ): LocalDateTime {
         return LocalDateTime.parse(
-            "${parseDate(textDate)}T" + parseTime(textTime)
+            "${this.parseDate(textDate)}T" + this.parseTime(textTime)
         )
     }
     fun parseDate(text: String?): LocalDate = LocalDate.parse(

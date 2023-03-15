@@ -13,6 +13,7 @@ import com.bandit.R
 import com.bandit.ui.adapter.ConcertAdapter
 import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
+import com.bandit.util.AndroidTestUtil.withIndex
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
 import org.hamcrest.Matchers.*
@@ -34,9 +35,11 @@ class ConcertsInstrumentedTest {
     // Precondition - have a setup account with a band
     @Test
     fun concerts_fragment_ui() {
-        onView(withId(R.id.concerts_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.concerts_bt_filter)).check(matches(isDisplayed()))
+        onView(withId(R.id.concerts_bt_options)).check(matches(isDisplayed()))
+        onView(withId(R.id.concerts_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.concerts_bt_filter)).check(matches(not(isDisplayed())))
         onView(withId(R.id.concerts_search_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.concerts_rv_band_empty)).check(matches(not(isDisplayed())))
         try {
             // if there is a concert, then check this
             onView(withId(R.id.concerts_rv_list)).check(matches(isDisplayed()))
@@ -44,6 +47,11 @@ class ConcertsInstrumentedTest {
             // if the above does not work, then check this
             onView(withId(R.id.concerts_rv_empty)).check(matches(isDisplayed()))
         }
+
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.concerts_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.concerts_bt_filter)).check(matches(isDisplayed()))
     }
     // Condition - there is only one concert with these properties
     @Test
@@ -55,42 +63,6 @@ class ConcertsInstrumentedTest {
         this.addConcert(concertName, concertCity, concertCountry, concertPlace)
         this.removeConcert(concertName)
         AndroidTestUtil.checkIfItIsNotDisplayed(concertName,
-            "This concert should have been deleted")
-    }
-    // Condition - there is only one concert with these properties
-    @Test
-    fun concerts_fragment_edit_remove_concert_swipe_gestures() {
-        val concertName = "Romexpo Concert"
-        val concertCity = "Vienna"
-        val concertCountry = "Austria"
-        val concertPlace = "Romexpo"
-        val newName = "Concert in Austria"
-        this.addConcert(concertName, concertCity, concertCountry, concertPlace)
-
-        // edit concert
-        onView(withId(R.id.concerts_rv_list))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
-                hasDescendant(withText(concertName)), swipeRight()))
-        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-
-        onView(withId(R.id.concert_et_name))
-            .perform(clearText(), typeText(newName), closeSoftKeyboard())
-
-        onView(withId(R.id.concert_button)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-
-        AndroidTestUtil.checkIfItIsNotDisplayed(concertName,
-            "This concert should have been renamed")
-
-        // remove concert
-        onView(withId(R.id.concerts_rv_list))
-            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
-                hasDescendant(withText(newName)), swipeLeft()))
-        onView(withText(R.string.alert_dialog_positive)).perform(click())
-
-        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
-
-        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
             "This concert should have been deleted")
     }
     // Condition - there is only one concert with these properties
@@ -109,6 +81,46 @@ class ConcertsInstrumentedTest {
         this.editConcert(concertName, newName, newCity, concertCity, newPlace)
 
         this.removeConcert(newName)
+    }
+    // Condition - there is only one concert with these properties
+    @Test
+    fun concerts_fragment_edit_remove_concert_swipe_gestures() {
+        val concertName = "Romexpo Concert"
+        val concertCity = "Vienna"
+        val concertCountry = "Austria"
+        val concertPlace = "Romexpo"
+        val newName = "Concert in Austria"
+        this.addConcert(concertName, concertCity, concertCountry, concertPlace)
+
+        // edit concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(concertName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(concertName)), swipeRight()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.concert_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.concert_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(concertName,
+            "This concert should have been renamed")
+
+        // remove concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), swipeLeft()))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This concert should have been deleted")
     }
     // Condition - there is only one concert with these properties
     @Test
@@ -141,6 +153,8 @@ class ConcertsInstrumentedTest {
         val searchValue = "Concert To Be"
         this.addConcert(concertName)
         // filter out the concert
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.concerts_bt_filter)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -155,6 +169,8 @@ class ConcertsInstrumentedTest {
             "This concert should have been filtered out")
 
         // filter for the concert to be seen
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.concerts_bt_filter)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -200,6 +216,8 @@ class ConcertsInstrumentedTest {
         country: String = "",
         place: String = ""
     ) {
+        onView(withId(R.id.concerts_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.concerts_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -222,10 +240,12 @@ class ConcertsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withText(name)).check(matches(isDisplayed()))
-        if(city.isNotBlank() && country.isNotBlank())
-            onView(withText("$city, $country")).check(matches(isDisplayed()))
+        if(country.isNotBlank())
+            onView(withIndex(withText(country), 0)).check(matches(isDisplayed()))
+        if(city.isNotBlank())
+            onView(withIndex(withText(city),0)).check(matches(isDisplayed()))
         if(place.isNotBlank())
-            onView(withText(place)).check(matches(isDisplayed()))
+            onView(withIndex(withText(place),0)).check(matches(isDisplayed()))
     }
     private fun removeConcert(name: String) {
         onView(withId(R.id.concerts_rv_list))
@@ -244,6 +264,8 @@ class ConcertsInstrumentedTest {
         newPlace: String
     ) {
         onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(oldName))))
             .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
                 hasDescendant(withText(oldName)), longClick()))
         onView(withText(R.string.bt_edit)).perform(click())
@@ -262,7 +284,8 @@ class ConcertsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withText(newName)).check(matches(isDisplayed()))
-        onView(withText("$newCity, $newCountry")).check(matches(isDisplayed()))
+        onView(withText(newCountry)).check(matches(isDisplayed()))
+        onView(withText(newCity)).check(matches(isDisplayed()))
         onView(withText(newPlace)).check(matches(isDisplayed()))
     }
 }

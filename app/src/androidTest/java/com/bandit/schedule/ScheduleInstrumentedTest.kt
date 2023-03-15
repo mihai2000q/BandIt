@@ -38,9 +38,10 @@ class ScheduleInstrumentedTest {
     @Test
     fun schedule_fragment_ui() {
         // events mode
-        onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.schedule_bt_options)).check(matches(isDisplayed()))
+        onView(withId(R.id.schedule_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.schedule_bt_calendar_mode)).check(matches(not(isDisplayed())))
         onView(withId(R.id.schedule_search_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.schedule_spinner_mode)).check(matches(not(isDisplayed())))
         onView(withId(R.id.schedule_calendar_view)).check(matches(not(isDisplayed())))
         try {
             // if there is a concert, then check this
@@ -50,13 +51,15 @@ class ScheduleInstrumentedTest {
             onView(withId(R.id.schedule_rv_empty)).check(matches(isDisplayed()))
         }
 
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         //calendar mode
-        onView(withId(R.id.schedule_bt_add)).check(matches(isDisplayed()))
-        onView(withId(R.id.schedule_spinner_mode)).check(matches(isDisplayed()))
+        onView(withId(R.id.schedule_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.schedule_bt_calendar_mode)).check(matches(not(isDisplayed())))
         onView(withId(R.id.schedule_calendar_view)).check(matches(isDisplayed()))
         onView(withId(R.id.schedule_search_view)).check(matches(not(isDisplayed())))
         try {
@@ -145,10 +148,14 @@ class ScheduleInstrumentedTest {
     // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_calendar_mode_add_remove_event() {
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         val eventName = "New Event"
 
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -157,6 +164,8 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
         onView(withId(R.id.schedule_et_time)).perform(click())
         onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_et_duration))
+            .perform(typeText("0130"), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())
 
@@ -166,12 +175,43 @@ class ScheduleInstrumentedTest {
 
         this.removeEvent(eventName)
     }
+    // Condition - there is only one event with these properties
+    @Test
+    fun schedule_fragment_calendar_mode_filter_event() {
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        val eventName = "New Event Today"
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        this.addEvent(eventName)
+        val todayDate = LocalDate.now()
+        val nextDay = todayDate.plusDays(1).dayOfMonth
+
+        onView(withIndex(withText(nextDay.toString()), 0)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
+            "It should have been filtered out")
+
+        onView(withIndex(withText(todayDate.dayOfMonth.toString()), 0)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        this.removeEvent(eventName)
+    }
+    // Condition - there is only one event with these properties
     @Test
     fun schedule_fragment_calendar_mode_swipe_gestures() {
         val eventName = "New Event Today"
         val newName = "Training Session"
-        onView(withId(R.id.schedule_switch_view)).perform(click())
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.schedule_bt_calendar_mode)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -180,6 +220,8 @@ class ScheduleInstrumentedTest {
         onView(withId(R.id.schedule_et_name)).perform(typeText(eventName))
         onView(withId(R.id.schedule_et_time)).perform(click())
         onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_et_duration))
+            .perform(typeText("0130"), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -214,32 +256,13 @@ class ScheduleInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(newName,
             "This event should have been deleted")
     }
-    // Condition - there is only one event with these properties
-    @Test
-    fun schedule_fragment_calendar_mode_filter_event() {
-        onView(withId(R.id.schedule_switch_view)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-
-        val eventName = "New Event Today"
-        this.addEvent(eventName)
-        val todayDate = LocalDate.now()
-        val nextDay = todayDate.plusDays(1).dayOfMonth
-
-        onView(withIndex(withText(nextDay.toString()), 0)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-
-        AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
-            "It should have been filtered out")
-
-        onView(withIndex(withText(todayDate.dayOfMonth.toString()), 0)).perform(click())
-        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-
-        this.removeEvent(eventName)
-    }
+    // Condition - these events are the only ones with these properties
     @Test
     fun schedule_fragment_manipulate_event_linked_to_concert() {
         val eventName = "New Concert in April"
         val newName = "New Concert in May"
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -248,6 +271,8 @@ class ScheduleInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.schedule_et_time)).perform(click())
         onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_et_duration))
+            .perform(typeText("0230"), closeSoftKeyboard())
         onView(withId(R.id.schedule_spinner_type)).perform(click())
         onView(withText("Concert")).inRoot(isPlatformPopup())
             .perform(click())
@@ -277,6 +302,8 @@ class ScheduleInstrumentedTest {
             "This concert should have been removed")
     }
     private fun addEvent(name: String) {
+        onView(withId(R.id.schedule_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.schedule_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -285,6 +312,8 @@ class ScheduleInstrumentedTest {
         onView(withText("OK")).perform(click())
         onView(withId(R.id.schedule_et_time)).perform(click())
         onView(withText("OK")).perform(click())
+        onView(withId(R.id.schedule_et_duration))
+            .perform(typeText("0030"), closeSoftKeyboard())
 
         onView(withId(R.id.schedule_button)).perform(click())
 

@@ -39,16 +39,24 @@ class BandInstrumentedTest {
     fun band_fragment_ui_with_band() {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.band_rv_member_list)).check(matches(isDisplayed()))
-        onView(withId(R.id.band_bt_abandon)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_options)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_abandon)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_bt_invitations)).check(matches(not(isDisplayed())))
         onView(withId(R.id.band_tv_name)).check(matches(isDisplayed()))
-        onView(withId(R.id.band_bt_invitations)).check(matches(isDisplayed()))
-        onView(withId(R.id.band_bt_add)).check(matches(isDisplayed()))
         onView(withId(R.id.band_search_view)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.band_bt_abandon)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_invitations)).check(matches(isDisplayed()))
 
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(ConstantsTest.bandName)))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(ConstantsTest.bandName)))
     }
     // Precondition - needs an account that has no band
     @Test
@@ -64,25 +72,36 @@ class BandInstrumentedTest {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         onView(withId(R.id.band_bt_create)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
-        onView(withId(R.id.create_band_et_name)).perform(typeText(bandName), pressImeActionButton())
+        onView(withId(R.id.create_band_et_name))
+            .perform(typeText(bandName), pressImeActionButton())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withId(R.id.band_bt_create)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.band_bt_abandon)).check(matches(withText(R.string.bt_disband)))
+        onView(withId(R.id.band_bt_abandon)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_bt_invitations)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_bt_add)).check(matches(not(isDisplayed())))
         onView(withId(R.id.band_tv_name)).check(matches(withText(bandName)))
 
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
-        onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.band_bt_abandon)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_add)).check(matches(isDisplayed()))
+        onView(withId(R.id.band_bt_invitations)).check(matches(isDisplayed()))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // Precondition - have an account setup already with a band and you are the creator
     // the admin disbands the band
     @Test
     fun band_fragment_disband_band() {
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_abandon)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -98,6 +117,8 @@ class BandInstrumentedTest {
         val accountToInvite = ConstantsTest.accountNewName
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
         // look for him and invite him
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
@@ -113,6 +134,8 @@ class BandInstrumentedTest {
         onView(withText(R.string.band_member_accepted_false)).check(matches(isDisplayed()))
 
         // check if he still is on the add members dialog
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
@@ -151,6 +174,8 @@ class BandInstrumentedTest {
         onView(withText(R.string.band_member_accepted_false)).check(matches(isDisplayed()))
 
         // check if he still is on the add members dialog
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
@@ -161,7 +186,7 @@ class BandInstrumentedTest {
     // same as above
     // it cannot swipe as it swipes the tab instead
     @Test
-    @Ignore("fails on line 174")
+    @Ignore("fails on line 201")
     fun band_fragment_invite_member_from_friends_swipe() {
         val accountToInvite = ConstantsTest.accountNewName
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
@@ -201,6 +226,8 @@ class BandInstrumentedTest {
         val bandName = ConstantsTest.bandName
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
         // accept the invitation
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_invitation_search_view))
@@ -214,15 +241,19 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(ConstantsTest.accountNewNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
             "The band invitation has already been accepted")
         onView(isRoot()).perform(pressBack())
 
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
@@ -231,7 +262,8 @@ class BandInstrumentedTest {
 
         // check my profile's band
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // same as above
     @Test
@@ -239,6 +271,8 @@ class BandInstrumentedTest {
         val bandName = ConstantsTest.bandName
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
         // accept the invitation
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_invitation_search_view))
@@ -252,15 +286,19 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(ConstantsTest.accountNewNickname)).check(matches(isDisplayed()))
+        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
             "The band invitation has already been accepted")
         onView(isRoot()).perform(pressBack())
 
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         AndroidTestUtil.checkIfItIsNotDisplayed(ConstantsTest.adminNickname,
@@ -269,7 +307,8 @@ class BandInstrumentedTest {
 
         // check my profile's band
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(withText(bandName)))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText(bandName)))
     }
     // Precondition - have an account setup already with a band
     // Condition - Be invited in the above created band
@@ -278,6 +317,8 @@ class BandInstrumentedTest {
     fun band_fragment_reject_band_invitation() {
         val band = ConstantsTest.bandName
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(withId(R.id.band_invitation_search_view))
             .perform(typeText(band.dropLast(1)), closeSoftKeyboard())
@@ -296,6 +337,8 @@ class BandInstrumentedTest {
     fun band_fragment_reject_band_invitation_swipe() {
         val bandName = ConstantsTest.bandName
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_invitations)).perform(click())
         onView(withId(R.id.band_invitation_search_view))
             .perform(typeText(bandName.dropLast(1)), closeSoftKeyboard())
@@ -314,6 +357,8 @@ class BandInstrumentedTest {
     @Test
     fun band_fragment_abandon_band() {
         beforeEach(ConstantsTest.newUserEmail, ConstantsTest.newUserPassword)
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_abandon)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -345,6 +390,8 @@ class BandInstrumentedTest {
         // check if the member is still there
         AndroidTestUtil.checkIfItIsNotDisplayed(accountNickToKick,
         "This account should have been kicked")
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.band_bt_add)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.band_add_member_search))
@@ -353,13 +400,20 @@ class BandInstrumentedTest {
     }
     private fun without_band_ui() {
         onView(withId(R.id.band_bt_create)).check(matches(isDisplayed()))
-        onView(withId(R.id.band_bt_invitations)).check(matches(isDisplayed()))
-        onView(withId(R.id.band_search_view)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_bt_options)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.band_bt_invitations)).check(matches(not(isDisplayed())))
         onView(withId(R.id.band_bt_abandon)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.band_tv_name)).check(matches(not(isDisplayed())))
         onView(withId(R.id.band_bt_add)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_search_view)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.band_tv_name)).check(matches(not(isDisplayed())))
+
+        onView(withId(R.id.band_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.band_bt_invitations)).check(matches(isDisplayed()))
 
         onView(withId(R.id.action_bar_profile)).perform(click())
-        onView(withId(R.id.account_tv_band_name)).check(matches(not(isDisplayed())))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.account_et_band_name)).check(matches(withText("")))
     }
 }

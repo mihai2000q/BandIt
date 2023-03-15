@@ -59,9 +59,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:fadingEdgeLength="10dp"
-            app:elevation="3dp"
-            app:itemActiveIndicatorStyle="@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator"
+            android:clipToOutline="true"
+            android:elevation="8dp"
+            app:elevation="20dp"
+            app:itemActiveIndicatorStyle="@style/AppBottomNavigationViewActiveIndicator"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +73,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/main_drawer_menu"
+        style="@style/Widget.MaterialComponents.NavigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

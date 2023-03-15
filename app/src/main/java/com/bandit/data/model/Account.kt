@@ -1,10 +1,13 @@
 package com.bandit.data.model
 
+import android.os.Parcelable
 import com.bandit.constant.BandItEnums
 import com.bandit.data.template.Item
 import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Account(
     var name: String,
     var nickname: String,
@@ -14,7 +17,7 @@ data class Account(
     var bandName: String?,
     override val id: Long = AndroidUtils.generateRandomLong(),
     val userUid: String? = ""
-) : Item(id), Comparable<Account> {
+) : Item(id), Comparable<Account>, Parcelable {
     override fun compareTo(other: Account): Int {
         return name.compareTo(other.name)
     }

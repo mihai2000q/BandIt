@@ -16,4 +16,7 @@
     <string name="recycler_view_empty_band">Enter a band to add items</string>
     <string name="page_refresh_toast">App Refreshed</string>
     <string name="permission_denied_toast">Permission Denied</string>
+    <string name="minimum_sdk_too_low">The API Level is too low. Try a phone from 2022!</string>
+
+    <dimen name="corner_radius_edit_text">25dp</dimen>
 </resources>

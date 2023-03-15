@@ -3,4 +3,8 @@
     <string name="login_toast">You are now logged in</string>
     <string name="login_cb_remember">Remember Me</string>
     <string name="login_tv_registered">Not Registered Yet?</string>
+    <string name="login_tv_forgot_pass">Forgot Password?</string>
+
+    <string name="login_et_email_hint">Enter Email</string>
+    <string name="login_et_password_hint">Enter Password</string>
 </resources>

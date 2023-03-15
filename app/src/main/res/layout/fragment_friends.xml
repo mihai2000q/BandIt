@@ -7,62 +7,108 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <SearchView
+        android:id="@+id/friends_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/search_view">
 
-        <SearchView
-            android:id="@+id/friends_search_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/search_view">
+    </SearchView>
 
-        </SearchView>
-
-        <ImageButton
-            android:id="@+id/friends_bt_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_add_new_friends"
-            app:srcCompat="@drawable/ic_person_add" />
-
-        <ImageButton
-            android:id="@+id/friends_bt_requests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:contentDescription="@string/content_description_bt_add"
-            app:srcCompat="@drawable/ic_mail_outline" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/friends_rv_list"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="1"
-        tools:listitem="@layout/model_friend">
+        android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:id="@+id/friends_rv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView3"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/friends_bt_scroll_up"
+            style="@style/FabScrollUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/recycler_view_friends_empty"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:clickable="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friends_rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:listitem="@layout/model_friend">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/friends_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_friends_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/friends_bt_requests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_friend_request"
+                android:tooltipText="@string/content_description_bt_friend_request"
+                android:visibility="invisible"
+                app:backgroundTint="@color/fab_requests"
+                app:layout_constraintBottom_toTopOf="@+id/friends_bt_add"
+                app:layout_constraintEnd_toEndOf="@+id/friends_bt_add"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_mail_outline" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/friends_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_add_new_friends"
+                android:tooltipText="@string/content_description_bt_add_new_friends"
+                android:visibility="invisible"
+                app:backgroundTint="@color/fab_add"
+                app:layout_constraintBottom_toTopOf="@+id/friends_bt_options"
+                app:layout_constraintEnd_toEndOf="@+id/friends_bt_options"
+                app:layout_constraintTop_toBottomOf="@+id/friends_bt_requests"
+                app:srcCompat="@drawable/ic_person_add" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/friends_bt_options"
+                style="@style/Widget.Material3.FloatingActionButton.Large.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_options"
+                android:tooltipText="@string/content_description_bt_options"
+                app:backgroundTint="@color/fab_options"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/friends_bt_add"
+                app:srcCompat="@drawable/ic_camera" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </LinearLayout>

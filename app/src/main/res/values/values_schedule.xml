@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="recycler_view_event_empty">There is no event yet, maybe you should add one</string>
-    <string name="recycler_view_calendar_empty">There is no event for this date</string>
+    <string name="recycler_view_event_empty">Maybe you should add an event</string>
+    <string name="recycler_view_calendar_empty">There are no events for this date</string>
     <string name="event_alert_dialog_title">Delete Event</string>
     <string name="event_alert_dialog_message">Are you sure you want to delete this event?</string>
     <string name="event_add_toast">Event Added</string>
@@ -17,6 +17,6 @@
     <color name="calendar_day_background">@color/dark_sea_green</color>
     
     <color name="event_training">@color/teal_green</color>
-    <color name="event_concert">@color/turquoise_green</color>
+    <color name="event_concert">@color/jungle_green</color>
     <color name="event_composing">@color/magic_mint</color>
 </resources>

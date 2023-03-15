@@ -1,6 +1,5 @@
 package com.bandit.util
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,13 +14,12 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.DialogFragment
@@ -34,13 +32,13 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bandit.LoadingActivity
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Band
 import com.bandit.di.DILocator
 import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.LoadingActivity
 import com.bandit.ui.component.LoadingDialogFragment
 import com.bandit.ui.friends.FriendsViewModel
 import com.bumptech.glide.Glide
@@ -48,6 +46,7 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -96,7 +95,6 @@ object AndroidUtils {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
-    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -110,7 +108,6 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
-    @SuppressLint("ObsoleteSdkInt")
     @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -161,20 +158,6 @@ object AndroidUtils {
             }
         }
     }
-    suspend fun loadIntent(
-        activity: AppCompatActivity,
-        task: suspend () -> Boolean?
-    ) : Boolean?
-    = coroutineScope {
-        async {
-            var result: Boolean? = null
-            LoadingActivity.finish.value = false
-            activity.startActivity(Intent(activity, LoadingActivity::class.java))
-            launch { result = task() }.join()
-            LoadingActivity.finish.value = true
-            return@async result
-        }
-    }.await()
 
     fun loadIntent(
         fragment: Fragment,
@@ -187,6 +170,21 @@ object AndroidUtils {
             LoadingActivity.finish.value = true
         }
     }
+
+    suspend fun loadIntent(
+        activity: AppCompatActivity,
+        task: suspend () -> Boolean?
+    ) : Boolean?
+            = coroutineScope {
+        async {
+            var result: Boolean? = null
+            LoadingActivity.finish.value = false
+            activity.startActivity(Intent(activity, LoadingActivity::class.java))
+            launch { result = task() }.join()
+            LoadingActivity.finish.value = true
+            return@async result
+        }
+    }.await()
 
     suspend fun loadIntentWithDestination(
         fragment: Fragment,
@@ -222,8 +220,8 @@ object AndroidUtils {
         //TODO: Replace deprecated method for .insertImage()
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val path = MediaStore.Images.Media
+                .insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
 
@@ -355,6 +353,194 @@ object AndroidUtils {
         rvList.setOnScrollChangeListener { _, scrollX, scrollY, _, _ ->
             fragment.requireActivity().findViewById<SwipeRefreshLayout>(R.id.swipe_refresh_layout)
                 .isEnabled = scrollX == 0 && scrollY == 0
+        }
+    }
+
+    fun setupFabOptions(
+        fragment: Fragment,
+        rvList: RecyclerView,
+        fabOption: FloatingActionButton,
+        vararg buttons: FloatingActionButton
+    ) {
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
+        var optionButtonOpen = false
+        fabOption.setOnClickListener {
+            optionButtonOpen = if(optionButtonOpen) {
+                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                false
+            } else {
+                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                true
+            }
+        }
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        if (optionButtonOpen) {
+                            optionButtonOpen = false
+                            this@AndroidUtils.closeAllFAB(
+                                fragment.requireContext(),
+                                fabOption,
+                                buttons.toList()
+                            )
+                        }
+                        if(fabOption.visibility == View.VISIBLE) {
+                            fabOption.startAnimation(zoomOutAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.INVISIBLE
+                            }
+                        }
+                    } else {
+                        if(fabOption.visibility == View.INVISIBLE) {
+                            fabOption.startAnimation(zoomInAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.VISIBLE
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    fun setupFabOptionsWithBand(
+        fragment: Fragment,
+        rvList: RecyclerView,
+        band: LiveData<Band>,
+        fabOption: FloatingActionButton,
+        vararg buttons: FloatingActionButton
+    ) {
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
+        var optionButtonOpen = false
+        fabOption.setOnClickListener {
+            if(band.value!!.isEmpty())
+                AndroidComponents.snackbarNotification(
+                    fabOption,
+                    fragment.resources.getString(R.string.empty_band_snackbar),
+                    fragment.resources.getString(R.string.bt_okay)
+                ).show()
+            else {
+                optionButtonOpen = if(optionButtonOpen) {
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    false
+                } else {
+                    this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    true
+                }
+            }
+        }
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        if (optionButtonOpen) {
+                            optionButtonOpen = false
+                            this@AndroidUtils.closeAllFAB(
+                                fragment.requireContext(),
+                                fabOption,
+                                buttons.toList()
+                            )
+                        }
+                        if(fabOption.visibility == View.VISIBLE) {
+                            fabOption.startAnimation(zoomOutAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.INVISIBLE
+                            }
+                        }
+                    } else {
+                        if(fabOption.visibility == View.INVISIBLE) {
+                            fabOption.startAnimation(zoomInAnim)
+                            fabOption.postOnAnimation {
+                                fabOption.visibility = View.VISIBLE
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    fun setupFabScrollUp(
+        context: Context,
+        rvList: RecyclerView,
+        fabScrollUp: FloatingActionButton
+    ) {
+        val outAnimDelay = AnimationUtils.loadAnimation(context, R.anim.zoom_out_delay)
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
+        fabScrollUp.setOnClickListener {
+            rvList.smoothScrollToPosition(0)
+        }
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState != RecyclerView.SCROLL_STATE_SETTLING) {
+                    if(newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if(fabScrollUp.visibility == View.VISIBLE) {
+                            fabScrollUp.startAnimation(outAnimDelay)
+                            fabScrollUp.postOnAnimation {
+                                fabScrollUp.visibility = View.INVISIBLE
+                            }
+                        }
+                    }
+                    else {
+                        if(fabScrollUp.visibility == View.INVISIBLE) {
+                            fabScrollUp.startAnimation(inAnim)
+                            fabScrollUp.postOnAnimation {
+                                fabScrollUp.visibility = View.VISIBLE
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun closeAllFAB(
+        context: Context,
+        fabOption: FloatingActionButton,
+        buttons: List<FloatingActionButton>
+    ) {
+        val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
+        fabOption.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_camera
+            )
+        )
+        buttons.forEach { bt ->
+            bt.startAnimation(outAnim)
+            bt.postOnAnimation {
+                bt.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    private fun openAllFAB(
+        context: Context,
+        fabOption: FloatingActionButton,
+        buttons: List<FloatingActionButton>
+    ) {
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
+
+        fabOption.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_clear
+            )
+        )
+        buttons.forEach { bt ->
+            bt.startAnimation(inAnim)
+            bt.postOnAnimation {
+                bt.visibility = View.VISIBLE
+            }
         }
     }
 }

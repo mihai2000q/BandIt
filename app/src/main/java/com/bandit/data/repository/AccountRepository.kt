@@ -40,21 +40,7 @@ class AccountRepository(private val _database: Database? = null) {
             }
     }
 
-    suspend fun updateAccount(
-        name: String,
-        nickname: String,
-        role: BandItEnums.Account.Role
-    ) = coroutineScope {
-        val newAccount = Account(
-            name = name,
-            nickname = nickname,
-            role = role,
-            email = _currentAccount.email,
-            bandId = _currentAccount.bandId,
-            bandName = _currentAccount.bandName,
-            id = _currentAccount.id,
-            userUid = _currentAccount.userUid
-        )
+    suspend fun updateAccount(newAccount: Account) = coroutineScope {
         _database?.edit(newAccount)
         _currentAccount = newAccount
     }

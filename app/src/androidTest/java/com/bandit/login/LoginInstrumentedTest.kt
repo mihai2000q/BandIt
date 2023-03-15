@@ -42,27 +42,24 @@ class LoginInstrumentedTest {
         val randomEmail = "rando@random.com"
         // validation empty email field
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_empty))))
+        onView(withText(R.string.et_email_validation_empty)).check(matches(isDisplayed()))
 
         // validation for email pattern
-        onView(withId(R.id.login_et_email)).perform(typeText("something"))
-        onView(withId(R.id.login_bt_login)).perform(click())
         onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_email))))
+            .perform(typeText("something"), closeSoftKeyboard())
+        onView(withId(R.id.login_bt_login)).perform(click())
+        onView(withText(R.string.et_email_validation_email)).check(matches(isDisplayed()))
 
         // validation empty password field
         onView(withId(R.id.login_et_email))
-            .perform(clearText(), typeText(randomEmail))
+            .perform(clearText(), typeText(randomEmail), closeSoftKeyboard())
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_empty))))
+        onView(withText(R.string.et_pass_validation_empty)).check(matches(isDisplayed()))
 
         // validation minimum password
         onView(withId(R.id.login_et_password)).perform(typeText("1234567"))
         onView(withId(R.id.login_bt_login)).perform(click())
-        onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_minimum))))
+        onView(withText(R.string.et_pass_validation_minimum)).check(matches(isDisplayed()))
 
         // validation email not used
         onView(withId(R.id.login_et_password))
@@ -70,23 +67,22 @@ class LoginInstrumentedTest {
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withId(R.id.login_et_email)).perform(click())
-        onView(withId(R.id.login_et_email))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_email_validation_email_not_used))))
+        onView(withText(R.string.et_email_validation_email_already_used)).check(matches(isDisplayed()))
 
         // validation incorrect password
         onView(withId(R.id.login_et_email))
             .perform(clearText(), typeText(ConstantsTest.adminEmail))
         onView(withId(R.id.login_et_password))
-            .perform(clearText(), typeText("123456789"))
+            .perform(clearText(), typeText("123456789"), closeSoftKeyboard())
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
-        onView(withId(R.id.login_et_password))
-            .check(matches(hasErrorText(AndroidTestUtil.getResourceString(R.string.et_pass_validation_incorrect))))
+        onView(withText(R.string.et_pass_validation_incorrect)).check(matches(isDisplayed()))
     }
     @Test
     fun login_fragment_login() {
         onView(withId(R.id.login_et_email)).perform(typeText(ConstantsTest.adminEmail))
-        onView(withId(R.id.login_et_password)).perform(typeText(ConstantsTest.adminPassword))
+        onView(withId(R.id.login_et_password))
+            .perform(typeText(ConstantsTest.adminPassword), closeSoftKeyboard())
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen))
         // check if it is the home tab

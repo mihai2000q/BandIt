@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
-    private val albumDetailDialogFragment = AlbumDetailDialogFragment { onEditSong(it) }
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment ({ onEditSong(it) }) { onDeleteAlbum(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,10 +63,22 @@ class SongsFragment : Fragment() {
             ) {
                 songsSearchView.setQuery("", false)
                 viewModel.albumMode.value = !viewModel.albumMode.value!!
+                songsBtOptions.performClick()
+                songsBtOptions.performClick()
             }
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvList,
+                songsBtScroll
+            )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvAlbums,
+                songsBtScrollUpAlbum
+            )
         }
     }
 
@@ -78,7 +91,10 @@ class SongsFragment : Fragment() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
         val albumFilterDialogFragment = AlbumFilterDialogFragment(badgeDrawable)
         with(binding) {
+            super.requireActivity().findViewById<Toolbar>(R.id.main_toolbar)
+                .setTitle(R.string.title_albums)
             songsRvAlbums.visibility = View.VISIBLE
+            songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_songs_view)
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
             mode(
                 R.drawable.ic_list,
@@ -141,6 +157,15 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
+            AndroidUtils.setupFabOptionsWithBand(
+                this@SongsFragment,
+                songsRvAlbums,
+                bandViewModel.band,
+                songsBtOptions,
+                songsBtAdd,
+                songsBtFilter,
+                songsBtAlbumMode
+            )
         }
     }
 
@@ -148,7 +173,10 @@ class SongsFragment : Fragment() {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment(badgeDrawable)
         with(binding) {
+            super.requireActivity().findViewById<Toolbar>(R.id.main_toolbar)
+                .setTitle(R.string.title_songs)
             songsRvList.visibility = View.VISIBLE
+            songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_album_view)
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
             mode(
                 R.drawable.ic_album_view,
@@ -218,6 +246,15 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
+            AndroidUtils.setupFabOptionsWithBand(
+                this@SongsFragment,
+                songsRvList,
+                bandViewModel.band,
+                songsBtOptions,
+                songsBtAdd,
+                songsBtFilter,
+                songsBtAlbumMode
+            )
         }
     }
 
@@ -233,27 +270,19 @@ class SongsFragment : Fragment() {
                     drawableIcon
                 )
             )
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                songsBtAdd
-            ) {
-                AndroidUtils.showDialogFragment(
-                    addDialogFragment,
-                    childFragmentManager
-                )
-            }
-            AndroidUtils.disableIfBandEmpty(
-                viewLifecycleOwner,
-                resources,
-                bandViewModel.band,
-                songsBtFilter
-            ) {
+           songsBtAdd.setOnClickListener {
+               AndroidUtils.showDialogFragment(
+                   addDialogFragment,
+                   childFragmentManager
+               )
+                songsBtOptions.performClick()
+           }
+            songsBtFilter.setOnClickListener {
                 AndroidUtils.showDialogFragment(
                     filterDialogFragment,
                     childFragmentManager
                 )
+                songsBtOptions.performClick()
             }
         }
     }

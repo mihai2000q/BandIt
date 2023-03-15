@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="account_field_nickname">Nickname</string>
+    <string name="account_title">Edit Profile</string>
     <string name="account_field_role">Role</string>
-    <string name="account_field_bands">Bands</string>
+    <string name="account_field_band_name">Band Name</string>
     <string name="sign_out_toast">Signed out</string>
-    <string name="account_updated_toast">Account Updated</string>
+    <string name="account_updated_toast">Profile Updated</string>
     <string name="account_profile_pic_updated_toast">Profile Picture Updated</string>
     <string name="account_profile_pic_selected_toast">Profile Picture Selected</string>
 
+    <color name="account_text_field_color">@color/text_field_background</color>
+
+    <color name="profile_pic_border_color">@color/dark_spring_green</color>
     <dimen name="profile_pic_dimension_width">150dp</dimen>
     <dimen name="profile_pic_dimension_height">150dp</dimen>
-    <dimen name="profile_pic_border_width">4dp</dimen>
-    <color name="profile_pic_border_color">@color/dark_spring_green</color>
-
-    <dimen name="friend_pic_dimension_width">80dp</dimen>
-    <dimen name="friend_pic_dimension_height">80dp</dimen>
-    <dimen name="friend_pic_border_width">2.5dp</dimen>
-    <color name="friend_pic_border_color">@color/dark_spring_green</color>
+    <dimen name="profile_pic_border_width">3dp</dimen>
 </resources>

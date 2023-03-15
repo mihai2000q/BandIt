@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="recycler_view_note_empty">There is no note yet, maybe you should add one</string>
+    <string name="recycler_view_note_empty">Maybe you should add a note</string>
     <string name="note_alert_dialog_title">Delete Note</string>
     <string name="note_alert_dialog_message">Are you sure you want to delete this note?</string>
     <string name="note_add_toast">Note Added</string>
