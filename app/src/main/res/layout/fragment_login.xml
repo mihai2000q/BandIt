@@ -152,7 +152,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:elevation="100dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/bt_sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
