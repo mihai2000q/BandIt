@@ -39,25 +39,34 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        binding.bandInvitationSearchView.setOnQueryTextListener(this)
-        viewModel.bandInvitations.observe(viewLifecycleOwner) {
-            ItemTouchHelper(object : TouchHelper<BandInvitation>(
-                super.requireContext(),
-                binding.bandInvitationRvList,
-                { bandInvitation -> onRejectBandInvitation(bandInvitation) },
-                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                R.drawable.ic_check_circle_outline_white
-            ) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    items = it.sorted()
-                    super.onSwiped(viewHolder, direction)
+        with(binding) {
+            bandInvitationSearchView.setOnQueryTextListener(this@BandInvitationDialogFragment)
+            viewModel.bandInvitations.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    bandInvitationRvEmpty.visibility = View.GONE
+                    bandInvitationRvList.visibility = View.VISIBLE
+                    ItemTouchHelper(object : TouchHelper<BandInvitation>(
+                        super.requireContext(),
+                        bandInvitationRvList,
+                        { bandInvitation -> onRejectBandInvitation(bandInvitation) },
+                        { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                        R.drawable.ic_check_circle_outline_white
+                    ) {
+                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                            items = it.sorted()
+                            super.onSwiped(viewHolder, direction)
+                        }
+                    }).attachToRecyclerView(bandInvitationRvList)
+                    bandInvitationRvList.adapter = BandInvitationAdapter(
+                        it.sorted(),
+                        { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                        { bandInvitation -> onRejectBandInvitation(bandInvitation) }
+                    )
+                } else {
+                    bandInvitationRvEmpty.visibility = View.VISIBLE
+                    bandInvitationRvList.visibility = View.GONE
                 }
-            }).attachToRecyclerView(binding.bandInvitationRvList)
-            binding.bandInvitationRvList.adapter = BandInvitationAdapter(
-                it.sorted(),
-                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                { bandInvitation -> onRejectBandInvitation(bandInvitation) }
-            )
+            }
         }
     }
 

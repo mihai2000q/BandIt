@@ -43,14 +43,23 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
         with(binding) {
             bandAddMemberSearch.setOnQueryTextListener(this@BandAddMemberDialogFragment)
             friendsViewModel.friends.observe(viewLifecycleOwner) {
-                val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
-                bandRvAddMemberFriends.adapter = PeopleAdapter(
-                    this@BandAddMemberDialogFragment,
-                    accounts.filter { acc -> acc.bandId == null },
-                    friendsViewModel,
-                    null,
-                    null,
-                ) { acc -> onClickFriend(acc) }
+                val accounts = (it.sorted() - (viewModel.members.value?.keys as Set<Account>)
+                        ).filter { acc -> acc.bandId == null }
+                if(accounts.isEmpty()) {
+                    bandAddMemberRvEmpty.visibility = View.VISIBLE
+                    bandAddMemberRvFriends.visibility = View.GONE
+                }
+                else {
+                    bandAddMemberRvEmpty.visibility = View.GONE
+                    bandAddMemberRvFriends.visibility = View.VISIBLE
+                    bandAddMemberRvFriends.adapter = PeopleAdapter(
+                        this@BandAddMemberDialogFragment,
+                        accounts,
+                        friendsViewModel,
+                        null,
+                        null,
+                    ) { acc -> onClickFriend(acc) }
+                }
             }
         }
     }

@@ -90,12 +90,14 @@ class BandFragment : Fragment(), OnQueryTextListener {
                         bandBtOptions,
                         bandBtInvitations
                     )
+                    bandBtAdd.visibility = View.GONE
                 }
                 else {
                     bandTvName.visibility = View.VISIBLE
                     bandRvMemberList.visibility = View.VISIBLE
                     bandSearchView.visibility = View.VISIBLE
                     layoutBandEmpty.visibility = View.GONE
+                    bandBtAdd.visibility = View.INVISIBLE
                     AndroidUtils.setupFabOptions(
                         this@BandFragment,
                         bandRvMemberList,

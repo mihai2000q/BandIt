@@ -84,7 +84,7 @@ class BandInstrumentedTest {
         onView(withId(R.id.band_tv_name)).check(matches(withText(bandName)))
 
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
@@ -241,7 +241,7 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())
@@ -286,7 +286,7 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())

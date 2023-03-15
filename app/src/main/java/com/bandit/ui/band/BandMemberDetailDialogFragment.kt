@@ -41,7 +41,7 @@ class BandMemberDetailDialogFragment : DialogFragment() {
                     it.userUid
                 )
                 bandMemberDetailTvEmail.text = it.email
-                bandMemberTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
+                bandMemberDetailTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
                 bandMemberDetailTvName.text = it.name
                 bandMemberDetailTvNickname.text = it.nickname
                 bandMemberDetailTvRole.text = it.printRole()

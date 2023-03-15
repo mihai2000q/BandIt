@@ -57,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:clickable="true"
+                android:contentDescription="@string/content_description_bt_abandon_band"
+                android:tooltipText="@string/content_description_bt_abandon_band"
                 android:visibility="invisible"
                 app:backgroundTint="@color/lighter_red"
                 app:layout_constraintBottom_toTopOf="@+id/band_bt_invitations"

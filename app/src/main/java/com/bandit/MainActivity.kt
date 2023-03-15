@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, navController: NavController) {
-        swipeRefreshLayout.setDistanceToTriggerSync(AndroidUtils.getScreenHeight(this) / 4)
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModelStore.clear()
