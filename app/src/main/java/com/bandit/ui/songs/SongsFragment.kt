@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -68,6 +69,16 @@ class SongsFragment : Fragment() {
             viewModel.albumMode.observe(viewLifecycleOwner) {
                 if(it) albumMode() else songMode()
             }
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvList,
+                songsBtScroll
+            )
+            AndroidUtils.setupFabScrollUp(
+                super.requireContext(),
+                songsRvAlbums,
+                songsBtScrollUpAlbum
+            )
         }
     }
 
@@ -80,6 +91,8 @@ class SongsFragment : Fragment() {
         val albumAddDialogFragment = AlbumAddDialogFragment()
         val albumFilterDialogFragment = AlbumFilterDialogFragment(badgeDrawable)
         with(binding) {
+            super.requireActivity().findViewById<Toolbar>(R.id.main_toolbar)
+                .setTitle(R.string.title_albums)
             songsRvAlbums.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_songs_view)
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
@@ -160,6 +173,8 @@ class SongsFragment : Fragment() {
         val songAddDialogFragment = SongAddDialogFragment()
         val songFilterDialogFragment = SongFilterDialogFragment(badgeDrawable)
         with(binding) {
+            super.requireActivity().findViewById<Toolbar>(R.id.main_toolbar)
+                .setTitle(R.string.title_songs)
             songsRvList.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_album_view)
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
@@ -239,16 +254,6 @@ class SongsFragment : Fragment() {
                 songsBtAdd,
                 songsBtFilter,
                 songsBtAlbumMode
-            )
-            AndroidUtils.setupFabScrollUp(
-                super.requireContext(),
-                songsRvList,
-                songsBtScroll
-            )
-            AndroidUtils.setupFabScrollUp(
-                super.requireContext(),
-                songsRvAlbums,
-                songsBtScrollUpAlbum
             )
         }
     }
