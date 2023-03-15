@@ -63,7 +63,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             viewModel.calendarMode.observe(viewLifecycleOwner) {
                 if(it) calendarMode() else listMode()
             }
-            AndroidUtils.setupFabOptionsCheckBand(
+            AndroidUtils.setupFabOptionsWithBand(
                 this@ScheduleFragment,
                 scheduleRvEventsView,
                 bandViewModel.band,

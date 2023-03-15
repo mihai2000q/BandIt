@@ -17,10 +17,7 @@ import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -368,41 +365,48 @@ object AndroidUtils {
         fabOption: FloatingActionButton,
         vararg buttons: FloatingActionButton
     ) {
-        val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
-        val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
         var optionButtonOpen = false
         rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if(scrollY == oldScrollY)
                 if (oldScrollY != 0)
-                    fabOption.startAnimation(slideInAnim)
+                    fabOption.startAnimation(zoomInAnim)
             else {
                 if(optionButtonOpen) {
                     optionButtonOpen = false
                     this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
                 }
-                fabOption.startAnimation(slideOutAnim)
+                fabOption.startAnimation(zoomOutAnim)
             }
         }
-        fabOption.setOnClickListener {
-            optionButtonOpen = if(optionButtonOpen) {
-                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
-                false
-            } else {
-                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
-                true
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if(optionButtonOpen) {
+                        optionButtonOpen = false
+                        this@AndroidUtils.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    }
+                    fabOption.startAnimation(zoomOutAnim)
+                }
+                else {
+                    fabOption.startAnimation(zoomInAnim)
+                }
             }
-        }
+        })
     }
 
-    fun setupFabOptionsCheckBand(
+    fun setupFabOptionsWithBand(
         fragment: Fragment,
-        rvList: RecyclerView?,
+        rvList: RecyclerView,
         band: LiveData<Band>,
         fabOption: FloatingActionButton,
         vararg buttons: FloatingActionButton
     ) {
-        val slideOutAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_out_bottom)
-        val slideInAnim = AnimationUtils.loadAnimation(fragment.context, androidx.appcompat.R.anim.abc_slide_in_bottom)
+        val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_close)
+        val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.fab_open)
         var optionButtonOpen = false
         fabOption.setOnClickListener {
             if(band.value!!.isEmpty())
@@ -421,19 +425,22 @@ object AndroidUtils {
                 }
             }
         }
-        rvList?.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if(scrollY == oldScrollY) {
-                if (oldScrollY != 0)
-                    fabOption.startAnimation(slideInAnim)
-            }
-            else {
-                if(optionButtonOpen) {
-                    optionButtonOpen = false
-                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if(optionButtonOpen) {
+                        optionButtonOpen = false
+                        this@AndroidUtils.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    }
+                    fabOption.startAnimation(zoomOutAnim)
                 }
-                fabOption.startAnimation(slideOutAnim)
+                else {
+                    fabOption.startAnimation(zoomInAnim)
+                }
             }
-        }
+        })
     }
 
     private fun closeAllFAB(

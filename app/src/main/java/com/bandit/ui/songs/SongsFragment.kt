@@ -144,7 +144,7 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getAlbumFiltersOn()
                 badgeDrawable.isVisible = viewModel.getAlbumFiltersOn() > 0
             }
-            AndroidUtils.setupFabOptionsCheckBand(
+            AndroidUtils.setupFabOptionsWithBand(
                 this@SongsFragment,
                 songsRvAlbums,
                 bandViewModel.band,
@@ -231,7 +231,7 @@ class SongsFragment : Fragment() {
                 badgeDrawable.number = viewModel.getSongFiltersOn()
                 badgeDrawable.isVisible = viewModel.getSongFiltersOn() > 0
             }
-            AndroidUtils.setupFabOptionsCheckBand(
+            AndroidUtils.setupFabOptionsWithBand(
                 this@SongsFragment,
                 songsRvList,
                 bandViewModel.band,

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,7 +21,6 @@ import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -112,7 +110,7 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 badgeDrawable.number = viewModel.getFiltersOn()
                 badgeDrawable.isVisible = viewModel.getFiltersOn() > 0
             }
-            AndroidUtils.setupFabOptionsCheckBand(
+            AndroidUtils.setupFabOptionsWithBand(
                 this@ConcertsFragment,
                 concertsRvList,
                 bandViewModel.band,
