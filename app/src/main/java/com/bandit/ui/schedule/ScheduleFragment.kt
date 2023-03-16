@@ -39,6 +39,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     private val concertViewModel: ConcertsViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
+    private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
     private lateinit var touchHelper: TouchHelper<Event>
 
     override fun onCreateView(
@@ -85,8 +86,8 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
@@ -235,7 +236,6 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     }
 
     private fun onEditEvent(event: Event) {
-        val scheduleEditDialogFragment = ScheduleEditDialogFragment()
         viewModel.selectedEvent.value = event
         AndroidUtils.showDialogFragment(
             scheduleEditDialogFragment,

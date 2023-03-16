@@ -31,6 +31,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     private val viewModel: ConcertsViewModel by activityViewModels()
     private val scheduleViewModel: ScheduleViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
+    private val concertEditDialogFragment = ConcertEditDialogFragment()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -150,7 +152,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun onEditConcert(concert: Concert) {
-        val concertEditDialogFragment = ConcertEditDialogFragment()
         viewModel.selectedConcert.value = concert
         AndroidUtils.showDialogFragment(
             concertEditDialogFragment,
