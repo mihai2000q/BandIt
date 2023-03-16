@@ -68,8 +68,8 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvEventsView,
                 bandViewModel.band,
                 scheduleBtOptions,
-                scheduleBtAdd,
-                scheduleBtCalendarMode
+                listOf(scheduleBtAdd, scheduleBtCalendarMode),
+                listOf(scheduleFabTvAdd, scheduleFabTvMode)
             )
             AndroidUtils.setupFabScrollUp(
                 super.requireContext(),
@@ -96,6 +96,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_calendar_view)
             scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_calendar_view)
+            scheduleFabTvMode.text = resources.getString(R.string.schedule_fab_calendar_mode)
             scheduleBtCalendarMode.setImageDrawable(
                 ContextCompat.getDrawable(
                     super.requireContext(),
@@ -151,6 +152,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
             scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_list_events_view)
             scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_list_events_view)
+            scheduleFabTvMode.text = resources.getString(R.string.schedule_fab_list_mode)
             scheduleBtCalendarMode.setImageDrawable(
                 ContextCompat.getDrawable(
                     super.requireContext(),

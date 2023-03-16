@@ -55,4 +55,11 @@
         <item name="android:contentDescription">@string/content_description_bt_scroll_up</item>
         <item name="srcCompat">@drawable/ic_arrow_upward</item>
     </style>
+    <style name="FabTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/fab_text_background</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">2dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

@@ -372,17 +372,18 @@ object AndroidUtils {
         fragment: Fragment,
         rvList: RecyclerView,
         fabOption: FloatingActionButton,
-        vararg buttons: FloatingActionButton
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
         val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
         var optionButtonOpen = false
         fabOption.setOnClickListener {
             optionButtonOpen = if(optionButtonOpen) {
-                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                this.closeAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                 false
             } else {
-                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                this.openAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                 true
             }
         }
@@ -397,7 +398,8 @@ object AndroidUtils {
                             this@AndroidUtils.closeAllFAB(
                                 fragment.requireContext(),
                                 fabOption,
-                                buttons.toList()
+                                buttons,
+                                textViews
                             )
                         }
                         if(fabOption.visibility == View.VISIBLE) {
@@ -424,7 +426,8 @@ object AndroidUtils {
         rvList: RecyclerView,
         band: LiveData<Band>,
         fabOption: FloatingActionButton,
-        vararg buttons: FloatingActionButton
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
         val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
@@ -438,10 +441,10 @@ object AndroidUtils {
                 ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
-                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                     false
                 } else {
-                    this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    this.openAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                     true
                 }
             }
@@ -457,7 +460,8 @@ object AndroidUtils {
                             this@AndroidUtils.closeAllFAB(
                                 fragment.requireContext(),
                                 fabOption,
-                                buttons.toList()
+                                buttons,
+                                textViews
                             )
                         }
                         if(fabOption.visibility == View.VISIBLE) {
@@ -518,7 +522,8 @@ object AndroidUtils {
     private fun closeAllFAB(
         context: Context,
         fabOption: FloatingActionButton,
-        buttons: List<FloatingActionButton>
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
         fabOption.setImageDrawable(
@@ -533,15 +538,21 @@ object AndroidUtils {
                 bt.visibility = View.INVISIBLE
             }
         }
+        textViews.forEach {
+            it.startAnimation(outAnim)
+            it.postOnAnimation {
+                it.visibility = View.INVISIBLE
+            }
+        }
     }
 
     private fun openAllFAB(
         context: Context,
         fabOption: FloatingActionButton,
-        buttons: List<FloatingActionButton>
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
-
         fabOption.setImageDrawable(
             ContextCompat.getDrawable(
                 context,
@@ -552,6 +563,12 @@ object AndroidUtils {
             bt.startAnimation(inAnim)
             bt.postOnAnimation {
                 bt.visibility = View.VISIBLE
+            }
+        }
+        textViews.forEach {
+            it.startAnimation(inAnim)
+            it.postOnAnimation {
+                it.visibility = View.VISIBLE
             }
         }
     }

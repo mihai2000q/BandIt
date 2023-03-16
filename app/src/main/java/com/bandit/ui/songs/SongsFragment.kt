@@ -95,6 +95,9 @@ class SongsFragment : Fragment() {
             songsRvAlbums.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_songs_view)
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
+            songsFabTvAdd.text = resources.getString(R.string.album_fab_add)
+            songsFabTvFilter.text = resources.getString(R.string.album_fab_filter)
+            songsFabTvMode.text = resources.getString(R.string.album_fab_mode)
             mode(
                 R.drawable.ic_list,
                 albumAddDialogFragment,
@@ -161,9 +164,8 @@ class SongsFragment : Fragment() {
                 songsRvAlbums,
                 bandViewModel.band,
                 songsBtOptions,
-                songsBtAdd,
-                songsBtFilter,
-                songsBtAlbumMode
+                listOf(songsBtAdd, songsBtFilter, songsBtAlbumMode),
+                listOf(songsFabTvAdd, songsFabTvFilter, songsFabTvMode)
             )
         }
     }
@@ -177,6 +179,9 @@ class SongsFragment : Fragment() {
             songsRvList.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_album_view)
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
+            songsFabTvAdd.text = resources.getString(R.string.song_fab_add)
+            songsFabTvFilter.text = resources.getString(R.string.song_fab_filter)
+            songsFabTvMode.text = resources.getString(R.string.song_fab_mode)
             mode(
                 R.drawable.ic_album_view,
                 songAddDialogFragment,
@@ -247,9 +252,8 @@ class SongsFragment : Fragment() {
                 songsRvList,
                 bandViewModel.band,
                 songsBtOptions,
-                songsBtAdd,
-                songsBtFilter,
-                songsBtAlbumMode
+                listOf(songsBtAdd, songsBtFilter, songsBtAlbumMode),
+                listOf(songsFabTvAdd, songsFabTvFilter, songsFabTvMode)
             )
         }
     }

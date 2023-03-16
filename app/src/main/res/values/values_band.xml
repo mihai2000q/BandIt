@@ -17,6 +17,11 @@
     <string name="band_alert_dialog_disband_title">Disband Band</string>
     <string name="band_alert_dialog_disband_message">Are you sure you want to disband this band?</string>
 
+    <string name="band_fab_add">Add Member</string>
+    <string name="band_fab_band_invitations">Band Invitation</string>
+    <string name="band_fab_abandon">Abandon Band</string>
+    <string name="band_fab_disband">Disband Band</string>
+
     <string name="band_create_toast">Band Created</string>
 
     <string name="band_invitation_sent_toast">Band Invitation Sent</string>

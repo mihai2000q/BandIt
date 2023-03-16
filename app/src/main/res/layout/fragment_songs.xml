@@ -96,6 +96,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/songs_fab_tv_mode"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_album_mode"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_album_mode"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_album_mode" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/songs_bt_album_mode"
                 android:layout_width="wrap_content"
@@ -112,6 +123,17 @@
                 app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:srcCompat="@drawable/ic_album_view" />
+
+            <TextView
+                android:id="@+id/songs_fab_tv_filter"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_filter"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_filter"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_filter" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/songs_bt_filter"
@@ -130,6 +152,17 @@
                 app:layout_constraintEnd_toEndOf="@+id/songs_bt_add"
                 app:layout_constraintTop_toBottomOf="@+id/songs_bt_album_mode"
                 app:srcCompat="@drawable/ic_filter" />
+
+            <TextView
+                android:id="@+id/songs_fab_tv_add"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_add"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_add"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_add" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/songs_bt_add"

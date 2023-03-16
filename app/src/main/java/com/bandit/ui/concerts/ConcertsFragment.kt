@@ -105,8 +105,8 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsRvList,
                 bandViewModel.band,
                 concertsBtOptions,
-                concertsBtAdd,
-                concertsBtFilter
+                listOf(concertsBtAdd, concertsBtFilter),
+                listOf(concertsFabTvAdd, concertsFabTvFilter)
             )
             AndroidUtils.setupFabScrollUp(
                 super.requireContext(),

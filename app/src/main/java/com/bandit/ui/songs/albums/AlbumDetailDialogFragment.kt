@@ -80,21 +80,30 @@ class AlbumDetailDialogFragment(
                 { song -> onEditSong(song) }
             )
             ItemTouchHelper(touchHelper).attachToRecyclerView(albumDetailRvSongList)
-            viewModel.selectedAlbum.observe(viewLifecycleOwner) {
-                albumDetailTvAlbumName.text = it.name
-                albumDetailReleaseDate.text = it.releaseDate.printName()
-                albumDetailDuration.text = it.duration.print()
+            viewModel.albums.observe(viewLifecycleOwner) {
+                val album = it.first { a -> a.id == viewModel.selectedAlbum.value!!.id }
+                albumDetailTvAlbumName.text = album.name
+                albumDetailReleaseDate.text = album.releaseDate.printName()
+                albumDetailDuration.text = album.duration.print()
 
-                touchHelper.updateItems(it.songs.sorted().reversed())
-                albumDetailRvSongList.adapter =
-                    SongAdapter(
-                        this@AlbumDetailDialogFragment,
-                        it.songs.sorted().reversed(),
-                        viewModel,
-                        onRemoveFromAlbum,
-                        { song -> onEditSong(song) },
-                        resources.getString(R.string.album_remove_from_album)
-                    )
+                if(album.songs.isEmpty()) {
+                    albumDetailRvEmpty.visibility = View.VISIBLE
+                    albumDetailRvSongList.visibility = View.GONE
+                }
+                else {
+                    albumDetailRvEmpty.visibility = View.GONE
+                    albumDetailRvSongList.visibility = View.VISIBLE
+                    touchHelper.updateItems(album.songs.sorted().reversed())
+                    albumDetailRvSongList.adapter =
+                        SongAdapter(
+                            this@AlbumDetailDialogFragment,
+                            album.songs.sorted().reversed(),
+                            viewModel,
+                            onRemoveFromAlbum,
+                            { song -> onEditSong(song) },
+                            resources.getString(R.string.album_remove_from_album)
+                        )
+                }
             }
             val songAddDialogFragment = SongAddDialogFragment(viewModel.selectedAlbum.value!!)
             albumDetailBtAddNewSong.setOnClickListener {

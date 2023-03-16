@@ -123,8 +123,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 this@FriendsFragment,
                 friendsRvList,
                 friendsBtOptions,
-                friendsBtAdd,
-                friendsBtRequests
+                listOf(friendsBtAdd, friendsBtRequests),
+                listOf(friendsFabTvAdd, friendsFabTvRequests)
             )
             AndroidUtils.setupFabScrollUp(
                 super.requireContext(),

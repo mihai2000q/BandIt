@@ -39,4 +39,5 @@
     <color name="fab_filter">#B07BDF</color>
     <color name="fab_requests">#CAA8E9</color>
     <color name="fab_mode">#49AFA6</color>
+    <color name="fab_text_background">#A3EFEFEF</color>
 </resources>

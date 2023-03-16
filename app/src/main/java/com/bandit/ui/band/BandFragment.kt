@@ -74,10 +74,15 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
                     bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_disband_band)
                     bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_disband_band)
+                    bandFabTvAbandon.text = resources.getString(R.string.band_fab_disband)
                     bandBtAbandon.setOnClickListener { this@BandFragment.onDisband() }
                 }
-                else
+                else {
+                    bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_abandon_band)
+                    bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_abandon_band)
+                    bandFabTvAbandon.text = resources.getString(R.string.band_fab_abandon)
                     bandBtAbandon.setOnClickListener { this@BandFragment.onAbandon() }
+                }
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
                     bandTvName.visibility = View.GONE
@@ -88,7 +93,8 @@ class BandFragment : Fragment(), OnQueryTextListener {
                         this@BandFragment,
                         bandRvMemberList,
                         bandBtOptions,
-                        bandBtInvitations
+                        listOf(bandBtInvitations),
+                        listOf(bandFabTvInvitations)
                     )
                     bandBtAdd.visibility = View.GONE
                 }
@@ -102,9 +108,8 @@ class BandFragment : Fragment(), OnQueryTextListener {
                         this@BandFragment,
                         bandRvMemberList,
                         bandBtOptions,
-                        bandBtInvitations,
-                        bandBtAdd,
-                        bandBtAbandon
+                        listOf(bandBtAdd, bandBtInvitations, bandBtAbandon),
+                        listOf(bandFabTvAdd, bandFabTvInvitations, bandFabTvAbandon)
                     )
                 }
             }

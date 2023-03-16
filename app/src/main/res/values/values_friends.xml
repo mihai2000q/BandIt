@@ -17,6 +17,9 @@
     <string name="people_filtered_toast">People Filtered</string>
     <string name="friend_unfriended_toast">Person Unfriended</string>
 
+    <string name="friend_fab_add">Add Friend</string>
+    <string name="friend_fab_friend_requests">Friend Requests</string>
+
     <string name="friend_band_member_of">Member of:</string>
 
     <color name="model_friend_color">@color/faded_light_gray</color>

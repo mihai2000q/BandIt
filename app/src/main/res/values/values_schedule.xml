@@ -11,6 +11,10 @@
     <string name="event_remove_toast">Event Removed</string>
     <string name="event_filter_toast">Events Filtered</string>
 
+    <string name="schedule_fab_add">Add Event</string>
+    <string name="schedule_fab_list_mode">Calendar View</string>
+    <string name="schedule_fab_calendar_mode">List View</string>
+
     <color name="event_date_layout">@color/ash_gray</color>
     <color name="event_time_layout">@color/white</color>
     <color name="event_name_layout">@color/dark_sea_green</color>

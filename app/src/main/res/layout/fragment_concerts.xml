@@ -75,6 +75,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/concerts_fab_tv_filter"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/concert_fab_filter"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/concerts_bt_filter"
+                app:layout_constraintEnd_toStartOf="@+id/concerts_bt_filter"
+                app:layout_constraintTop_toTopOf="@+id/concerts_bt_filter" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/concerts_bt_filter"
                 android:layout_width="wrap_content"
@@ -91,6 +102,17 @@
                 app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="packed"
                 app:srcCompat="@drawable/ic_filter" />
+
+            <TextView
+                android:id="@+id/concerts_fab_tv_add"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/concert_fab_add"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/concerts_bt_add"
+                app:layout_constraintEnd_toStartOf="@+id/concerts_bt_add"
+                app:layout_constraintTop_toTopOf="@+id/concerts_bt_add" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/concerts_bt_add"

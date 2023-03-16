@@ -9,6 +9,10 @@
     <string name="song_remove_toast">Song Removed</string>
     <string name="song_filter_toast">Songs Filtered</string>
 
+    <string name="song_fab_add">Add Song</string>
+    <string name="song_fab_filter">Filter Songs</string>
+    <string name="song_fab_mode">Album View</string>
+
     <color name="model_song">@color/faded_purple_to_blue</color>
     <color name="model_song_label">@color/model_label</color>
 </resources>
