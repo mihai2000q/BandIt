@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
 import com.bandit.ui.component.AndroidComponents
@@ -87,23 +86,20 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 friendsBtOptions.performClick()
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
+            val touchHelper = TouchHelper<Account>(
+                super.requireContext(),
+                friendsRvList,
+                { account -> onUnfriend(account) },
+                { account -> onAddToBand(account) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(friendsRvList)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.friends,
                 friendsRvList,
                 friendsRvEmpty
             ) {
-                ItemTouchHelper(object : TouchHelper<Account>(
-                    super.requireContext(),
-                    friendsRvList,
-                    { account -> onUnfriend(account) },
-                    { account -> onAddToBand(account) }
-                ) {
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = it.sorted()
-                        super.onSwiped(viewHolder, direction)
-                    }
-                }).attachToRecyclerView(friendsRvList)
+                touchHelper.updateItems(it.sorted())
                 return@setRecyclerViewEmpty PeopleAdapter(
                     this@FriendsFragment,
                     it.sorted(),

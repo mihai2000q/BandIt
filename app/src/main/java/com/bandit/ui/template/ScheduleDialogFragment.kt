@@ -54,8 +54,8 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

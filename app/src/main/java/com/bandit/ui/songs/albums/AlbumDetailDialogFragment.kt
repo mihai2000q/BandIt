@@ -9,7 +9,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -73,21 +72,18 @@ class AlbumDetailDialogFragment(
                     childFragmentManager
                 )
             }
+            val touchHelper = TouchHelper(
+                super.requireContext(),
+                albumDetailRvSongList,
+                onRemoveFromAlbum,
+                { song -> onEditSong(song) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(albumDetailRvSongList)
             viewModel.albums.observe(viewLifecycleOwner) {
                 val album = it.first { a -> viewModel.selectedAlbum.value?.id == a.id }
                 albumDetailTvAlbumName.text = album.name
                 albumDetailDuration.text = album.duration.print()
-                ItemTouchHelper(object : TouchHelper<Song>(
-                    super.requireContext(),
-                    albumDetailRvSongList,
-                    onRemoveFromAlbum,
-                    { song -> onEditSong(song) }
-                ) {
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = album.songs.sorted().reversed()
-                        super.onSwiped(viewHolder, direction)
-                    }
-                }).attachToRecyclerView(albumDetailRvSongList)
+                touchHelper.updateItems(album.songs.sorted().reversed())
                 albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,

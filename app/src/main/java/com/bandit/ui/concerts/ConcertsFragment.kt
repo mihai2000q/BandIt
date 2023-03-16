@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Concert
 import com.bandit.ui.component.AndroidComponents
@@ -46,14 +45,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
         val concertAddDialogFragment = ConcertAddDialogFragment()
         val badgeDrawable = BadgeDrawable.create(super.requireContext())
         val concertFilterDialogFragment = ConcertFilterDialogFragment(badgeDrawable)
-        val concertEditDialogFragment = ConcertEditDialogFragment()
-        val onEditConcert = { concert: Concert ->
-            viewModel.selectedConcert.value = concert
-            AndroidUtils.showDialogFragment(
-                concertEditDialogFragment,
-                childFragmentManager
-            )
-        }
         with(binding) {
             AndroidUtils.setupRefreshLayout(this@ConcertsFragment, concertsRvList)
             concertsSearchView.setOnQueryTextListener(this@ConcertsFragment)
@@ -71,6 +62,13 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 )
                 concertsBtOptions.performClick()
             }
+            val touchHelper = TouchHelper<Concert>(
+                super.requireContext(),
+                concertsRvList,
+                { concert -> onDeleteConcert(concert) },
+                { concert -> onEditConcert(concert) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(concertsRvList)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.concerts,
@@ -79,23 +77,13 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 concertsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object : TouchHelper<Concert>(
-                        super.requireContext(),
-                        concertsRvList,
-                        { concert -> onDeleteConcert(concert) },
-                        onEditConcert
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(concertsRvList)
+                    touchHelper.updateItems(it.sorted())
                     return@setRecyclerViewEmpty ConcertAdapter(
                         this@ConcertsFragment,
                         it.sorted(),
                         viewModel,
                         { concert -> onDeleteConcert(concert) },
-                        onEditConcert
+                        { concert -> onEditConcert(concert) }
                     )
                 }
             )
@@ -159,6 +147,15 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                 resources.getString(R.string.concert_remove_toast),
             )
         }
+    }
+
+    private fun onEditConcert(concert: Concert) {
+        val concertEditDialogFragment = ConcertEditDialogFragment()
+        viewModel.selectedConcert.value = concert
+        AndroidUtils.showDialogFragment(
+            concertEditDialogFragment,
+            childFragmentManager
+        )
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {

@@ -26,15 +26,15 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
         spinnerType()
         with(binding) {
             concertButton.setText(R.string.bt_save)
-            with(viewModel.selectedConcert.value!!) {
-                concertEtName.setText(name)
-                concertEtCity.setText(city)
-                concertEtDate.setText(dateTime.toLocalDate().toString())
-                concertEtTime.setText(dateTime.toLocalTime().toString())
-                concertEtCountry.setText(country)
-                concertEtPlace.setText(place)
-                concertEtDuration.setText(duration.print())
-                concertEtSpinnerType.setSelection(concertType.ordinal)
+            viewModel.selectedConcert.observe(viewLifecycleOwner) {
+                concertEtName.setText(it.name)
+                concertEtCity.setText(it.city)
+                concertEtDate.setText(it.dateTime.toLocalDate().toString())
+                concertEtTime.setText(it.dateTime.toLocalTime().toString())
+                concertEtCountry.setText(it.country)
+                concertEtPlace.setText(it.place)
+                concertEtDuration.setText(it.duration.print())
+                concertEtSpinnerType.setSelection(it.concertType.ordinal)
             }
 
             concertButton.setOnClickListener {

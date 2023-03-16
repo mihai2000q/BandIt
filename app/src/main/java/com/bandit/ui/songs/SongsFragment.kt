@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
@@ -183,6 +182,13 @@ class SongsFragment : Fragment() {
                 songAddDialogFragment,
                 songFilterDialogFragment
             )
+            val touchHelper = TouchHelper<Song>(
+                super.requireContext(),
+                songsRvList,
+                { song -> onDeleteSong(song) },
+                { song -> onEditSong(song) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(songsRvList)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.songs,
@@ -191,17 +197,7 @@ class SongsFragment : Fragment() {
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object: TouchHelper<Song>(
-                        super.requireContext(),
-                        songsRvList,
-                        { song -> onDeleteSong(song) },
-                        { song -> onEditSong(song) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted().reversed()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(songsRvList)
+                    touchHelper.updateItems(it.sorted().reversed())
                     return@setRecyclerViewEmpty SongAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),

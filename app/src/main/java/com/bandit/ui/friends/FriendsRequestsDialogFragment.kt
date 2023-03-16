@@ -11,7 +11,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
@@ -45,21 +44,18 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
             friendsDialogTvTitle.setText(R.string.friends_requests_dialog_title)
             friendsDialogTvEmpty.setText(R.string.friends_requests_rv_empty)
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
+            val touchHelper = TouchHelper<Account>(
+                super.requireContext(),
+                friendsDialogRvList,
+                { req -> onRejectFriendRequest(req) },
+                { req -> onAcceptFriendRequest(req) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(friendsDialogRvList)
             viewModel.friendRequests.observe(viewLifecycleOwner) {
                 if(it.isNotEmpty()) {
                     friendsDialogRvList.visibility = View.VISIBLE
                     friendsDialogRvEmpty.visibility = View.GONE
-                    ItemTouchHelper(object : TouchHelper<Account>(
-                        super.requireContext(),
-                        friendsDialogRvList,
-                        { req -> onRejectFriendRequest(req) },
-                        { req -> onAcceptFriendRequest(req) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(friendsDialogRvList)
+                    touchHelper.updateItems(it.sorted())
                     friendsDialogRvList.adapter = FriendRequestAdapter(
                         this@FriendsRequestsDialogFragment,
                         it.sorted(),

@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
@@ -40,7 +39,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     private val concertViewModel: ConcertsViewModel by activityViewModels()
     private val bandViewModel: BandViewModel by activityViewModels()
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
-    private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
+    private lateinit var touchHelper: TouchHelper<Event>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +75,13 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvEventsView,
                 scheduleBtScrollUp
             )
+            touchHelper = TouchHelper(
+                super.requireContext(),
+                scheduleRvEventsView,
+                { event -> onDeleteEvent(event) },
+                { event -> onEditEvent(event) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(scheduleRvEventsView)
         }
     }
 
@@ -116,17 +122,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object : TouchHelper<Event>(
-                        super.requireContext(),
-                        scheduleRvEventsView,
-                        { event -> onDeleteEvent(event) },
-                        { event -> onEditEvent(event) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(scheduleRvEventsView)
+                    touchHelper.updateItems(it.sorted())
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -171,17 +167,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object : TouchHelper<Event>(
-                        super.requireContext(),
-                        scheduleRvEventsView,
-                        { event -> onDeleteEvent(event) },
-                        { event -> onEditEvent(event) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(scheduleRvEventsView)
+                    touchHelper.updateItems(it.sorted())
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -249,6 +235,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     }
 
     private fun onEditEvent(event: Event) {
+        val scheduleEditDialogFragment = ScheduleEditDialogFragment()
         viewModel.selectedEvent.value = event
         AndroidUtils.showDialogFragment(
             scheduleEditDialogFragment,

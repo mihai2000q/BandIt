@@ -2,7 +2,6 @@ package com.bandit.ui.helper
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
@@ -18,8 +17,8 @@ open class TouchHelper<T: Item>(
     private val onRightAction: (T) -> Unit,
     private val drawableIdRightAction: Int = R.drawable.ic_edit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-    // has to extend this class to populate this list
-    lateinit var items: List<T>
+    // intended to be initialized inside an observable
+    private lateinit var items: List<T>
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -96,5 +95,8 @@ open class TouchHelper<T: Item>(
             background.setBounds(0,0,0,0)
         background.draw(c)
         icon.draw(c)
+    }
+    fun updateItems(newItems: List<T>) {
+        items = newItems
     }
 }

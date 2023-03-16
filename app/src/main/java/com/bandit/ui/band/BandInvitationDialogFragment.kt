@@ -10,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.BandInvitation
 import com.bandit.ui.component.AndroidComponents
@@ -41,22 +40,19 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
         )
         with(binding) {
             bandInvitationSearchView.setOnQueryTextListener(this@BandInvitationDialogFragment)
+            val touchHelper = TouchHelper<BandInvitation>(
+                super.requireContext(),
+                bandInvitationRvList,
+                { bandInvitation -> onRejectBandInvitation(bandInvitation) },
+                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                R.drawable.ic_check_circle_outline_white
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(bandInvitationRvList)
             viewModel.bandInvitations.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
                     bandInvitationRvEmpty.visibility = View.GONE
                     bandInvitationRvList.visibility = View.VISIBLE
-                    ItemTouchHelper(object : TouchHelper<BandInvitation>(
-                        super.requireContext(),
-                        bandInvitationRvList,
-                        { bandInvitation -> onRejectBandInvitation(bandInvitation) },
-                        { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                        R.drawable.ic_check_circle_outline_white
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(bandInvitationRvList)
+                    touchHelper.updateItems(it.sorted())
                     bandInvitationRvList.adapter = BandInvitationAdapter(
                         it.sorted(),
                         { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
