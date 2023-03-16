@@ -146,7 +146,7 @@ class FirebaseDatabase : Database {
     }.await()
 
     override suspend fun rejectBandInvitation(bandInvitation: BandInvitation) = coroutineScope {
-        async { reset(bandInvitation) }
+        async { this@FirebaseDatabase.remove(bandInvitation) }
     }.await()
 
     override suspend fun kickBandMember(account: Account) = coroutineScope {
@@ -196,15 +196,14 @@ class FirebaseDatabase : Database {
                     members = readAccountDtos { it.bandId == _currentBand.id }
                         .map { AccountMapper.fromDtoToItem(it) }
                 }.invokeOnCompletion {
-                    launch {
-                        members.forEach {
-                            it.bandId = null
-                            it.bandName = null
-                            this@FirebaseDatabase.edit(it)
-                        }
+                    members.forEach {
+                        it.bandId = null
+                        it.bandName = null
+                        launch { this@FirebaseDatabase.edit(it) }
                     }
                 }
                 launch { this@FirebaseDatabase.remove(_currentBand) }
+                // remove all items related to bands
                 launch {
                     this@FirebaseDatabase.removeBandItems(
                         Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id
@@ -255,21 +254,26 @@ class FirebaseDatabase : Database {
                 .first {
                     it.accountId == _currentAccount.id && it.friendId == account.id
                 }
-            this@FirebaseDatabase.remove(dto)
-            this@FirebaseDatabase.add(
-                FriendDto(
-                    id = dto.id,
-                    accountId = dto.accountId,
-                    friendId = dto.friendId
+            launch { this@FirebaseDatabase.remove(dto) }
+            launch {
+                this@FirebaseDatabase.add(
+                    FriendDto(
+                        id = dto.id,
+                        accountId = dto.accountId,
+                        friendId = dto.friendId
+                    )
                 )
-            )
-            this@FirebaseDatabase.add(
-                FriendDto(
-                    id = dto.id + 1,
-                    accountId = dto.friendId,
-                    friendId = dto.accountId
+            }
+            launch {
+                this@FirebaseDatabase.add(
+                    FriendDto(
+                        id = dto.id + 1,
+                        accountId = dto.friendId,
+                        friendId = dto.accountId
+                    )
                 )
-            )
+            }
+            return@async
         }
     }.await()
 
@@ -287,10 +291,19 @@ class FirebaseDatabase : Database {
     override suspend fun unfriend(account: Account) = coroutineScope {
         async {
             val allFriends = readDtos<FriendDto>(Constants.Firebase.Database.FRIENDS)
-            val friend1 = allFriends.first { it.accountId == account.id && it.friendId == _currentAccount.id }
-            val friend2 = allFriends.first { it.accountId == _currentAccount.id && it.friendId == account.id }
-            this@FirebaseDatabase.remove(friend1)
-            this@FirebaseDatabase.remove(friend2)
+            launch {
+                val friend1 = allFriends.first {
+                    it.accountId == account.id && it.friendId == _currentAccount.id
+                }
+                this@FirebaseDatabase.remove(friend1)
+            }
+            launch {
+                val friend2 = allFriends.first {
+                    it.accountId == _currentAccount.id && it.friendId == account.id
+                }
+                this@FirebaseDatabase.remove(friend2)
+            }
+            return@async
         }
     }.await()
 
