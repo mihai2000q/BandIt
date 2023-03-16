@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferencesService: IPreferencesService
     private lateinit var accountActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var accountViewModel: AccountViewModel
+    private var accountClicked = false
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
             if(it.resultCode == Constants.Account.RESULT_SIGN_OUT)
                 this.signOut()
+            accountClicked = false
         }
         lifecycleScope.launch {
             val destination = AndroidUtils.loadIntent(
@@ -228,6 +230,8 @@ class MainActivity : AppCompatActivity() {
                         )
                         return@launch
                     }
+                    if(accountClicked) return@launch
+                    accountClicked = true
                     accountViewModel = ViewModelProvider(
                         this@MainActivity)[AccountViewModel::class.java]
                     val accountIntent = Intent(this@MainActivity,
