@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import android.widget.TableRow
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
 import com.bandit.data.model.Concert
@@ -12,8 +12,9 @@ import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
 import com.bandit.util.AndroidUtils
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ConcertDetailDialogFragment : DialogFragment() {
+class ConcertDetailDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: DialogFragmentConcertDetailBinding? = null
     private val binding get() = _binding!!
@@ -29,6 +30,10 @@ class ConcertDetailDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         viewModel.selectedConcert.observe(viewLifecycleOwner) { assignConcertDetails(it) }
     }
 
@@ -39,13 +44,14 @@ class ConcertDetailDialogFragment : DialogFragment() {
 
     private fun assignConcertDetails(concert: Concert) {
         with(binding) {
-            concertDetailTitle.text = concert.name
+            concertDetailName.text = concert.name
             concertDetailDateTime.text = concert.dateTime.print()
-            AndroidUtils.ifNullHide(concertDetailCity, concert.city)
-            AndroidUtils.ifNullHide(concertDetailCountry, concert.country)
-            AndroidUtils.ifNullHide(concertDetailPlace, concert.place)
-            AndroidUtils.ifNullHide(concertDetailDuration, concert.duration.print())
-            AndroidUtils.ifNullHide(concertDetailType, concert.concertType.name.normalizeWord())
+            AndroidUtils.ifNullHide(concertDetailCity, concertDetailTvCity, concert.city)
+            AndroidUtils.ifNullHide(concertDetailCountry, concertDetailTvCountry, concert.country)
+            AndroidUtils.ifNullHide(concertDetailPlace, concertDetailTvPlace, concert.place)
+            concertDetailDuration.text = concert.duration.print()
+            AndroidUtils.ifNullHide(concertDetailConcertType, concertDetailTvType,
+                concert.concertType.name.normalizeWord())
         }
     }
 

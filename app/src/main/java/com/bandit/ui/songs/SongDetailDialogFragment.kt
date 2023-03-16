@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import android.widget.TableRow
 import androidx.fragment.app.activityViewModels
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentSongDetailBinding
 import com.bandit.extension.print
 import com.bandit.util.AndroidUtils
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SongDetailDialogFragment : DialogFragment() {
+class SongDetailDialogFragment : BottomSheetDialogFragment() {
     private var _binding: DialogFragmentSongDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
@@ -28,6 +29,10 @@ class SongDetailDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.dialog?.window?.setLayout(
+            AndroidUtils.getScreenWidth(super.requireActivity()),
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         viewModel.selectedSong.observe(viewLifecycleOwner) { assignSongDetails(it) }
     }
 
@@ -40,8 +45,8 @@ class SongDetailDialogFragment : DialogFragment() {
         with(binding) {
             songDetailName.text = song.name
             songDetailReleaseDate.text = song.releaseDate.print()
-            AndroidUtils.ifNullHide(songDetailAlbumName, song.albumName)
-            AndroidUtils.ifNullHide(songDetailDuration, song.duration.print())
+            AndroidUtils.ifNullHide(songDetailAlbumName, songDetailTvAlbumName, song.albumName)
+            songDetailDuration.text = song.duration.print()
         }
     }
 

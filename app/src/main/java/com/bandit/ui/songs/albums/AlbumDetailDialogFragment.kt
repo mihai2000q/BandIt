@@ -16,6 +16,7 @@ import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.extension.print
+import com.bandit.extension.printName
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.SongAddDialogFragment
@@ -79,15 +80,16 @@ class AlbumDetailDialogFragment(
                 { song -> onEditSong(song) }
             )
             ItemTouchHelper(touchHelper).attachToRecyclerView(albumDetailRvSongList)
-            viewModel.albums.observe(viewLifecycleOwner) {
-                val album = it.first { a -> viewModel.selectedAlbum.value?.id == a.id }
-                albumDetailTvAlbumName.text = album.name
-                albumDetailDuration.text = album.duration.print()
-                touchHelper.updateItems(album.songs.sorted().reversed())
+            viewModel.selectedAlbum.observe(viewLifecycleOwner) {
+                albumDetailTvAlbumName.text = it.name
+                albumDetailReleaseDate.text = it.releaseDate.printName()
+                albumDetailDuration.text = it.duration.print()
+
+                touchHelper.updateItems(it.songs.sorted().reversed())
                 albumDetailRvSongList.adapter =
                     SongAdapter(
                         this@AlbumDetailDialogFragment,
-                        album.songs.sorted().reversed(),
+                        it.songs.sorted().reversed(),
                         viewModel,
                         onRemoveFromAlbum,
                         { song -> onEditSong(song) },

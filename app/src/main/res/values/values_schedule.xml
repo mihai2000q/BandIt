@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="event_field_date_time">Date Time</string>
+    <string name="event_field_type">Type</string>
     <string name="recycler_view_event_empty">Maybe you should add an event</string>
     <string name="recycler_view_calendar_empty">There are no events for this date</string>
     <string name="event_alert_dialog_title">Delete Event</string>

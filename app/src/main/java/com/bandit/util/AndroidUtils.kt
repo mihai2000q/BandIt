@@ -132,8 +132,20 @@ object AndroidUtils {
         textView: TextView,
         string: String?
     ) {
-        if(string.isNullOrEmpty())
+        if(string.isNullOrBlank())
             textView.visibility = View.GONE
+        else
+            textView.text = string
+    }
+    fun ifNullHide(
+        textView: TextView,
+        additional: TextView,
+        string: String?
+    ) {
+        if(string.isNullOrBlank()) {
+            textView.visibility = View.GONE
+            additional.visibility = View.GONE
+        }
         else
             textView.text = string
     }
