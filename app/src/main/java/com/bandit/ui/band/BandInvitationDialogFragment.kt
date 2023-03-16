@@ -45,7 +45,8 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
                 bandInvitationRvList,
                 { bandInvitation -> onRejectBandInvitation(bandInvitation) },
                 { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                R.drawable.ic_check_circle_outline_white
+                R.drawable.ic_check_circle_outline_white,
+                R.drawable.ic_remove_circle_outline_white
             )
             ItemTouchHelper(touchHelper).attachToRecyclerView(bandInvitationRvList)
             viewModel.bandInvitations.observe(viewLifecycleOwner) {

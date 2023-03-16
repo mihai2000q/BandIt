@@ -90,7 +90,9 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 super.requireContext(),
                 friendsRvList,
                 { account -> onUnfriend(account) },
-                { account -> onAddToBand(account) }
+                { account -> onAddToBand(account) },
+                R.drawable.ic_group_add_white,
+                R.drawable.ic_person_remove_white
             )
             ItemTouchHelper(touchHelper).attachToRecyclerView(friendsRvList)
             AndroidUtils.setRecyclerViewEmpty(

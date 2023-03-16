@@ -48,7 +48,9 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
                 super.requireContext(),
                 friendsDialogRvList,
                 { req -> onRejectFriendRequest(req) },
-                { req -> onAcceptFriendRequest(req) }
+                { req -> onAcceptFriendRequest(req) },
+                R.drawable.ic_check_circle_outline_white,
+                R.drawable.ic_remove_circle_outline_white
             )
             ItemTouchHelper(touchHelper).attachToRecyclerView(friendsDialogRvList)
             viewModel.friendRequests.observe(viewLifecycleOwner) {

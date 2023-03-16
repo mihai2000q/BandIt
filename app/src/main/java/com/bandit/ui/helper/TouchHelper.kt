@@ -15,10 +15,11 @@ open class TouchHelper<T: Item>(
     private val recyclerView: RecyclerView,
     private val onLeftAction: (T) -> Unit,
     private val onRightAction: (T) -> Unit,
-    private val drawableIdRightAction: Int = R.drawable.ic_edit
+    private val drawableIdRightAction: Int = R.drawable.ic_edit,
+    private val drawableIdLeftAction: Int = R.drawable.ic_delete
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-    // intended to be initialized inside an observable
-    private lateinit var items: List<T>
+    // intended to be assigned inside an observable
+    private var items: List<T> = listOf()
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -66,7 +67,7 @@ open class TouchHelper<T: Item>(
         else {
             icon = ContextCompat.getDrawable(
                 context,
-                R.drawable.ic_delete
+                drawableIdLeftAction
             )!!
             background = ColorDrawable(ContextCompat.getColor(
                 context,
