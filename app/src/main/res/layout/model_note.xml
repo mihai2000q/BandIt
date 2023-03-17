@@ -21,9 +21,9 @@
         android:text="@string/default_note_message"
         android:textAlignment="gravity"
         android:textSize="11sp"
-        app:cornerRadius="15dp"
-        tools:layout_height="150dp"
-        tools:layout_width="150dp" />
+        android:minLines="9"
+        android:maxLines="9"
+        app:cornerRadius="15dp" />
 
     <TextView
         android:id="@+id/note_title"
