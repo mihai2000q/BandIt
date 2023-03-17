@@ -1,7 +1,6 @@
 package com.bandit.ui.component
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -41,15 +40,13 @@ class TypingBottomSheetDialogFragment(
                 return@setOnKeyListener false
             }
             bottomSheetDfBtSend.setOnClickListener {
-                this@TypingBottomSheetDialogFragment.event.invoke(bottomSheetDfEditText)
+                if(!bottomSheetDfEditText.text.isNullOrBlank()) {
+                    this@TypingBottomSheetDialogFragment.event.invoke(bottomSheetDfEditText)
+                    binding.bottomSheetDfEditText.setText("")
+                }
                 super.dismiss()
             }
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        binding.bottomSheetDfEditText.setText("")
     }
 
     override fun onDestroyView() {
