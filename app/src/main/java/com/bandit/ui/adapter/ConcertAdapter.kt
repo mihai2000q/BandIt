@@ -61,7 +61,6 @@ data class ConcertAdapter(
                 concertTime.text = concert.dateTime.toLocalTime().print()
                 AndroidUtils.ifNullHide(concertCity, concert.city)
                 AndroidUtils.ifNullHide(concertCountry, concert.country)
-                AndroidUtils.ifNullHide(concertPlace, concert.place)
             }
         }
     }
