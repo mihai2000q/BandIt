@@ -114,10 +114,10 @@ class ValidatorService(
             this.applyEmptyListener(editText, editTextLayout, R.string.et_duration_validation)
             return false
         }
-        if(editText.text.length != 5) {
+        if(editText.text.length != 5 || Integer.parseInt(editText.text[3].toString()) >= 6) {
             editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)
             editText.doOnTextChanged { text, _, _, _ ->
-                if(text!!.length == 5) {
+                if(text!!.length == 5 && Integer.parseInt(text[3].toString()) < 6) {
                     editTextLayout.error = null
                 } else {
                     editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)
@@ -129,10 +129,13 @@ class ValidatorService(
     }
 
     override fun validateDuration(editText: EditText, editTextLayout: TextInputLayout): Boolean {
-        if(!editText.text.isNullOrBlank() && editText.text.length != 5) {
+        if((!editText.text.isNullOrBlank() &&
+            editText.text.length != 5) ||
+            Integer.parseInt(editText.text[3].toString()) >= 6
+        ) {
             editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)
             editText.doOnTextChanged { text, _, _, _ ->
-                if(editText.text.isNullOrBlank() && text!!.length == 5) {
+                if(editText.text.isNullOrBlank() && text!!.length == 5 && Integer.parseInt(text[3].toString()) < 6) {
                     editTextLayout.error = null
                 } else {
                     editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)

@@ -222,7 +222,7 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/et_duration"
-            android:inputType="time"
+            android:inputType="number"
             android:maxLength="@string/max_length_duration"
             android:minHeight="48dp" />
 
