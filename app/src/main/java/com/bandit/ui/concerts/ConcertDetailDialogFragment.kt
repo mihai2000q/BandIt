@@ -11,6 +11,7 @@ import com.bandit.data.model.Concert
 import com.bandit.databinding.DialogFragmentConcertDetailBinding
 import com.bandit.extension.normalizeWord
 import com.bandit.extension.print
+import com.bandit.extension.printName
 import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -49,7 +50,7 @@ class ConcertDetailDialogFragment : BottomSheetDialogFragment() {
             AndroidUtils.ifNullHide(concertDetailCity, concertDetailTvCity, concert.city)
             AndroidUtils.ifNullHide(concertDetailCountry, concertDetailTvCountry, concert.country)
             AndroidUtils.ifNullHide(concertDetailPlace, concertDetailTvPlace, concert.place)
-            concertDetailDuration.text = concert.duration.print()
+            concertDetailDuration.text = concert.duration.printName()
             AndroidUtils.ifNullHide(concertDetailConcertType, concertDetailTvType,
                 concert.concertType.name.normalizeWord())
         }

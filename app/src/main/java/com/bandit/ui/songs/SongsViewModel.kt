@@ -150,7 +150,7 @@ class SongsViewModel : ViewModel() {
                     duration = if(this[SongFilter.Duration].isNullOrEmpty())
                         null
                     else
-                        ParserUtils.parseDurationText(this[SongFilter.Duration])
+                        ParserUtils.parseDurationTextToMinutesAndSeconds(this[SongFilter.Duration])
                 )
         }
     }

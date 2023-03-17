@@ -51,12 +51,12 @@ class ParserUtilsTest {
     @Test
     fun parserUtils_parse_duration_text() {
         val duration = "00:30"
-        val outcome = ParserUtils.parseDurationText(duration)
+        val outcome = ParserUtils.parseDurationTextToMinutesAndSeconds(duration)
         val expected = Duration.ofSeconds(30)
         assertEquals(outcome, expected)
 
         val duration2 = "01:35"
-        val outcome2 = ParserUtils.parseDurationText(duration2)
+        val outcome2 = ParserUtils.parseDurationTextToMinutesAndSeconds(duration2)
         val expected2 = Duration.ofSeconds(95)
         assertEquals(outcome2, expected2)
     }
@@ -70,14 +70,14 @@ class ParserUtilsTest {
     @Test
     fun parserUtils_parse_duration_text_default() {
         val duration = ""
-        val outcome = ParserUtils.parseDurationText(duration)
+        val outcome = ParserUtils.parseDurationTextToMinutesAndSeconds(duration)
         val expected = Duration.ZERO
         val expected2 = Duration.ofSeconds(0)
         assertEquals(outcome, expected)
         assertEquals(outcome, expected2)
 
         val duration2 = null
-        val outcome2 = ParserUtils.parseDurationText(duration2)
+        val outcome2 = ParserUtils.parseDurationTextToMinutesAndSeconds(duration2)
         assertEquals(outcome2, expected)
     }
 

@@ -42,14 +42,14 @@ class SongAddDialogFragment(private val selectedAlbum: Album = Album.EMPTY) : So
                     name = songEtName.text.toString(),
                     bandId = bandViewModel.band.value!!.id,
                     releaseDate =  ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    duration = ParserUtils.parseDurationText(songEtDuration.text.toString())
+                    duration = ParserUtils.parseDurationTextToMinutesAndSeconds(songEtDuration.text.toString())
                 )
             else
                 Song(
                     name = songEtName.text.toString(),
                     bandId = bandViewModel.band.value!!.id,
                     releaseDate = ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    duration = ParserUtils.parseDurationText(songEtDuration.text.toString()),
+                    duration = ParserUtils.parseDurationTextToMinutesAndSeconds(songEtDuration.text.toString()),
                     albumName = selectedAlbum.name,
                     albumId = selectedAlbum.id
                 )

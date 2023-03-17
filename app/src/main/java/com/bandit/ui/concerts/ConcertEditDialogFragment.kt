@@ -11,6 +11,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.mapper.ConcertMapper
 import com.bandit.data.model.Concert
 import com.bandit.extension.print
+import com.bandit.extension.printHoursAndMinutes
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.ui.template.ConcertDialogFragment
 import com.bandit.util.AndroidUtils
@@ -33,7 +34,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 concertEtTime.setText(it.dateTime.toLocalTime().toString())
                 concertEtCountry.setText(it.country)
                 concertEtPlace.setText(it.place)
-                concertEtDuration.setText(it.duration.print())
+                concertEtDuration.setText(it.duration.printHoursAndMinutes())
                 concertEtSpinnerType.setSelection(it.concertType.ordinal)
             }
 
@@ -56,7 +57,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                     concertEtCity.text.toString() == city &&
                     concertEtCountry.text.toString() == country &&
                     concertEtPlace.text.toString() == place &&
-                    concertEtDuration.text.toString() == duration.print() &&
+                    concertEtDuration.text.toString() == duration.printHoursAndMinutes() &&
                     BandItEnums.Concert.Type.values()[typeIndex] == concertType
                 ) {
                     concertEtName.error = resources.getString(R.string.nothing_changed_validation)
@@ -73,7 +74,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                 name = concertEtName.text.toString(),
                 dateTime = ParserUtils.parseDateTime(concertEtDate.text.toString(),
                     concertEtTime.text.toString()),
-                duration = ParserUtils.parseDurationText(concertEtDuration.text.toString()),
+                duration = ParserUtils.parseDurationTextToHoursAndMinutes(concertEtDuration.text.toString()),
                 bandId = viewModel.selectedConcert.value!!.bandId,
                 city = concertEtCity.text.toString(),
                 country = concertEtCountry.text.toString(),

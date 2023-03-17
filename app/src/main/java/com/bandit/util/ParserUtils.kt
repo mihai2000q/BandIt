@@ -29,7 +29,7 @@ object ParserUtils {
     )
 
 
-    fun parseDurationText(
+    fun parseDurationTextToMinutesAndSeconds(
         text: String?
     ) : Duration =
         if(text.isNullOrEmpty())
@@ -37,6 +37,16 @@ object ParserUtils {
         else Duration.parse(
             "PT${text[0]}${text[1]}M" +
                     "${text[3]}${text[4]}S"
+        )
+
+    fun parseDurationTextToHoursAndMinutes(
+        text: String?
+    ) : Duration =
+        if(text.isNullOrEmpty())
+            Duration.ZERO
+        else Duration.parse(
+            "PT${text[0]}${text[1]}H" +
+                    "${text[3]}${text[4]}M"
         )
 
     fun parseDurationSeconds(

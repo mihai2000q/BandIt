@@ -44,7 +44,7 @@ class ScheduleDetailDialogFragment : BottomSheetDialogFragment() {
             scheduleDetailName.text = event.name
             scheduleDetailDateTime.text = event.dateTime.printName()
             scheduleDetailType.text = event.type.name.normalizeWord()
-            scheduleDetailDuration.text = event.duration.print()
+            scheduleDetailDuration.text = event.duration.printName()
         }
     }
 

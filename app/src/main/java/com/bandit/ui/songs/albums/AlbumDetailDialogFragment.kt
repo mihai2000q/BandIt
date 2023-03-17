@@ -16,6 +16,7 @@ import com.bandit.data.model.Album
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.extension.print
+import com.bandit.extension.printMinutesAndSeconds
 import com.bandit.extension.printName
 import com.bandit.ui.adapter.SongAdapter
 import com.bandit.ui.helper.TouchHelper
@@ -84,7 +85,7 @@ class AlbumDetailDialogFragment(
                 val album = it.first { a -> a.id == viewModel.selectedAlbum.value!!.id }
                 albumDetailTvAlbumName.text = album.name
                 albumDetailReleaseDate.text = album.releaseDate.printName()
-                albumDetailDuration.text = album.duration.print()
+                albumDetailDuration.text = album.duration.printMinutesAndSeconds()
 
                 if(album.songs.isEmpty()) {
                     albumDetailRvEmpty.visibility = View.VISIBLE

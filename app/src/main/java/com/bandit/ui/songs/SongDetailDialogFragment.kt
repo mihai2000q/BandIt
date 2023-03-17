@@ -10,6 +10,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentSongDetailBinding
 import com.bandit.extension.print
+import com.bandit.extension.printName
 import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -46,7 +47,7 @@ class SongDetailDialogFragment : BottomSheetDialogFragment() {
             songDetailName.text = song.name
             songDetailReleaseDate.text = song.releaseDate.print()
             AndroidUtils.ifNullHide(songDetailAlbumName, songDetailTvAlbumName, song.albumName)
-            songDetailDuration.text = song.duration.print()
+            songDetailDuration.text = song.duration.printName()
         }
     }
 

@@ -12,6 +12,7 @@ import com.bandit.constant.Constants
 import com.bandit.data.mapper.EventMapper
 import com.bandit.data.model.Event
 import com.bandit.extension.print
+import com.bandit.extension.printHoursAndMinutes
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
 import com.bandit.util.AndroidUtils
@@ -30,7 +31,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 scheduleEtName.setText(it.name)
                 scheduleEtDate.setText(it.dateTime.toLocalDate().toString())
                 scheduleEtTime.setText(it.dateTime.toLocalTime().toString())
-                scheduleEtDuration.setText(it.duration.print())
+                scheduleEtDuration.setText(it.duration.printHoursAndMinutes())
                 scheduleSpinnerType.setSelection(it.type.ordinal)
             }
             scheduleButton.setOnClickListener {
@@ -48,7 +49,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 if (scheduleEtName.text.toString() == name &&
                     scheduleEtDate.text.toString() == dateTime.toLocalDate().toString() &&
                     scheduleEtTime.text.toString() == dateTime.toLocalTime().toString() &&
-                    scheduleEtDuration.text.toString() == duration.print() &&
+                    scheduleEtDuration.text.toString() == duration.printHoursAndMinutes() &&
                     BandItEnums.Event.Type.values()[typeIndex] == type
                 ) {
                     scheduleEtName.error = resources.getString(R.string.nothing_changed_validation)
@@ -69,7 +70,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             val newEvent = Event(
                 scheduleEtName.text.toString(),
                 ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
-                ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
+                ParserUtils.parseDurationTextToHoursAndMinutes(scheduleEtDuration.text.toString()),
                 BandItEnums.Event.Type.values()[typeIndex],
                 viewModel.selectedEvent.value!!.bandId,
                 viewModel.selectedEvent.value!!.id
