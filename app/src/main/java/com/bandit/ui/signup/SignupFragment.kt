@@ -14,7 +14,6 @@ import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
 import com.bandit.util.AndroidUtils
 import com.google.android.material.snackbar.Snackbar
 
@@ -24,7 +23,7 @@ class SignupFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SignupViewModel by activityViewModels()
     private lateinit var snackbar: Snackbar
-    private lateinit var validatorService: IValidatorService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +35,6 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             signupEtPassword.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {

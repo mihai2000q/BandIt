@@ -20,9 +20,9 @@ import com.bandit.util.AndroidUtils
 abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener {
 
     private var _binding: DialogFragmentScheduleBinding? = null
-    private lateinit var validatorService: IValidatorService
     protected val binding get() = _binding!!
     protected val viewModel: ScheduleViewModel by activityViewModels()
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
     protected var typeIndex = 0
 
     override fun onCreateView(
@@ -36,7 +36,6 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT

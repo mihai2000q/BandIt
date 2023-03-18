@@ -30,7 +30,7 @@ class BandMemberDetailDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
-            AndroidUtils.getScreenHeight(super.requireActivity()) * 3 / 4
+            AndroidUtils.getScreenHeight(super.requireActivity()) / 2
         )
         with(binding) {
             viewModel.selectedBandMember.observe(viewLifecycleOwner) {

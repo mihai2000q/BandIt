@@ -23,7 +23,7 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
     protected val binding get() = _binding!!
     protected val viewModel: ConcertsViewModel by activityViewModels()
     protected var typeIndex: Int = 0
-    private lateinit var validatorService: IValidatorService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +40,6 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             AndroidComponents.datePickerDialog(super.requireContext(), concertEtDate) {
                 AndroidUtils.hideKeyboard(

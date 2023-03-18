@@ -20,8 +20,6 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IPreferencesService
-import com.bandit.service.IValidatorService
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.coroutineScope
@@ -34,8 +32,8 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val accountViewModel: AccountViewModel by activityViewModels()
     private var phase = 0
     private var roleIndex = 0
-    private lateinit var validatorService: IValidatorService
-    private lateinit var preferencesService: IPreferencesService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
+    private val preferencesService by lazy { DILocator.getPreferencesService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +46,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        validatorService = DILocator.getValidatorService(super.requireActivity())
-        preferencesService = DILocator.getPreferencesService(super.requireActivity())
-        spinnerRole()
+        this.spinnerRole()
         with(binding) {
             firstLoginEtName.requestFocus()
             firstLoginBtCancel.setOnClickListener {

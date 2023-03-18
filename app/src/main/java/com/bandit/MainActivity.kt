@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.*
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,7 +24,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bandit.constant.Constants
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IPreferencesService
 import com.bandit.ui.account.AccountActivity
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.component.AndroidComponents
@@ -37,16 +35,19 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private lateinit var preferencesService: IPreferencesService
     private lateinit var accountActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var accountViewModel: AccountViewModel
     private var accountClicked = false
+    private val preferencesService by lazy { DILocator.getPreferencesService(this) }
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment)
+            .navController
+    }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.setContentView(binding.root)
-        preferencesService = DILocator.getPreferencesService(this)
         accountActivityLauncher = this.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -74,9 +75,7 @@ class MainActivity : AppCompatActivity() {
                     findNavController(R.id.main_nav_host)
                         .navigate(R.id.action_loginFragment_to_homeFragment)
                 else if(destination == null) {
-                    val navHostFragment = supportFragmentManager
-                        .findFragmentById(R.id.main_nav_host) as NavHostFragment
-                    navHostFragment.navController.setGraph(
+                    navController.setGraph(
                         R.navigation.mobile_navigation,
                         bundleOf(Constants.SafeArgs.FAIL_LOGIN_NETWORK to true)
                     )
@@ -90,10 +89,6 @@ class MainActivity : AppCompatActivity() {
         // solving small issue by setting a default
         bottomNavView.selectedItemId = R.id.navigation_home
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.main_nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
-
         super.setSupportActionBar(binding.mainToolbar)
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -104,14 +99,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
-        this.setupNavigationElements(navController)
-        this.setupSwipeRefreshLayout(binding.swipeRefreshLayout, navController)
+        this.setupNavigationElements()
+        this.setupSwipeRefreshLayout(binding.swipeRefreshLayout)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         return authentication()
     }
 
-    private fun setupNavigationElements(navController: NavController) {
+    private fun setupNavigationElements() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home,
@@ -130,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, navController: NavController) {
+    private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModelStore.clear()
@@ -241,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                         accountViewModel.account.value!!
                     )
                     val profilePic = accountViewModel.getProfilePicture()
-                    accountIntent.putExtra(Constants.Account.PROFILE_PIC_EXTRA, profilePic)
+                    accountIntent.putExtra(Constants.Account.PROFILE_PIC_EXTRA, profilePic.toString())
                     accountActivityLauncher.launch(accountIntent)
                 }
                 true

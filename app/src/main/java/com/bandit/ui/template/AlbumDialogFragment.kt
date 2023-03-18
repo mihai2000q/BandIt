@@ -20,7 +20,7 @@ abstract class AlbumDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentAlbumBinding? = null
     protected val binding get() = _binding!!
     protected val viewModel: SongsViewModel by activityViewModels()
-    private lateinit var validatorService: IValidatorService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +37,6 @@ abstract class AlbumDialogFragment : DialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             AndroidComponents.datePickerDialog(super.requireContext(), albumEtReleaseDate, true) {
                 AndroidUtils.hideKeyboard(
