@@ -59,8 +59,9 @@ class AccountActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
                 accountSpinnerRole.setSelection(this.role.ordinal)
             }
             val pic = intent.extras?.getByteArray(Constants.Account.PROFILE_PIC_EXTRA)!!
+            val pic = Uri.parse(intent.extras?.getString(Constants.Account.PROFILE_PIC_EXTRA)!!)
             Glide.with(this@AccountActivity)
-                .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
+                .load(if(pic == Uri.EMPTY) R.drawable.default_avatar else pic)
                 .placeholder(R.drawable.placeholder_profile_pic)
                 .into(accountIvProfilePicture)
             val imagePickerDialog = ImagePickerDialog(accountIvProfilePicture) {

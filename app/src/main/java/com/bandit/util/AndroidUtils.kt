@@ -246,7 +246,7 @@ object AndroidUtils {
         fragment.lifecycleScope.launch {
             val pic = viewModel.getProfilePicture(userUid)
             Glide.with(fragment)
-                .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
+                .load(if(pic == Uri.EMPTY) R.drawable.default_avatar else pic)
                 .placeholder(R.drawable.placeholder_profile_pic)
                 .into(profilePicView)
         }

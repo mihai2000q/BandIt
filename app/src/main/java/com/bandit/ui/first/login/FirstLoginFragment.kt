@@ -80,11 +80,13 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
             val imagePickerDialog = ImagePickerDialog(firstLoginProfilePicture) {
-                accountViewModel.saveProfilePicture(it)
-                AndroidComponents.toastNotification(
-                    super.requireContext(),
-                    resources.getString(R.string.account_profile_pic_selected_toast)
-                )
+                coroutineScope {
+                    launch { accountViewModel.saveProfilePicture(it) }
+                    AndroidComponents.toastNotification(
+                        super.requireContext(),
+                        resources.getString(R.string.account_profile_pic_selected_toast)
+                    )
+                }
             }
             firstLoginProfilePicture.setOnClickListener {
                 AndroidUtils.showDialogFragment(imagePickerDialog, childFragmentManager)

@@ -1,5 +1,6 @@
 package com.bandit.ui.friends
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,7 +43,7 @@ class FriendsViewModel : ViewModel() {
         launch { _repository.unfriend(account) }.join()
         this@FriendsViewModel.refresh()
     }
-    suspend fun getProfilePicture(userUid: String?): ByteArray = coroutineScope {
+    suspend fun getProfilePicture(userUid: String?): Uri = coroutineScope {
         return@coroutineScope _storage.getProfilePicture(userUid)
     }
     fun removeBandForFriend(account: Account) {
