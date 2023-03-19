@@ -14,7 +14,10 @@ import com.bandit.extension.printName
 import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SongDetailDialogFragment : BottomSheetDialogFragment() {
+class SongDetailDialogFragment(
+    private val onEditSong: (Song) -> Unit,
+    private val onDeleteSong: (Song) -> Unit
+): BottomSheetDialogFragment() {
     private var _binding: DialogFragmentSongDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SongsViewModel by activityViewModels()
@@ -34,7 +37,18 @@ class SongDetailDialogFragment : BottomSheetDialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        viewModel.selectedSong.observe(viewLifecycleOwner) { assignSongDetails(it) }
+        viewModel.selectedSong.observe(viewLifecycleOwner) {song ->
+            this@SongDetailDialogFragment.assignSongDetails(song)
+            binding.songDetailBtEdit.setOnClickListener {
+                onEditSong(song)
+                super.dismiss()
+            }
+            binding.songDetailBtDelete.setOnClickListener {
+                onDeleteSong(song)
+                super.dismiss()
+            }
+        }
+
     }
 
     override fun onDestroy() {

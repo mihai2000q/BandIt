@@ -15,7 +15,10 @@ import com.bandit.extension.printName
 import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ConcertDetailDialogFragment : BottomSheetDialogFragment() {
+class ConcertDetailDialogFragment(
+    private val onEditConcert: (Concert) -> Unit,
+    private val onDeleteConcert: (Concert) -> Unit
+) : BottomSheetDialogFragment() {
 
     private var _binding: DialogFragmentConcertDetailBinding? = null
     private val binding get() = _binding!!
@@ -35,7 +38,17 @@ class ConcertDetailDialogFragment : BottomSheetDialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        viewModel.selectedConcert.observe(viewLifecycleOwner) { assignConcertDetails(it) }
+        viewModel.selectedConcert.observe(viewLifecycleOwner) { concert ->
+            this@ConcertDetailDialogFragment.assignConcertDetails(concert)
+            binding.concertDetailBtEdit.setOnClickListener {
+                onEditConcert(concert)
+                super.dismiss()
+            }
+            binding.concertDetailBtDelete.setOnClickListener {
+                onDeleteConcert(concert)
+                super.dismiss()
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -129,9 +129,9 @@ class ValidatorService(
     }
 
     override fun validateDuration(editText: EditText, editTextLayout: TextInputLayout): Boolean {
-        if((!editText.text.isNullOrBlank() &&
-            editText.text.length != 5) ||
-            Integer.parseInt(editText.text[3].toString()) >= 6
+        if(!editText.text.isNullOrBlank() &&
+            (editText.text.length != 5 ||
+            Integer.parseInt(editText.text[3].toString()) >= 6)
         ) {
             editTextLayout.error = activity.resources.getString(R.string.et_duration_validation_valid)
             editText.doOnTextChanged { text, _, _, _ ->

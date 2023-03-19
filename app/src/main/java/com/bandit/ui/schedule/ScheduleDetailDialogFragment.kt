@@ -10,12 +10,14 @@ import com.bandit.constant.Constants
 import com.bandit.data.model.Event
 import com.bandit.databinding.DialogFragmentScheduleDetailBinding
 import com.bandit.extension.normalizeWord
-import com.bandit.extension.print
 import com.bandit.extension.printName
 import com.bandit.util.AndroidUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ScheduleDetailDialogFragment : BottomSheetDialogFragment() {
+class ScheduleDetailDialogFragment(
+    private val onEditEvent: (Event) -> Unit,
+    private val onDeleteEvent: (Event) -> Unit
+) : BottomSheetDialogFragment() {
 
     private var _binding: DialogFragmentScheduleDetailBinding? = null
     private val binding get() = _binding!!
@@ -36,7 +38,17 @@ class ScheduleDetailDialogFragment : BottomSheetDialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        viewModel.selectedEvent.observe(viewLifecycleOwner) { assignEventDetails(it) }
+        viewModel.selectedEvent.observe(viewLifecycleOwner) { event ->
+            this@ScheduleDetailDialogFragment.assignEventDetails(event)
+            binding.scheduleDetailBtEdit.setOnClickListener {
+                onEditEvent(event)
+                super.dismiss()
+            }
+            binding.scheduleDetailBtDelete.setOnClickListener {
+                onDeleteEvent(event)
+                super.dismiss()
+            }
+        }
     }
 
     private fun assignEventDetails(event: Event) {

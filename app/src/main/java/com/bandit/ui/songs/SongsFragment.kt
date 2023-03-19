@@ -37,7 +37,16 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
-    private val albumDetailDialogFragment = AlbumDetailDialogFragment ({ onEditSong(it) }) { onDeleteAlbum(it) }
+    private val songDetailDialogFragment = SongDetailDialogFragment(
+        { onEditSong(it) },
+        { onDeleteSong(it) }
+    )
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment (
+        { onClickSong(it) },
+        { onEditSong(it) },
+        { onEditAlbum(it) },
+        { onDeleteAlbum(it) }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -208,7 +217,8 @@ class SongsFragment : Fragment() {
                         it.sorted().reversed(),
                         viewModel,
                         { song -> onDeleteSong(song) },
-                        { song -> onEditSong(song) }
+                        { song -> onEditSong(song) },
+                        { song -> onClickSong(song) }
                     )
                 }
             ) {
@@ -285,6 +295,14 @@ class SongsFragment : Fragment() {
                 songsBtOptions.performClick()
             }
         }
+    }
+
+    private fun onClickSong(song: Song) {
+        viewModel.selectedSong.value = song
+        AndroidUtils.showDialogFragment(
+            songDetailDialogFragment,
+            childFragmentManager
+        )
     }
 
     private fun onDeleteSong(song: Song) {

@@ -22,7 +22,10 @@ data class ConcertAdapter(
     private val onDeleteConcert: (Concert) -> Unit,
     private val onEditConcert: (Concert) -> Unit
 ) : RecyclerView.Adapter<ConcertAdapter.ViewHolder>() {
-    private val concertDetailDialogFragment = ConcertDetailDialogFragment()
+    private val concertDetailDialogFragment = ConcertDetailDialogFragment(
+        { onEditConcert(it) },
+        { onDeleteConcert(it) }
+    )
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 

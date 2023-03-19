@@ -33,7 +33,6 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
     private val bandViewModel: BandViewModel by activityViewModels()
     private val concertEditDialogFragment = ConcertEditDialogFragment()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -135,9 +134,9 @@ class ConcertsFragment : Fragment(), SearchView.OnQueryTextListener {
                     async {
                         launch { viewModel.removeConcert(concert) }
                         launch {
-                            val events = scheduleViewModel.events.value!!.filter {
+                            val events = scheduleViewModel.events.value?.filter {
                                 it.id == concert.id && it.name == concert.name
-                            }
+                            } ?: listOf()
                             if(events.isNotEmpty())
                                 scheduleViewModel.removeEvent(events.first())
                         }

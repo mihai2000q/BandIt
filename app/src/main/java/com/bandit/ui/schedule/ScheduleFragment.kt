@@ -221,9 +221,9 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                         launch { viewModel.removeEvent(event) }
                         if(event.type == BandItEnums.Event.Type.Concert)
                             launch {
-                                val concerts = concertViewModel.concerts.value!!.filter {
+                                val concerts = concertViewModel.concerts.value?.filter {
                                     it.id == event.id && it.name == event.name
-                                }
+                                } ?: listOf()
                                 if(concerts.isNotEmpty())
                                     concertViewModel.removeConcert(concerts.first())
                             }

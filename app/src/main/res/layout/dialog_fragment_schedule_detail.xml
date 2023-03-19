@@ -5,6 +5,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/bottomSheetDragHandleView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/schedule_detail_bt_edit"
+        style="@style/DetailEditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_detail_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/schedule_detail_bt_delete"
+        style="@style/DetailDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/schedule_detail_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/schedule_detail_name"
         android:layout_width="wrap_content"
@@ -16,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/schedule_detail_date_time"
         app:layout_constraintEnd_toEndOf="@+id/schedule_detail_date_time"
         app:layout_constraintStart_toStartOf="@+id/schedule_detail_date_time"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bottomSheetDragHandleView3" />
 
     <TextView
         android:id="@+id/schedule_detail_date_time"

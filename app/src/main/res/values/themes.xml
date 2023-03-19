@@ -62,4 +62,21 @@
         <item name="android:paddingVertical">2dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="DetailEditButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:scaleX">0.6</item>
+        <item name="android:scaleY">0.6</item>
+        <item name="android:clickable">true</item>
+        <item name="android:contentDescription">@string/content_description_bt_remove</item>
+        <item name="android:tooltipText">@string/content_description_bt_remove</item>
+        <item name="android:src">@drawable/ic_edit</item>
+        <item name="android:backgroundTint">@color/dark_sea_green</item>
+    </style>
+    <style name="DetailDeleteButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:scaleX">0.6</item>
+        <item name="android:scaleY">0.6</item>
+        <item name="android:contentDescription">@string/content_description_bt_edit</item>
+        <item name="android:tooltipText">@string/content_description_bt_edit</item>
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:backgroundTint">@color/lighter_red</item>
+    </style>
 </resources>
