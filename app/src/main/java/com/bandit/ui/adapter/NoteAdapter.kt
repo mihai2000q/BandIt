@@ -43,17 +43,15 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note = notes[position]
 
-        holder.itemView.setOnLongClickListener { onLongClick(holder, note) }
-        with(holder.binding) {
-            noteDate.text = note.createdOn.toLocalDate().printName()
-            noteTitle.text = note.title
-            noteMessage.text = note.content
-            noteMessage.minWidth =
-                AndroidUtils.getScreenWidth(fragment.requireActivity()) * 6 / 8
-            noteMessage.minHeight =
-                AndroidUtils.getScreenWidth(fragment.requireActivity()) * 7 / 16
-            noteMessage.setOnClickListener { onEdit(note) }
-            noteMessage.setOnLongClickListener { onLongClick(holder, note) }
+        with(holder) {
+            itemView.setOnLongClickListener { onLongClick(holder, note) }
+            with(binding) {
+                noteDate.text = note.createdOn.toLocalDate().printName()
+                noteTitle.text = note.title
+                noteMessage.text = note.content
+                noteMessage.setOnClickListener { onEdit(note) }
+                noteMessage.setOnLongClickListener { onLongClick(holder, note) }
+            }
         }
     }
 

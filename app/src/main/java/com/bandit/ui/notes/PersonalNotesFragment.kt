@@ -36,7 +36,7 @@ class PersonalNotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             AndroidUtils.setupRefreshLayout(this@PersonalNotesFragment, personalNotesRvList)
-            personalNotesBtAdd.setOnClickListener { addNote() }
+            personalNotesBtAdd.setOnClickListener { this@PersonalNotesFragment.addNote() }
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.notes,
