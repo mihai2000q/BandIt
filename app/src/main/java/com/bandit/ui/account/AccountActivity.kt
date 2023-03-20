@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bandit.R
 import com.bandit.constant.BandItEnums
@@ -29,7 +28,7 @@ class AccountActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var profilePicChanged = false
     private lateinit var profilePicUri: Uri
     private var roleIndex = 0
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @Suppress("deprecation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountBinding.inflate(layoutInflater)
@@ -38,7 +37,10 @@ class AccountActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         title = resources.getString(R.string.account_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        account = intent.extras?.getParcelable(Constants.Account.EXTRA, Account::class.java)!!
+        account = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                intent.extras?.getParcelable(Constants.Account.EXTRA, Account::class.java)!!
+            else
+                intent.extras?.get(Constants.Account.EXTRA) as Account
         with(binding) {
             AndroidComponents.spinner(
                 applicationContext,

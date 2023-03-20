@@ -228,12 +228,12 @@ object AndroidUtils {
     }
 
     suspend fun isNetworkAvailable() = DILocator.getDatabase().isConnected()
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+    fun getImageUri(context: Context, image: Bitmap?): Uri? {
         //TODO: Replace deprecated method for .insertImage()
         val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        image?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media
-                .insertImage(inContext.contentResolver, inImage, "Title", null)
+                .insertImage(context.contentResolver, image, "Title", null)
         return Uri.parse(path)
     }
 

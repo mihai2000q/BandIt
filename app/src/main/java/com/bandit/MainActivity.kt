@@ -2,6 +2,7 @@ package com.bandit
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +23,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bandit.constant.Constants
+import com.bandit.data.model.Account
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.account.AccountActivity
@@ -158,13 +160,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @Suppress("deprecation")
     private suspend fun updateAccount(extras: Bundle): Boolean = coroutineScope {
         async {
-            val newAccount = extras.getParcelable(
-                Constants.Account.RESULT_ACCOUNT_EXTRA,
-                com.bandit.data.model.Account::class.java
-            )!!
+            val newAccount = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                 extras.getParcelable(
+                    Constants.Account.RESULT_ACCOUNT_EXTRA,
+                    Account::class.java
+                )!!
+            else
+                extras.get(Constants.Account.RESULT_ACCOUNT_EXTRA) as Account
             if (!newAccount.isEmpty()) {
                 launch { accountViewModel.updateAccount(newAccount) }
             }
@@ -172,10 +177,13 @@ class MainActivity : AppCompatActivity() {
             if (res)
                 launch {
                     accountViewModel.saveProfilePicture(
-                        extras.getParcelable(
-                            Constants.Account.RESULT_PROFILE_PIC_EXTRA,
-                            android.net.Uri::class.java
-                        )!!
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                            extras.getParcelable(
+                                Constants.Account.RESULT_PROFILE_PIC_EXTRA,
+                                android.net.Uri::class.java
+                            )!!
+                        else
+                            extras.get(Constants.Account.RESULT_PROFILE_PIC_EXTRA) as Uri
                     )
                 }
             if(!res && (newAccount.isEmpty() || newAccount == accountViewModel.account.value!!))
@@ -217,14 +225,6 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.action_bar_profile -> {
                 lifecycleScope.launch {
-                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                        AndroidComponents.toastNotification(
-                            applicationContext,
-                            resources.getString(R.string.minimum_sdk_too_low),
-                            Toast.LENGTH_LONG
-                        )
-                        return@launch
-                    }
                     if(accountClicked) return@launch
                     accountClicked = true
                     accountViewModel = ViewModelProvider(

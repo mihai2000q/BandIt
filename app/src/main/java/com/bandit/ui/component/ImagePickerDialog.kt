@@ -35,6 +35,7 @@ class ImagePickerDialog(
     private lateinit var galleryPermissionLauncher: ActivityResultLauncher<String>
     private val permissionService by lazy { DILocator.getPermissionService(super.requireActivity()) }
 
+    @Suppress("Deprecation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,9 +56,13 @@ class ImagePickerDialog(
         ) {
             if(it.resultCode == Activity.RESULT_OK) {
                 AndroidUtils.loadIntent(this@ImagePickerDialog) {
-                    //TODO: Replace deprecated method for .get() as Bitmap
-                    loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
-                        it.data?.extras?.get("data") as Bitmap))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
+                            it.data?.extras?.getParcelable("data", Bitmap::class.java)))
+                    } else {
+                        loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
+                            it.data?.extras?.get("data") as Bitmap))
+                    }
                 }
             }
         }
