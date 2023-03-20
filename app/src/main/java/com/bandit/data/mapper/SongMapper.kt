@@ -5,7 +5,7 @@ import com.bandit.data.model.Song
 import java.time.Duration
 import java.time.LocalDate
 
-object SongMapper : MapperB<Song, SongDto> {
+object SongMapper : MapperBandItems<Song, SongDto> {
     override fun fromDtoToItem(dto: SongDto): Song {
         return Song(
             name = dto.name ?: "",

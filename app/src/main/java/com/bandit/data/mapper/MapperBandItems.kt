@@ -6,7 +6,7 @@ import com.bandit.data.template.Item
 /**
  * Mapper interface intended to use on items dependent on a Band object
  */
-sealed interface MapperB<T, E>
+sealed interface MapperBandItems<T, E>
 where
 T : Item,
 E : TemplateBandDto

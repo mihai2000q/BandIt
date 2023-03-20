@@ -6,7 +6,7 @@ import com.bandit.data.template.Item
 /**
  * Mapper interface intended to use on items dependent on an Account object
  */
-sealed interface MapperA<T, E>
+sealed interface MapperAccountItems<T, E>
 where
 T : Item,
 E : TemplateAccountDto

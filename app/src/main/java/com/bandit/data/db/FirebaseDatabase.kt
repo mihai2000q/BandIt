@@ -623,26 +623,26 @@ class FirebaseDatabase : Database {
 
     private suspend inline fun <T : Item, reified E : TemplateBandDto> readAndMapItemsB(
         table: String,
-        mapperB: MapperB<T, E>,
+        mapperBandItems: MapperBandItems<T, E>,
         bandId: Long
     ): List<T> =
     coroutineScope {
         async {
             return@async readDtos<E>(table)
                 .filter { it.bandId == bandId }
-                .map { mapperB.fromDtoToItem(it) }
+                .map { mapperBandItems.fromDtoToItem(it) }
         }
     }.await()
 
     private suspend inline fun <T : Item, reified E : TemplateAccountDto> readAndMapItemsA(
         table: String,
-        mapperA: MapperA<T, E>,
+        mapperAccountItems: MapperAccountItems<T, E>,
         accountId: Long
     ): List<T> =
         coroutineScope {
             async {
                 return@async readItemsA<E>(table, accountId)
-                    .map { mapperA.fromDtoToItem(it) }
+                    .map { mapperAccountItems.fromDtoToItem(it) }
             }
         }.await()
 
@@ -675,13 +675,13 @@ class FirebaseDatabase : Database {
 
     private suspend inline fun<T : Item, reified E : TemplateBandDto> removeBandItems(
         table: String,
-        mapperB: MapperB<T, E>,
+        mapperBandItems: MapperBandItems<T, E>,
         bandId: Long
     ) = coroutineScope {
         async {
             lateinit var items: List<T>
             launch {
-                items = readAndMapItemsB(table, mapperB, bandId)
+                items = readAndMapItemsB(table, mapperBandItems, bandId)
             }.invokeOnCompletion {
                 launch {
                     items.forEach {

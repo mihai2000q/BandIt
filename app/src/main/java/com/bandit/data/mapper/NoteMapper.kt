@@ -4,7 +4,7 @@ import com.bandit.data.dto.NoteDto
 import com.bandit.data.model.Note
 import java.time.LocalDateTime
 
-object NoteMapper : MapperA<Note, NoteDto> {
+object NoteMapper : MapperAccountItems<Note, NoteDto> {
     override fun fromDtoToItem(dto: NoteDto): Note {
         return Note(
             title = dto.title ?: "",
