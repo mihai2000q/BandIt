@@ -529,19 +529,19 @@ class FirebaseDatabase : Database {
 
     private suspend fun readConcerts() = coroutineScope {
         async {
-            concerts += readAndMapItemsB(Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id)
+            concerts += readAndMapBandItems(Constants.Firebase.Database.CONCERTS, ConcertMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readSongs() = coroutineScope {
         async {
-            songs += readAndMapItemsB(Constants.Firebase.Database.SONGS, SongMapper, _currentBand.id)
+            songs += readAndMapBandItems(Constants.Firebase.Database.SONGS, SongMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readAlbums() = coroutineScope {
         async {
-            albums += readAndMapItemsB(Constants.Firebase.Database.ALBUMS, AlbumMapper, _currentBand.id)
+            albums += readAndMapBandItems(Constants.Firebase.Database.ALBUMS, AlbumMapper, _currentBand.id)
             albums.forEach { a ->
                 songs.forEach { s ->
                     if(s.albumId == a.id)
@@ -553,25 +553,25 @@ class FirebaseDatabase : Database {
 
     private suspend fun readEvents() = coroutineScope {
         async {
-            events += readAndMapItemsB(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
+            events += readAndMapBandItems(Constants.Firebase.Database.EVENTS, EventMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readTasks() = coroutineScope {
         async {
-            tasks += readAndMapItemsB(Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id)
+            tasks += readAndMapBandItems(Constants.Firebase.Database.TASKS, TaskMapper, _currentBand.id)
         }
     }.await()
 
     private suspend fun readNotes() = coroutineScope {
         async {
-            notes += readAndMapItemsA(Constants.Firebase.Database.NOTES, NoteMapper, _currentAccount.id)
+            notes += readAndMapAccountItems(Constants.Firebase.Database.NOTES, NoteMapper, _currentAccount.id)
         }
     }.await()
 
     private suspend fun readFriends() = coroutineScope {
         async {
-            val dtos = readItemsA<FriendDto>(Constants.Firebase.Database.FRIENDS, _currentAccount.id)
+            val dtos = readAccountItems<FriendDto>(Constants.Firebase.Database.FRIENDS, _currentAccount.id)
             friends +=
                 readAccountDtos { acc -> dtos.any { dto -> dto.friendId == acc.id } }
                 .map { AccountMapper.fromDtoToItem(it) }
@@ -580,7 +580,7 @@ class FirebaseDatabase : Database {
 
     private suspend fun readFriendRequests() = coroutineScope {
         async {
-            val dtos = readItemsA<FriendRequestDto>(
+            val dtos = readAccountItems<FriendRequestDto>(
                 Constants.Firebase.Database.FRIEND_REQUESTS, _currentAccount.id)
             friendRequests +=
                 readAccountDtos { acc -> dtos.any { dto -> dto.friendId == acc.id } }
@@ -621,7 +621,7 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend inline fun <T : Item, reified E : TemplateBandDto> readAndMapItemsB(
+    private suspend inline fun <T : Item, reified E : TemplateBandDto> readAndMapBandItems(
         table: String,
         mapperBandItems: MapperBandItems<T, E>,
         bandId: Long
@@ -634,19 +634,19 @@ class FirebaseDatabase : Database {
         }
     }.await()
 
-    private suspend inline fun <T : Item, reified E : TemplateAccountDto> readAndMapItemsA(
+    private suspend inline fun <T : Item, reified E : TemplateAccountDto> readAndMapAccountItems(
         table: String,
         mapperAccountItems: MapperAccountItems<T, E>,
         accountId: Long
     ): List<T> =
         coroutineScope {
             async {
-                return@async readItemsA<E>(table, accountId)
+                return@async readAccountItems<E>(table, accountId)
                     .map { mapperAccountItems.fromDtoToItem(it) }
             }
         }.await()
 
-    private suspend inline fun <reified E : TemplateAccountDto> readItemsA(
+    private suspend inline fun <reified E : TemplateAccountDto> readAccountItems(
         table: String,
         accountId: Long
     ): List<E> =
@@ -681,7 +681,7 @@ class FirebaseDatabase : Database {
         async {
             lateinit var items: List<T>
             launch {
-                items = readAndMapItemsB(table, mapperBandItems, bandId)
+                items = readAndMapBandItems(table, mapperBandItems, bandId)
             }.invokeOnCompletion {
                 launch {
                     items.forEach {
