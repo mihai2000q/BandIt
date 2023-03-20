@@ -64,7 +64,9 @@ object AndroidUtils {
             calendar.toInstant(),
             calendar.timeZone.toZoneId()
         ).toLocalDate()
+
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
+
     fun unlockNavigation(
         activity: Activity
     ) {
@@ -76,6 +78,7 @@ object AndroidUtils {
             MainActivity.isAccountButtonShown = true
         }
     }
+
     fun lockNavigation(
         activity: Activity
     ) {
@@ -87,14 +90,17 @@ object AndroidUtils {
             MainActivity.isAccountButtonShown = false
         }
     }
+
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     fun showKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
+
     @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -108,6 +114,7 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
+
     @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -121,6 +128,7 @@ object AndroidUtils {
             displayMetrics.heightPixels
         }
     }
+
     fun showDialogFragment(dialogFragment: DialogFragment, childFragmentManager: FragmentManager) {
         if(!dialogFragment.isVisible)
             dialogFragment.show(
@@ -128,6 +136,7 @@ object AndroidUtils {
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
     }
+
     fun ifNullHide(
         textView: TextView,
         string: String?
@@ -137,6 +146,7 @@ object AndroidUtils {
         else
             textView.text = string
     }
+
     fun ifNullHide(
         textView: TextView,
         additional: TextView,
@@ -149,6 +159,7 @@ object AndroidUtils {
         else
             textView.text = string
     }
+
     fun durationEditTextSetup(editText: EditText) {
         var backspace = false
         editText.setOnKeyListener { _, keyCode, event ->
@@ -228,8 +239,9 @@ object AndroidUtils {
     }
 
     suspend fun isNetworkAvailable() = DILocator.getDatabase().isConnected()
+
+    @Suppress("deprecation")
     fun getImageUri(context: Context, image: Bitmap?): Uri? {
-        //TODO: Replace deprecated method for .insertImage()
         val bytes = ByteArrayOutputStream()
         image?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media
