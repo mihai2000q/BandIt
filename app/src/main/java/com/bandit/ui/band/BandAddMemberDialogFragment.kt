@@ -11,11 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentBandAddMemberBinding
 import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 

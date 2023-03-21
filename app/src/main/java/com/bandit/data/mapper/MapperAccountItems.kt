@@ -1,7 +1,7 @@
 package com.bandit.data.mapper
 
-import com.bandit.data.template.TemplateAccountDto
 import com.bandit.data.template.Item
+import com.bandit.data.template.TemplateAccountDto
 
 /**
  * Mapper interface intended to use on items dependent on an Account object

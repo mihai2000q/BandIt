@@ -1,7 +1,7 @@
 package com.bandit.data.mapper
 
-import com.bandit.data.template.TemplateBandDto
 import com.bandit.data.template.Item
+import com.bandit.data.template.TemplateBandDto
 
 /**
  * Mapper interface intended to use on items dependent on a Band object

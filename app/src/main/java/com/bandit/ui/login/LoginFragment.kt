@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
-import androidx.transition.TransitionManager
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.repository.AccountRepository

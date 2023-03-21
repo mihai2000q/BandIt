@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
@@ -18,6 +17,7 @@ import com.bandit.databinding.DialogFragmentAlbumDetailBinding
 import com.bandit.extension.printMinutesAndSeconds
 import com.bandit.extension.printName
 import com.bandit.ui.adapter.SongAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.ui.songs.SongAddDialogFragment
 import com.bandit.ui.songs.SongsViewModel

@@ -3,9 +3,9 @@ package com.bandit.data.repository
 import com.bandit.data.db.Database
 import com.bandit.data.model.Song
 import com.bandit.data.template.TemplateRepository
+import com.bandit.util.FilterUtils.filter
 import java.time.Duration
 import java.time.LocalDate
-import com.bandit.util.FilterUtils.filter
 
 class   SongRepository(database: Database? = null)
     : TemplateRepository<Song>(database, database?.songs) {

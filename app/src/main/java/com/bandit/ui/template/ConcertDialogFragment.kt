@@ -9,11 +9,10 @@ import android.widget.AdapterView
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentConcertBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.util.AndroidUtils
 

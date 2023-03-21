@@ -3,8 +3,8 @@ package com.bandit.ui.songs
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.template.SongDialogFragment
 import com.bandit.util.ParserUtils
 import com.google.android.material.badge.BadgeDrawable

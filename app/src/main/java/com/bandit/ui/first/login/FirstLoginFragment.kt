@@ -13,13 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
-import com.bandit.ui.component.ImagePickerDialog
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.databinding.FragmentFirstLoginBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.account.AccountViewModel
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.ImagePickerDialog
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

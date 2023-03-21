@@ -6,10 +6,10 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Album
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.template.AlbumDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils

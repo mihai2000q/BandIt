@@ -5,14 +5,14 @@ import com.bandit.auth.Authenticator
 import com.bandit.auth.FirebaseAuthenticator
 import com.bandit.data.db.Database
 import com.bandit.data.db.FirebaseDatabase
-import com.bandit.storage.FirebaseStorage
-import com.bandit.storage.Storage
 import com.bandit.service.IPermissionService
 import com.bandit.service.IPreferencesService
 import com.bandit.service.IValidatorService
 import com.bandit.service.impl.PermissionService
 import com.bandit.service.impl.PreferencesService
 import com.bandit.service.impl.ValidatorService
+import com.bandit.storage.FirebaseStorage
+import com.bandit.storage.Storage
 
 object DILocator {
     private val database = FirebaseDatabase()

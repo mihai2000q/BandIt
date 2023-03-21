@@ -3,8 +3,8 @@ package com.bandit.ui.concerts
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.ui.template.ConcertDialogFragment
 import com.bandit.util.ParserUtils

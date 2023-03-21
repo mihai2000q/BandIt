@@ -9,11 +9,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
 import com.bandit.di.DILocator
 import com.bandit.ui.account.AccountViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 
 class BandCreateDialogFragment : DialogFragment() {

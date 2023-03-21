@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.ModelNoteBinding
 import com.bandit.extension.printName
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.notes.PersonalNotesEditDialogFragment
 import com.bandit.ui.notes.PersonalNotesViewModel
 import com.bandit.util.AndroidUtils

@@ -12,9 +12,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
 import com.bandit.data.model.BandInvitation
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.ui.adapter.BandInvitationAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 

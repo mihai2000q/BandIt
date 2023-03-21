@@ -8,11 +8,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.BandMemberAdapter
 import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil

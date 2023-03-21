@@ -11,7 +11,6 @@ import com.bandit.data.repository.AccountRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 class AccountViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()

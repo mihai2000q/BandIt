@@ -5,15 +5,18 @@ import com.bandit.constant.Constants
 import com.bandit.data.dto.*
 import com.bandit.data.mapper.*
 import com.bandit.data.model.*
+import com.bandit.data.template.Item
 import com.bandit.data.template.TemplateAccountDto
 import com.bandit.data.template.TemplateBandDto
-import com.bandit.data.template.Item
 import com.bandit.util.AndroidUtils
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 
 class FirebaseDatabase : Database {
     // initial data set - not updated, just loaded/read

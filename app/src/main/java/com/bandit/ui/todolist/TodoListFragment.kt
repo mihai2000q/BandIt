@@ -10,12 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
-import com.bandit.ui.component.TypingBottomSheetDialogFragment
 import com.bandit.data.model.Task
 import com.bandit.databinding.FragmentTodolistBinding
 import com.bandit.ui.adapter.TaskAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
+import com.bandit.ui.component.TypingBottomSheetDialogFragment
 import com.bandit.util.AndroidUtils
 
 class TodoListFragment : Fragment() {

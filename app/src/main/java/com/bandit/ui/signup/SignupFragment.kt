@@ -11,9 +11,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentSignupBinding
 import com.bandit.di.DILocator
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 import com.google.android.material.snackbar.Snackbar
 

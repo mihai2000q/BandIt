@@ -1,8 +1,8 @@
 package com.bandit.data.model
 
 import com.bandit.constant.BandItEnums
-import com.bandit.extension.normalizeWord
 import com.bandit.data.template.Item
+import com.bandit.extension.normalizeWord
 import com.bandit.util.AndroidUtils
 import java.time.Duration
 import java.time.LocalDateTime

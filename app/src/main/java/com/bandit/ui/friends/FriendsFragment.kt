@@ -12,11 +12,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bandit.R
 import com.bandit.data.model.Account
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentFriendsBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable

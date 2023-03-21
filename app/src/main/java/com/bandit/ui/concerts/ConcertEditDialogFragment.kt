@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.mapper.ConcertMapper
 import com.bandit.data.model.Concert
 import com.bandit.extension.printHoursAndMinutes
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.ui.template.ConcertDialogFragment
 import com.bandit.util.AndroidUtils

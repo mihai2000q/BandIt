@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
