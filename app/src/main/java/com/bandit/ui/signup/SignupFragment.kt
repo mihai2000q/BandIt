@@ -2,7 +2,6 @@ package com.bandit.ui.signup
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,14 +35,6 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            signupEtPassword.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    signupBtSignup.callOnClick()
-                    signupBtSignup.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
             signupCbTerms.setOnCheckedChangeListener { _, isChecked ->
                 if(isChecked && signupCbTerms.error != null) {
                     signupCbTerms.error = null

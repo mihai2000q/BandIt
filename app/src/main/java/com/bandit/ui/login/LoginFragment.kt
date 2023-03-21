@@ -44,15 +44,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
-            //press enter to login
-            loginEtPassword.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    loginBtLogin.callOnClick()
-                    loginBtLogin.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
             loginCbRemember.setOnClickListener {
                 AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginCbRemember)
             }

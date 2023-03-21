@@ -1,7 +1,6 @@
 package com.bandit.ui.band
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,14 +41,6 @@ class BandCreateDialogFragment : DialogFragment() {
         with(binding) {
             viewModel.name.observe(viewLifecycleOwner) {
                 createBandEtName.setText(it)
-            }
-            createBandEtName.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    createBandBtCreate.callOnClick()
-                    createBandBtCreate.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
             }
             createBandBtCreate.setOnClickListener {
                 if(!validateFields()) return@setOnClickListener

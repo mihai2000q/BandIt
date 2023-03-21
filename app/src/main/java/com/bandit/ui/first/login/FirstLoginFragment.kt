@@ -2,7 +2,6 @@ package com.bandit.ui.first.login
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,21 +50,6 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
             firstLoginEtName.requestFocus()
             firstLoginBtCancel.setOnClickListener {
                 findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
-            }
-            firstLoginEtName.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    firstLoginBtNext.callOnClick()
-                    firstLoginEtNickname.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
-            firstLoginEtNickname.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    firstLoginBtNext.callOnClick()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
             }
             firstLoginBtNext.setOnClickListener {
                 lifecycleScope.launch {
