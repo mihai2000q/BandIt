@@ -595,6 +595,15 @@ class FirebaseDatabase : Database {
             people -= _currentAccount
             people -= friendRequests.toSet()
             people -= friends.toSet()
+
+            val sentFriendRequestDtos =
+                readDtos<FriendRequestDto>(Constants.Firebase.Database.FRIEND_REQUESTS)
+                    .filter { it.friendId == _currentAccount.id }
+            val sentFriendRequests =
+                readAccountDtos { acc -> sentFriendRequestDtos.any { dto -> dto.accountId == acc.id } }
+                    .map { AccountMapper.fromDtoToItem(it) }
+
+            people -= sentFriendRequests.toSet()
         }
     }.await()
 
