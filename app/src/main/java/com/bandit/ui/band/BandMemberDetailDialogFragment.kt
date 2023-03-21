@@ -41,7 +41,7 @@ class BandMemberDetailDialogFragment : DialogFragment() {
                     it.userUid
                 )
                 bandMemberDetailTvEmail.text = it.email
-                bandMemberDetailTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
+                AndroidUtils.ifNullHide(bandMemberDetailTvBandName, bandMemberDetailTvMemberOf, it.bandName)
                 bandMemberDetailTvName.text = it.name
                 bandMemberDetailTvNickname.text = it.nickname
                 bandMemberDetailTvRole.text = it.printRole()

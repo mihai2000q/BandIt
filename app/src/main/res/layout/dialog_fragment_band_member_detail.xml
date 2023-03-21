@@ -77,11 +77,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/band_member_detail_tv_member_of"
         app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_role" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/band_member_detail_tv_member_of"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
