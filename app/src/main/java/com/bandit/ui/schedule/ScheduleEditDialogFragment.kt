@@ -11,7 +11,6 @@ import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.mapper.EventMapper
 import com.bandit.data.model.Event
-import com.bandit.extension.print
 import com.bandit.extension.printHoursAndMinutes
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
@@ -77,20 +76,25 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             )
             coroutineScope {
                 async {
-                    launch {
-                        viewModel.editEvent(newEvent)
-                    }
+                    launch { viewModel.editEvent(newEvent) }
                     if(BandItEnums.Event.Type.values()[typeIndex] == BandItEnums.Event.Type.Concert &&
-                            viewModel.selectedEvent.value!!.type == BandItEnums.Event.Type.Concert)
-                        launch {
-                            val concerts = concertViewModel.concerts.value!!
-                                .filter { it.id == viewModel.selectedEvent.value!!.id }
-                            if(concerts.isNotEmpty())
+                        viewModel.selectedEvent.value!!.type == BandItEnums.Event.Type.Concert
+                    ) {
+                        val concerts = concertViewModel.concerts.value!!
+                            .filter { it.id == viewModel.selectedEvent.value!!.id }
+                        if(concerts.isNotEmpty())
+                            launch {
                                 concertViewModel.editConcert(
                                     EventMapper.editEventToConcert(newEvent, concerts.first())
                                 )
+                            }
+                    }
+                    else if(BandItEnums.Event.Type.values()[typeIndex] == BandItEnums.Event.Type.Concert) {
+                        launch {
+                            concertViewModel.addConcert(EventMapper.fromEventToConcert(newEvent))
                         }
-
+                    }
+                    return@async
                 }
             }.await()
 

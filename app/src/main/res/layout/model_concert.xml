@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/concert_card"
     style="@style/AppCardViewTheme"
     android:layout_width="match_parent"
@@ -19,13 +20,16 @@
             android:id="@+id/concert_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/default_value"
             android:textColor="@color/model_concert_label"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/concert_date"
-            app:layout_constraintStart_toStartOf="@+id/concert_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -33,16 +37,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/default_value"
             android:textColor="@color/model_concert_label"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/concert_country"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toStartOf="@+id/concert_time"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/concert_title"
             app:layout_constraintTop_toBottomOf="@+id/concert_title" />
 
         <TextView
@@ -59,35 +62,37 @@
             app:layout_constraintStart_toEndOf="@+id/concert_date"
             app:layout_constraintTop_toTopOf="@+id/concert_date" />
 
-        <TextView
-            android:id="@+id/concert_city"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="6dp"
-            android:text="@string/default_value"
-            android:textColor="@color/model_concert_label"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/concert_country"
-            app:layout_constraintTop_toBottomOf="@+id/concert_date" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/concert_date"
+            app:layout_constraintTop_toBottomOf="@+id/concert_date">
 
-        <TextView
-            android:id="@+id/concert_country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="@string/default_value"
-            android:textColor="@color/model_concert_label"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/concert_city"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/concert_date" />
+            <TextView
+                android:id="@+id/concert_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/default_value"
+                android:textColor="@color/model_concert_label"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/concert_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:textColor="@color/model_concert_label" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -89,8 +89,7 @@ class ConcertEditDialogFragment : ConcertDialogFragment() {
                             it.id == newConcert.id
                         }
                         if(events.isEmpty()) return@launch
-                        if(ConcertMapper.fromConcertToEvent(newConcert) != events.first())
-                            scheduleViewModel.editEvent(ConcertMapper.fromConcertToEvent(newConcert))
+                        scheduleViewModel.editEvent(ConcertMapper.fromConcertToEvent(newConcert))
                     }
                 }
             }.await()
