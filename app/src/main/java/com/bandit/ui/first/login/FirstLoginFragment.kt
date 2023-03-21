@@ -48,10 +48,17 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         this.spinnerRole()
         with(binding) {
             firstLoginEtName.requestFocus()
-            firstLoginBtCancel.setOnClickListener {
-                findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
+            firstLoginBtPrevious.setOnClickListener {
+                if(phase == 0) {
+                    findNavController().navigate(R.id.action_firstLoginFragment_to_navigation_login)
+                    return@setOnClickListener
+                }
+                if(phase == 1)
+                    firstLoginBtPrevious.setText(R.string.bt_cancel)
+                this@FirstLoginFragment.flipBack()
             }
             firstLoginBtNext.setOnClickListener {
+                firstLoginBtPrevious.setText(R.string.bt_previous)
                 lifecycleScope.launch {
                     if(AndroidUtils.loadIntentWithDestination(this@FirstLoginFragment) { firstLoginBtNext() } == true)
                         super.requireActivity().whenStarted {
@@ -125,7 +132,7 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 3 -> {
                     launch { createAccount() }.invokeOnCompletion {
                         firstLoginBtNext.setText(R.string.first_login_bt_next_last)
-                        firstLoginBtCancel.visibility = View.GONE
+                        firstLoginBtPrevious.visibility = View.GONE
                         flip()
                     }
 
@@ -146,6 +153,17 @@ class FirstLoginFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.firstLoginVfForm.showNext()
         binding.firstLoginProgressBar.progress++
         phase++
+    }
+
+    private fun flipBack() {
+        AndroidUtils.hideKeyboard(
+            super.requireActivity(),
+            Context.INPUT_METHOD_SERVICE,
+            binding.firstLoginBtNext
+        )
+        binding.firstLoginVfForm.showPrevious()
+        binding.firstLoginProgressBar.progress--
+        phase--
     }
 
     private suspend fun goToHomePage(): Boolean {
