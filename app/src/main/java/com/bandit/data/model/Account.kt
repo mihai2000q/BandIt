@@ -19,7 +19,7 @@ data class Account(
     val userUid: String? = ""
 ) : Item(id), Comparable<Account>, Parcelable {
     override fun compareTo(other: Account): Int {
-        return name.compareTo(other.name)
+        return nickname.compareTo(other.nickname)
     }
     override fun toString(): String {
         return "Account(id=$id, name='$name', nickname='$nickname', role=$role, email='$email', bandId=$bandId, bandName=$bandName, userUid=$userUid)"
