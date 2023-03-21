@@ -2,7 +2,6 @@ package com.bandit.ui.login
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
+import androidx.transition.TransitionManager
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.repository.AccountRepository
@@ -31,6 +32,13 @@ class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by activityViewModels()
     private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
     private val preferencesService by lazy { DILocator.getPreferencesService(super.requireActivity()) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.slide_left)
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

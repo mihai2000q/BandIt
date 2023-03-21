@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.bandit.R
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentSignupBinding
@@ -23,6 +24,13 @@ class SignupFragment : Fragment() {
     private val viewModel: SignupViewModel by activityViewModels()
     private lateinit var snackbar: Snackbar
     private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.slide_left)
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
