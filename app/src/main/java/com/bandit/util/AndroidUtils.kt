@@ -242,8 +242,7 @@ object AndroidUtils {
 
     @Suppress("deprecation")
     fun getImageUri(context: Context, image: Bitmap?): Uri? {
-        val bytes = ByteArrayOutputStream()
-        image?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        image?.compress(Bitmap.CompressFormat.JPEG, 100, ByteArrayOutputStream())
         val path = MediaStore.Images.Media
                 .insertImage(context.contentResolver, image, "Title", null)
         return Uri.parse(path)
