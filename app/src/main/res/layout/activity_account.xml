@@ -25,7 +25,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="16dp">
 
         <Button
@@ -67,7 +68,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_email_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_band_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_name_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_et_band_name_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +126,7 @@
             app:layout_constraintStart_toStartOf="@+id/account_et_nickname_layout"
             app:layout_constraintTop_toBottomOf="@+id/account_et_email_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,11 +151,11 @@
             app:counterEnabled="true"
             app:counterMaxLength="@string/max_length_nickname"
             app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
-            app:layout_constraintEnd_toEndOf="@+id/account_bt_update"
-            app:layout_constraintStart_toStartOf="@+id/account_bt_update"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_et_name_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/account_et_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,7 +173,7 @@
             android:layout_height="wrap_content"
             android:text="@string/account_field_role"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/account_bt_update"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/account_spinner_role"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -189,18 +190,17 @@
             app:layout_constraintStart_toEndOf="@+id/account_tv_role"
             app:layout_constraintTop_toTopOf="@+id/account_tv_role" />
 
-        <Button
-            android:id="@+id/account_bt_update"
-            android:layout_width="347dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/bt_update_profile"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_tv_role" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/account_bt_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/bt_update_profile"
+        android:textSize="20sp" />
 
 </LinearLayout>
