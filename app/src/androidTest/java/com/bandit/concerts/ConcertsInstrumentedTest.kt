@@ -185,7 +185,7 @@ class ConcertsInstrumentedTest {
 
         this.removeConcert(concertName)
     }
-    // Condition - there is only one concert and even with these properties
+    // Condition - there is only one concert and event with these properties
     @Test
     fun concerts_fragment_manipulate_concert_linked_to_events() {
         val name = "Awesome Concert"
@@ -209,6 +209,54 @@ class ConcertsInstrumentedTest {
 
         onView(withId(R.id.navigation_schedule)).perform(click())
         AndroidTestUtil.checkIfItIsNotDisplayed(newName, "This event should have been removed")
+    }
+    // Condition - there is only one concert and event with these properties
+    @Test
+    fun concerts_fragment_detail_manipulate_concert() {
+        val name = "A Concert Without Details"
+        val newName = "An Edited Concert Without Details"
+        this.addConcert(name)
+        // edit the concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(name)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.concert_detail_bt_edit)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.concert_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+        onView(withId(R.id.concert_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
+
+        // check inside the schedule if the concert has changed names
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        onView(withText(newName)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation_concerts)).perform(click())
+
+        // delete the concert
+        onView(withId(R.id.concerts_rv_list))
+            .perform(RecyclerViewActions.scrollTo<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<ConcertAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.concert_detail_bt_delete)).perform(click())
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This concert should have been removed")
+
+        // check inside the schedule if the concert has been removed
+        onView(withId(R.id.navigation_schedule)).perform(click())
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This event should have been removed")
     }
     private fun addConcert(
         name: String,

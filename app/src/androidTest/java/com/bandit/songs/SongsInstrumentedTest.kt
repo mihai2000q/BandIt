@@ -424,6 +424,7 @@ class SongsInstrumentedTest {
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.removeAlbum(albumName)
     }
+    // Condition - there is no other album or song with these names
     @Test
     fun songs_fragment_add_new_song_to_album() {
         val songName = "Ping Beer"
@@ -459,6 +460,95 @@ class SongsInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
         onView(withId(R.id.songs_bt_album_mode)).perform(click())
         this.removeSong(songName)
+    }
+    // Condition - there is no other song with these names
+    @Test
+    fun songs_fragment_detail_manipulate_song() {
+        val name = "Old Detailed Song"
+        val newName = "New Detailed Song"
+        this.addSong(name)
+
+        // edit song
+        onView(withId(R.id.songs_rv_list))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.song_detail_bt_edit)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.song_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+        onView(withId(R.id.song_button)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
+        AndroidTestUtil.checkIfItIsNotDisplayed(name,
+            "This song should have been edited")
+
+        // delete song
+        onView(withId(R.id.songs_rv_list))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.song_detail_bt_delete)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This song should have been deleted")
+    }
+    // Condition - there is no other album with these names
+    @Test
+    fun songs_fragment_detail_manipulate_album() {
+        val name = "Old Detailed Album"
+        val newName = "New Detailed Album"
+        onView(withId(R.id.songs_bt_options)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
+        onView(withId(R.id.songs_bt_album_mode)).perform(click())
+        this.addAlbum(name)
+
+        // edit song
+        onView(withId(R.id.songs_rv_albums))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                hasDescendant(withText(name)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.album_detail_bt_edit)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.album_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+        onView(withId(R.id.album_button)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        onView(withText(newName)).check(matches(isDisplayed()))
+        AndroidTestUtil.checkIfItIsNotDisplayed(name,
+            "This song should have been edited")
+
+        // delete song
+        onView(withId(R.id.songs_rv_albums))
+            .perform(RecyclerViewActions.scrollTo<SongAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), click()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withId(R.id.album_detail_bt_delete)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This album should have been deleted")
     }
     private fun addSong(name: String) {
         onView(withId(R.id.songs_bt_options)).perform(click())

@@ -301,6 +301,50 @@ class ScheduleInstrumentedTest {
         AndroidTestUtil.checkIfItIsNotDisplayed(eventName,
             "This concert should have been removed")
     }
+    // Condition - there is only one event with these properties
+    @Test
+    fun schedule_fragment_detail_manipulate_event() {
+        val name = "New Event On Today's Date"
+        val newName = "Old Event"
+        this.addEvent(name)
+
+        // select event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(name))))
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
+                hasDescendant(withText(name)), click()))
+
+        // edit the event
+        onView(withId(R.id.schedule_detail_bt_edit)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+
+        onView(withId(R.id.schedule_et_name))
+            .perform(clearText(), typeText(newName), closeSoftKeyboard())
+
+        onView(withId(R.id.schedule_button)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(name,
+            "This event should have been renamed")
+        onView(withText(newName)).check(matches(isDisplayed()))
+
+        // select event
+        onView(withId(R.id.schedule_rv_events_view))
+            .perform(RecyclerViewActions.scrollTo<EventAdapter.ViewHolder>(
+                hasDescendant(withText(newName))))
+            .perform(RecyclerViewActions.actionOnItem<EventAdapter.ViewHolder>(
+                hasDescendant(withText(newName)), click()))
+
+        // delete event
+        onView(withId(R.id.schedule_detail_bt_delete)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
+        onView(withText(R.string.alert_dialog_positive)).perform(click())
+        onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
+
+        AndroidTestUtil.checkIfItIsNotDisplayed(newName,
+            "This event should have been deleted")
+    }
     private fun addEvent(name: String) {
         onView(withId(R.id.schedule_bt_options)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
@@ -339,6 +383,8 @@ class ScheduleInstrumentedTest {
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
         onView(withText(newName)).check(matches(isDisplayed()))
+        AndroidTestUtil.checkIfItIsNotDisplayed(oldName,
+            "This event should have been renamed")
     }
     private fun removeEvent(name: String) {
         onView(withId(R.id.schedule_rv_events_view))
