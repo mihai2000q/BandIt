@@ -49,6 +49,7 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
             AndroidComponents.datePickerDialog(super.requireContext(), scheduleEtDate)
             AndroidComponents.timePickerDialog(super.requireContext(), scheduleEtTime)
             AndroidUtils.durationEditTextSetup(scheduleEtDuration)
+            scheduleEtDate.minWidth = AndroidUtils.getScreenWidth(super.requireActivity()) * 7 / 16
         }
     }
 

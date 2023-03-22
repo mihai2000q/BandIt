@@ -55,6 +55,7 @@ abstract class ConcertDialogFragment: DialogFragment(), AdapterView.OnItemSelect
                 )
             }
             AndroidUtils.durationEditTextSetup(concertEtDuration)
+            concertEtDate.minWidth = AndroidUtils.getScreenWidth(super.requireActivity()) * 7 / 16
         }
     }
 
