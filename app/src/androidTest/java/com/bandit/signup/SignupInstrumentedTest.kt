@@ -59,18 +59,21 @@ class SignupInstrumentedTest {
 
         // validation minimum password
         onView(withId(R.id.signup_et_password))
-            .perform(typeText("1234567"), pressImeActionButton())
+            .perform(typeText("1234567"), closeSoftKeyboard())
+        onView(withId(R.id.signup_bt_signup)).perform(click())
         onView(withText(R.string.et_pass_validation_minimum)).check(matches(isDisplayed()))
 
         // validation terms and conditions
         onView(withId(R.id.signup_et_password))
-            .perform(clearText(), typeText("123456789"), pressImeActionButton())
+            .perform(clearText(), typeText("123456789"), closeSoftKeyboard())
+        onView(withId(R.id.signup_bt_signup)).perform(click())
         onView(withText(R.string.cb_terms_validation)).check(matches(isDisplayed()))
 
         // validation email already being used
         onView(withId(R.id.signup_cb_terms)).perform(click())
         onView(withId(R.id.signup_et_password))
-            .perform(clearText(), typeText("123456789"), pressImeActionButton())
+            .perform(clearText(), typeText("123456789"), closeSoftKeyboard())
+        onView(withId(R.id.signup_bt_signup)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withText(R.string.et_email_validation_email_already_used)).check(matches(isDisplayed()))
     }

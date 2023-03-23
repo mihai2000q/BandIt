@@ -85,6 +85,7 @@ class LoginFragment : Fragment() {
             if(validateFields()) {
                 if(AndroidUtils.isNetworkAvailable()) {
                     if (viewModel.database.isEmailInUse(loginEtEmail.text.toString())) {
+                        loginEtEmailLayout.error = null
                         viewModel.signInWithEmailAndPassword(
                             loginEtEmail.text.toString(),
                             loginEtPassword.text.toString(),

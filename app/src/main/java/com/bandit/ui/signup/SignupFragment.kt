@@ -71,10 +71,11 @@ class SignupFragment : Fragment() {
             binding.signupBtSignup
         )
         if (validateFields()) {
-            if (!viewModel.database.isEmailInUse(binding.signupEtEmail.text.toString()))
+            if (!viewModel.database.isEmailInUse(binding.signupEtEmail.text.toString())) {
+                binding.signupEtEmailLayout.error = null
                 this.signUp()
-            else
-                binding.signupEtEmail.error = resources.getString(R.string.et_email_validation_email_already_used)
+            } else
+                binding.signupEtEmailLayout.error = resources.getString(R.string.et_email_validation_email_already_used)
         }
     }
 

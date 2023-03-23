@@ -56,17 +56,18 @@ class LoginInstrumentedTest {
         onView(withText(R.string.et_pass_validation_empty)).check(matches(isDisplayed()))
 
         // validation minimum password
-        onView(withId(R.id.login_et_password)).perform(typeText("1234567"))
+        onView(withId(R.id.login_et_password)).perform(
+            typeText("1234567"), closeSoftKeyboard())
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(withText(R.string.et_pass_validation_minimum)).check(matches(isDisplayed()))
 
         // validation email not used
         onView(withId(R.id.login_et_password))
-            .perform(clearText(), typeText("123456789"))
+            .perform(clearText(), typeText("123456789"), closeSoftKeyboard())
         onView(withId(R.id.login_bt_login)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayLoadingScreen / 3))
         onView(withId(R.id.login_et_email)).perform(click())
-        onView(withText(R.string.et_email_validation_email_already_used)).check(matches(isDisplayed()))
+        onView(withText(R.string.et_email_validation_email_not_used)).check(matches(isDisplayed()))
 
         // validation incorrect password
         onView(withId(R.id.login_et_email))
