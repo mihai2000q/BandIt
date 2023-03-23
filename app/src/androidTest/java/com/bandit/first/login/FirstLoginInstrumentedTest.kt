@@ -65,14 +65,16 @@ class FirstLoginInstrumentedTest {
         onView(withText(R.string.et_name_validation)).check(matches(isDisplayed()))
 
         onView(withId(R.id.first_login_et_name))
-            .perform(typeText(name), pressImeActionButton())
+            .perform(typeText(name), closeSoftKeyboard())
+        onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
         onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(withText(R.string.et_nickname_validation)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
-            .perform(typeText(nickname), pressImeActionButton())
+            .perform(typeText(nickname), closeSoftKeyboard())
+        onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // third phase - choose the role

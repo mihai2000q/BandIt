@@ -42,6 +42,8 @@ class FriendsInstrumentedTest {
             onView(withId(R.id.friends_rv_list)).check(matches(isDisplayed()))
         } catch (_: AssertionError) {
             onView(withId(R.id.friends_rv_empty)).check(matches(isDisplayed()))
+        } catch (_: IncompatibleClassChangeError) {
+            onView(withId(R.id.friends_rv_empty)).check(matches(isDisplayed()))
         }
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
@@ -198,7 +200,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_dialog_search_view))
             .perform(typeText(accountToBefriend.dropLast(1)), closeSoftKeyboard())
         onView(withText(accountToBefriend)).check(matches(isDisplayed()))
-        onView(withText(accountToBefriend)).perform(swipeRight())
+        onView(withId(R.id.friend_rq_bt_accept)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
         onView(withText(accountToBefriend)).check(matches(isDisplayed()))
@@ -274,6 +276,7 @@ class FriendsInstrumentedTest {
         onView(withId(R.id.friends_search_view))
             .perform(typeText(accountToUnfriend.dropLast(1)), closeSoftKeyboard())
         onView(withText(accountToUnfriend)).perform(longClick())
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_unfriend)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 

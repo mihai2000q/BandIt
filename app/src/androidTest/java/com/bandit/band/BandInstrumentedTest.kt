@@ -73,7 +73,8 @@ class BandInstrumentedTest {
         onView(withId(R.id.band_bt_create)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.create_band_et_name))
-            .perform(typeText(bandName), pressImeActionButton())
+            .perform(typeText(bandName), closeSoftKeyboard())
+        onView(withId(R.id.create_band_bt_create)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
@@ -158,9 +159,9 @@ class BandInstrumentedTest {
                 hasDescendant(withText(accountToInvite))),
                 RecyclerViewActions.actionOnItem<PeopleAdapter.ViewHolder>(
                     hasDescendant(withText(accountToInvite)),
-                    longClick()
-                )
+                    longClick())
             )
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_add_member)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -186,7 +187,7 @@ class BandInstrumentedTest {
     // same as above
     // it cannot swipe as it swipes the tab instead
     @Test
-    @Ignore("fails on line 201")
+    @Ignore("fails on line 202")
     fun band_fragment_invite_member_from_friends_swipe() {
         val accountToInvite = ConstantsTest.accountNewName
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
@@ -382,6 +383,7 @@ class BandInstrumentedTest {
                 RecyclerViewActions.actionOnItem<BandMemberAdapter.ViewHolder>(
                     hasDescendant(withText(accountNickToKick)), longClick())
             )
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_kick_member)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 

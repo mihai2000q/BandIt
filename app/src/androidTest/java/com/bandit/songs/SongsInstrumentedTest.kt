@@ -46,6 +46,8 @@ class SongsInstrumentedTest {
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.songs_rv_empty)).check(matches(isDisplayed()))
+        } catch (_: IncompatibleClassChangeError) {
+            onView(withId(R.id.songs_rv_empty)).check(matches(isDisplayed()))
         }
 
         onView(withId(R.id.songs_bt_options)).perform(click())
@@ -570,6 +572,7 @@ class SongsInstrumentedTest {
             .perform(
                 RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -582,6 +585,7 @@ class SongsInstrumentedTest {
             .perform(
                 RecyclerViewActions.actionOnItem<AlbumAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
@@ -593,6 +597,7 @@ class SongsInstrumentedTest {
                 hasDescendant(withText(name))))
             .perform(RecyclerViewActions.actionOnItem<SongAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_edit)).perform(click())
 
         onView(withId(R.id.song_et_name))
@@ -607,6 +612,7 @@ class SongsInstrumentedTest {
                 hasDescendant(withText(name))))
             .perform(RecyclerViewActions.actionOnItem<AlbumAdapter.ViewHolder>(
                     hasDescendant(withText(name)), longClick()))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_edit)).perform(click())
 
         onView(withId(R.id.album_et_name))

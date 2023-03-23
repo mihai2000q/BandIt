@@ -37,7 +37,7 @@ fun Duration.printMinutesAndSeconds() =
 fun Duration.printHoursAndMinutes() =
     this.toHours().toString().get2Characters() +
     ":" +
-    this.toMinutes().toString().get2Characters()
+    (this.toMinutes() % 60).toString().get2Characters()
 
 fun Duration.printName() =
     if(this == Duration.ZERO)
