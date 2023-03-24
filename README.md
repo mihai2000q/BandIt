@@ -64,3 +64,10 @@ androidTest - Integration Testing
 ![image](https://user-images.githubusercontent.com/103370692/222989318-d63c91e9-f3c4-4995-9e10-915b7924c4d9.png)
 
 Be careful that most integration tests have preconditions that have to be met before running them.
+
+### Licence
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
