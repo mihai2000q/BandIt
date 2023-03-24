@@ -2,6 +2,7 @@ package com.bandit
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.*
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,9 +23,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bandit.constant.Constants
+import com.bandit.data.model.Account
 import com.bandit.databinding.ActivityMainBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IPreferencesService
 import com.bandit.ui.account.AccountActivity
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.component.AndroidComponents
@@ -37,15 +37,19 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private lateinit var preferencesService: IPreferencesService
     private lateinit var accountActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var accountViewModel: AccountViewModel
+    private var accountClicked = false
+    private val preferencesService by lazy { DILocator.getPreferencesService(this) }
+    private val navController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment)
+            .navController
+    }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.setContentView(binding.root)
-        preferencesService = DILocator.getPreferencesService(this)
         accountActivityLauncher = this.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -63,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             }
             if(it.resultCode == Constants.Account.RESULT_SIGN_OUT)
                 this.signOut()
+            accountClicked = false
         }
         lifecycleScope.launch {
             val destination = AndroidUtils.loadIntent(
@@ -72,9 +77,7 @@ class MainActivity : AppCompatActivity() {
                     findNavController(R.id.main_nav_host)
                         .navigate(R.id.action_loginFragment_to_homeFragment)
                 else if(destination == null) {
-                    val navHostFragment = supportFragmentManager
-                        .findFragmentById(R.id.main_nav_host) as NavHostFragment
-                    navHostFragment.navController.setGraph(
+                    navController.setGraph(
                         R.navigation.mobile_navigation,
                         bundleOf(Constants.SafeArgs.FAIL_LOGIN_NETWORK to true)
                     )
@@ -88,10 +91,6 @@ class MainActivity : AppCompatActivity() {
         // solving small issue by setting a default
         bottomNavView.selectedItemId = R.id.navigation_home
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.main_nav_host) as NavHostFragment
-        val navController = navHostFragment.navController
-
         super.setSupportActionBar(binding.mainToolbar)
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -102,14 +101,14 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
         binding.mainDrawerMenu.setupWithNavController(navController)
-        this.setupNavigationElements(navController)
-        this.setupSwipeRefreshLayout(binding.swipeRefreshLayout, navController)
+        this.setupNavigationElements()
+        this.setupSwipeRefreshLayout(binding.swipeRefreshLayout)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         return authentication()
     }
 
-    private fun setupNavigationElements(navController: NavController) {
+    private fun setupNavigationElements() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home,
@@ -128,8 +127,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout, navController: NavController) {
-        swipeRefreshLayout.setDistanceToTriggerSync(AndroidUtils.getScreenHeight(this) / 4)
+    private fun setupSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
         swipeRefreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModelStore.clear()
@@ -162,13 +160,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @Suppress("deprecation")
     private suspend fun updateAccount(extras: Bundle): Boolean = coroutineScope {
         async {
-            val newAccount = extras.getParcelable(
-                Constants.Account.RESULT_ACCOUNT_EXTRA,
-                com.bandit.data.model.Account::class.java
-            )!!
+            val newAccount = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                 extras.getParcelable(
+                    Constants.Account.RESULT_ACCOUNT_EXTRA,
+                    Account::class.java
+                )!!
+            else
+                extras.get(Constants.Account.RESULT_ACCOUNT_EXTRA) as Account
             if (!newAccount.isEmpty()) {
                 launch { accountViewModel.updateAccount(newAccount) }
             }
@@ -176,10 +177,13 @@ class MainActivity : AppCompatActivity() {
             if (res)
                 launch {
                     accountViewModel.saveProfilePicture(
-                        extras.getParcelable(
-                            Constants.Account.RESULT_PROFILE_PIC_EXTRA,
-                            android.net.Uri::class.java
-                        )!!
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                            extras.getParcelable(
+                                Constants.Account.RESULT_PROFILE_PIC_EXTRA,
+                                android.net.Uri::class.java
+                            )!!
+                        else
+                            extras.get(Constants.Account.RESULT_PROFILE_PIC_EXTRA) as Uri
                     )
                 }
             if(!res && (newAccount.isEmpty() || newAccount == accountViewModel.account.value!!))
@@ -221,14 +225,8 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.action_bar_profile -> {
                 lifecycleScope.launch {
-                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                        AndroidComponents.toastNotification(
-                            applicationContext,
-                            resources.getString(R.string.minimum_sdk_too_low),
-                            Toast.LENGTH_LONG
-                        )
-                        return@launch
-                    }
+                    if(accountClicked) return@launch
+                    accountClicked = true
                     accountViewModel = ViewModelProvider(
                         this@MainActivity)[AccountViewModel::class.java]
                     val accountIntent = Intent(this@MainActivity,
@@ -238,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                         accountViewModel.account.value!!
                     )
                     val profilePic = accountViewModel.getProfilePicture()
-                    accountIntent.putExtra(Constants.Account.PROFILE_PIC_EXTRA, profilePic)
+                    accountIntent.putExtra(Constants.Account.PROFILE_PIC_EXTRA, profilePic.toString())
                     accountActivityLauncher.launch(accountIntent)
                 }
                 true

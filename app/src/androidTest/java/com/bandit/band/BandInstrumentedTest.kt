@@ -8,11 +8,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.bandit.util.AndroidTestUtil
 import com.bandit.MainActivity
 import com.bandit.R
 import com.bandit.ui.adapter.BandMemberAdapter
 import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.util.AndroidTestUtil
 import com.bandit.util.AndroidTestUtil.waitFor
 import com.bandit.util.ConstantsTest
 import com.bandit.util.TestUtil
@@ -73,7 +73,8 @@ class BandInstrumentedTest {
         onView(withId(R.id.band_bt_create)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withId(R.id.create_band_et_name))
-            .perform(typeText(bandName), pressImeActionButton())
+            .perform(typeText(bandName), closeSoftKeyboard())
+        onView(withId(R.id.create_band_bt_create)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
@@ -84,7 +85,7 @@ class BandInstrumentedTest {
         onView(withId(R.id.band_tv_name)).check(matches(withText(bandName)))
 
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.fabAnimationDelay))
@@ -158,9 +159,9 @@ class BandInstrumentedTest {
                 hasDescendant(withText(accountToInvite))),
                 RecyclerViewActions.actionOnItem<PeopleAdapter.ViewHolder>(
                     hasDescendant(withText(accountToInvite)),
-                    longClick()
-                )
+                    longClick())
             )
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_add_member)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
@@ -186,7 +187,7 @@ class BandInstrumentedTest {
     // same as above
     // it cannot swipe as it swipes the tab instead
     @Test
-    @Ignore("fails on line 201")
+    @Ignore("fails on line 202")
     fun band_fragment_invite_member_from_friends_swipe() {
         val accountToInvite = ConstantsTest.accountNewName
         beforeEach(ConstantsTest.adminEmail, ConstantsTest.adminPassword)
@@ -241,7 +242,7 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())
@@ -286,7 +287,7 @@ class BandInstrumentedTest {
         onView(withText(ConstantsTest.adminNickname)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_creator)).check(matches(isDisplayed()))
 
-        onView(withText(R.string.model_band_member_you)).check(matches(isDisplayed()))
+        onView(withText(R.string.band_member_you)).check(matches(isDisplayed()))
         onView(withText(R.string.band_member_accepted_true)).check(matches(isDisplayed()))
 
         onView(withId(R.id.band_bt_options)).perform(click())
@@ -382,6 +383,7 @@ class BandInstrumentedTest {
                 RecyclerViewActions.actionOnItem<BandMemberAdapter.ViewHolder>(
                     hasDescendant(withText(accountNickToKick)), longClick())
             )
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_kick_member)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 

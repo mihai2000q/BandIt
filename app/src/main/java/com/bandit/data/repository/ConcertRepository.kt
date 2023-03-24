@@ -4,10 +4,10 @@ import com.bandit.constant.BandItEnums
 import com.bandit.data.db.Database
 import com.bandit.data.model.Concert
 import com.bandit.data.template.TemplateRepository
+import com.bandit.util.FilterUtils.filter
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
-import com.bandit.util.FilterUtils.filter
 
 class ConcertRepository(database: Database? = null)
     : TemplateRepository<Concert>(database, database?.concerts) {

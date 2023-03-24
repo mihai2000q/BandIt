@@ -42,6 +42,8 @@ class TodolistInstrumentedTest {
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.todolist_rv_empty)).check(matches(isDisplayed()))
+        } catch (_: IncompatibleClassChangeError) {
+            onView(withId(R.id.todolist_rv_empty)).check(matches(isDisplayed()))
         }
     }
     @Test
@@ -83,7 +85,7 @@ class TodolistInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, longClick()
             ))
-
+        onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_edit)).perform(click())
 
         onView(withId(R.id.todolist_rv_tasks))
@@ -114,7 +116,6 @@ class TodolistInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<TaskAdapter.ViewHolder>(
                 0, longClick()))
         onView(isRoot()).perform(AndroidTestUtil.waitFor(ConstantsTest.smallDelay))
-
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 

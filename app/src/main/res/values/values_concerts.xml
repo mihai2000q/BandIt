@@ -10,6 +10,8 @@
     <string name="concert_edit_toast">Concert Edited</string>
     <string name="concert_remove_toast">Concert Removed</string>
     <string name="concert_filter_toast">Concerts Filtered</string>
+    <string name="concert_fab_add">Add Concert</string>
+    <string name="concert_fab_filter">Filter Concerts</string>
 
     <color name="model_concert_simple">@color/faded_green</color>
     <color name="model_concert_tournament">@color/faded_blue_to_green</color>

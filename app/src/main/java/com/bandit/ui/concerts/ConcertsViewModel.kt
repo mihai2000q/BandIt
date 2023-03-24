@@ -55,7 +55,7 @@ class ConcertsViewModel : ViewModel() {
                     duration = if(this[Filter.Duration].isNullOrEmpty())
                         null
                     else
-                        ParserUtils.parseDurationText(this[Filter.Duration]),
+                        ParserUtils.parseDurationTextToHoursAndMinutes(this[Filter.Duration]),
                     city = this[Filter.City],
                     country = this[Filter.Country],
                     place = this[Filter.Place]

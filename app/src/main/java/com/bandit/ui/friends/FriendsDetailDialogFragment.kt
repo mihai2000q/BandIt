@@ -42,6 +42,7 @@ class FriendsDetailDialogFragment : DialogFragment() {
                 friendDetailTvNickname.text = it.nickname
                 friendDetailTvEmail.text = it.email
                 friendDetailTvRole.text = it.printRole()
+                AndroidUtils.ifNullHide(friendDetailTvBandName, friendDetailTvMember, it.bandName)
                 friendDetailTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
             }
         }

@@ -2,7 +2,6 @@ package com.bandit.ui.login
 
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +12,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.repository.AccountRepository
 import com.bandit.databinding.FragmentLoginBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IPreferencesService
-import com.bandit.service.IValidatorService
 import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 import kotlinx.coroutines.async
@@ -31,8 +29,15 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by activityViewModels()
-    private lateinit var validatorService: IValidatorService
-    private lateinit var preferencesService: IPreferencesService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
+    private val preferencesService by lazy { DILocator.getPreferencesService(super.requireActivity()) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.slide_left)
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,19 +49,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        validatorService = DILocator.getValidatorService(super.requireActivity())
-        preferencesService = DILocator.getPreferencesService(super.requireActivity())
         with(binding) {
             viewModel.email.observe(viewLifecycleOwner) { loginEtEmail.setText(it) }
-            //press enter to login
-            loginEtPassword.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    loginBtLogin.callOnClick()
-                    loginBtLogin.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
             loginCbRemember.setOnClickListener {
                 AndroidUtils.hideKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, loginCbRemember)
             }
@@ -91,6 +85,7 @@ class LoginFragment : Fragment() {
             if(validateFields()) {
                 if(AndroidUtils.isNetworkAvailable()) {
                     if (viewModel.database.isEmailInUse(loginEtEmail.text.toString())) {
+                        loginEtEmailLayout.error = null
                         viewModel.signInWithEmailAndPassword(
                             loginEtEmail.text.toString(),
                             loginEtPassword.text.toString(),

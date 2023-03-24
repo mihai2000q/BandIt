@@ -82,7 +82,7 @@ data class BandMemberAdapter(
                         )
                     )
                     memberRole.visibility = View.GONE
-                    memberNickname.text = holder.binding.root.resources.getString(R.string.model_band_member_you)
+                    memberNickname.text = holder.binding.root.resources.getString(R.string.band_member_you)
                 }
             }
         }

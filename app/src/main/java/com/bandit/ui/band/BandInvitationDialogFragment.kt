@@ -10,12 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.BandInvitation
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentBandInvitationBinding
 import com.bandit.ui.adapter.BandInvitationAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 
@@ -39,25 +38,32 @@ class BandInvitationDialogFragment : DialogFragment(), OnQueryTextListener {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        binding.bandInvitationSearchView.setOnQueryTextListener(this)
-        viewModel.bandInvitations.observe(viewLifecycleOwner) {
-            ItemTouchHelper(object : TouchHelper<BandInvitation>(
+        with(binding) {
+            bandInvitationSearchView.setOnQueryTextListener(this@BandInvitationDialogFragment)
+            val touchHelper = TouchHelper<BandInvitation>(
                 super.requireContext(),
-                binding.bandInvitationRvList,
+                bandInvitationRvList,
                 { bandInvitation -> onRejectBandInvitation(bandInvitation) },
                 { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                R.drawable.ic_check_circle_outline_white
-            ) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    items = it.sorted()
-                    super.onSwiped(viewHolder, direction)
-                }
-            }).attachToRecyclerView(binding.bandInvitationRvList)
-            binding.bandInvitationRvList.adapter = BandInvitationAdapter(
-                it.sorted(),
-                { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
-                { bandInvitation -> onRejectBandInvitation(bandInvitation) }
+                R.drawable.ic_check_circle_outline_white,
+                R.drawable.ic_remove_circle_outline_white
             )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(bandInvitationRvList)
+            viewModel.bandInvitations.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    bandInvitationRvEmpty.visibility = View.GONE
+                    bandInvitationRvList.visibility = View.VISIBLE
+                    touchHelper.updateItems(it.sorted())
+                    bandInvitationRvList.adapter = BandInvitationAdapter(
+                        it.sorted(),
+                        { bandInvitation -> onAcceptBandInvitation(bandInvitation) },
+                        { bandInvitation -> onRejectBandInvitation(bandInvitation) }
+                    )
+                } else {
+                    bandInvitationRvEmpty.visibility = View.VISIBLE
+                    bandInvitationRvList.visibility = View.GONE
+                }
+            }
         }
     }
 

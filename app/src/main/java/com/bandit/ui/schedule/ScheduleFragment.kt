@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
@@ -41,6 +40,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
     private val bandViewModel: BandViewModel by activityViewModels()
     private val scheduleAddDialogFragment = ScheduleAddDialogFragment()
     private val scheduleEditDialogFragment = ScheduleEditDialogFragment()
+    private lateinit var touchHelper: TouchHelper<Event>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,19 +68,26 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvEventsView,
                 bandViewModel.band,
                 scheduleBtOptions,
-                scheduleBtAdd,
-                scheduleBtCalendarMode
+                listOf(scheduleBtAdd, scheduleBtCalendarMode),
+                listOf(scheduleFabTvAdd, scheduleFabTvMode)
             )
             AndroidUtils.setupFabScrollUp(
                 super.requireContext(),
                 scheduleRvEventsView,
                 scheduleBtScrollUp
             )
+            touchHelper = TouchHelper(
+                super.requireContext(),
+                scheduleRvEventsView,
+                { event -> onDeleteEvent(event) },
+                { event -> onEditEvent(event) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(scheduleRvEventsView)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
@@ -89,6 +96,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             scheduleTvEmpty.setText(R.string.recycler_view_calendar_empty)
             scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_calendar_view)
             scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_calendar_view)
+            scheduleFabTvMode.text = resources.getString(R.string.schedule_fab_calendar_mode)
             scheduleBtCalendarMode.setImageDrawable(
                 ContextCompat.getDrawable(
                     super.requireContext(),
@@ -116,17 +124,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object : TouchHelper<Event>(
-                        super.requireContext(),
-                        scheduleRvEventsView,
-                        { event -> onDeleteEvent(event) },
-                        { event -> onEditEvent(event) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(scheduleRvEventsView)
+                    touchHelper.updateItems(it.sorted())
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -154,6 +152,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
             scheduleTvEmpty.setText(R.string.recycler_view_event_empty)
             scheduleBtCalendarMode.contentDescription = resources.getString(R.string.content_description_bt_list_events_view)
             scheduleBtCalendarMode.tooltipText = resources.getString(R.string.content_description_bt_list_events_view)
+            scheduleFabTvMode.text = resources.getString(R.string.schedule_fab_list_mode)
             scheduleBtCalendarMode.setImageDrawable(
                 ContextCompat.getDrawable(
                     super.requireContext(),
@@ -171,17 +170,7 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                 scheduleRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object : TouchHelper<Event>(
-                        super.requireContext(),
-                        scheduleRvEventsView,
-                        { event -> onDeleteEvent(event) },
-                        { event -> onEditEvent(event) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(scheduleRvEventsView)
+                    touchHelper.updateItems(it.sorted())
                     return@setRecyclerViewEmpty EventAdapter(
                         this@ScheduleFragment,
                         it.sorted(),
@@ -232,9 +221,9 @@ class ScheduleFragment : Fragment(), SearchView.OnQueryTextListener,
                         launch { viewModel.removeEvent(event) }
                         if(event.type == BandItEnums.Event.Type.Concert)
                             launch {
-                                val concerts = concertViewModel.concerts.value!!.filter {
+                                val concerts = concertViewModel.concerts.value?.filter {
                                     it.id == event.id && it.name == event.name
-                                }
+                                } ?: listOf()
                                 if(concerts.isNotEmpty())
                                     concertViewModel.removeConcert(concerts.first())
                             }

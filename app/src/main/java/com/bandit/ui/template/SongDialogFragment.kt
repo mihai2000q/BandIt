@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.DialogFragmentSongBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -19,7 +18,7 @@ abstract class SongDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentSongBinding? = null
     protected val binding get() = _binding!!
     protected val viewModel: SongsViewModel by activityViewModels()
-    private lateinit var validatorService: IValidatorService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +35,6 @@ abstract class SongDialogFragment : DialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             AndroidComponents.datePickerDialog(super.requireContext(), songEtReleaseDate, true) {
                 AndroidUtils.hideKeyboard(

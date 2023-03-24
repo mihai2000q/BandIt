@@ -10,7 +10,6 @@ import com.bandit.R
 import com.bandit.data.model.Song
 import com.bandit.databinding.ModelSongBinding
 import com.bandit.extension.printName
-import com.bandit.ui.songs.SongDetailDialogFragment
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -20,11 +19,10 @@ data class SongAdapter(
     private val viewModel: SongsViewModel,
     private val onDeleteSong: ((Song) -> Unit)?,
     private val onEditSong: ((Song) -> Unit)?,
+    private val onClick: (Song) -> Unit,
     private val deleteText: String = "",
-    private val isLongClickable: Boolean = true,
-    private val onClick: ((Song) -> Unit)? = null
+    private val isLongClickable: Boolean = true
 ) : RecyclerView.Adapter<SongAdapter.ViewHolder>() {
-    private val songDetailDialogFragment = SongDetailDialogFragment()
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 
@@ -48,12 +46,7 @@ data class SongAdapter(
         val song = songs[position]
 
         with(holder) {
-            itemView.setOnClickListener {
-            if(onClick == null)
-                onClick(song)
-            else
-                onClick.invoke(song)
-            }
+            itemView.setOnClickListener { onClick.invoke(song) }
             itemView.setOnLongClickListener {
                 if(isLongClickable)
                     onLongClick(holder, song)
@@ -81,14 +74,6 @@ data class SongAdapter(
                 else -> onEdit(song)
             }
         }
-    }
-
-    private fun onClick(song: Song) {
-        viewModel.selectedSong.value = song
-        AndroidUtils.showDialogFragment(
-            songDetailDialogFragment,
-            fragment.childFragmentManager
-        )
     }
 
     private fun onLongClick(holder: ViewHolder, song: Song): Boolean {

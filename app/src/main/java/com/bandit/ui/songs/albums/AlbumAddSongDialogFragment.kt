@@ -11,10 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.data.model.Song
 import com.bandit.databinding.DialogFragmentAlbumAddSongBinding
 import com.bandit.ui.adapter.SongAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.songs.SongsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -56,22 +57,10 @@ class AlbumAddSongDialogFragment : DialogFragment(), SearchView.OnQueryTextListe
                             viewModel,
                             null,
                             null,
-                            resources.getString(R.string.album_remove_from_album),
+                            { song -> onClickSong(song) },
+                            "",
                             false
-                        ) {
-                            AndroidUtils.loadDialogFragment(
-                                viewModel.viewModelScope,
-                                this@AlbumAddSongDialogFragment
-                            ) {
-                                viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, it)
-                            }
-                            AndroidComponents.toastNotification(
-                                super.requireContext(),
-                                resources.getString(R.string.album_add_song_toast)
-                            )
-                            super.dismiss()
-                            return@SongAdapter
-                        }
+                        )
                 }
             }
         }
@@ -86,6 +75,20 @@ class AlbumAddSongDialogFragment : DialogFragment(), SearchView.OnQueryTextListe
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun onClickSong(song: Song) {
+        AndroidUtils.loadDialogFragment(
+            viewModel.viewModelScope,
+            this@AlbumAddSongDialogFragment
+        ) {
+            viewModel.addSongToAlbum(viewModel.selectedAlbum.value!!, song)
+        }
+        AndroidComponents.toastNotification(
+            super.requireContext(),
+            resources.getString(R.string.album_add_song_toast)
+        )
+        super.dismiss()
     }
 
     companion object {

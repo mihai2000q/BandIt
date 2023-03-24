@@ -18,15 +18,15 @@ class ExtensionsTest {
         assertEquals(outcome2, expected)
     }
     @Test
-    fun print_extensions_duration_print() {
+    fun print_extensions_duration_print_name() {
         val duration = Duration.ofSeconds(90)
-        val outcome = duration.print()
-        val expected = "01:30"
+        val outcome = duration.printName()
+        val expected = "1 Minute and 30 Seconds"
         assertEquals(outcome, expected)
 
         val duration2 = Duration.ofSeconds(120)
-        val outcome2 = duration2.print()
-        val expected2 = "02:00"
+        val outcome2 = duration2.printName()
+        val expected2 = "2 Minutes"
         assertEquals(outcome2, expected2)
     }
     @Test

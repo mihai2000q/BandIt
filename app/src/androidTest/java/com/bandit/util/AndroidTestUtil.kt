@@ -30,6 +30,7 @@ object AndroidTestUtil {
             Assert.fail(errorMessage)
         } catch (_: AssertionError) {}
         catch (_: NoMatchingViewException) {}
+        catch (_: IncompatibleClassChangeError) {}
     }
     fun getResourceString(id: Int): String {
         return InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(id)

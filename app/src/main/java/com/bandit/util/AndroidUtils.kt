@@ -64,7 +64,9 @@ object AndroidUtils {
             calendar.toInstant(),
             calendar.timeZone.toZoneId()
         ).toLocalDate()
+
     fun generateRandomLong() = Random.nextLong(Constants.MAX_NR_ITEMS)
+
     fun unlockNavigation(
         activity: Activity
     ) {
@@ -76,6 +78,7 @@ object AndroidUtils {
             MainActivity.isAccountButtonShown = true
         }
     }
+
     fun lockNavigation(
         activity: Activity
     ) {
@@ -87,14 +90,17 @@ object AndroidUtils {
             MainActivity.isAccountButtonShown = false
         }
     }
+
     fun hideKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     fun showKeyboard(activity: Activity, inputMethodService: String, view: View) {
         val input = activity.getSystemService(inputMethodService) as InputMethodManager
         input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
+
     @Suppress("deprecation")
     fun getScreenWidth(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -108,6 +114,7 @@ object AndroidUtils {
             displayMetrics.widthPixels
         }
     }
+
     @Suppress("deprecation")
     fun getScreenHeight(activity: Activity): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -121,6 +128,7 @@ object AndroidUtils {
             displayMetrics.heightPixels
         }
     }
+
     fun showDialogFragment(dialogFragment: DialogFragment, childFragmentManager: FragmentManager) {
         if(!dialogFragment.isVisible)
             dialogFragment.show(
@@ -128,15 +136,30 @@ object AndroidUtils {
                 dialogFragment::class.java.fields.filter { it.name == "TAG" }[0].get(null) as String
             )
     }
+
     fun ifNullHide(
         textView: TextView,
         string: String?
     ) {
-        if(string.isNullOrEmpty())
+        if(string.isNullOrBlank())
             textView.visibility = View.GONE
         else
             textView.text = string
     }
+
+    fun ifNullHide(
+        textView: TextView,
+        additional: TextView,
+        string: String?
+    ) {
+        if(string.isNullOrBlank()) {
+            textView.visibility = View.GONE
+            additional.visibility = View.GONE
+        }
+        else
+            textView.text = string
+    }
+
     fun durationEditTextSetup(editText: EditText) {
         var backspace = false
         editText.setOnKeyListener { _, keyCode, event ->
@@ -216,12 +239,12 @@ object AndroidUtils {
     }
 
     suspend fun isNetworkAvailable() = DILocator.getDatabase().isConnected()
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
-        //TODO: Replace deprecated method for .insertImage()
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+
+    @Suppress("deprecation")
+    fun getImageUri(context: Context, image: Bitmap?): Uri? {
+        image?.compress(Bitmap.CompressFormat.JPEG, 100, ByteArrayOutputStream())
         val path = MediaStore.Images.Media
-                .insertImage(inContext.contentResolver, inImage, "Title", null)
+                .insertImage(context.contentResolver, image, "Title", null)
         return Uri.parse(path)
     }
 
@@ -234,7 +257,7 @@ object AndroidUtils {
         fragment.lifecycleScope.launch {
             val pic = viewModel.getProfilePicture(userUid)
             Glide.with(fragment)
-                .load(if(pic.isEmpty()) R.drawable.default_avatar else pic)
+                .load(if(pic == Uri.EMPTY) R.drawable.default_avatar else pic)
                 .placeholder(R.drawable.placeholder_profile_pic)
                 .into(profilePicView)
         }
@@ -360,17 +383,18 @@ object AndroidUtils {
         fragment: Fragment,
         rvList: RecyclerView,
         fabOption: FloatingActionButton,
-        vararg buttons: FloatingActionButton
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
         val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
         var optionButtonOpen = false
         fabOption.setOnClickListener {
             optionButtonOpen = if(optionButtonOpen) {
-                this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                this.closeAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                 false
             } else {
-                this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                this.openAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                 true
             }
         }
@@ -385,7 +409,8 @@ object AndroidUtils {
                             this@AndroidUtils.closeAllFAB(
                                 fragment.requireContext(),
                                 fabOption,
-                                buttons.toList()
+                                buttons,
+                                textViews
                             )
                         }
                         if(fabOption.visibility == View.VISIBLE) {
@@ -412,7 +437,8 @@ object AndroidUtils {
         rvList: RecyclerView,
         band: LiveData<Band>,
         fabOption: FloatingActionButton,
-        vararg buttons: FloatingActionButton
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val zoomOutAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_out)
         val zoomInAnim = AnimationUtils.loadAnimation(fragment.context, R.anim.zoom_in_delay)
@@ -426,10 +452,10 @@ object AndroidUtils {
                 ).show()
             else {
                 optionButtonOpen = if(optionButtonOpen) {
-                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    this.closeAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                     false
                 } else {
-                    this.openAllFAB(fragment.requireContext(), fabOption, buttons.toList())
+                    this.openAllFAB(fragment.requireContext(), fabOption, buttons, textViews)
                     true
                 }
             }
@@ -445,7 +471,8 @@ object AndroidUtils {
                             this@AndroidUtils.closeAllFAB(
                                 fragment.requireContext(),
                                 fabOption,
-                                buttons.toList()
+                                buttons,
+                                textViews
                             )
                         }
                         if(fabOption.visibility == View.VISIBLE) {
@@ -506,7 +533,8 @@ object AndroidUtils {
     private fun closeAllFAB(
         context: Context,
         fabOption: FloatingActionButton,
-        buttons: List<FloatingActionButton>
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
         fabOption.setImageDrawable(
@@ -521,15 +549,21 @@ object AndroidUtils {
                 bt.visibility = View.INVISIBLE
             }
         }
+        textViews.forEach {
+            it.startAnimation(outAnim)
+            it.postOnAnimation {
+                it.visibility = View.INVISIBLE
+            }
+        }
     }
 
     private fun openAllFAB(
         context: Context,
         fabOption: FloatingActionButton,
-        buttons: List<FloatingActionButton>
+        buttons: List<FloatingActionButton>,
+        textViews: List<TextView>
     ) {
         val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
-
         fabOption.setImageDrawable(
             ContextCompat.getDrawable(
                 context,
@@ -540,6 +574,12 @@ object AndroidUtils {
             bt.startAnimation(inAnim)
             bt.postOnAnimation {
                 bt.visibility = View.VISIBLE
+            }
+        }
+        textViews.forEach {
+            it.startAnimation(inAnim)
+            it.postOnAnimation {
+                it.visibility = View.VISIBLE
             }
         }
     }

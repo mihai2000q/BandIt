@@ -1,13 +1,15 @@
 package com.bandit.ui.component
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.EditText
+import androidx.core.widget.doOnTextChanged
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentBottomSheetBinding
 import com.bandit.util.AndroidUtils
@@ -32,6 +34,27 @@ class TypingBottomSheetDialogFragment(
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             bottomSheetDfEditText.requestFocus()
+            bottomSheetDfEditText.doOnTextChanged { text, _, _, _ ->
+                val outAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
+                val inAnim = AnimationUtils.loadAnimation(context, R.anim.zoom_in)
+                if(text!!.isNotEmpty()) {
+                    bottomSheetDfBtSend.apply {
+                        if(visibility == View.VISIBLE) return@doOnTextChanged
+                        startAnimation(inAnim)
+                        postOnAnimation {
+                            visibility = View.VISIBLE
+                        }
+                    }
+                } else {
+                    bottomSheetDfBtSend.apply {
+                        if(visibility == View.GONE) return@doOnTextChanged
+                        startAnimation(outAnim)
+                        postOnAnimation {
+                            visibility = View.GONE
+                        }
+                    }
+                }
+            }
             AndroidUtils.showKeyboard(super.requireActivity(), Context.INPUT_METHOD_SERVICE, bottomSheetDfEditText)
             bottomSheetDfEditText.setOnKeyListener { _, keyCode, event ->
                 if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -41,15 +64,13 @@ class TypingBottomSheetDialogFragment(
                 return@setOnKeyListener false
             }
             bottomSheetDfBtSend.setOnClickListener {
-                this@TypingBottomSheetDialogFragment.event.invoke(bottomSheetDfEditText)
+                if(!bottomSheetDfEditText.text.isNullOrBlank()) {
+                    this@TypingBottomSheetDialogFragment.event.invoke(bottomSheetDfEditText)
+                    binding.bottomSheetDfEditText.setText("")
+                }
                 super.dismiss()
             }
         }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        binding.bottomSheetDfEditText.setText("")
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -17,7 +18,6 @@ import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogImagePickerBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IPermissionService
 import com.bandit.util.AndroidUtils
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,8 +33,9 @@ class ImagePickerDialog(
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var galleryPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var permissionService: IPermissionService
+    private val permissionService by lazy { DILocator.getPermissionService(super.requireActivity()) }
 
+    @Suppress("Deprecation")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,9 +56,13 @@ class ImagePickerDialog(
         ) {
             if(it.resultCode == Activity.RESULT_OK) {
                 AndroidUtils.loadIntent(this@ImagePickerDialog) {
-                    //TODO: Replace deprecated method for .get() as Bitmap
-                    loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
-                        it.data?.extras?.get("data") as Bitmap))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
+                            it.data?.extras?.getParcelable("data", Bitmap::class.java)))
+                    } else {
+                        loadProfilePic(AndroidUtils.getImageUri(super.requireContext(),
+                            it.data?.extras?.get("data") as Bitmap))
+                    }
                 }
             }
         }
@@ -65,7 +70,7 @@ class ImagePickerDialog(
             ActivityResultContracts.RequestPermission()
         ) {
             if(it)
-                camera()
+                this.camera()
             else
                 AndroidComponents.toastNotification(
                     super.requireContext(),
@@ -76,7 +81,7 @@ class ImagePickerDialog(
             ActivityResultContracts.RequestPermission()
         ) {
             if(it)
-                gallery()
+                this.gallery()
             else
                 AndroidComponents.toastNotification(
                     super.requireContext(),
@@ -88,15 +93,18 @@ class ImagePickerDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        permissionService = DILocator.getPermissionService(super.requireActivity())
         with(binding) {
             imagePickerTvCamera.setOnClickListener {
                 permissionService.checkPermission(Manifest.permission.CAMERA,
-                    cameraPermissionLauncher) { camera() }
+                    cameraPermissionLauncher) { this@ImagePickerDialog.camera() }
             }
             imagePickerTvGallery.setOnClickListener {
-                permissionService.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-                    galleryPermissionLauncher) { camera() }
+                val permission = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    Manifest.permission.READ_MEDIA_IMAGES
+                else
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                permissionService.checkPermission(permission,
+                    galleryPermissionLauncher) { this@ImagePickerDialog.gallery() }
             }
         }
     }

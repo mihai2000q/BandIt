@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentBandBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.BandMemberAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
@@ -74,10 +74,15 @@ class BandFragment : Fragment(), OnQueryTextListener {
                 if(viewModel.band.value!!.creator == accountViewModel.account.value!!.id) {
                     bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_disband_band)
                     bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_disband_band)
+                    bandFabTvAbandon.text = resources.getString(R.string.band_fab_disband)
                     bandBtAbandon.setOnClickListener { this@BandFragment.onDisband() }
                 }
-                else
+                else {
+                    bandBtAbandon.tooltipText = resources.getString(R.string.content_description_bt_abandon_band)
+                    bandBtAbandon.contentDescription = resources.getString(R.string.content_description_bt_abandon_band)
+                    bandFabTvAbandon.text = resources.getString(R.string.band_fab_abandon)
                     bandBtAbandon.setOnClickListener { this@BandFragment.onAbandon() }
+                }
                 bandTvName.text = viewModel.band.value?.name
                 if(it.isEmpty()) {
                     bandTvName.visibility = View.GONE
@@ -88,21 +93,23 @@ class BandFragment : Fragment(), OnQueryTextListener {
                         this@BandFragment,
                         bandRvMemberList,
                         bandBtOptions,
-                        bandBtInvitations
+                        listOf(bandBtInvitations),
+                        listOf(bandFabTvInvitations)
                     )
+                    bandBtAdd.visibility = View.GONE
                 }
                 else {
                     bandTvName.visibility = View.VISIBLE
                     bandRvMemberList.visibility = View.VISIBLE
                     bandSearchView.visibility = View.VISIBLE
                     layoutBandEmpty.visibility = View.GONE
+                    bandBtAdd.visibility = View.INVISIBLE
                     AndroidUtils.setupFabOptions(
                         this@BandFragment,
                         bandRvMemberList,
                         bandBtOptions,
-                        bandBtInvitations,
-                        bandBtAdd,
-                        bandBtAbandon
+                        listOf(bandBtAdd, bandBtInvitations, bandBtAbandon),
+                        listOf(bandFabTvAdd, bandFabTvInvitations, bandFabTvAbandon)
                     )
                 }
             }

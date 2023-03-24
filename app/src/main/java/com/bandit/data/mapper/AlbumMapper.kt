@@ -4,7 +4,7 @@ import com.bandit.data.dto.AlbumDto
 import com.bandit.data.model.Album
 import java.time.LocalDate
 
-object AlbumMapper : MapperB<Album, AlbumDto> {
+object AlbumMapper : MapperBandItems<Album, AlbumDto> {
     override fun fromDtoToItem(dto: AlbumDto): Album {
         return Album(
             name = dto.name ?: "",

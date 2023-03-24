@@ -9,20 +9,19 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.databinding.DialogFragmentScheduleBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.schedule.ScheduleViewModel
 import com.bandit.util.AndroidUtils
 
 abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener {
 
     private var _binding: DialogFragmentScheduleBinding? = null
-    private lateinit var validatorService: IValidatorService
     protected val binding get() = _binding!!
     protected val viewModel: ScheduleViewModel by activityViewModels()
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
     protected var typeIndex = 0
 
     override fun onCreateView(
@@ -36,7 +35,6 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
@@ -51,11 +49,12 @@ abstract class ScheduleDialogFragment : DialogFragment(), OnItemSelectedListener
             AndroidComponents.datePickerDialog(super.requireContext(), scheduleEtDate)
             AndroidComponents.timePickerDialog(super.requireContext(), scheduleEtTime)
             AndroidUtils.durationEditTextSetup(scheduleEtDuration)
+            scheduleEtDate.minWidth = AndroidUtils.getScreenWidth(super.requireActivity()) * 7 / 16
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

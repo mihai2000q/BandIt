@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Task
 import com.bandit.databinding.ModelTaskBinding
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.todolist.TodoListViewModel
 import com.bandit.util.AndroidUtils
 

@@ -31,4 +31,22 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="1"
         tools:listitem="@layout/model_friend" />
+
+    <LinearLayout
+        android:id="@+id/friends_dialog_rv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:minHeight="200dp"
+        android:orientation="vertical"
+        android:textAlignment="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/friends_dialog_tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>

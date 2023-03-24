@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
@@ -16,14 +15,14 @@
         android:layout_gravity="center"
         android:backgroundTint="@color/black"
         android:elevation="10dp"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/poppins"
         android:gravity="top|start"
+        android:maxLines="9"
+        android:minLines="9"
         android:text="@string/default_note_message"
         android:textAlignment="gravity"
         android:textSize="11sp"
-        app:cornerRadius="15dp"
-        tools:layout_height="150dp"
-        tools:layout_width="150dp" />
+        app:cornerRadius="15dp" />
 
     <TextView
         android:id="@+id/note_title"

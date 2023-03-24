@@ -1,17 +1,39 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.BandIt" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.BandIt" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dark_sea_green</item>
-        <item name="colorPrimaryVariant">@color/dark_spring_green</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/dark_spring_green</item>
+        <item name="colorPrimaryVariant">@color/hookers_green</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/rich_dark_green</item>
-        <item name="colorSecondaryVariant">@color/hookers_green</item>
+        <item name="colorSecondary">@color/hookers_green</item>
+        <item name="colorSecondaryVariant">@color/rich_dark_green</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <!-- Tertiary brand color -->
+        <item name="colorTertiary">@color/dark_sea_green</item>
+        <item name="colorOnTertiary">@color/white</item>
+
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:dialogCornerRadius">20dp</item>
+        <item name="cardViewStyle">@style/AppCardViewTheme</item>
+        <item name="itemActiveIndicatorStyle">@style/AppBottomNavigationViewActiveIndicator</item>
+    </style>
+    <style name="AppCardViewTheme" parent="Widget.Material3.CardView.Elevated">
+        <item name="android:layout_row">0</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_column">0</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_gravity">fill</item>
+        <item name="android:layout_marginHorizontal">12dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
+    </style>
+    <style name="AppBottomNavigationViewActiveIndicator"
+        parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator</item>
+        <item name="android:color">?attr/colorTertiary</item>
     </style>
     <style name="FabOptions" parent="Widget.Material3.FloatingActionButton.Large.Primary">
         <item name="android:layout_gravity">bottom|end</item>
@@ -32,5 +54,29 @@
         <item name="android:visibility">invisible</item>
         <item name="android:contentDescription">@string/content_description_bt_scroll_up</item>
         <item name="srcCompat">@drawable/ic_arrow_upward</item>
+    </style>
+    <style name="FabTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:background">@drawable/fab_text_background</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:paddingVertical">2dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="DetailEditButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:scaleX">0.6</item>
+        <item name="android:scaleY">0.6</item>
+        <item name="android:clickable">true</item>
+        <item name="android:contentDescription">@string/content_description_bt_remove</item>
+        <item name="android:tooltipText">@string/content_description_bt_remove</item>
+        <item name="android:src">@drawable/ic_edit</item>
+        <item name="android:backgroundTint">@color/dark_sea_green</item>
+    </style>
+    <style name="DetailDeleteButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="android:scaleX">0.6</item>
+        <item name="android:scaleY">0.6</item>
+        <item name="android:contentDescription">@string/content_description_bt_edit</item>
+        <item name="android:tooltipText">@string/content_description_bt_edit</item>
+        <item name="android:src">@drawable/ic_delete</item>
+        <item name="android:backgroundTint">@color/lighter_red</item>
     </style>
 </resources>

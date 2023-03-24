@@ -1,15 +1,15 @@
 package com.bandit.data.mapper
 
-import com.bandit.data.template.TemplateAccountDto
 import com.bandit.data.template.Item
+import com.bandit.data.template.TemplateBandDto
 
 /**
- * Mapper interface intended to use on items dependent on an Account object
+ * Mapper interface intended to use on items dependent on a Band object
  */
-sealed interface MapperA<T, E>
+sealed interface MapperBandItems<T, E>
 where
 T : Item,
-E : TemplateAccountDto
+E : TemplateBandDto
 {
     /**
      * This method takes as input a DTO and returns an item

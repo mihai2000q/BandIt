@@ -30,7 +30,7 @@ class BandMemberDetailDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
-            AndroidUtils.getScreenHeight(super.requireActivity()) * 3 / 4
+            AndroidUtils.getScreenHeight(super.requireActivity()) / 2
         )
         with(binding) {
             viewModel.selectedBandMember.observe(viewLifecycleOwner) {
@@ -41,7 +41,7 @@ class BandMemberDetailDialogFragment : DialogFragment() {
                     it.userUid
                 )
                 bandMemberDetailTvEmail.text = it.email
-                bandMemberTvBandName.text = if(it.bandName.isNullOrBlank()) "" else it.bandName
+                AndroidUtils.ifNullHide(bandMemberDetailTvBandName, bandMemberDetailTvMemberOf, it.bandName)
                 bandMemberDetailTvName.text = it.name
                 bandMemberDetailTvNickname.text = it.nickname
                 bandMemberDetailTvRole.text = it.printRole()

@@ -11,13 +11,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentFriendsBinding
 import com.bandit.ui.adapter.FriendRequestAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 
@@ -43,32 +42,40 @@ class FriendsRequestsDialogFragment : DialogFragment(), OnQueryTextListener {
         )
         with(binding) {
             friendsDialogTvTitle.setText(R.string.friends_requests_dialog_title)
+            friendsDialogTvEmpty.setText(R.string.friends_requests_rv_empty)
             friendsDialogSearchView.setOnQueryTextListener(this@FriendsRequestsDialogFragment)
+            val touchHelper = TouchHelper<Account>(
+                super.requireContext(),
+                friendsDialogRvList,
+                { req -> onRejectFriendRequest(req) },
+                { req -> onAcceptFriendRequest(req) },
+                R.drawable.ic_check_circle_outline_white,
+                R.drawable.ic_remove_circle_outline_white
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(friendsDialogRvList)
             viewModel.friendRequests.observe(viewLifecycleOwner) {
-                ItemTouchHelper(object : TouchHelper<Account>(
-                    super.requireContext(),
-                    friendsDialogRvList,
-                    { req -> onRejectFriendRequest(req) },
-                    { req -> onAcceptFriendRequest(req) }
-                ) {
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = it.sorted()
-                        super.onSwiped(viewHolder, direction)
-                    }
-                }).attachToRecyclerView(friendsDialogRvList)
-                friendsDialogRvList.adapter = FriendRequestAdapter(
-                    this@FriendsRequestsDialogFragment,
-                    it.sorted(),
-                    viewModel,
-                    { req -> onAcceptFriendRequest(req) },
-                    { req -> onRejectFriendRequest(req) }
-                )
+                if(it.isNotEmpty()) {
+                    friendsDialogRvList.visibility = View.VISIBLE
+                    friendsDialogRvEmpty.visibility = View.GONE
+                    touchHelper.updateItems(it.sorted())
+                    friendsDialogRvList.adapter = FriendRequestAdapter(
+                        this@FriendsRequestsDialogFragment,
+                        it.sorted(),
+                        viewModel,
+                        { req -> onAcceptFriendRequest(req) },
+                        { req -> onRejectFriendRequest(req) }
+                    )
+                }
+                else {
+                    friendsDialogRvList.visibility = View.GONE
+                    friendsDialogRvEmpty.visibility = View.VISIBLE
+                }
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

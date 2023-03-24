@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Song
-import com.bandit.extension.print
+import com.bandit.extension.printMinutesAndSeconds
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.template.SongDialogFragment
 import com.bandit.util.AndroidUtils
 import com.bandit.util.ParserUtils
@@ -21,7 +21,7 @@ class SongEditDialogFragment : SongDialogFragment() {
             viewModel.selectedSong.observe(viewLifecycleOwner) {
                 songEtName.setText(it.name)
                 songEtReleaseDate.setText(it.releaseDate.toString())
-                songEtDuration.setText(it.duration.print())
+                songEtDuration.setText(it.duration.printMinutesAndSeconds())
             }
             songButton.setOnClickListener {
                 if(validateFields())
@@ -37,7 +37,7 @@ class SongEditDialogFragment : SongDialogFragment() {
             with(viewModel.selectedSong.value!!) {
                 if (songEtName.text.toString() == name &&
                     songEtReleaseDate.text.toString() == releaseDate.toString() &&
-                    songEtDuration.text.toString() == duration.print()
+                    songEtDuration.text.toString() == duration.printMinutesAndSeconds()
                 ) {
                     songEtName.error = resources.getString(R.string.nothing_changed_validation)
                     return false
@@ -59,7 +59,7 @@ class SongEditDialogFragment : SongDialogFragment() {
                     songEtName.text.toString(),
                     viewModel.selectedSong.value!!.bandId,
                     ParserUtils.parseDate(songEtReleaseDate.text.toString()),
-                    ParserUtils.parseDurationText(songEtDuration.text.toString()),
+                    ParserUtils.parseDurationTextToMinutesAndSeconds(songEtDuration.text.toString()),
                     viewModel.selectedSong.value!!.albumName,
                     viewModel.selectedSong.value!!.albumId,
                     viewModel.selectedSong.value!!.id

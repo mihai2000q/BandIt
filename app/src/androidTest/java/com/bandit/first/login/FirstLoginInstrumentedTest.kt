@@ -32,7 +32,7 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.main_bottom_navigation_view)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_image_flipper)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_bt_next)).check(matches(isDisplayed()))
-        onView(withId(R.id.first_login_bt_cancel)).check(matches(isDisplayed()))
+        onView(withId(R.id.first_login_bt_previous)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_name)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_spinner_role)).check(matches(not(isDisplayed())))
@@ -48,7 +48,7 @@ class FirstLoginInstrumentedTest {
         onView(withId(R.id.first_login_image_flipper)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_progress_bar)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.first_login_bt_cancel)).perform(click())
+        onView(withId(R.id.first_login_bt_previous)).perform(click())
 
         onView(withId(R.id.main_toolbar))
             .check(matches(hasDescendant(withText(R.string.login_label))))
@@ -65,14 +65,16 @@ class FirstLoginInstrumentedTest {
         onView(withText(R.string.et_name_validation)).check(matches(isDisplayed()))
 
         onView(withId(R.id.first_login_et_name))
-            .perform(typeText(name), pressImeActionButton())
+            .perform(typeText(name), closeSoftKeyboard())
+        onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // second phase - choose the nickname
         onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(withText(R.string.et_nickname_validation)).check(matches(isDisplayed()))
         onView(withId(R.id.first_login_et_nickname))
-            .perform(typeText(nickname), pressImeActionButton())
+            .perform(typeText(nickname), closeSoftKeyboard())
+        onView(withId(R.id.first_login_bt_next)).perform(click())
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
 
         // third phase - choose the role
@@ -88,7 +90,7 @@ class FirstLoginInstrumentedTest {
 
         // congratulations
         onView(withId(R.id.first_login_tv_congrats)).check(matches(isDisplayed()))
-        onView(withId(R.id.first_login_bt_cancel)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.first_login_bt_previous)).check(matches(not(isDisplayed())))
         onView(withId(R.id.first_login_bt_next)).check(matches(withText(R.string.first_login_bt_next_last)))
         onView(withId(R.id.first_login_bt_next)).perform(click())
 

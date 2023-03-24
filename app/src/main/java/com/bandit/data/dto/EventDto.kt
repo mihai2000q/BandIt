@@ -2,7 +2,6 @@ package com.bandit.data.dto
 
 import com.bandit.data.template.TemplateBandDto
 
-
 data class EventDto(
     override val id: Long = -1,
     val name: String? = null,

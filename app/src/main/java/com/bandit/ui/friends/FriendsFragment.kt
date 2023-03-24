@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Account
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.databinding.FragmentFriendsBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.PeopleAdapter
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.helper.TouchHelper
 import com.bandit.util.AndroidUtils
 import com.google.android.material.badge.BadgeDrawable
@@ -87,23 +86,22 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 friendsBtOptions.performClick()
             }
             friendsSearchView.setOnQueryTextListener(this@FriendsFragment)
+            val touchHelper = TouchHelper<Account>(
+                super.requireContext(),
+                friendsRvList,
+                { account -> onUnfriend(account) },
+                { account -> onAddToBand(account) },
+                R.drawable.ic_group_add_white,
+                R.drawable.ic_person_remove_white
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(friendsRvList)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.friends,
                 friendsRvList,
                 friendsRvEmpty
             ) {
-                ItemTouchHelper(object : TouchHelper<Account>(
-                    super.requireContext(),
-                    friendsRvList,
-                    { account -> onUnfriend(account) },
-                    { account -> onAddToBand(account) }
-                ) {
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        items = it.sorted()
-                        super.onSwiped(viewHolder, direction)
-                    }
-                }).attachToRecyclerView(friendsRvList)
+                touchHelper.updateItems(it.sorted())
                 return@setRecyclerViewEmpty PeopleAdapter(
                     this@FriendsFragment,
                     it.sorted(),
@@ -125,8 +123,8 @@ class FriendsFragment : Fragment(), OnQueryTextListener {
                 this@FriendsFragment,
                 friendsRvList,
                 friendsBtOptions,
-                friendsBtAdd,
-                friendsBtRequests
+                listOf(friendsBtAdd, friendsBtRequests),
+                listOf(friendsFabTvAdd, friendsFabTvRequests)
             )
             AndroidUtils.setupFabScrollUp(
                 super.requireContext(),

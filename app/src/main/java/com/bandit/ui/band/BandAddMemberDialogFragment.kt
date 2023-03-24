@@ -11,11 +11,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.data.model.Account
 import com.bandit.databinding.DialogFragmentBandAddMemberBinding
 import com.bandit.ui.adapter.PeopleAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.friends.FriendsViewModel
 import com.bandit.util.AndroidUtils
 
@@ -43,14 +43,23 @@ class BandAddMemberDialogFragment : DialogFragment(), OnQueryTextListener {
         with(binding) {
             bandAddMemberSearch.setOnQueryTextListener(this@BandAddMemberDialogFragment)
             friendsViewModel.friends.observe(viewLifecycleOwner) {
-                val accounts = it.sorted() - (viewModel.members.value?.keys as Set<Account>)
-                bandRvAddMemberFriends.adapter = PeopleAdapter(
-                    this@BandAddMemberDialogFragment,
-                    accounts.filter { acc -> acc.bandId == null },
-                    friendsViewModel,
-                    null,
-                    null,
-                ) { acc -> onClickFriend(acc) }
+                val accounts = (it.sorted() - (viewModel.members.value?.keys as Set<Account>)
+                        ).filter { acc -> acc.bandId == null }
+                if(accounts.isEmpty()) {
+                    bandAddMemberRvEmpty.visibility = View.VISIBLE
+                    bandAddMemberRvFriends.visibility = View.GONE
+                }
+                else {
+                    bandAddMemberRvEmpty.visibility = View.GONE
+                    bandAddMemberRvFriends.visibility = View.VISIBLE
+                    bandAddMemberRvFriends.adapter = PeopleAdapter(
+                        this@BandAddMemberDialogFragment,
+                        accounts,
+                        friendsViewModel,
+                        null,
+                        null,
+                    ) { acc -> onClickFriend(acc) }
+                }
             }
         }
     }

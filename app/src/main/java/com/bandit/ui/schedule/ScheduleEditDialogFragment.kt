@@ -6,12 +6,12 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
 import com.bandit.data.mapper.EventMapper
 import com.bandit.data.model.Event
-import com.bandit.extension.print
+import com.bandit.extension.printHoursAndMinutes
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
 import com.bandit.util.AndroidUtils
@@ -30,7 +30,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 scheduleEtName.setText(it.name)
                 scheduleEtDate.setText(it.dateTime.toLocalDate().toString())
                 scheduleEtTime.setText(it.dateTime.toLocalTime().toString())
-                scheduleEtDuration.setText(it.duration.print())
+                scheduleEtDuration.setText(it.duration.printHoursAndMinutes())
                 scheduleSpinnerType.setSelection(it.type.ordinal)
             }
             scheduleButton.setOnClickListener {
@@ -48,7 +48,7 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
                 if (scheduleEtName.text.toString() == name &&
                     scheduleEtDate.text.toString() == dateTime.toLocalDate().toString() &&
                     scheduleEtTime.text.toString() == dateTime.toLocalTime().toString() &&
-                    scheduleEtDuration.text.toString() == duration.print() &&
+                    scheduleEtDuration.text.toString() == duration.printHoursAndMinutes() &&
                     BandItEnums.Event.Type.values()[typeIndex] == type
                 ) {
                     scheduleEtName.error = resources.getString(R.string.nothing_changed_validation)
@@ -69,27 +69,32 @@ class ScheduleEditDialogFragment : ScheduleDialogFragment() {
             val newEvent = Event(
                 scheduleEtName.text.toString(),
                 ParserUtils.parseDateTime(scheduleEtDate.text.toString(), scheduleEtTime.text.toString()),
-                ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
+                ParserUtils.parseDurationTextToHoursAndMinutes(scheduleEtDuration.text.toString()),
                 BandItEnums.Event.Type.values()[typeIndex],
                 viewModel.selectedEvent.value!!.bandId,
                 viewModel.selectedEvent.value!!.id
             )
             coroutineScope {
                 async {
-                    launch {
-                        viewModel.editEvent(newEvent)
-                    }
+                    launch { viewModel.editEvent(newEvent) }
                     if(BandItEnums.Event.Type.values()[typeIndex] == BandItEnums.Event.Type.Concert &&
-                            viewModel.selectedEvent.value!!.type == BandItEnums.Event.Type.Concert)
-                        launch {
-                            val concerts = concertViewModel.concerts.value!!
-                                .filter { it.id == viewModel.selectedEvent.value!!.id }
-                            if(concerts.isNotEmpty())
+                        viewModel.selectedEvent.value!!.type == BandItEnums.Event.Type.Concert
+                    ) {
+                        val concerts = concertViewModel.concerts.value!!
+                            .filter { it.id == viewModel.selectedEvent.value!!.id }
+                        if(concerts.isNotEmpty())
+                            launch {
                                 concertViewModel.editConcert(
                                     EventMapper.editEventToConcert(newEvent, concerts.first())
                                 )
+                            }
+                    }
+                    else if(BandItEnums.Event.Type.values()[typeIndex] == BandItEnums.Event.Type.Concert) {
+                        launch {
+                            concertViewModel.addConcert(EventMapper.fromEventToConcert(newEvent))
                         }
-
+                    }
+                    return@async
                 }
             }.await()
 

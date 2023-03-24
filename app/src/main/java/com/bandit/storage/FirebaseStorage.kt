@@ -37,14 +37,14 @@ class FirebaseStorage : Storage {
         }
     }.await()
 
-    override suspend fun getProfilePicture(userUid: String?): ByteArray =
+    override suspend fun getProfilePicture(userUid: String?): Uri =
         coroutineScope {
             async {
                 val profilePicRef = _storage.reference
                     .child(userUid + "/" + Constants.Firebase.Storage.PROFILE_PIC_REFERENCE)
                 try {
                     return@async profilePicRef
-                        .getBytes(Constants.ONE_GIGABYTE)
+                        .downloadUrl
                         .addOnSuccessListener {
                             Log.i(
                                 Constants.Firebase.Storage.TAG, "Profile Pic for user $userUid" +
@@ -63,7 +63,7 @@ class FirebaseStorage : Storage {
                     Log.e(
                         Constants.Firebase.Storage.TAG, "There is no Profile pic for user $userUid"
                     )
-                    return@async byteArrayOf()
+                    return@async Uri.EMPTY
                 }
             }
         }.await()

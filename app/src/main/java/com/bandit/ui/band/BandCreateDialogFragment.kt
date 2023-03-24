@@ -1,7 +1,6 @@
 package com.bandit.ui.band
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
 import com.bandit.databinding.DialogFragmentCreateBandBinding
 import com.bandit.di.DILocator
-import com.bandit.service.IValidatorService
 import com.bandit.ui.account.AccountViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 
 class BandCreateDialogFragment : DialogFragment() {
@@ -24,7 +22,7 @@ class BandCreateDialogFragment : DialogFragment() {
     private val binding get() = _binding!!
     private val viewModel: BandViewModel by activityViewModels()
     private val accountViewModel: AccountViewModel by activityViewModels()
-    private lateinit var validatorService: IValidatorService
+    private val validatorService by lazy { DILocator.getValidatorService(super.requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,18 +38,9 @@ class BandCreateDialogFragment : DialogFragment() {
             AndroidUtils.getScreenWidth(super.requireActivity()),
             TableRow.LayoutParams.WRAP_CONTENT
         )
-        validatorService = DILocator.getValidatorService(super.requireActivity())
         with(binding) {
             viewModel.name.observe(viewLifecycleOwner) {
                 createBandEtName.setText(it)
-            }
-            createBandEtName.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    createBandBtCreate.callOnClick()
-                    createBandBtCreate.requestFocus()
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
             }
             createBandBtCreate.setOnClickListener {
                 if(!validateFields()) return@setOnClickListener

@@ -71,16 +71,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="@string/et_name"
+        android:text="@string/account_field_band_name"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/friend_detail_tv_member"
         app:layout_constraintTop_toBottomOf="@+id/friend_detail_tv_role" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/friend_detail_tv_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

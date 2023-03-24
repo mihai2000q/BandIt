@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
 import com.bandit.data.model.Album
 import com.bandit.data.model.Song
@@ -38,7 +37,16 @@ class SongsFragment : Fragment() {
     private lateinit var badgeDrawable: BadgeDrawable
     private val songEditDialogFragment = SongEditDialogFragment()
     private val albumEditDialogFragment = AlbumEditDialogFragment()
-    private val albumDetailDialogFragment = AlbumDetailDialogFragment ({ onEditSong(it) }) { onDeleteAlbum(it) }
+    private val songDetailDialogFragment = SongDetailDialogFragment(
+        { onEditSong(it) },
+        { onDeleteSong(it) }
+    )
+    private val albumDetailDialogFragment = AlbumDetailDialogFragment (
+        { onClickSong(it) },
+        { onEditSong(it) },
+        { onEditAlbum(it) },
+        { onDeleteAlbum(it) }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,6 +104,9 @@ class SongsFragment : Fragment() {
             songsRvAlbums.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_songs_view)
             songsTvRvEmpty.setText(R.string.recycler_view_album_empty)
+            songsFabTvAdd.text = resources.getString(R.string.album_fab_add)
+            songsFabTvFilter.text = resources.getString(R.string.album_fab_filter)
+            songsFabTvMode.text = resources.getString(R.string.album_fab_mode)
             mode(
                 R.drawable.ic_list,
                 albumAddDialogFragment,
@@ -162,9 +173,8 @@ class SongsFragment : Fragment() {
                 songsRvAlbums,
                 bandViewModel.band,
                 songsBtOptions,
-                songsBtAdd,
-                songsBtFilter,
-                songsBtAlbumMode
+                listOf(songsBtAdd, songsBtFilter, songsBtAlbumMode),
+                listOf(songsFabTvAdd, songsFabTvFilter, songsFabTvMode)
             )
         }
     }
@@ -178,11 +188,21 @@ class SongsFragment : Fragment() {
             songsRvList.visibility = View.VISIBLE
             songsBtAlbumMode.tooltipText = resources.getString(R.string.content_description_bt_album_view)
             songsTvRvEmpty.setText(R.string.recycler_view_songs_empty)
+            songsFabTvAdd.text = resources.getString(R.string.song_fab_add)
+            songsFabTvFilter.text = resources.getString(R.string.song_fab_filter)
+            songsFabTvMode.text = resources.getString(R.string.song_fab_mode)
             mode(
                 R.drawable.ic_album_view,
                 songAddDialogFragment,
                 songFilterDialogFragment
             )
+            val touchHelper = TouchHelper<Song>(
+                super.requireContext(),
+                songsRvList,
+                { song -> onDeleteSong(song) },
+                { song -> onEditSong(song) }
+            )
+            ItemTouchHelper(touchHelper).attachToRecyclerView(songsRvList)
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.songs,
@@ -191,23 +211,14 @@ class SongsFragment : Fragment() {
                 songsRvBandEmpty,
                 bandViewModel.band,
                 {
-                    ItemTouchHelper(object: TouchHelper<Song>(
-                        super.requireContext(),
-                        songsRvList,
-                        { song -> onDeleteSong(song) },
-                        { song -> onEditSong(song) }
-                    ) {
-                        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                            items = it.sorted().reversed()
-                            super.onSwiped(viewHolder, direction)
-                        }
-                    }).attachToRecyclerView(songsRvList)
+                    touchHelper.updateItems(it.sorted().reversed())
                     return@setRecyclerViewEmpty SongAdapter(
                         this@SongsFragment,
                         it.sorted().reversed(),
                         viewModel,
                         { song -> onDeleteSong(song) },
-                        { song -> onEditSong(song) }
+                        { song -> onEditSong(song) },
+                        { song -> onClickSong(song) }
                     )
                 }
             ) {
@@ -251,9 +262,8 @@ class SongsFragment : Fragment() {
                 songsRvList,
                 bandViewModel.band,
                 songsBtOptions,
-                songsBtAdd,
-                songsBtFilter,
-                songsBtAlbumMode
+                listOf(songsBtAdd, songsBtFilter, songsBtAlbumMode),
+                listOf(songsFabTvAdd, songsFabTvFilter, songsFabTvMode)
             )
         }
     }
@@ -285,6 +295,14 @@ class SongsFragment : Fragment() {
                 songsBtOptions.performClick()
             }
         }
+    }
+
+    private fun onClickSong(song: Song) {
+        viewModel.selectedSong.value = song
+        AndroidUtils.showDialogFragment(
+            songDetailDialogFragment,
+            childFragmentManager
+        )
     }
 
     private fun onDeleteSong(song: Song) {

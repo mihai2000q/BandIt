@@ -1,18 +1,20 @@
 package com.bandit.ui.notes
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableRow
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
+import com.bandit.R
 import com.bandit.constant.Constants
 import com.bandit.data.model.Note
 import com.bandit.databinding.DialogFragmentEditPersonalNoteBinding
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
+import java.time.LocalDateTime
 
 class PersonalNotesEditDialogFragment : DialogFragment() {
     private var _binding: DialogFragmentEditPersonalNoteBinding? = null
@@ -32,19 +34,34 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.dialog?.window?.setLayout(
             AndroidUtils.getScreenWidth(super.requireActivity()),
-            AndroidUtils.getScreenHeight(super.requireActivity()) * 7 / 8
+            TableRow.LayoutParams.WRAP_CONTENT
         )
         with(binding) {
             viewModel.selectedNote.observe(viewLifecycleOwner) {
                 personalNotesEtTitle.setText(it.title)
                 personalNotesEtContent.setText(it.content)
             }
-            personalNotesEtContent.setOnKeyListener { _, keyCode, event ->
-                if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    super.dismiss()
-                    return@setOnKeyListener true
+            personalNotesEditBtSend.setOnClickListener {
+                if(personalNotesEtTitle.text.toString() == viewModel.selectedNote.value!!.title &&
+                   personalNotesEtContent.text.toString() == viewModel.selectedNote.value!!.content)
+                    return@setOnClickListener
+                AndroidUtils.loadDialogFragment(viewModel.viewModelScope,
+                    this@PersonalNotesEditDialogFragment) {
+                    viewModel.editNote(
+                        Note(
+                            title = binding.personalNotesEtTitle.text.toString(),
+                            content = binding.personalNotesEtContent.text.toString(),
+                            accountId = viewModel.selectedNote.value!!.accountId,
+                            createdOn = LocalDateTime.now(),
+                            id = viewModel.selectedNote.value!!.id
+                        )
+                    )
                 }
-                return@setOnKeyListener false
+                AndroidComponents.toastNotification(
+                    super.requireContext(),
+                    resources.getString(R.string.note_edit_toast)
+                )
+                super.dismiss()
             }
         }
     }
@@ -52,21 +69,6 @@ class PersonalNotesEditDialogFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        AndroidUtils.loadDialogFragment(viewModel.viewModelScope, this) {
-            viewModel.editNote(
-                Note(
-                    title = binding.personalNotesEtTitle.text.toString(),
-                    content = binding.personalNotesEtContent.text.toString(),
-                    accountId = viewModel.selectedNote.value!!.accountId,
-                    createdOn = viewModel.selectedNote.value!!.createdOn,
-                    id = viewModel.selectedNote.value!!.id
-                )
-            )
-        }
     }
 
     companion object {

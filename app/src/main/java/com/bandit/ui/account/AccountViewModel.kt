@@ -11,7 +11,6 @@ import com.bandit.data.repository.AccountRepository
 import com.bandit.di.DILocator
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 class AccountViewModel : ViewModel() {
     private val _auth = DILocator.getAuthenticator()
@@ -36,7 +35,7 @@ class AccountViewModel : ViewModel() {
         _storage.saveProfilePicture(_auth.currentUser?.uid, imageUri)
     }
 
-    suspend fun getProfilePicture(): ByteArray = coroutineScope {
+    suspend fun getProfilePicture(): Uri = coroutineScope {
         return@coroutineScope _storage.getProfilePicture(_auth.currentUser?.uid)
     }
 

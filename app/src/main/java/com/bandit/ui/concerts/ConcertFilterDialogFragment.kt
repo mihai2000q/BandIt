@@ -3,8 +3,8 @@ package com.bandit.ui.concerts
 import android.os.Bundle
 import android.view.View
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.Constants
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.concerts.ConcertsViewModel.Filter
 import com.bandit.ui.template.ConcertDialogFragment
 import com.bandit.util.ParserUtils
@@ -52,7 +52,7 @@ class ConcertFilterDialogFragment(private val badgeDrawable: BadgeDrawable) : Co
                     if(concertEtDuration.text.isNullOrEmpty())
                         null
                     else
-                        ParserUtils.parseDurationText(concertEtDuration.text.toString()),
+                        ParserUtils.parseDurationTextToHoursAndMinutes(concertEtDuration.text.toString()),
                     city = concertEtCity.text.toString(),
                     country = concertEtCountry.text.toString(),
                     place = concertEtPlace.text.toString(),

@@ -1,20 +1,20 @@
 package com.bandit.ui.notes
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.data.model.Note
 import com.bandit.databinding.FragmentPersonalNotesBinding
 import com.bandit.ui.account.AccountViewModel
 import com.bandit.ui.adapter.NoteAdapter
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.util.AndroidUtils
 
 class PersonalNotesFragment : Fragment() {
@@ -36,7 +36,7 @@ class PersonalNotesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             AndroidUtils.setupRefreshLayout(this@PersonalNotesFragment, personalNotesRvList)
-            personalNotesBtAdd.setOnClickListener { addNote() }
+            personalNotesBtAdd.setOnClickListener { this@PersonalNotesFragment.addNote() }
             AndroidUtils.setRecyclerViewEmpty(
                 viewLifecycleOwner,
                 viewModel.notes,

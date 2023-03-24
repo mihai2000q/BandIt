@@ -7,12 +7,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bandit.R
-import com.bandit.ui.component.AndroidComponents
 import com.bandit.constant.BandItEnums
 import com.bandit.constant.Constants
-import com.bandit.data.model.Event
 import com.bandit.data.mapper.EventMapper
+import com.bandit.data.model.Event
 import com.bandit.ui.band.BandViewModel
+import com.bandit.ui.component.AndroidComponents
 import com.bandit.ui.concerts.ConcertsViewModel
 import com.bandit.ui.template.ScheduleDialogFragment
 import com.bandit.util.AndroidUtils
@@ -50,7 +50,7 @@ class ScheduleAddDialogFragment : ScheduleDialogFragment() {
                 name = scheduleEtName.text.toString(),
                 dateTime = ParserUtils.parseDateTime(scheduleEtDate.text.toString(),
                     scheduleEtTime.text.toString()),
-                duration = ParserUtils.parseDurationText(scheduleEtDuration.text.toString()),
+                duration = ParserUtils.parseDurationTextToHoursAndMinutes(scheduleEtDuration.text.toString()),
                 type = BandItEnums.Event.Type.values()[typeIndex],
                 bandId = bandViewModel.band.value!!.id
             )

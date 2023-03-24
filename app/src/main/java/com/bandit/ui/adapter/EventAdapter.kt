@@ -22,7 +22,10 @@ class EventAdapter(
     private val onDeleteEvent: (Event) -> Unit,
     private val onEditEvent: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.ViewHolder>() {
-    private val scheduleDetailDialogFragment = ScheduleDetailDialogFragment()
+    private val scheduleDetailDialogFragment = ScheduleDetailDialogFragment(
+        { onEditEvent(it) },
+        { onDeleteEvent(it) }
+    )
     private lateinit var popupMenu: PopupMenu
     private var isPopupShown = false
 

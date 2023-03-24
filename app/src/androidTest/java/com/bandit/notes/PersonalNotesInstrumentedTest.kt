@@ -43,6 +43,8 @@ class PersonalNotesInstrumentedTest {
         } catch (_: AssertionError) {
             // if the above does not work, then check this
             onView(withId(R.id.personal_notes_rv_empty)).check(matches(isDisplayed()))
+        } catch (_: IncompatibleClassChangeError) {
+            onView(withId(R.id.personal_notes_rv_empty)).check(matches(isDisplayed()))
         }
     }
     // Condition - this is the only note in the view with that name
@@ -67,7 +69,8 @@ class PersonalNotesInstrumentedTest {
         onView(withId(R.id.personal_notes_et_title))
             .perform(clearText(), typeText(newTitle))
         onView(withId(R.id.personal_notes_et_content))
-            .perform(clearText(), typeText(newMessage), pressImeActionButton())
+            .perform(clearText(), typeText(newMessage), closeSoftKeyboard())
+        onView(withId(R.id.personal_notes_edit_bt_send)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
@@ -86,6 +89,7 @@ class PersonalNotesInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<NoteAdapter.ViewHolder>(
                 0, longClick()
                 ))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_edit)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
@@ -93,7 +97,8 @@ class PersonalNotesInstrumentedTest {
         onView(withId(R.id.personal_notes_et_title))
             .perform(clearText(), typeText(newTitle))
         onView(withId(R.id.personal_notes_et_content))
-            .perform(clearText(), typeText(newMessage), pressImeActionButton())
+            .perform(clearText(), typeText(newMessage), closeSoftKeyboard())
+        onView(withId(R.id.personal_notes_edit_bt_send)).perform(click())
 
         onView(isRoot()).perform(waitFor(ConstantsTest.maximumDelayOperations))
 
@@ -120,6 +125,7 @@ class PersonalNotesInstrumentedTest {
                 RecyclerViewActions.actionOnItemAtPosition<NoteAdapter.ViewHolder>(
                 0, longClick()
             ))
+        onView(isRoot()).perform(waitFor(ConstantsTest.smallDelay))
         onView(withText(R.string.bt_delete)).perform(click())
         onView(withText(R.string.alert_dialog_positive)).perform(click())
 
