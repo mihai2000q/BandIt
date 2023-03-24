@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bt_add">Add</string>
+    <string name="bt_filter">Filter</string>
+    <string name="bt_login">Login</string>
+    <string name="bt_save">Save Changes</string>
+    <string name="bt_sign_out">Sign Out</string>
+    <string name="bt_sign_up">Sign Up</string>
+    <string name="bt_create">Create</string>
+    <string name="bt_invite">Invite</string>
+    <string name="bt_reject">Reject</string>
+    <string name="bt_accept">Accept</string>
+    <string name="bt_edit">Edit</string>
+    <string name="bt_delete">Delete</string>
+    <string name="bt_go_back">Go Back</string>
+    <string name="bt_next">Next</string>
+    <string name="bt_previous">Previous</string>
+    <string name="bt_cancel">Cancel</string>
+    <string name="bt_retry">Retry</string>
+    <string name="bt_okay">Okay</string>
+    <string name="bt_add_existing_song">Add Existing Song</string>
+    <string name="bt_add_member">Add Friend To Band</string>
+    <string name="bt_kick_member">Kick Member</string>
+    <string name="bt_unfriend">Unfriend</string>
+    <string name="bt_abandon">Abandon</string>
+    <string name="bt_disband">Disband</string>
+    <string name="bt_update_profile">Update Profile</string>
+</resources>

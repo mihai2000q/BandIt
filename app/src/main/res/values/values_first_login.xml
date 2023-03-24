@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="first_login_tv_subject_last">Congratulations on setting up your account</string>
+    <string name="first_login_bt_next_last">Go To Home</string>
+    <string name="first_login_toast">Account created successfully</string>
+    <string name="first_login_add_profile_picture">Add a Profile Picture</string>
+</resources>

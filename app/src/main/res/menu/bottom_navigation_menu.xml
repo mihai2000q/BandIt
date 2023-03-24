@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_concerts"
+        android:icon="@drawable/ic_concerts"
+        android:title="@string/title_concerts" />
+
+    <item
+        android:id="@+id/navigation_songs"
+        android:icon="@drawable/ic_songs"
+        android:title="@string/title_songs" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_social"
+        android:icon="@drawable/ic_social"
+        android:title="@string/title_social" />
+
+    <item
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/title_schedule" />
+</menu>

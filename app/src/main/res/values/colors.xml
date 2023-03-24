@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="hookers_green">#426A5A</color>
+    <color name="dark_spring_green">#297045</color>
+    <color name="rich_dark_green">#183A37</color>
+
+    <color name="magic_mint">#A0ECD0</color>
+    <color name="turquoise_green">#94DDBC</color>
+    <color name="dark_sea_green">#88BB92</color>
+    <color name="jungle_green">#2AAA8A</color>
+    <color name="eton_blue">#77BFA3</color>
+    <color name="teal_green">#006D5B</color>
+
+    <color name="transparent">@android:color/transparent</color>
+    <color name="ash_gray">#b2beb5</color>
+    <color name="dark_gray">#5A5A5A</color>
+    <color name="light_gray">#808080</color>
+    <color name="lighter_red">#E85454</color>
+    <color name="red">#BA0000</color>
+    <color name="blue">#083EC5</color>
+
+    <color name="faded_light_gray">#EAEAEA</color>
+    <color name="faded_red">#EED4D7</color>
+    <color name="faded_green">#D2EDCE</color>
+    <color name="faded_blue_to_green">#C5EBDE</color>
+    <color name="faded_purple_to_blue">#D6CBEB</color>
+    <color name="faded_yellow">#F1EDB8</color>
+    <color name="faded_orange">#ECCDB5</color>
+    <color name="faded_pink">#E7B5EC</color>
+
+    <color name="model_label">#494949</color>
+    <color name="text_field_background">#F8F4F4</color>
+
+    <color name="fab_options">@color/dark_sea_green</color>
+    <color name="fab_scroll_up">@color/white</color>
+    <color name="fab_add">#99D8D8</color>
+    <color name="fab_filter">#B07BDF</color>
+    <color name="fab_requests">#CAA8E9</color>
+    <color name="fab_mode">#49AFA6</color>
+    <color name="fab_text_background">#A3EFEFEF</color>
+</resources>

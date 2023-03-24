@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_log_in">Log In</string>
+    <string name="title_sign_up">Sign Up</string>
+    <string name="title_concerts">Concerts</string>
+    <string name="title_songs">Songs</string>
+    <string name="title_albums">Albums</string>
+    <string name="title_home">Home</string>
+    <string name="title_social">Social</string>
+    <string name="title_schedule">Schedule</string>
+    <string name="title_todolist">To Do List</string>
+    <string name="title_personal_notes">Personal Notes</string>
+</resources>

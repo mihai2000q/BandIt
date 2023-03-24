@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/songs_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:inputType="textPersonName"
+        android:queryHint="@string/search_view" >
+
+    </SearchView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/songs_bt_scroll_up_album"
+            style="@style/FabScrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/songs_bt_scroll"
+            style="@style/FabScrollUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/songs_rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:listitem="@layout/model_song">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/songs_rv_albums"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/model_album"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/songs_rv_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/songs_tv_rv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_songs_empty"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/songs_rv_band_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recycler_view_empty_band"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/songs_fab_tv_mode"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_album_mode"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_album_mode"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_album_mode" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/songs_bt_album_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_album_view"
+                android:visibility="invisible"
+                app:backgroundTint="@color/fab_mode"
+                app:layout_constraintBottom_toTopOf="@+id/songs_bt_filter"
+                app:layout_constraintEnd_toEndOf="@+id/songs_bt_filter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_album_view" />
+
+            <TextView
+                android:id="@+id/songs_fab_tv_filter"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_filter"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_filter"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_filter" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/songs_bt_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_filter"
+                android:fontFamily="@font/poppins_medium"
+                android:tooltipText="@string/content_description_bt_filter"
+                android:visibility="invisible"
+                app:backgroundTint="@color/fab_filter"
+                app:icon="@drawable/ic_filter"
+                app:layout_constraintBottom_toTopOf="@+id/songs_bt_add"
+                app:layout_constraintEnd_toEndOf="@+id/songs_bt_add"
+                app:layout_constraintTop_toBottomOf="@+id/songs_bt_album_mode"
+                app:srcCompat="@drawable/ic_filter" />
+
+            <TextView
+                android:id="@+id/songs_fab_tv_add"
+                style="@style/FabTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_value"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_bt_add"
+                app:layout_constraintEnd_toStartOf="@+id/songs_bt_add"
+                app:layout_constraintTop_toTopOf="@+id/songs_bt_add" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/songs_bt_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_bt_add"
+                android:tooltipText="@string/content_description_bt_add"
+                android:visibility="invisible"
+                app:backgroundTint="@color/fab_add"
+                app:layout_constraintBottom_toTopOf="@+id/songs_bt_options"
+                app:layout_constraintEnd_toEndOf="@+id/songs_bt_options"
+                app:layout_constraintTop_toBottomOf="@+id/songs_bt_filter"
+                app:srcCompat="@drawable/ic_add_white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/songs_bt_options"
+                style="@style/FabOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/songs_bt_add"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

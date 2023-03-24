@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/account_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/account_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/account_bt_sign_out"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="@string/bt_sign_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/account_iv_profile_picture"
+            android:layout_width="@dimen/profile_pic_dimension_height"
+            android:layout_height="@dimen/profile_pic_dimension_width"
+            android:contentDescription="@string/content_description_account_iv_picture"
+            android:src="@drawable/placeholder_profile_pic"
+            app:civ_border_color="@color/profile_pic_border_color"
+            app:civ_border_width="@dimen/profile_pic_border_width"
+            app:layout_constraintBottom_toTopOf="@+id/account_et_band_name_layout"
+            app:layout_constraintEnd_toEndOf="@+id/account_et_band_name_layout"
+            app:layout_constraintStart_toStartOf="@+id/account_et_band_name_layout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_et_band_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/account_text_field_color"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/account_et_email_layout"
+            app:layout_constraintEnd_toEndOf="@+id/account_et_email_layout"
+            app:layout_constraintStart_toStartOf="@+id/account_et_email_layout"
+            app:layout_constraintTop_toBottomOf="@+id/account_iv_profile_picture">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_et_band_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:enabled="false"
+                android:fontFamily="@font/poppins_italic"
+                android:hint="@string/account_field_band_name"
+                android:inputType="text"
+                android:minHeight="48dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_et_email_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/account_text_field_color"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/account_et_name_layout"
+            app:layout_constraintEnd_toEndOf="@+id/account_et_name_layout"
+            app:layout_constraintStart_toStartOf="@+id/account_et_name_layout"
+            app:layout_constraintTop_toBottomOf="@+id/account_et_band_name_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:enabled="false"
+                android:fontFamily="@font/poppins_italic"
+                android:hint="@string/et_email"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_et_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/account_text_field_color"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_name"
+            app:layout_constraintBottom_toTopOf="@+id/account_et_nickname_layout"
+            app:layout_constraintEnd_toEndOf="@+id/account_et_nickname_layout"
+            app:layout_constraintStart_toStartOf="@+id/account_et_nickname_layout"
+            app:layout_constraintTop_toBottomOf="@+id/account_et_email_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/et_name"
+                android:inputType="textPersonName"
+                android:maxLength="@string/max_length_name"
+                android:minHeight="48dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/account_et_nickname_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/account_text_field_color"
+            app:boxCornerRadiusBottomEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusBottomStart="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopEnd="@dimen/corner_radius_edit_text"
+            app:boxCornerRadiusTopStart="@dimen/corner_radius_edit_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="@string/max_length_nickname"
+            app:layout_constraintBottom_toTopOf="@+id/account_tv_role"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_et_name_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/account_et_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="@string/et_nickname"
+                android:inputType="textPersonName"
+                android:minHeight="48dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/account_tv_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_field_role"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/account_spinner_role"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_et_nickname_layout" />
+
+        <Spinner
+            android:id="@+id/account_spinner_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/account_tv_role"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/account_tv_role"
+            app:layout_constraintTop_toTopOf="@+id/account_tv_role" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/account_bt_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/bt_update_profile"
+        android:textSize="20sp" />
+
+</LinearLayout>

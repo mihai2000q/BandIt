@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="band_button_create">Create A Band</string>
+    <string name="band_member_creator">admin</string>
+    <string name="band_member_accepted_true">accepted</string>
+    <string name="band_member_accepted_false">pending</string>
+    <string name="band_member_you">You</string>
+    <string name="band_add_member_tv">Add New Member</string>
+    <string name="band_add_member_rv_empty">You do not have any friends available to invite</string>
+    <string name="band_invitation_title">Band Invitations</string>
+    <string name="band_invitation_rv_empty">You do not have any band invitations</string>
+
+    <string name="band_alert_dialog_kick_title">Kick Member</string>
+    <string name="band_alert_dialog_kick_message">Are you sure you want to kick this member?</string>
+    <string name="band_alert_dialog_abandon_title">Abandon Band</string>
+    <string name="band_alert_dialog_abandon_message">Are you sure you want to abandon this band?</string>
+    <string name="band_alert_dialog_disband_title">Disband Band</string>
+    <string name="band_alert_dialog_disband_message">Are you sure you want to disband this band?</string>
+
+    <string name="band_fab_add">Add Member</string>
+    <string name="band_fab_band_invitations">Band Invitation</string>
+    <string name="band_fab_abandon">Abandon Band</string>
+    <string name="band_fab_disband">Disband Band</string>
+
+    <string name="band_create_toast">Band Created</string>
+
+    <string name="band_invitation_sent_toast">Band Invitation Sent</string>
+    <string name="band_invitation_accepted_toast">Band Invitation Accepted</string>
+    <string name="band_invitation_rejected_toast">Band Invitation Rejected</string>
+    <string name="band_invitation_filtered_toast">Band Invitations Filtered</string>
+
+    <string name="band_members_filtered_toast">Band Members Filtered</string>
+    <string name="band_member_kicked_toast">Band Member Kicked</string>
+    <string name="band_member_tried_kick_toast">Cannot kick this member</string>
+    <string name="band_member_same_band_toast">This member is already in your band</string>
+    <string name="band_member_in_band_toast">This member is in a band already</string>
+
+    <string name="band_invitation_fail">Band Invitation Cannot Be Sent</string>
+    <string name="band_abandoned_toast">Band Abandoned</string>
+    <string name="band_disbanded_toast">Band Disbanded</string>
+
+    <color name="band_member_my_account_color">#D1D1D1</color>
+    <color name="band_member_color">#F3F3F3</color>
+    <color name="band_invitation_color">@color/faded_yellow</color>
+
+    <color name="band_member_accepted">@color/dark_sea_green</color>
+    <color name="band_member_pending">@color/red</color>
+</resources>

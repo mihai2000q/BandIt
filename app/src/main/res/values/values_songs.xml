@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="song_field_album_name">Album Name</string>
+    <string name="song_alert_dialog_title">Delete Song</string>
+    <string name="song_alert_dialog_message">Are you sure you want to delete this song?</string>
+    <string name="recycler_view_songs_empty">There are no songs yet</string>
+    <string name="song_add_toast">Song Added</string>
+    <string name="song_edit_toast">Song Edited</string>
+    <string name="song_remove_toast">Song Removed</string>
+    <string name="song_filter_toast">Songs Filtered</string>
+
+    <string name="song_fab_add">Add Song</string>
+    <string name="song_fab_filter">Filter Songs</string>
+    <string name="song_fab_mode">Album View</string>
+
+    <color name="model_song">@color/faded_purple_to_blue</color>
+    <color name="model_song_label">@color/model_label</color>
+</resources>

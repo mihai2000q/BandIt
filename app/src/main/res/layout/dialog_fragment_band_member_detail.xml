@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="TextSizeCheck"
+    tools:layout_height="500dp">
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/et_name"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/band_member_detail_profile_pic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/band_member_detail_profile_pic"
+        android:layout_width="@dimen/friend_detail_pic_dimension_width"
+        android:layout_height="@dimen/friend_detail_pic_dimension_height"
+        android:contentDescription="@string/content_description_account_iv_picture"
+        android:src="@drawable/placeholder_profile_pic"
+        app:civ_border_color="@color/friend_detail_pic_border_color"
+        app:civ_border_width="@dimen/friend_detail_pic_border_width"
+        app:layout_constraintBottom_toTopOf="@+id/band_member_detail_tv_nickname"
+        app:layout_constraintEnd_toEndOf="@+id/band_member_detail_tv_name"
+        app:layout_constraintStart_toStartOf="@+id/band_member_detail_tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_name" />
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="@string/et_nickname"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/band_member_detail_tv_email"
+        app:layout_constraintEnd_toEndOf="@+id/band_member_detail_profile_pic"
+        app:layout_constraintStart_toStartOf="@+id/band_member_detail_profile_pic"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_profile_pic" />
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_role"
+        app:layout_constraintBottom_toTopOf="@+id/band_member_detail_tv_band_name"
+        app:layout_constraintEnd_toEndOf="@+id/band_member_detail_tv_email"
+        app:layout_constraintStart_toStartOf="@+id/band_member_detail_tv_email"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_email" />
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_light_italic"
+        android:text="@string/et_email"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/band_member_detail_tv_role"
+        app:layout_constraintEnd_toEndOf="@+id/band_member_detail_tv_nickname"
+        app:layout_constraintStart_toStartOf="@+id/band_member_detail_tv_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_nickname" />
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_band_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="@string/account_field_band_name"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/band_member_detail_tv_member_of"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_role" />
+
+    <TextView
+        android:id="@+id/band_member_detail_tv_member_of"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/friend_band_member_of"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/band_member_detail_tv_band_name"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/band_member_detail_tv_role"
+        app:layout_constraintVertical_bias="0.508" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

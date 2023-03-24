@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BandIt</string>
+    <string name="default_value">Default</string>
+    <string name="search_view">Search</string>
+    <string name="default_task_message">Type in Your Task</string>
+    <string name="default_note_message">Click Here to Modify</string>
+    <string name="content_description_bt_reject">Reject Request</string>
+    <string name="bottom_sheet_df_edit_text">Type</string>
+    <string name="image_picker_header">Add Photo</string>
+    <string name="image_picker_camera">Use Camera</string>
+    <string name="image_picker_gallery">Upload From Gallery</string>
+    <string name="alert_dialog_negative">No</string>
+    <string name="alert_dialog_positive">Okay</string>
+    <string name="alert_dialog_permission_title">Permission Request</string>
+    <string name="alert_dialog_permission_message">We need your permission to access your images</string>
+    <string name="recycler_view_empty_band">Enter a band to add items</string>
+    <string name="page_refresh_toast">App Refreshed</string>
+    <string name="permission_denied_toast">Permission Denied</string>
+    <string name="minimum_sdk_too_low">The API Level is too low. Try a phone from 2022!</string>
+
+    <dimen name="corner_radius_edit_text">25dp</dimen>
+</resources>

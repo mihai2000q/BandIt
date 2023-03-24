@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.concerts.ConcertDetailDialogFragment">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/bottomSheetDragHandleView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/dark_gray" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/concert_detail_bt_edit"
+        style="@style/DetailEditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/concert_detail_bt_delete"
+        style="@style/DetailDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/concert_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/et_name"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_date_time"
+        app:layout_constraintEnd_toEndOf="@+id/concert_detail_date_time"
+        app:layout_constraintStart_toStartOf="@+id/concert_detail_date_time"
+        app:layout_constraintTop_toBottomOf="@+id/bottomSheetDragHandleView" />
+
+    <TextView
+        android:id="@+id/concert_detail_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/event_field_date_time"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_city"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_name" />
+
+    <TextView
+        android:id="@+id/concert_detail_tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/tv_city"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_detail_city"
+        app:layout_constraintEnd_toStartOf="@+id/concert_detail_city"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/concert_detail_city" />
+
+    <TextView
+        android:id="@+id/concert_detail_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/concert_field_city"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_country"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_detail_tv_city"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_date_time" />
+
+    <TextView
+        android:id="@+id/concert_detail_tv_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/tv_country"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_detail_country"
+        app:layout_constraintEnd_toStartOf="@+id/concert_detail_country"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/concert_detail_country" />
+
+    <TextView
+        android:id="@+id/concert_detail_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/concert_field_country"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_detail_tv_country"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_city" />
+
+    <TextView
+        android:id="@+id/concert_detail_tv_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/tv_place"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_detail_place"
+        app:layout_constraintEnd_toStartOf="@+id/concert_detail_place"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/concert_detail_place" />
+
+    <TextView
+        android:id="@+id/concert_detail_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/concert_field_place"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_detail_tv_place"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_country" />
+
+    <TextView
+        android:id="@+id/concert_detail_tv_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/tv_duration"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_detail_duration"
+        app:layout_constraintEnd_toStartOf="@+id/concert_detail_duration"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/concert_detail_duration" />
+
+    <TextView
+        android:id="@+id/concert_detail_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/et_duration"
+        app:layout_constraintBottom_toTopOf="@+id/concert_detail_concert_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_detail_tv_duration"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_place" />
+
+    <TextView
+        android:id="@+id/concert_detail_tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins"
+        android:text="@string/tv_type"
+        app:layout_constraintBottom_toBottomOf="@+id/concert_detail_concert_type"
+        app:layout_constraintEnd_toStartOf="@+id/concert_detail_concert_type"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/concert_detail_concert_type" />
+
+    <TextView
+        android:id="@+id/concert_detail_concert_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/et_type"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/concert_detail_tv_type"
+        app:layout_constraintTop_toBottomOf="@+id/concert_detail_duration" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_up_title">@string/title_sign_up</string>
+    <string name="signup_checkbox_terms_and_conditions">Accept Terms and Conditions</string>
+    <string name="sign_up_toast">A confirmation email has been sent successfully</string>
+
+    <string name="signup_et_email_hint">Enter Email</string>
+    <string name="signup_et_password_hint">Enter Password</string>
+    <string name="tv_already_signed_up">Already Signed Up?</string>
+</resources>

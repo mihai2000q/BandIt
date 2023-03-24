@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="4dp"
+    android:paddingTop="4dp">
+
+    <EditText
+        android:id="@+id/bottom_sheet_df_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/bottom_sheet_df_edit_text"
+        android:inputType="text"
+        android:maxLength="@string/max_length_bottom_shelf"
+        android:minHeight="48dp"
+        tools:ignore="VisualLintTextFieldSize" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bottom_sheet_df_bt_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:contentDescription="@string/content_description_bt_send"
+        android:visibility="gone"
+        app:backgroundTint="@color/dark_sea_green"
+        app:fabCustomSize="40dp"
+        app:srcCompat="@drawable/ic_send" />
+</LinearLayout>

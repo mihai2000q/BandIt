@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="event_field_date_time">Date Time</string>
+    <string name="event_field_type">Type</string>
+    <string name="recycler_view_event_empty">Maybe you should add an event</string>
+    <string name="recycler_view_calendar_empty">There are no events for this date</string>
+    <string name="event_alert_dialog_title">Delete Event</string>
+    <string name="event_alert_dialog_message">Are you sure you want to delete this event?</string>
+    <string name="event_add_toast">Event Added</string>
+    <string name="event_edit_toast">Event Edited</string>
+    <string name="event_remove_toast">Event Removed</string>
+    <string name="event_filter_toast">Events Filtered</string>
+
+    <string name="schedule_fab_add">Add Event</string>
+    <string name="schedule_fab_list_mode">Calendar View</string>
+    <string name="schedule_fab_calendar_mode">List View</string>
+
+    <color name="event_date_layout">@color/ash_gray</color>
+    <color name="event_time_layout">@color/white</color>
+    <color name="event_name_layout">@color/dark_sea_green</color>
+
+    <color name="calendar_day_label">@color/white</color>
+    <color name="calendar_day_background">@color/dark_sea_green</color>
+    
+    <color name="event_training">@color/teal_green</color>
+    <color name="event_concert">@color/jungle_green</color>
+    <color name="event_composing">@color/magic_mint</color>
+</resources>
